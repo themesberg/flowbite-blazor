@@ -1,0 +1,107 @@
+@inherits TestContext
+@code
+{
+  [Fact]
+  public void Alert_ShouldIncludeInnerContent()
+  {
+    // Act
+    var cut = Render(
+      @<Alert>
+        <span class="font-medium">Info alert!</span> Inner content.
+      </Alert>
+  );
+
+    // Assert
+    cut.MarkupMatches(
+      @<div class="flex p-4 mb-4 text-sm text-blue-700 bg-blue-100 dark:bg-blue-200 dark:text-blue-800" role="alert">
+        <div>
+          <span class="font-medium">Info alert!</span> Inner content.
+        </div>
+      </div>
+  );
+  }
+
+  [Fact]
+  public void Alert_ShouldIncludeIconMarkup_WhenShowIconIsTrue()
+  {
+    // Act
+    var cut = Render(
+      @<Alert ShowIcon="true">
+        Inner content.
+      </Alert>
+  );
+
+    // Assert
+    cut.MarkupMatches(
+      @<div class="flex p-4 mb-4 text-sm text-blue-700 bg-blue-100 dark:bg-blue-200 dark:text-blue-800" role="alert">
+        <Flowbite.Blazor.Icons.Info Class="inline flex-shrink-0 mr-3 w-5 h-5" />
+        <span class="sr-only">Info</span>
+        <div>
+          Inner content.
+        </div>
+      </div>
+  );
+  }
+
+  [Fact]
+  public void Alert_ShouldIncludeRounderClass_WhenRoundedIsTrue()
+  {
+    // Act
+    var cut = Render(
+      @<Alert Rounded=true>
+        Inner content.
+      </Alert>
+  );
+
+    // Assert
+    cut.MarkupMatches(
+      @<div class="flex p-4 mb-4 text-sm text-blue-700 bg-blue-100 dark:bg-blue-200 dark:text-blue-800 rounded-lg"
+    role="alert">
+        <div>
+          Inner content.
+        </div>
+      </div>
+  );
+  }
+
+  [Fact]
+  public void Alert_ShouldIncludeCloseButton_WhenDismisableIsTrue()
+  {
+    // Act
+    var cut = Render(
+      @<Alert Dismissable=true>
+        Inner content.
+      </Alert>
+  );
+
+    // Assert
+    cut.MarkupMatches(
+      @<div class="flex p-4 mb-4 text-sm text-blue-700 bg-blue-100 dark:bg-blue-200 dark:text-blue-800" role="alert">
+        <div>
+          Inner content.
+        </div>
+        <button type="button"
+      class="ml-auto -mx-1.5 -my-1.5 bg-blue-100 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 inline-flex h-8 w-8 dark:bg-blue-200 dark:text-blue-600 dark:hover:bg-blue-300"
+      aria-label="Close">
+          <span class="sr-only">Close</span>
+          <Flowbite.Blazor.Icons.Close />
+        </button>
+      </div>
+  );
+  }
+
+  [Fact]
+  public void Alert_ShouldHaveNoMarkup_WhenCloseButtonIsClicked()
+  {
+    // Act
+    var cut = Render(
+      @<Alert Rounded=true Dismissable=true>
+        Inner content.
+      </Alert>
+  );
+    cut.Find("button").Click();
+
+    // Assert
+    cut.MarkupMatches(string.Empty);
+  }
+}

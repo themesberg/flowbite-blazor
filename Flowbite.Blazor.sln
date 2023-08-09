@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F2D925AB-A9F4-449F-AAEC-A4FFBE732CF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flowbite.Blazor", "src\Flowbite.Blazor\Flowbite.Blazor.csproj", "{73597B41-AE80-42CA-A802-19A0BEDC3806}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0B9A9EED-FEC7-4A7D-821C-A966AC009C08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flowbite.Blazor.Tests", "tests\Flowbite.Blazor.Tests\Flowbite.Blazor.Tests.csproj", "{9C359403-A148-4413-A229-7CDA858CDB97}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73597B41-AE80-42CA-A802-19A0BEDC3806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73597B41-AE80-42CA-A802-19A0BEDC3806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73597B41-AE80-42CA-A802-19A0BEDC3806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73597B41-AE80-42CA-A802-19A0BEDC3806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C359403-A148-4413-A229-7CDA858CDB97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C359403-A148-4413-A229-7CDA858CDB97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C359403-A148-4413-A229-7CDA858CDB97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C359403-A148-4413-A229-7CDA858CDB97}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{73597B41-AE80-42CA-A802-19A0BEDC3806} = {F2D925AB-A9F4-449F-AAEC-A4FFBE732CF5}
+		{9C359403-A148-4413-A229-7CDA858CDB97} = {0B9A9EED-FEC7-4A7D-821C-A966AC009C08}
+	EndGlobalSection
+EndGlobal

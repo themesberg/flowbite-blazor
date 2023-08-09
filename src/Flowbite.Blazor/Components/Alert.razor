@@ -1,0 +1,104 @@
+@using Utilities
+@inherits BaseComponent
+
+@if (Visible) {
+	<div @attributes="UserAttributes" class="@ClassNames" style="@Style" role="alert">
+		@if (ShowIcon)
+		{
+			<Flowbite.Blazor.Icons.Info Class="inline flex-shrink-0 mr-3 w-5 h-5" />
+			<span class="sr-only">Info</span>
+		}
+		<div>
+			@ChildContent
+		</div>
+		@if (Dismissable)
+		{
+			<button type="button" class="@CloseClassNames" aria-label="Close" @onclick="() => Visible = false">
+				<span class="sr-only">Close</span>
+				<Flowbite.Blazor.Icons.Close />
+			</button>
+		}
+	</div>
+}
+
+@code {
+	/// <summary>
+	/// If true, show info icon on the left hand side.
+	/// </summary>
+	[Parameter]
+	public bool ShowIcon { get; set; }
+
+	/// <summary>
+	/// If true, round alert corners.
+	/// </summary>
+	[Parameter]
+	public bool Rounded { get; set; }
+
+	/// <summary>
+	/// If true, show accent top border.
+	/// </summary>
+	[Parameter]
+	public bool BorderAccent { get; set; }
+
+	/// <summary>
+	/// If true, show close icons on the right hand side.
+	/// </summary>
+	[Parameter]
+	public bool Dismissable { get; set; }
+
+	/// <summary>
+	/// The color theme.
+	/// </summary>
+	[Parameter]
+	public FlowbiteColors Color { get; set; } = FlowbiteColors.Blue;
+
+	/// <summary>
+	/// The alert content.
+	/// </summary>
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+
+	/// <summary>
+	/// Determines if the alert is visible or not.
+	/// </summary>
+	public bool Visible { get; set; } = true;
+
+	protected string ClassNames =>
+	new CssBuilder("flex p-4 mb-4 text-sm")
+	.AddClass("text-blue-700 bg-blue-100 dark:bg-blue-200 dark:text-blue-800", Color is FlowbiteColors.Blue)
+	.AddClass("text-gray-700 bg-gray-100 dark:bg-gray-200 dark:text-gray-800", Color is FlowbiteColors.Gray)
+	.AddClass("text-green-700 bg-green-100 dark:bg-green-200 dark:text-green-800", Color is FlowbiteColors.Green)
+	.AddClass("text-indigo-700 bg-indigo-100 dark:bg-indigo-200 dark:text-indigo-800", Color is FlowbiteColors.Indigo)
+	.AddClass("text-pink-700 bg-pink-100 dark:bg-pink-200 dark:text-pink-800", Color is FlowbiteColors.Pink)
+	.AddClass("text-purple-700 bg-purple-100 dark:bg-purple-200 dark:text-purple-800", Color is FlowbiteColors.Purple)
+	.AddClass("text-red-700 bg-red-100 dark:bg-red-200 dark:text-red-800", Color is FlowbiteColors.Red)
+	.AddClass("text-yellow-700 bg-yellow-100 dark:bg-yellow-200 dark:text-yellow-800", Color is FlowbiteColors.Yellow)
+	.AddClass("rounded-lg", Rounded)
+	.AddClass(BorderClassNames, BorderAccent)
+	.AddClass(Class)
+	.Build();
+
+	protected string BorderClassNames =>
+	new CssBuilder("border-t-4")
+	.AddClass("border-blue-500", Color is FlowbiteColors.Blue)
+	.AddClass("border-gray-500", Color is FlowbiteColors.Gray)
+	.AddClass("border-green-500", Color is FlowbiteColors.Green)
+	.AddClass("border-indigo-500", Color is FlowbiteColors.Indigo)
+	.AddClass("border-pink-500", Color is FlowbiteColors.Pink)
+	.AddClass("border-purple-500", Color is FlowbiteColors.Purple)
+	.AddClass("border-red-500", Color is FlowbiteColors.Red)
+	.AddClass("border-yellow-500", Color is FlowbiteColors.Yellow)
+	.Build();
+
+	protected string CloseClassNames => 
+	new CssBuilder("ml-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 p-1.5 inline-flex h-8 w-8")
+	.AddClass("bg-blue-100 text-blue-500 focus:ring-blue-400 hover:bg-blue-200 dark:bg-blue-200 dark:text-blue-600 dark:hover:bg-blue-300", Color is FlowbiteColors.Blue)
+	.AddClass("bg-gray-100 text-gray-500 focus:ring-gray-400 hover:bg-gray-200 dark:bg-gray-200 dark:text-gray-600 dark:hover:bg-gray-300", Color is FlowbiteColors.Gray)
+	.AddClass("bg-green-100 text-green-500 focus:ring-green-400 hover:bg-green-200 dark:bg-green-200 dark:text-green-600 dark:hover:bg-green-300", Color is FlowbiteColors.Green)
+	.AddClass("bg-indigo-100 text-indigo-500 focus:ring-indigo-400 hover:bg-indigo-200 dark:bg-indigo-200 dark:text-indigo-600 dark:hover:bg-indigo-300", Color is FlowbiteColors.Indigo)
+	.AddClass("bg-pink-100 text-pink-500 focus:ring-pink-400 hover:bg-pink-200 dark:bg-pink-200 dark:text-pink-600 dark:hover:bg-pink-300", Color is FlowbiteColors.Pink)
+	.AddClass("bg-purple-100 text-purple-500 focus:ring-purple-400 hover:bg-purple-200 dark:bg-purple-200 dark:text-purple-600 dark:hover:bg-purple-300", Color is FlowbiteColors.Purple)
+	.AddClass("bg-red-100 text-red-500 focus:ring-red-400 hover:bg-red-200 dark:bg-red-200 dark:text-red-600 dark:hover:bg-red-300", Color is FlowbiteColors.Red)
+	.AddClass("bg-yellow-100 text-yellow-500 focus:ring-yellow-400 hover:bg-yellow-200 dark:bg-yellow-200 dark:text-yellow-600 dark:hover:bg-yellow-300", Color is FlowbiteColors.Yellow)
+	.Build();
+}

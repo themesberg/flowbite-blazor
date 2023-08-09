@@ -22,7 +22,7 @@
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)'!='RELEASE'">
-    <Exec Command="npx tailwindcss -i ./wwwroot/entrypoint.css -o ./wwwroot/css/app.css --minify" />
+    <Exec Command="npx tailwindcss -i ./wwwroot/css/entrypoint.css -o ./wwwroot/css/app.css --minify" />
   </Target>
 
 </Project>

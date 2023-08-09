@@ -452,3 +452,9 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+##
+## Generated Tailwind CSS
+##
+
+src/Flowbite.Blazor/wwwroot/css/app.css
