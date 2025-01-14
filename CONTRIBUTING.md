@@ -16,20 +16,19 @@ Thank you for your interest in contributing to Flowbite Blazor! This document pr
    Mac/Linux:
 
    ```bash
-   mkdir ./tools
-   cd ./tools
-   curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64
-   chmod +x tailwindcss-macos-arm64
-   mv tailwindcss-macos-arm64 tailwindcss
+   mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss
    ```
 
    Windows:
 
-   ```bash
-   mkdir ./tools
-   cd ./tools
-   # Download the file silently without console output
-   Invoke-WebRequest -Uri "https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe" -OutFile "tailwindcss.exe" -UseBasicParsing
+   ```pwsh
+   mkdir ./tools -Force; `
+   cd ./tools; `
+   Invoke-WebRequest -Uri "https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe" `
+      -OutFile "tailwindcss.exe" `
+      -UseBasicParsing ; `
+   cd ..
+
    ```
 
 1. Build the solution
