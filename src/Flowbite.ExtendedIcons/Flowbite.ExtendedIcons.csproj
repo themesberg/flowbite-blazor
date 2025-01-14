@@ -30,7 +30,7 @@
 
   <ItemGroup>
     <None Include="..\DemoApp\wwwroot\favicon.png" Pack="true" PackagePath="\" />
-    <None Include="..\..\docs\nuget.md" Pack="true" PackagePath="\" />
+    <None Include="nuget.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
