@@ -1,0 +1,45 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<div class="@ClassNames" role="alert" @attributes="AdditionalAttributes">
+    <div class="flex items-center">
+        @if (Icon != null)
+        {
+            <span class="mr-3 inline flex-shrink-0">
+                <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object> { { "CssClass", GetIconColorClass() } })" />
+            </span>
+        }
+        <div>
+            @if (CustomContent != null)
+            {
+                @CustomContent
+            }
+            else
+            {
+                @if (!string.IsNullOrEmpty(TextEmphasis))
+                {
+                    <span class="font-medium">@TextEmphasis</span>
+                }
+                @if (!string.IsNullOrEmpty(Text))
+                {
+                    <span class="@(string.IsNullOrEmpty(TextEmphasis) ? "" : "ml-1")">@Text</span>
+                }
+            }
+        </div>
+        @if (OnDismiss.HasDelegate)
+        {
+            <button aria-label="Dismiss" 
+                    class="@GetDismissButtonClasses()" 
+                    @onclick="OnDismiss" 
+                    type="button">
+                <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        }
+    </div>
+    @if (AdditionalContent != null)
+    {
+        <div>@AdditionalContent</div>
+    }
+</div>

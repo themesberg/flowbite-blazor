@@ -1,0 +1,23 @@
+@inherits LayoutComponentBase
+
+<div class="antialiased h-screen bg-gray-50 dark:bg-gray-900">
+
+    <header class="w-full mx-auto bg-white border-b border-gray-200 dark:border-gray-600 dark:bg-gray-800">
+        <div class="px-4 py-2.5 flex flex-wrap justify-between items-center") >
+            @* <AppVersion class="text-xs whitespace-nowrap text-gray-400" /> *@
+            @* <DarkModeToggle class="mr-1" /> *@
+            <DarkMode size=DarkMode.DisplaySize.Large class="inline-block dark:hover:text-white hover:text-gray-900" />
+        </div>
+    </header>
+
+    <main class="p-4 text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 overflow-auto w-full">
+        @Body
+    </main>
+
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>

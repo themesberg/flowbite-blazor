@@ -1,0 +1,37 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<div class="@ComponentClasses">
+    <CascadingValue Value="@Context" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    [CascadingParameter]
+    private TabContext Context { get; set; } = default!;
+
+    private string BaseClasses => "mt-2";
+
+    /// <summary>
+    /// The content containing TabPanel components.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Additional attributes to be applied to the tab panels container.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComponentClasses => CombineClasses(BaseClasses);
+
+    protected override void OnInitialized()
+    {
+        if (Context is null)
+        {
+            throw new InvalidOperationException($"{nameof(TabPanels)} must be used within a {nameof(Tabs)} component.");
+        }
+    }
+}

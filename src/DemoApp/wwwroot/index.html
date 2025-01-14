@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flowbite Blazor</title>
+    <base href="/" />
+    <link rel="stylesheet" href="_content/Flowbite/flowbite.min.css" />
+    <link rel="stylesheet" href="css/app.min.css" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+
+    <script>
+    
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+
+    </script>
+
+</head>
+
+<body class="dark:bg-gray-900 antialiased">
+
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text">Loading...</div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="_content/Flowbite/flowbite.js"></script>
+    <script src="_content/Flowbite/prism.js"></script>
+</body>
+
+</html>

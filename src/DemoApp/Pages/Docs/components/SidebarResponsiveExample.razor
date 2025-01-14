@@ -1,0 +1,77 @@
+@using Flowbite.Components
+
+
+<div class="relative h-[600px] p-3 border border-gray-200 rounded-lg dark:border-gray-700 dark:bg-gray-900 mt-6">
+    <div class="flex">
+        <!-- Mobile menu button -->
+        <Button Color="ButtonColor.Dark" class="lg:hidden mb-3">
+            <BarsIcon class="w-5 h-5" />
+        </Button>
+    </div>
+
+    <Sidebar CollapseMode="SidebarCollapseMode.Responsive">
+        <SidebarLogo 
+            Href="#"
+            ImgSrc="/images/logo.svg">
+            Flowbite
+        </SidebarLogo>
+
+        <SidebarItemGroup>
+            <SidebarItem 
+                Href="#"
+                Icon="@(new HomeIcon())">
+                Dashboard
+            </SidebarItem>
+            
+            <SidebarCollapse 
+                Label="Analytics"
+                Icon="@(new ChartPieIcon())">
+                <SidebarItem 
+                    Href="#"
+                    Icon="@(new ChartLineUpIcon())">
+                    Overview
+                </SidebarItem>
+                <SidebarItem 
+                    Href="#"
+                    Icon="@(new ChartMixedIcon())">
+                    Reports
+                </SidebarItem>
+            </SidebarCollapse>
+            
+            <SidebarItem 
+                Href="#"
+                Icon="@(new BriefcaseIcon())">
+                Users
+            </SidebarItem>
+            
+            <SidebarItem 
+                Href="#"
+                Icon="@(new CartIcon())">
+                Products
+            </SidebarItem>
+        </SidebarItemGroup>
+
+        <SidebarItemGroup>
+            <SidebarItem 
+                Href="#"
+                Icon="@(new CogIcon())">
+                Settings
+            </SidebarItem>
+            
+            <SidebarItem 
+                Href="#"
+                Icon="@(new BellIcon())">
+                Help Center
+            </SidebarItem>
+        </SidebarItemGroup>
+
+        <SidebarCTA>
+            <div class="mb-3 text-sm text-blue-900 dark:text-blue-400">
+                Preview the new Flowbite dashboard navigation! You can turn the new navigation off for a limited time in your profile.
+            </div>
+            <Button Color="ButtonColor.Default" class="w-full">
+                Upgrade to Pro
+            </Button>
+        </SidebarCTA>
+    </Sidebar>
+</div>

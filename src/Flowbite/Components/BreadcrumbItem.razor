@@ -1,0 +1,103 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+@*
+    The BreadcrumbItem component represents a single item within a Breadcrumb navigation.
+    It can display text, an optional icon, and can be either a link or plain text.
+    
+    Usage:
+    <BreadcrumbItem IsFirst="true" Icon="@_homeIcon" Href="/">Home</BreadcrumbItem>
+    <BreadcrumbItem Href="/projects">Projects</BreadcrumbItem>
+    <BreadcrumbItem>Current Page</BreadcrumbItem>
+*@
+
+<li class="@GetClasses()">
+    <div class="inline-flex items-center h-5">
+        @if (!IsFirst)
+        {
+            <ChevronRightIcon aria-hidden="true" class="w-3.5 h-3.5 text-gray-400" data-testid="flowbite-breadcrumb-separator" />
+        }
+        
+        @if (!string.IsNullOrEmpty(Href))
+        {
+            <a href="@Href" class="@LinkClasses" data-testid="flowbite-breadcrumb-item">
+                <div class="inline-flex items-center h-5">
+                    @if (Icon != null)
+                    {
+                        <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object>
+                        {
+                            { "class", IconClass },
+                            { "aria-hidden", true },
+                        })" />
+                    }
+                    <span class="flex items-center">@ChildContent</span>
+                </div>
+            </a>
+        }
+        else
+        {
+            <span class="@LinkClasses" data-testid="flowbite-breadcrumb-item">
+                <div class="inline-flex items-center h-5">
+                    @if (Icon != null)
+                    {
+                        <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object>
+                        {
+                            { "class", IconClass },
+                            { "aria-hidden", true },
+                        })" />
+                    }
+                    <span class="flex items-center">@ChildContent</span>
+                </div>
+            </span>
+        }
+    </div>
+</li>
+
+@code {
+    /// <summary>
+    /// The text content to display in the breadcrumb item.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Optional URL that the breadcrumb item links to.
+    /// If provided, the item will be rendered as an anchor tag.
+    /// If not provided, the item will be rendered as a span.
+    /// </summary>
+    [Parameter]
+    public string? Href { get; set; }
+
+    /// <summary>
+    /// Optional icon to display before the text content.
+    /// Should be an instantiated icon component, e.g., new HomeIcon().
+    /// </summary>
+    [Parameter]
+    public object? Icon { get; set; }
+
+    /// <summary>
+    /// CSS classes to apply to the icon.
+    /// Default classes set the icon size and margin.
+    /// </summary>
+    [Parameter]
+    public string IconClass { get; set; } = "w-5 h-5 me-1";
+
+    /// <summary>
+    /// Indicates if this is the first item in the breadcrumb navigation.
+    /// When true, the chevron separator before this item will not be displayed.
+    /// </summary>
+    [Parameter]
+    public bool IsFirst { get; set; }
+
+    private string LinkClasses => string.Join(" ", new[]
+    {
+        "ml-1",
+        "text-sm",
+        "font-medium",
+        !string.IsNullOrEmpty(Href) 
+            ? "text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white" 
+            : "text-gray-500 dark:text-gray-400"
+    });
+
+    private string GetClasses() => CombineClasses("inline-flex items-center");
+}

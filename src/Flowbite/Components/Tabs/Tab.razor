@@ -1,0 +1,107 @@
+@using Flowbite.Base
+@using Flowbite.Components.Base
+@inherits FlowbiteComponentBase
+
+<button type="button"
+        aria-controls="@($"tabpanel-{Index}")"
+        aria-selected="@(TabList?.Context.ActiveIndex == Index)"
+        class="@ComponentClasses inline-flex items-center"
+        disabled="@Disabled"
+        id="@($"tab-{Index}")"
+        @onclick="HandleClick"
+        @onkeydown="HandleKeyboard"
+        role="tab"
+        tabindex="@(TabList?.Context.ActiveIndex == Index ? 0 : -1)">
+    @if (Icon != null)
+    {
+        <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object>
+        {
+            { "class", "w-5 h-5 mr-2" },
+            { "aria-hidden", true }
+        })" />
+    }
+    @ChildContent
+</button>
+
+@code {
+    [CascadingParameter]
+    private TabList TabList { get; set; } = default!;
+
+    /// <summary>
+    /// The index of this tab in the tab list.
+    /// </summary>
+    [Parameter]
+    public int Index { get; set; }
+
+    /// <summary>
+    /// Optional icon to display before the tab content.
+    /// </summary>
+    [Parameter]
+    public IconBase? Icon { get; set; }
+
+    /// <summary>
+    /// Whether this tab is disabled.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Padding to apply to the tab. Defaults to p-4
+    /// </summary>
+    [Parameter]
+    public string Padding { get; set; } = "p-4";
+
+    /// <summary>
+    /// The content to display in the tab.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private string ComponentClasses => CombineClasses(
+        "inline-block rounded-t-lg",
+        Padding,
+        TabList?.Context.Variant == TabVariant.FullWidth ? "flex-1" : "",
+        TabList?.Context.ActiveIndex == Index
+            ? TabList.Context.Variant switch
+            {
+                TabVariant.Default => "bg-gray-100 dark:bg-gray-700",
+                TabVariant.FullWidth => "bg-gray-100 dark:bg-gray-700",
+                TabVariant.Pills => "bg-blue-600 text-white",
+                TabVariant.Underline => "text-blue-600 border-b-2 border-blue-600",
+                _ => string.Empty
+            }
+            : "hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300",
+        Disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+    );
+
+    private async Task HandleClick()
+    {
+        if (!Disabled && TabList != null)
+        {
+            await TabList.SetActiveIndexAsync(Index);
+        }
+    }
+
+    private async Task HandleKeyboard(KeyboardEventArgs args)
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        switch (args.Key)
+        {
+            case "Enter":
+                await HandleClick();
+                break;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        if (TabList is null)
+        {
+            throw new InvalidOperationException($"{nameof(Tab)} must be used within a {nameof(TabList)} component.");
+        }
+    }
+}

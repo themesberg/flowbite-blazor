@@ -1,0 +1,94 @@
+@inherits UiComponentBase
+
+<button onclick="flowbiteToggleDarkMode()" aria-label=@AriaLabel type="button" class=@ClassNames(btnClass, Class) >
+  <span class="hidden dark:block">
+    <slot name="lightIcon">
+      <svg class=@SizeStyle fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1
+  0 100-2H3a1 1 0 000 2h1z"
+          fill-rule="evenodd"
+          clip-rule="evenodd" />
+      </svg>
+    </slot>
+  </span>
+  <span class="block dark:hidden">
+    <slot name="darkIcon">
+      <svg class=@SizeStyle fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+      </svg>
+    </slot>
+  </span>
+</button>
+
+<script>
+window.flowbiteToggleDarkMode = (function() {
+    let colorScheme = localStorage.getItem('color-scheme')      
+    let isDark = (colorScheme === null || colorScheme === 'dark')
+    const html = document.documentElement
+    function renderDarkMode() {
+        html.style.setProperty('color-scheme', isDark ? 'dark' : null)
+        html.classList.toggle('dark', isDark)
+        document.querySelectorAll('[data-class-light]').forEach(el => {
+            const removeClasses = isDark
+                ? el.dataset.classLight
+                : el.dataset.classDark
+            const addClasses = isDark
+                ? el.dataset.classDark
+                : el.dataset.classLight
+
+            removeClasses.split(' ').forEach(c => el.classList.remove(c))
+            addClasses.split(' ').forEach(c => el.classList.add(c))
+        })
+    }
+    renderDarkMode()
+
+    document.addEventListener('DOMContentLoaded', () =>
+        Blazor.addEventListener('enhancedload', () => {
+            isDark = localStorage.getItem('color-scheme') === 'dark'
+            html.classList.toggle('dark', isDark)
+            renderDarkMode()
+        }))
+
+    return function() {
+        isDark = !isDark
+        localStorage.setItem('color-scheme', isDark ? 'dark' : 'light')
+        renderDarkMode()
+    }
+})()
+
+
+
+</script>
+
+@code
+{
+    public enum DisplaySize
+    {
+        Small,
+        Medium,
+        Large,
+    }
+    
+    /// <summary>
+    /// Sets the size. value values are "sm", "md", "lg"
+    /// </summary>
+    [Parameter]
+    public DisplaySize Size { get; set; } = DisplaySize.Medium;
+
+    
+    [Parameter]
+    public string btnClass { get; set; } = "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none rounded-lg text-sm p-2.5";
+
+    [Parameter]
+    public string AriaLabel { get; set; }  = "Dark mode";
+
+    private string SizeStyle => Size switch
+    {
+        DisplaySize.Small => "w-4 h-4",
+        DisplaySize.Medium => "w-5 h-5",
+        DisplaySize.Large => "w-6 h-6",
+        _ => "w-4 h-4" // Default to medium size
+    };
+
+}

@@ -1,0 +1,27 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<div class="@GetClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <span class="text-base font-semibold text-gray-900 dark:text-white">@Label</span>
+    }
+    <ul class="space-y-2 py-2" style="list-style-type: none;">
+        @ChildContent
+    </ul>
+</div>
+
+@code {
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool ShowSeparator { get; set; } = true;
+
+    private string GetClasses() => CombineClasses(
+        $"space-y-2 {(ShowSeparator ? "border-t border-gray-200 dark:border-gray-700 pt-4" : "")} {AdditionalClasses}"
+    );
+}

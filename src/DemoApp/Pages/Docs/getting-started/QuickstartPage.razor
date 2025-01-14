@@ -1,0 +1,68 @@
+@page "/docs/getting-started/quickstart"
+
+<PageTitle>Quickstart - Flowbite Blazor</PageTitle>
+
+<div class="container max-w-4xl">
+    <div class="flex min-w-0 flex-col px-4 pb-12 pt-6 lg:px-8 lg:pb-16 lg:pt-8 xl:pb-24">
+        <main>
+            <div class="divide-y divide-gray-200 dark:divide-gray-800">
+                <div class="pb-8">
+                    <div class="mb-2 inline-block w-full text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                        Quickstart
+                    </div>
+                    <p class="text-lg text-gray-600 dark:text-gray-400">
+                        Quickly get started with Flowbite Blazor using our official starter template.
+                    </p>
+                </div>
+
+                <div class="flex flex-col py-8 space-y-4">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Using the Starter Template</h2>
+                    
+                    <p>Get started quickly by cloning our official starter template repository:</p>
+
+                    <pre class="language-bash"><code class="language-bash code-highlight">git clone --depth 1 https://github.com/peakflames/flowbite-blazor-starter-wasm.git my-flowbite-app
+cd my-flowbite-app</code></pre>
+
+                    <p class="mt-4">The starter template includes:</p>
+                    <ul class="list-disc list-inside space-y-2 ml-4">
+                        <li>Pre-configured Blazor WebAssembly project</li>
+                        <li>Flowbite Blazor components ready to use</li>
+                        <li>TailwindCSS setup with MSBuild integration</li>
+                        <li>Dark mode support</li>
+                        <li>Example pages and components</li>
+                    </ul>
+
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8">Running the Project</h2>
+                    
+                    <p>Build and run the project:</p>
+                    <pre class="language-bash"><code class="language-bash code-highlight">dotnet build
+dotnet run</code></pre>
+
+                    <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
+                        <h3 class="text-lg font-semibold text-blue-900 dark:text-blue-100">What's Next?</h3>
+                        <p class="text-blue-800 dark:text-blue-200">
+                            Check out our <a href="/docs/components/alert" class="underline">components documentation</a> to learn more about 
+                            available components and their usage. For a more detailed setup guide, visit the 
+                            <a href="/docs/getting-started/introduction" class="underline">introduction page</a>.
+                        </p>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8">Manual Installation</h2>
+                    
+                    <p>If you prefer to set up your project manually or integrate Flowbite Blazor into an existing project, 
+                    follow our <a href="/docs/getting-started/introduction" class="text-blue-600 hover:underline dark:text-blue-500">
+                    detailed installation guide</a>.</p>
+                </div>
+            </div>
+        </main>
+        <aside class="flex font-medium leading-6" aria-label="Previous and next page navigation">
+            <a class="flex items-center justify-center text-gray-500 transition-colors duration-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                href="/docs/getting-started/introduction">
+                <svg class="mr-2 size-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0l4 4M1 5l4-4"/>
+                </svg>
+                Introduction
+            </a>
+        </aside>
+    </div>
+</div>

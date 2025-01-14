@@ -1,0 +1,76 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    
+    <!-- Package Metadata -->
+    <PackageId>Flowbite</PackageId>
+    <Version>0.0.1-alpha.4</Version>
+    <Authors>Todd Schavey</Authors>
+    <Company>PeakFlames</Company>
+    <Description>Flowbite component library for ASP.NET Blazor 8.0, providing a comprehensive set of UI components styled with TailwindCSS.</Description>
+    <PackageTags>blazor;components;tailwindcss;flowbite;ui</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/peakflames/flowbite-blazor</PackageProjectUrl>
+    <PackageReadmeFile>nuget.md</PackageReadmeFile>
+    
+    <!-- Documentation -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>CS1591</NoWarn> <!-- Suppress warnings for missing XML comments -->
+    
+    <!-- Source Link -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\DemoApp\wwwroot\favicon.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\docs\nuget.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <!-- Static Web Assets -->
+  <ItemGroup>
+    <Content Update="wwwroot\**\*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PackageIcon>favicon.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+  </ItemGroup>
+
+
+  <!-- Tailwind CSS Build Targets -->
+  <Target Name="Tailwind" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
+    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/flowbite.css -o ./wwwroot/flowbite.min.css --minify --postcss" />
+  </Target>
+
+  <Target Name="TailwindWatch" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
+    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/flowbite.css -o ./wwwroot/flowbite.min.css --watch --postcss" />
+  </Target>
+
+  <Target Name="DisableTailwindOnPublish" BeforeTargets="Publish">
+    <PropertyGroup>
+      <DisableTailwind>true</DisableTailwind>
+    </PropertyGroup>
+  </Target>
+
+  <ItemGroup>
+    <UpToDateCheckBuilt Include="wwwroot/flowbite.css" Set="Css" />
+    <UpToDateCheckBuilt Include="wwwroot/flowbite.min.css" Set="Css" />
+    <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
+  </ItemGroup>
+
+</Project>

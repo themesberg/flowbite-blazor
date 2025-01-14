@@ -1,0 +1,221 @@
+@page "/docs/components/avatar"
+@using Flowbite.Components
+
+<PageTitle>Avatar - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Avatar Examples</h2>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+        The avatar component can be used to display user profile pictures, initials, or placeholders with various styling options.
+    </p>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Default Avatar"
+                          Description="Use the default avatar component with an image URL."
+                          RazorCode=@(@"
+<Avatar ImageUrl=""/images/people/profile-picture-1.jpg"" 
+        Alt=""User profile picture"" 
+        Rounded=""true"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Avatar ImageUrl="/images/people/profile-picture-1.jpg" 
+                        Alt="User profile picture" 
+                        Rounded="true" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Avatar with Border"
+                          Description="Add a border style to the avatar using the Bordered parameter."
+                          RazorCode=@(@"
+<Avatar ImageUrl=""/images/people/profile-picture-2.jpg"" 
+        Alt=""User with border"" 
+        Bordered=""true"" 
+        Rounded=""true"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Avatar ImageUrl="/images/people/profile-picture-2.jpg" 
+                        Alt="User with border" 
+                        Bordered="true" 
+                        Rounded="true" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Avatar Placeholder"
+                          Description="Use the default placeholder when no image is provided."
+                          RazorCode=@(@"
+<Avatar Rounded=""true"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Avatar Rounded="true" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Placeholder Initials"
+                          Description="Display initials as a placeholder using the PlaceholderInitials parameter."
+                          RazorCode=@(@"
+<Avatar PlaceholderInitials=""JD"" Rounded=""true"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Avatar PlaceholderInitials="JD" Rounded="true" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Status Indicator"
+                          Description="Show a status indicator using the Status parameter."
+                          RazorCode=@(@"
+<div class=""flex flex-wrap gap-2"">
+    <Avatar ImageUrl=""/images/people/profile-picture-3.jpg"" 
+            Status=""online"" 
+            StatusPosition=""bottom-right"" 
+            Rounded=""true"" />
+    <Avatar ImageUrl=""/images/people/profile-picture-4.jpg"" 
+            Status=""busy"" 
+            StatusPosition=""bottom-right"" 
+            Rounded=""true"" />
+    <Avatar ImageUrl=""/images/people/profile-picture-5.jpg"" 
+            Status=""offline"" 
+            StatusPosition=""bottom-right"" 
+            Rounded=""true"" />
+    <Avatar ImageUrl=""/images/people/profile-picture-1.jpg"" 
+            Status=""away"" 
+            StatusPosition=""bottom-right"" 
+            Rounded=""true"" />
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-2">
+                    <Avatar ImageUrl="/images/people/profile-picture-3.jpg" 
+                            Status="online" 
+                            StatusPosition="bottom-right" 
+                            Rounded="true" />
+                    <Avatar ImageUrl="/images/people/profile-picture-4.jpg" 
+                            Status="busy" 
+                            StatusPosition="bottom-right" 
+                            Rounded="true" />
+                    <Avatar ImageUrl="/images/people/profile-picture-5.jpg" 
+                            Status="offline" 
+                            StatusPosition="bottom-right" 
+                            Rounded="true" />
+                    <Avatar ImageUrl="/images/people/profile-picture-1.jpg" 
+                            Status="away" 
+                            StatusPosition="bottom-right" 
+                            Rounded="true" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Colors"
+                          Description="Change the border color using the Color parameter."
+                          RazorCode=@(@"
+<div class=""flex flex-wrap gap-2"">
+    <Avatar ImageUrl=""/images/people/profile-picture-2.jpg"" 
+            Color=""AvatarColor.Gray"" 
+            Bordered=""true"" 
+            Rounded=""true"" />
+    <Avatar ImageUrl=""/images/people/profile-picture-3.jpg"" 
+            Color=""AvatarColor.Success"" 
+            Bordered=""true"" 
+            Rounded=""true"" />
+    <Avatar ImageUrl=""/images/people/profile-picture-4.jpg"" 
+            Color=""AvatarColor.Pink"" 
+            Bordered=""true"" 
+            Rounded=""true"" />
+    <Avatar ImageUrl=""/images/people/profile-picture-5.jpg"" 
+            Color=""AvatarColor.Purple"" 
+            Bordered=""true"" 
+            Rounded=""true"" />
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-2">
+                    <Avatar ImageUrl="/images/people/profile-picture-2.jpg" 
+                            Color="AvatarColor.Gray" 
+                            Bordered="true" 
+                            Rounded="true" />
+                    <Avatar ImageUrl="/images/people/profile-picture-3.jpg" 
+                            Color="AvatarColor.Success" 
+                            Bordered="true" 
+                            Rounded="true" />
+                    <Avatar ImageUrl="/images/people/profile-picture-4.jpg" 
+                            Color="AvatarColor.Pink" 
+                            Bordered="true" 
+                            Rounded="true" />
+                    <Avatar ImageUrl="/images/people/profile-picture-5.jpg" 
+                            Color="AvatarColor.Purple" 
+                            Bordered="true" 
+                            Rounded="true" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Sizes"
+                          Description="Change the size using the Size parameter."
+                          RazorCode=@(@"
+<div class=""flex flex-wrap gap-2 items-center"">
+    <Avatar ImageUrl=""/images/people/profile-picture-1.jpg"" 
+            Size=""AvatarSize.ExtraSmall"" 
+            Rounded=""true"" />
+    <Avatar ImageUrl=""/images/people/profile-picture-2.jpg"" 
+            Size=""AvatarSize.Small"" 
+            Rounded=""true"" />
+    <Avatar ImageUrl=""/images/people/profile-picture-3.jpg"" 
+            Size=""AvatarSize.Medium"" 
+            Rounded=""true"" />
+    <Avatar ImageUrl=""/images/people/profile-picture-4.jpg"" 
+            Size=""AvatarSize.Large"" 
+            Rounded=""true"" />
+    <Avatar ImageUrl=""/images/people/profile-picture-5.jpg"" 
+            Size=""AvatarSize.ExtraLarge"" 
+            Rounded=""true"" />
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-2 items-center">
+                    <Avatar ImageUrl="/images/people/profile-picture-1.jpg" 
+                            Size="AvatarSize.ExtraSmall" 
+                            Rounded="true" />
+                    <Avatar ImageUrl="/images/people/profile-picture-2.jpg" 
+                            Size="AvatarSize.Small" 
+                            Rounded="true" />
+                    <Avatar ImageUrl="/images/people/profile-picture-3.jpg" 
+                            Size="AvatarSize.Medium" 
+                            Rounded="true" />
+                    <Avatar ImageUrl="/images/people/profile-picture-4.jpg" 
+                            Size="AvatarSize.Large" 
+                            Rounded="true" />
+                    <Avatar ImageUrl="/images/people/profile-picture-5.jpg" 
+                            Size="AvatarSize.ExtraLarge" 
+                            Rounded="true" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Avatar with Text"
+                          Description="Display additional content with the avatar using ChildContent."
+                          RazorCode=@(@"
+<div class=""flex items-center space-x-4"">
+    <Avatar ImageUrl=""/images/people/profile-picture-1.jpg"" 
+            Rounded=""true"" />
+    <div class=""font-medium dark:text-white"">
+        <div>Jese Leos</div>
+        <div class=""text-sm text-gray-500 dark:text-gray-400"">
+            Joined in August 2014
+        </div>
+    </div>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex items-center space-x-4">
+                    <Avatar ImageUrl="/images/people/profile-picture-1.jpg" 
+                            Rounded="true" />
+                    <div class="font-medium dark:text-white">
+                        <div>Jese Leos</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                            Joined in August 2014
+                        </div>
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>

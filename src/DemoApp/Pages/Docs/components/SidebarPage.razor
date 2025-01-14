@@ -1,0 +1,379 @@
+@page "/docs/components/sidebar"
+@using Flowbite.Components
+
+<PageTitle>Sidebar - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Sidebar Examples</h2>
+
+    <div class="space-y-8">
+        <ComponentExample Title="Default Sidebar"
+                         Description="Use this example to show a basic sidebar with navigation items."
+                         RazorCode=@(@"
+    <Sidebar>
+        <SidebarItem 
+            Href=""/dashboard""
+            Icon=""new ChartMixedIcon()"">
+            Dashboard
+        </SidebarItem>
+        
+        <SidebarItem 
+            Href=""/inbox"" 
+            Icon=""new InboxIcon()""
+            Label=""3"" 
+            LabelColorValue=""SidebarItem.LabelColor.Primary"">
+            Inbox
+        </SidebarItem>
+        
+        <SidebarItem 
+            Href=""/users""
+            Icon=""new BriefcaseIcon()"">
+            Users
+        </SidebarItem>
+        
+        <SidebarItem 
+            Href=""/products"" 
+            Icon=""new CartIcon()""
+            Label=""New"" 
+            LabelColorValue=""SidebarItem.LabelColor.Success"">
+            Products
+        </SidebarItem>
+        
+        <SidebarItem 
+            Href=""/sign-in""
+            Icon=""new ArrowRightToBracketIcon()"">
+            Sign In
+        </SidebarItem>
+        
+        <SidebarItem 
+            Href=""/sign-up"" 
+            Icon=""new CirclePlusIcon()""
+            Label=""2"" 
+            LabelColorValue=""SidebarItem.LabelColor.Warning"">
+            Sign Up
+        </SidebarItem>
+    </Sidebar>")
+                         SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <SidebarExample />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Sidebar with Dropdown"
+                         Description="This example shows how to create collapsible sections in the sidebar for organizing related items."
+                         RazorCode=@(@"
+    <Sidebar>
+        <SidebarItem 
+            Href=""/dashboard""
+            Icon=""@(new ChartMixedIcon())"">
+            Dashboard
+        </SidebarItem>
+        
+        <SidebarCollapse 
+            Label=""E-commerce""
+            Icon=""@(new CartIcon())"">
+            <SidebarItem 
+                Href=""/e-commerce/products""
+                Icon=""@(new ClipboardListIcon())"">
+                Products
+            </SidebarItem>
+            <SidebarItem 
+                Href=""/e-commerce/billing""
+                Icon=""@(new CashIcon())"">
+                Billing
+            </SidebarItem>
+            <SidebarItem 
+                Href=""/e-commerce/invoices""
+                Icon=""@(new ClipboardCheckIcon())"">
+                Invoices
+            </SidebarItem>
+        </SidebarCollapse>
+        
+        <SidebarCollapse 
+            Label=""Users""
+            Icon=""@(new BriefcaseIcon())"">
+            <SidebarItem 
+                Href=""/users/list""
+                Icon=""@(new BriefcaseIcon())"">
+                All Users
+            </SidebarItem>
+            <SidebarItem 
+                Href=""/users/new""
+                Icon=""@(new CirclePlusIcon())"">
+                Add User
+            </SidebarItem>
+        </SidebarCollapse>
+        
+        <SidebarItem 
+            Href=""/settings""
+            Icon=""@(new CogIcon())"">
+            Settings
+        </SidebarItem>
+    </Sidebar>")
+                         SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <SidebarCollapseExample />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Sidebar with Logo"
+                         Description="This example shows how to add a branded logo to your sidebar navigation."
+                         RazorCode=@(@"
+    <Sidebar>
+        <SidebarLogo 
+            Href=""/""
+            ImgSrc=""/images/logo.svg""
+            ImgAlt=""Flowbite Logo"">
+            Flowbite
+        </SidebarLogo>
+        
+        <SidebarItem 
+            Href=""#""
+            Icon=""@(new ChartPieIcon())"">
+            Dashboard
+        </SidebarItem>
+        <SidebarItem 
+            Href=""#""
+            Icon=""@(new InboxIcon())"">
+            Inbox
+        </SidebarItem>
+        <SidebarItem 
+            Href=""#""
+            Icon=""@(new FingerprintIcon())"">
+            Security
+        </SidebarItem>
+    </Sidebar>")
+                         SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <SidebarLogoExample />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Sidebar with CTA"
+                         Description="This example shows how to add a call-to-action button inside the sidebar."
+                         RazorCode=@(@"
+    <Sidebar>
+        <div class=""flex flex-col h-full justify-between"">
+            <div class=""space-y-1"">
+                <SidebarItem Href=""#"" Icon=""@(new ChartPieIcon())"">
+                    Dashboard
+                </SidebarItem>
+                <SidebarItem Href=""#"" Icon=""@(new InboxIcon())"">
+                    Inbox
+                </SidebarItem>
+                <SidebarItem Href=""#"" Icon=""@(new BriefcaseIcon())"">
+                    Projects
+                </SidebarItem>
+            </div>
+            
+            <SidebarCTA Color=""SidebarCTAColor.Info"">
+                <div class=""mb-3 text-sm text-blue-800 dark:text-blue-400"">
+                    Preview the new Flowbite dashboard navigation! You'll love it!
+                </div>
+                <div class=""text-center"">
+                    <Button Color=""ButtonColor.Default"" Size=""ButtonSize.Small"">
+                        Upgrade to Pro
+                    </Button>
+                </div>
+            </SidebarCTA>
+        </div>
+    </Sidebar>")
+                         SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <SidebarCTAExample />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Sidebar with Item Groups"
+                         Description="This example shows how to organize sidebar items into logical groups with optional labels and separators."
+                         RazorCode=@(@"<div class=""relative w-64 h-[32rem] overflow-y-auto bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700"">
+    <Sidebar>
+        <SidebarItemGroup Label=""Main Navigation"">
+            <SidebarItem Href=""#"" Icon=""@(new HomeIcon())"">
+                Dashboard
+            </SidebarItem>
+            <SidebarItem Href=""#"" Icon=""@(new ChartPieIcon())"">
+                Analytics
+            </SidebarItem>
+        </SidebarItemGroup>
+
+        <SidebarItemGroup Label=""Content Management"">
+            <SidebarItem Href=""#"" Icon=""@(new FileIcon())"">
+                Posts
+            </SidebarItem>
+            <SidebarItem Href=""#"" Icon=""@(new ImageIcon())"">
+                Media Library
+            </SidebarItem>
+            <SidebarCollapse Label=""Categories"" Icon=""@(new FolderIcon())"">
+                <SidebarItem Href=""#"">Blog Posts</SidebarItem>
+                <SidebarItem Href=""#"">News Articles</SidebarItem>
+            </SidebarCollapse>
+        </SidebarItemGroup>
+
+        <SidebarItemGroup Label=""Account"" ShowSeparator=""false"">
+            <SidebarItem Href=""#"" Icon=""@(new BellIcon())"">
+                Alerts
+            </SidebarItem>
+            <SidebarItem Href=""#"" Icon=""@(new CogIcon())"">
+                Settings
+            </SidebarItem>
+        </SidebarItemGroup>
+    </Sidebar>")
+                         SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <SidebarGroupExample />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Multi-level Sidebar"
+                         Description="This example demonstrates deep nested navigation with multiple levels of dropdowns, perfect for complex application hierarchies."
+                         RazorCode=@(@"
+    <Sidebar>
+        <SidebarItem 
+            Href=""/dashboard""
+            Icon=""@(new HomeIcon())"">
+            Dashboard
+        </SidebarItem>
+        
+        <SidebarCollapse 
+            Label=""Settings""
+            Icon=""@(new CogIcon())"">
+            <SidebarItem 
+                Href=""/settings/profile""
+                Icon=""@(new BriefcaseIcon())"">
+                Profile
+            </SidebarItem>
+            <SidebarCollapse 
+                Label=""System""
+                Icon=""@(new ServerIcon())"">
+                <SidebarItem 
+                    Href=""/settings/system/general""
+                    Icon=""@(new AdjustmentsHorizontalIcon())"">
+                    General
+                </SidebarItem>
+                <SidebarCollapse 
+                    Label=""Security""
+                    Icon=""@(new ShieldCheckIcon())"">
+                    <SidebarItem 
+                        Href=""/settings/system/security/permissions""
+                        Icon=""@(new BadgeCheckIcon())"">
+                        Permissions
+                    </SidebarItem>
+                    <SidebarItem 
+                        Href=""/settings/system/security/authentication""
+                        Icon=""@(new BellIcon())"">
+                        Authentication
+                    </SidebarItem>
+                    <SidebarItem 
+                        Href=""/settings/system/security/encryption""
+                        Icon=""@(new ShieldCheckIcon())"">
+                        Encryption
+                    </SidebarItem>
+                </SidebarCollapse>
+                <SidebarItem 
+                    Href=""/settings/system/backup""
+                    Icon=""@(new CloudArrowUpIcon())"">
+                    Backup
+                </SidebarItem>
+            </SidebarCollapse>
+            <SidebarItem 
+                Href=""/settings/notifications""
+                Icon=""@(new BellIcon())"">
+                Notifications
+            </SidebarItem>
+        </SidebarCollapse>
+        
+        <SidebarItem 
+            Href=""/help""
+            Icon=""@(new BellIcon())"">
+            Help
+        </SidebarItem>
+    </Sidebar>")
+                         SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <SidebarMultiLevelExample />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Responsive Sidebar"
+                         Description="This example shows how the sidebar adapts to different screen sizes with proper mobile navigation support. Try resizing your browser window to see the responsive behavior."
+                         RazorCode=@(@"
+    <div class=""flex"">
+        <!-- Mobile menu button -->
+        <Button Color=""ButtonColor.Dark"" class=""lg:hidden mb-3"">
+            <BarsIcon class=""w-5 h-5"" />
+        </Button>
+    </div>
+
+    <Sidebar CollapseMode=""SidebarCollapseMode.Responsive"">
+        <SidebarLogo 
+            Href=""#""
+            ImgSrc=""/images/logo.svg"">
+            Flowbite
+        </SidebarLogo>
+
+        <SidebarItemGroup>
+            <SidebarItem 
+                Href=""#""
+                Icon=""@(new HomeIcon())"">
+                Dashboard
+            </SidebarItem>
+            
+            <SidebarCollapse 
+                Label=""Analytics""
+                Icon=""@(new ChartPieIcon())"">
+                <SidebarItem 
+                    Href=""#""
+                    Icon=""@(new ChartLineUpIcon())"">
+                    Overview
+                </SidebarItem>
+                <SidebarItem 
+                    Href=""#""
+                    Icon=""@(new ChartMixedIcon())"">
+                    Reports
+                </SidebarItem>
+            </SidebarCollapse>
+            
+            <SidebarItem 
+                Href=""#""
+                Icon=""@(new BriefcaseIcon())"">
+                Users
+            </SidebarItem>
+            
+            <SidebarItem 
+                Href=""#""
+                Icon=""@(new CartIcon())"">
+                Products
+            </SidebarItem>
+        </SidebarItemGroup>
+
+        <SidebarItemGroup>
+            <SidebarItem 
+                Href=""#""
+                Icon=""@(new CogIcon())"">
+                Settings
+            </SidebarItem>
+            
+            <SidebarItem 
+                Href=""#""
+                Icon=""@(new BellIcon())"">
+                Help Center
+            </SidebarItem>
+        </SidebarItemGroup>
+
+        <SidebarCTA>
+            <div class=""mb-3 text-sm text-blue-900 dark:text-blue-400"">
+                Preview the new Flowbite dashboard navigation! You can turn the new navigation off for a limited time in your profile.
+            </div>
+            <Button Color=""ButtonColor.Default"" class=""w-full"">
+                Upgrade to Pro
+            </Button>
+        </SidebarCTA>
+    </Sidebar>")
+                         SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <SidebarResponsiveExample />
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>

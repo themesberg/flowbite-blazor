@@ -1,0 +1,33 @@
+@inherits Flowbite.Layout.StackedLayout
+
+
+<SectionContent SectionName="header-content-left-outlet">
+    <HeaderLeft/>
+</SectionContent>
+
+
+<SectionContent SectionName="header-content-center-outlet">    
+</SectionContent>
+
+
+<SectionContent SectionName="header-content-right-outlet">
+    <HeaderRight/>
+</SectionContent>
+
+
+<SectionContent SectionName="footer-content-left-outlet">
+</SectionContent>
+
+
+<SectionContent SectionName="footer-content-center-outlet">    
+</SectionContent>
+
+
+<SectionContent SectionName="footer-content-right-outlet">
+    <FlowbiteVersion />
+</SectionContent>
+
+@{
+    // Render the base layout, allowing inherited layout functionality
+    base.BuildRenderTree(__builder);
+}

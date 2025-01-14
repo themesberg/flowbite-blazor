@@ -1,0 +1,123 @@
+@page "/docs/components/badge"
+@using Flowbite.Components
+@using static Flowbite.Components.Badge
+
+<PageTitle>Badge - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Badge Examples</h2>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Default badges"
+                          Description="Here's a list of Badge component examples where you can use the Color property to change the color of the badge. Primary is the default color."
+                          RazorCode=@(@"
+<div class=""flex flex-wrap gap-2"">
+    <Badge>Primary</Badge>
+    <Badge Color=""@BadgeColor.Info"">Info</Badge>
+    <Badge Color=""@BadgeColor.Gray"">Gray</Badge>
+    <Badge Color=""@BadgeColor.Failure"">Failure</Badge>
+    <Badge Color=""@BadgeColor.Success"">Success</Badge>
+    <Badge Color=""@BadgeColor.Warning"">Warning</Badge>
+    <Badge Color=""@BadgeColor.Indigo"">Indigo</Badge>
+    <Badge Color=""@BadgeColor.Purple"">Purple</Badge>
+    <Badge Color=""@BadgeColor.Pink"">Pink</Badge>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-2">
+                    <Badge>Primary</Badge>
+                    <Badge Color="@BadgeColor.Info">Info</Badge>
+                    <Badge Color="@BadgeColor.Gray">Gray</Badge>
+                    <Badge Color="@BadgeColor.Failure">Failure</Badge>
+                    <Badge Color="@BadgeColor.Success">Success</Badge>
+                    <Badge Color="@BadgeColor.Warning">Warning</Badge>
+                    <Badge Color="@BadgeColor.Indigo">Indigo</Badge>
+                    <Badge Color="@BadgeColor.Purple">Purple</Badge>
+                    <Badge Color="@BadgeColor.Pink">Pink</Badge>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Badge as link"
+                          Description="Use the badge as a link component by adding the Href property."
+                          RazorCode=@(@"
+<div class=""flex flex-wrap gap-2"">
+    <Badge Href=""#"">Primary</Badge>
+    <Badge Color=""@BadgeColor.Gray"" Href=""#"">Gray</Badge>
+    <Badge Color=""@BadgeColor.Success"" Href=""#"">Success</Badge>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-2">
+                    <Badge Href="#">Primary</Badge>
+                    <Badge Color="@BadgeColor.Gray" Href="#">Gray</Badge>
+                    <Badge Color="@BadgeColor.Success" Href="#">Success</Badge>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Badge with icon"
+                          Description="Add an icon to the badge by using the Icon property. This can be used to show status or notifications."
+                          RazorCode=@(@"
+<div class=""flex flex-wrap gap-2"">
+    <Badge Icon=""@_checkIcon"">Primary</Badge>
+    <Badge Color=""@BadgeColor.Gray"" Icon=""@_clockIcon"">Gray</Badge>
+    <Badge Color=""@BadgeColor.Success"" Icon=""@_checkCircleIcon"">Success</Badge>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-2">
+                    <Badge Icon="@_checkIcon">Primary</Badge>
+                    <Badge Color="@BadgeColor.Gray" Icon="@_clockIcon">Gray</Badge>
+                    <Badge Color="@BadgeColor.Success" Icon="@_checkCircleIcon">Success</Badge>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Badge with icon only"
+                          Description="Show only an icon without any text by using just the Icon property."
+                          RazorCode=@(@"
+<div class=""flex flex-wrap gap-2"">
+    <Badge Icon=""@_checkIcon"" />
+    <Badge Icon=""@_checkIcon"" Color=""@BadgeColor.Gray"" />
+    <Badge Icon=""@_checkIcon"" Size=""@BadgeSize.Small"" />
+    <Badge Color=""@BadgeColor.Gray"" Icon=""@_checkIcon"" Size=""@BadgeSize.Small"" />
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-2">
+                    <Badge Icon="@_checkIcon" />
+                    <Badge Icon="@_checkIcon" Color="@BadgeColor.Gray" />
+                    <Badge Icon="@_checkIcon" Size="@BadgeSize.Small" />
+                    <Badge Color="@BadgeColor.Gray" Icon="@_checkIcon" Size="@BadgeSize.Small" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Sizes"
+                          Description="Update the size of the badge component by using the Size property. Choose from ExtraSmall and Small sizes."
+                          RazorCode=@(@"
+<div class=""flex flex-wrap items-center gap-2"">
+    <Badge Size=""@BadgeSize.ExtraSmall"">Primary</Badge>
+    <Badge Size=""@BadgeSize.Small"">Primary</Badge>
+    <Badge Size=""@BadgeSize.ExtraSmall"" Icon=""@_checkIcon"">Icon</Badge>
+    <Badge Size=""@BadgeSize.Small"" Icon=""@_checkIcon"">Icon</Badge>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap items-center gap-2">
+                    <Badge Size="@BadgeSize.ExtraSmall">Primary</Badge>
+                    <Badge Size="@BadgeSize.Small">Primary</Badge>
+                    <Badge Size="@BadgeSize.ExtraSmall" Icon="@_checkIcon">Icon</Badge>
+                    <Badge Size="@BadgeSize.Small" Icon="@_checkIcon">Icon</Badge>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>
+
+@code {
+    private ClockIcon _clockIcon = new();
+    private CheckCircleIcon _checkCircleIcon = new();
+    private CheckIcon _checkIcon = new();
+}

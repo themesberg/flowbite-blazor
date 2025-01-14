@@ -1,0 +1,38 @@
+@* /// <summary>
+/// Represents a stacked layout for Flowbite Blazor applications.
+/// Provides a full-height, responsive layout with header, main content, and footer sections.
+/// </summary>
+/// <remarks>
+/// Key features:
+/// - Full-screen height layout
+/// - Dark and light mode support
+/// - Responsive design
+/// - Built-in error handling UI
+/// </remarks> *@
+@inherits LayoutComponentBase
+
+<div class="antialiased bg-white dark:bg-gray-900 h-screen flex flex-col">
+    
+    @* Header component with responsive menu disabled by default *@
+    <Header ResponsiveMenuEnabled=@false />
+
+    @* Main content container with flexible layout *@
+    <div class="h-screen flex flex-col justify-between flex-auto overflow-y-auto">
+  
+        @* Main content area with padding and theme-aware styling *@
+        <main class="flex p-4 text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-900 overflow-y-auto w-full">
+            @Body
+        </main>
+
+        @* Footer component *@
+        <Footer/>
+    </div>
+
+</div>
+
+@* Error handling UI for unhandled exceptions *@
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>

@@ -1,0 +1,82 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+
+<div id="" class="py-4 space-y-4">
+    @if (!string.IsNullOrEmpty(Title))
+    {
+        <h3 id="@TitleSlug" class="group">
+            <a aria-hidden="true" tabindex="-1" target="_blank" rel="noreferrer" href="@TitleHref"><span class="icon icon-link"></span></a>
+            @Title
+            <a href="@TitleHref" aria-label="@($"Link to this section: [object Object],{Title}")" 
+                class="ml-1 text-primary-700 opacity-0 transition-opacity group-hover:opacity-100 dark:text-primary-500">#</a>
+        </h3>
+    }
+    
+    @if (!string.IsNullOrEmpty(Description))
+    {
+        <p class="text-gray-500 dark:text-gray-400">@Description</p>
+    }
+
+    <div class="rounded-lg border border-gray-200 dark:border-gray-700">
+        <div class="p-4 bg-white dark:bg-gray-800">
+            @PreviewContent
+        </div>
+        
+        @if (ShowCode)
+        {
+            <div class="relative">
+                <Tabs OnTabChanged="OnTabChanged" Variant="TabVariant.Underline">
+                    <TabListContent>
+                        @if (RazorCode is not null)
+                        {
+                            <Tab Index="0" Padding="px-2 py-2.5" >razor</Tab>
+                        }
+
+                        @if (HtmlCode is not null)
+                        {
+                            <Tab Index="1" Padding="px-2 py-2.5" >html</Tab>
+                        }
+
+                        @if (CSharpCode is not null)
+                        {
+                            <Tab Index="2" Padding="px-2 py-2.5" >csharp</Tab>
+                        }
+                    </TabListContent>
+                    <TabPanelsContent>
+                        @if (RazorCode is not null)
+                        {
+                            <TabPanel Index="0">
+                                <div class="relative">
+                                    <CodeBlock Code="@RazorCode" Language="razor" class="dark:bg-gray-900"/>
+                                </div>
+                            </TabPanel>
+                        }
+
+                        @if (HtmlCode is not null)
+                        {
+                            <TabPanel Index="1">
+                                <div class="relative">
+                                    <CodeBlock Code="@HtmlCode" Language="html" class="dark:bg-gray-900"/>
+                                </div>
+                            </TabPanel>
+                        }
+
+                        @if (CSharpCode is not null)
+                        {
+                            <TabPanel Index="2">
+                                <div class="relative">
+                                    <CodeBlock Code="@CSharpCode" Language="csharp" class="dark:bg-gray-900"/>
+                                </div>
+                            </TabPanel>
+                        }
+
+                    </TabPanelsContent>
+                </Tabs>
+                <div class="absolute top-2 right-2 flex items-center gap-2">
+                    <CopyToClipboardButton TextToCopy="@CodeToCopy()" class="p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

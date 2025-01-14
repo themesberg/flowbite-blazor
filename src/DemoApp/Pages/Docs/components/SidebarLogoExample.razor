@@ -1,0 +1,29 @@
+@using Flowbite.Components
+
+
+<div class="relative h-[600px] p-3 border border-gray-200 rounded-lg dark:border-gray-700 dark:bg-gray-900 mt-6">
+    <Sidebar>
+        <SidebarLogo 
+            Href="/"
+            ImgSrc="/images/logo.svg"
+            ImgAlt="Flowbite Logo">
+            Flowbite
+        </SidebarLogo>
+        
+        <SidebarItem 
+            Href="#"
+            Icon="@(new ChartPieIcon())">
+            Dashboard
+        </SidebarItem>
+        <SidebarItem 
+            Href="#"
+            Icon="@(new InboxIcon())">
+            Inbox
+        </SidebarItem>
+        <SidebarItem 
+            Href="#"
+            Icon="@(new FingerprintIcon())">
+            Security
+        </SidebarItem>
+    </Sidebar>
+</div>

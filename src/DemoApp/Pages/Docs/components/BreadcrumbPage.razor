@@ -1,0 +1,61 @@
+@page "/docs/components/breadcrumb"
+@using Flowbite.Components
+
+<PageTitle>Breadcrumb - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Breadcrumb Examples</h2>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+        The Breadcrumb component helps users understand their current location within a website's navigation hierarchy.
+    </p>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Default breadcrumb"
+                          Description="Use the Breadcrumb component to create a navigation hierarchy with home, projects, and current page items."
+                          RazorCode=@(@"
+<Breadcrumb>
+    <BreadcrumbItem IsFirst=""true"" Href=""#"" Icon=""@_homeIcon"">
+        Home
+    </BreadcrumbItem>
+    <BreadcrumbItem Href=""#"">Projects</BreadcrumbItem>
+    <BreadcrumbItem>Flowbite Blazor</BreadcrumbItem>
+</Breadcrumb>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Breadcrumb>
+                    <BreadcrumbItem IsFirst="true" Href="#" Icon="@_homeIcon">
+                        Home
+                    </BreadcrumbItem>
+                    <BreadcrumbItem Href="#">Projects</BreadcrumbItem>
+                    <BreadcrumbItem>Flowbite Blazor</BreadcrumbItem>
+                </Breadcrumb>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Breadcrumb with background"
+                          Description="Add a solid background style to the breadcrumb component by setting the HasBackground parameter to true."
+                          RazorCode=@(@"
+<Breadcrumb HasBackground=""true"">
+    <BreadcrumbItem IsFirst=""true"" Href=""#"" Icon=""@_homeIcon"">
+        Home
+    </BreadcrumbItem>
+    <BreadcrumbItem Href=""#"">Projects</BreadcrumbItem>
+    <BreadcrumbItem>Flowbite Blazor</BreadcrumbItem>
+</Breadcrumb>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Breadcrumb HasBackground="true">
+                    <BreadcrumbItem IsFirst="true" Href="#" Icon="@_homeIcon">
+                        Home
+                    </BreadcrumbItem>
+                    <BreadcrumbItem Href="#">Projects</BreadcrumbItem>
+                    <BreadcrumbItem>Flowbite Blazor</BreadcrumbItem>
+                </Breadcrumb>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>
+
+@code {
+    private HomeIcon _homeIcon = new();
+}

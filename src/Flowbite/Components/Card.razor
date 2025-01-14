@@ -1,0 +1,27 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+@if (string.IsNullOrEmpty(Href))
+{
+    <div class="@ComponentClasses" @attributes="AdditionalAttributes">
+        @if (!string.IsNullOrEmpty(ImgSrc))
+        {
+            <img src="@ImgSrc" alt="@ImgAlt" class="@GetImageClasses()" />
+        }
+        <div class="flex h-full flex-col justify-center gap-4 p-6">
+            @ChildContent
+        </div>
+    </div>
+}
+else
+{
+    <a href="@Href" class="@ComponentClasses" role="article" @attributes="AdditionalAttributes">
+        @if (!string.IsNullOrEmpty(ImgSrc))
+        {
+            <img src="@ImgSrc" alt="@ImgAlt" class="@GetImageClasses()" />
+        }
+        <div class="flex h-full flex-col justify-center gap-4 p-6">
+            @ChildContent
+        </div>
+    </a>
+}

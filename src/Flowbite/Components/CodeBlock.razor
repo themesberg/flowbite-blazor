@@ -1,0 +1,33 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+@using Microsoft.JSInterop
+
+<pre @ref="@_ref" class="@CombineClasses(LanguageClass, Class)"><code id="@Id" class="@LanguageClass">@Code</code></pre>
+
+
+@code
+{
+    private ElementReference _ref;
+
+    [Parameter]
+    public string? Id { get; set; }
+
+    [Parameter, EditorRequired]
+    public string? Code { get; set; }
+
+    [Parameter]
+    public string? Language { get; set; }
+
+    [Inject]
+    private IJSRuntime? JSRuntime { get; set; }
+
+    protected string LanguageClass => $"language-{Language}";
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if( firstRender && JSRuntime is not null)
+        {
+            await JSRuntime.InvokeVoidAsync( "Prism.highlightAllUnder", _ref );
+        }
+    }
+}

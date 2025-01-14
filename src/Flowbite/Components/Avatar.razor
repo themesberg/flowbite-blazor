@@ -1,0 +1,31 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<div class="relative">
+    @if (!string.IsNullOrEmpty(ImageUrl))
+    {
+        <img src="@ImageUrl" alt="@Alt" class="@GetImageClasses()" />
+    }
+    else if (!string.IsNullOrEmpty(PlaceholderInitials))
+    {
+        <div class="@GetInitialsClasses()">
+            <span class="@GetInitialsTextClass()">@PlaceholderInitials</span>
+        </div>
+    }
+    else
+    {
+        <div class="@GetImageClasses()">
+            <svg class="w-full h-full text-gray-400 dark:text-gray-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+            </svg>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(Status))
+    {
+        <span class="@GetStatusClasses()" />
+    }
+</div>
+@if (ChildContent != null)
+{
+    <div>@ChildContent</div>
+}

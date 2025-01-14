@@ -1,0 +1,48 @@
+@using Flowbite.Components
+
+
+<div class="relative h-[600px] p-3 border border-gray-200 rounded-lg dark:border-gray-700 dark:bg-gray-900 mt-6">
+    <Sidebar>
+        <SidebarItem 
+            Href="/dashboard"
+            Icon="new ChartMixedIcon()">
+            Dashboard
+        </SidebarItem>
+        
+        <SidebarItem 
+            Href="/inbox" 
+            Icon="new InboxIcon()"
+            Label="3" 
+            LabelColorValue="SidebarItem.LabelColor.Primary">
+            Inbox
+        </SidebarItem>
+        
+        <SidebarItem 
+            Href="/users"
+            Icon="new BriefcaseIcon()">
+            Users
+        </SidebarItem>
+        
+        <SidebarItem 
+            Href="/products" 
+            Icon="new CartIcon()"
+            Label="New" 
+            LabelColorValue="SidebarItem.LabelColor.Success">
+            Products
+        </SidebarItem>
+        
+        <SidebarItem 
+            Href="/sign-in"
+            Icon="new ArrowRightToBracketIcon()">
+            Sign In
+        </SidebarItem>
+        
+        <SidebarItem 
+            Href="/sign-up" 
+            Icon="new CirclePlusIcon()"
+            Label="2" 
+            LabelColorValue="SidebarItem.LabelColor.Warning">
+            Sign Up
+        </SidebarItem>
+    </Sidebar>
+</div>

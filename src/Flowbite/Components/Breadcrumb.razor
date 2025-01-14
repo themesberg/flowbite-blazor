@@ -1,0 +1,48 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+@*
+    The Breadcrumb component creates a navigation hierarchy that helps users understand their current location within a website.
+    
+    Usage:
+    <Breadcrumb>
+        <BreadcrumbItem IsFirst="true" Icon="@_homeIcon">Home</BreadcrumbItem>
+        <BreadcrumbItem Href="#">Projects</BreadcrumbItem>
+        <BreadcrumbItem>Current Page</BreadcrumbItem>
+    </Breadcrumb>
+*@
+
+<nav aria-label="Breadcrumb" class="@GetClasses()">
+    <ol class="@ListClasses">
+        @ChildContent
+    </ol>
+</nav>
+
+@code {
+    /// <summary>
+    /// The content of the breadcrumb navigation. Should be a collection of BreadcrumbItem components.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// When true, adds a solid background style to the breadcrumb component.
+    /// The background color is gray-50 in light mode and gray-800 in dark mode.
+    /// </summary>
+    [Parameter]
+    public bool HasBackground { get; set; }
+
+    private string ListClasses => "inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse";
+
+    private string GetClasses()
+    {
+        var defaultClasses = "flex";
+        
+        if (HasBackground)
+        {
+            defaultClasses += " bg-gray-50 dark:bg-gray-800 py-3 px-5 rounded-lg";
+        }
+
+        return CombineClasses(defaultClasses);
+    }
+}

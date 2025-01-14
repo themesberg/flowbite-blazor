@@ -1,0 +1,45 @@
+@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
+
+<div class="antialiased bg-white dark:bg-gray-900 h-screen flex flex-col">
+
+    <Header ResponsiveMenuEnabled=@true OnResponsiveMenuToggle="HandleMenuToggle" IsOpen="_isSidebarOpen" />
+
+    <div class="flex flex-col justify-between flex-auto overflow-y-auto">
+  
+        <section class="flex-auto flex overflow-y-auto">
+  
+            <aside id="fb-sidebar" 
+                   class="z-40 h-full min-w-max fixed lg:relative overflow-auto transition-transform left-0 @(_isSidebarOpen ? "" : "-translate-x-full") bg-white border-r border-gray-300 lg:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+                   aria-label="sidenav" >
+
+                <SectionOutlet SectionName="sidebar-content-outlet"/>
+
+            </aside>
+  
+            <main class="p-4  overflow-auto w-full">
+                @Body
+            </main>
+  
+        </section>
+  
+        <Footer/>
+  
+    </div>
+
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+
+@code {
+    private bool _isSidebarOpen = false;
+
+    private void HandleMenuToggle()
+    {
+        _isSidebarOpen = !_isSidebarOpen;
+    }
+}

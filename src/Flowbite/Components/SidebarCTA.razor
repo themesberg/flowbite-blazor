@@ -1,0 +1,10 @@
+@using Flowbite.Base
+@using Microsoft.AspNetCore.Components.Web
+@inherits FlowbiteComponentBase
+
+<div @attributes="AdditionalAttributes"
+     class="@GetClasses()"
+     hidden="@IsCollapsed"
+     data-testid="sidebar-cta">
+    @ChildContent
+</div>

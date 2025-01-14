@@ -1,0 +1,57 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+@using Microsoft.JSInterop
+
+
+<button @onclick="CopyToClipboard" class="p-2 flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+    <FileCopyIcon class="w-5 h-5" />
+    @if (ShowTitle)
+    {
+        <span>@_copyButtonTitle</span>
+    }
+</button>
+
+
+@code 
+{
+    [Parameter]
+    public bool ShowTitle { get; set; } = false;
+
+    [Parameter]
+    public string? TextToCopy { get; set; }
+
+    [Inject]
+    private IJSRuntime? JSRuntime { get; set; }
+
+    private async Task CopyToClipboard()
+    {
+        if (JSRuntime is null)
+        {
+            Console.WriteLine("[Flowbite.Components.CopyToClipboardButton] JSRuntime is null");
+            return;
+        }
+
+        if (TextToCopy is null)
+        {
+            Console.WriteLine("[Flowbite.Components.CopyToClipboardButton] TextToCopy is null");
+            return;
+        }
+
+        try
+        {
+            var success = await JSRuntime.InvokeAsync<bool>("Flowbite.copyToClipboard", TextToCopy);
+        }
+        catch (Exception ex)
+        {
+            // Log the exception for debugging
+            Console.WriteLine($"Error copying to clipboard: {ex.Message}");
+        }
+    }
+
+    private async Task HandleButtonClick()
+    {
+        await CopyToClipboard();
+    }
+
+    private string _copyButtonTitle = "Copy";
+}
+

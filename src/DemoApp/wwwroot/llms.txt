@@ -1,0 +1,11 @@
+# Flowbite Blazor Documentation for LLMs
+
+> Flowbite Blazor is a free and open-source UI component library based on the core Flowbite components and built with Blazor components and interactivity handling. This library features hundreds of interactive elements such as navbars, dropdowns, modals, and sidebars all handled by Blazor and based on the utility classes from Tailwind CSS.
+
+## Docs
+
+- [Complete documentation](https://flowbite-blazor.pages.dev/llms-ctx.xml): The complete Flowbite Blazor documentation including all examples and additional content
+
+## Examples
+
+- TBD

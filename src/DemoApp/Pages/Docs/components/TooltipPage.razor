@@ -1,0 +1,185 @@
+@page "/docs/components/tooltip"
+@using Flowbite.Components
+
+<PageTitle>Tooltips - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Tooltip Examples</h2>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+        The Tooltip component provides contextual information when users hover over or interact with an element, with customizable placement, style, and animation options.
+    </p>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Basic Usage"
+                          Description="Create a basic tooltip by wrapping your trigger element with the Tooltip component and providing content."
+                          RazorCode=@(@"
+<Tooltip Content=""This is a basic tooltip"">
+    <Button>Hover me</Button>
+</Tooltip>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Tooltip Content="This is a basic tooltip">
+                    <Button>Hover me</Button>
+                </Tooltip>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Placements"
+                          Description="Control the position of your tooltip relative to the trigger element."
+                          RazorCode=@(@"
+<div class=""flex items-center gap-4"">
+    <Tooltip Content=""Top tooltip"" Placement=""TooltipPlacement.Top"">
+        <Button>Top</Button>
+    </Tooltip>
+
+    <Tooltip Content=""Bottom tooltip"" Placement=""TooltipPlacement.Bottom"">
+        <Button>Bottom</Button>
+    </Tooltip>
+
+    <Tooltip Content=""Left tooltip"" Placement=""TooltipPlacement.Left"">
+        <Button>Left</Button>
+    </Tooltip>
+
+    <Tooltip Content=""Right tooltip"" Placement=""TooltipPlacement.Right"">
+        <Button>Right</Button>
+    </Tooltip>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex items-center gap-4">
+                    <Tooltip Content="Top tooltip" Placement="TooltipPlacement.Top">
+                        <Button>Top</Button>
+                    </Tooltip>
+
+                    <Tooltip Content="Bottom tooltip" Placement="TooltipPlacement.Bottom">
+                        <Button>Bottom</Button>
+                    </Tooltip>
+
+                    <Tooltip Content="Left tooltip" Placement="TooltipPlacement.Left">
+                        <Button>Left</Button>
+                    </Tooltip>
+
+                    <Tooltip Content="Right tooltip" Placement="TooltipPlacement.Right">
+                        <Button>Right</Button>
+                    </Tooltip>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Styles"
+                          Description="Choose between different tooltip styles to match your design theme."
+                          RazorCode=@(@"
+<div class=""flex items-center gap-4"">
+    <Tooltip Content=""Dark style"" Style=""dark"">
+        <Button>Dark</Button>
+    </Tooltip>
+
+    <Tooltip Content=""Light style"" Style=""light"">
+        <Button Color=""ButtonColor.Light"">Light</Button>
+    </Tooltip>
+
+    <Tooltip Content=""Auto style (adapts to dark mode)"" Style=""auto"">
+        <Button>Auto</Button>
+    </Tooltip>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex items-center gap-4">
+                    <Tooltip Content="Dark style" Style="dark">
+                        <Button>Dark</Button>
+                    </Tooltip>
+
+                    <Tooltip Content="Light style" Style="light">
+                        <Button Color="ButtonColor.Light">Light</Button>
+                    </Tooltip>
+
+                    <Tooltip Content="Auto style (adapts to dark mode)" Style="auto">
+                        <Button>Auto</Button>
+                    </Tooltip>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Triggers"
+                          Description="Customize how the tooltip is activated by choosing between hover and click triggers."
+                          RazorCode=@(@"
+<div class=""flex items-center gap-4"">
+    <Tooltip Content=""Hover to show"" Trigger=""hover"">
+        <Button Color=""ButtonColor.Green"">Hover Trigger</Button>
+    </Tooltip>
+
+    <Tooltip Content=""Click to show"" Trigger=""click"">
+        <Button Color=""ButtonColor.Green"">Click Trigger</Button>
+    </Tooltip>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex items-center gap-4">
+                    <Tooltip Content="Hover to show" Trigger="hover">
+                        <Button Color="ButtonColor.Green">Hover Trigger</Button>
+                    </Tooltip>
+
+                    <Tooltip Content="Click to show" Trigger="click">
+                        <Button Color="ButtonColor.Green">Click Trigger</Button>
+                    </Tooltip>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Without Arrow"
+                          Description="Create a cleaner look by removing the arrow pointer from the tooltip."
+                          RazorCode=@(@"
+<Tooltip Content=""No arrow tooltip"" Arrow=""false"">
+    <button class=""px-4 py-2 bg-purple-600 text-white rounded"">No Arrow</button>
+</Tooltip>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Tooltip Content="No arrow tooltip" Arrow="false">
+                    <button class="px-4 py-2 bg-purple-600 text-white rounded">No Arrow</button>
+                </Tooltip>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Custom Animation"
+                          Description="Control the speed of the tooltip's appearance and disappearance with different animation durations."
+                          RazorCode=@(@"
+<div class=""flex flex-wrap gap-4"">
+    <Tooltip Content=""Tooltip content"" Animation=""@null"">
+        <Button>Not animated tooltip</Button>
+    </Tooltip>
+    <Tooltip Content=""Tooltip content"" Animation=""duration-150"">
+        <Button>Fast animation</Button>
+    </Tooltip>
+    <Tooltip Content=""Tooltip content"" Animation=""duration-300"">
+        <Button>Normal speed animation</Button>
+    </Tooltip>
+    <Tooltip Content=""Tooltip content"" Animation=""duration-500"">
+        <Button>Slow animation</Button>
+    </Tooltip>
+    <Tooltip Content=""Tooltip content"" Animation=""duration-1000"">
+        <Button>Really slow animation</Button>
+    </Tooltip>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-4">
+                    <Tooltip Content="Tooltip content" Animation="@null">
+                        <Button>Not animated tooltip</Button>
+                    </Tooltip>
+                    <Tooltip Content="Tooltip content" Animation="duration-150">
+                        <Button>Fast animation</Button>
+                    </Tooltip>
+                    <Tooltip Content="Tooltip content" Animation="duration-300">
+                        <Button>Normal speed animation</Button>
+                    </Tooltip>
+                    <Tooltip Content="Tooltip content" Animation="duration-500">
+                        <Button>Slow animation</Button>
+                    </Tooltip>
+                    <Tooltip Content="Tooltip content" Animation="duration-1000">
+                        <Button>Really slow animation</Button>
+                    </Tooltip>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>

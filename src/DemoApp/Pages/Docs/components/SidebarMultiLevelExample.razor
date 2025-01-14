@@ -1,0 +1,66 @@
+@using Flowbite.Components
+
+
+<div class="relative h-[600px] p-3 border border-gray-200 rounded-lg dark:border-gray-700 dark:bg-gray-900 mt-6">
+    <Sidebar>
+        <SidebarItem 
+            Href="/dashboard"
+            Icon="@(new HomeIcon())">
+            Dashboard
+        </SidebarItem>
+        
+        <SidebarCollapse 
+            Label="Settings"
+            Icon="@(new CogIcon())">
+            <SidebarItem 
+                Href="/settings/profile"
+                Icon="@(new BriefcaseIcon())">
+                Profile
+            </SidebarItem>
+            <SidebarCollapse 
+                Label="System"
+                Icon="@(new ServerIcon())">
+                <SidebarItem 
+                    Href="/settings/system/general"
+                    Icon="@(new AdjustmentsHorizontalIcon())">
+                    General
+                </SidebarItem>
+                <SidebarCollapse 
+                    Label="Security"
+                    Icon="@(new ShieldCheckIcon())">
+                    <SidebarItem 
+                        Href="/settings/system/security/permissions"
+                        Icon="@(new BadgeCheckIcon())">
+                        Permissions
+                    </SidebarItem>
+                    <SidebarItem 
+                        Href="/settings/system/security/authentication"
+                        Icon="@(new BellIcon())">
+                        Authentication
+                    </SidebarItem>
+                    <SidebarItem 
+                        Href="/settings/system/security/encryption"
+                        Icon="@(new ShieldCheckIcon())">
+                        Encryption
+                    </SidebarItem>
+                </SidebarCollapse>
+                <SidebarItem 
+                    Href="/settings/system/backup"
+                    Icon="@(new CloudArrowUpIcon())">
+                    Backup
+                </SidebarItem>
+            </SidebarCollapse>
+            <SidebarItem 
+                Href="/settings/notifications"
+                Icon="@(new BellIcon())">
+                Notifications
+            </SidebarItem>
+        </SidebarCollapse>
+        
+        <SidebarItem 
+            Href="/help"
+            Icon="@(new BellIcon())">
+            Help
+        </SidebarItem>
+    </Sidebar>
+</div>

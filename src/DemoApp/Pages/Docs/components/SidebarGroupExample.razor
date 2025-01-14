@@ -1,0 +1,37 @@
+@using Flowbite.Components
+
+
+<div class="relative w-64 h-[32rem] overflow-y-auto bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+    <Sidebar>
+        <SidebarItemGroup Label="Main Navigation">
+            <SidebarItem Href="#" Icon="@(new HomeIcon())">
+                Dashboard
+            </SidebarItem>
+            <SidebarItem Href="#" Icon="@(new ChartPieIcon())">
+                Analytics
+            </SidebarItem>
+        </SidebarItemGroup>
+
+        <SidebarItemGroup Label="Content Management">
+            <SidebarItem Href="#" Icon="@(new FileIcon())">
+                Posts
+            </SidebarItem>
+            <SidebarItem Href="#" Icon="@(new ImageIcon())">
+                Media Library
+            </SidebarItem>
+            <SidebarCollapse Label="Categories" Icon="@(new FolderIcon())">
+                <SidebarItem Href="#">Blog Posts</SidebarItem>
+                <SidebarItem Href="#">News Articles</SidebarItem>
+            </SidebarCollapse>
+        </SidebarItemGroup>
+
+        <SidebarItemGroup Label="Account" ShowSeparator="false">
+            <SidebarItem Href="#" Icon="@(new BellIcon())">
+                Alerts
+            </SidebarItem>
+            <SidebarItem Href="#" Icon="@(new CogIcon())">
+                Settings
+            </SidebarItem>
+        </SidebarItemGroup>
+    </Sidebar>
+</div>

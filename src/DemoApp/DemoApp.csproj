@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
+    <PostCSSConfig>postcss.config.js</PostCSSConfig>
+    <TailwindConfig>tailwind.config.js</TailwindConfig>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BlazorWasmPreRendering.Build" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- Documentation Build Target -->
+  <Target Name="BuildLlmsContext" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
+    <Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(ProjectDir)Build-LlmsContext.ps1&quot;" />
+  </Target>
+
+  <!-- Tailwind CSS Build Targets -->
+  <Target Name="Tailwind" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
+    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --minify --postcss" />
+  </Target>
+
+  <Target Name="TailwindWatch" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
+    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --watch --postcss" />
+  </Target>
+
+  <Target Name="DisableTailwindOnPublish" BeforeTargets="Publish">
+    <PropertyGroup>
+      <DisableTailwind>true</DisableTailwind>
+    </PropertyGroup>
+  </Target>
+
+  <ItemGroup>
+    <UpToDateCheckBuilt Include="wwwroot/css/app.css" Set="Css" />
+    <UpToDateCheckBuilt Include="wwwroot/css/app.min.css" Set="Css" />
+    <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
+  </ItemGroup>
+
+  <!-- Use package references for Release builds -->
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageReference Include="Flowbite" Version="0.0.1-alpha.*" />
+    <PackageReference Include="Flowbite.ExtendedIcons" Version="0.0.1-alpha.*" />
+  </ItemGroup>
+
+  <!-- Use project references for Debug/Development -->
+  <ItemGroup Condition="'$(Configuration)' != 'Release'">
+    <ProjectReference Include="..\Flowbite.ExtendedIcons\Flowbite.ExtendedIcons.csproj" />
+    <ProjectReference Include="..\Flowbite\Flowbite.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="wwwroot\css\app.css" />
+    <None Remove="wwwroot\css\app.min.css" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,73 @@
+<div class="rounded-lg bg-white dark:bg-gray-800 p-4">
+    <Tabs>
+        <TabListContent>
+            <Tab Index="0" Icon="@(new UserIcon())">Profile</Tab>
+            <Tab Index="1" Icon="@(new ChartIcon())">Dashboard</Tab>
+            <Tab Index="2" Icon="@(new GearIcon())">Settings</Tab>
+        </TabListContent>
+        <TabPanelsContent>
+            <TabPanel Index="0">
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium">Personal Information</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-white dark:bg-gray-700 rounded-lg">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
+                            <p class="mt-1 text-lg">San Francisco, CA</p>
+                        </div>
+                        <div class="p-4 bg-white dark:bg-gray-700 rounded-lg">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Timezone</label>
+                            <p class="mt-1 text-lg">PST (UTC-8)</p>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bio</label>
+                        <p class="mt-1">Full-stack developer with a passion for building user-friendly applications.</p>
+                    </div>
+                </div>
+            </TabPanel>
+            <TabPanel Index="1">
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium">Activity Summary</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="p-4 bg-rose-100 dark:bg-rose-800 rounded-lg text-center">
+                            <h4 class="font-medium text-rose-800 dark:text-rose-200">Tasks</h4>
+                            <p class="text-3xl font-bold text-rose-600 dark:text-rose-300">24</p>
+                            <p class="text-sm text-rose-700 dark:text-rose-200">Active</p>
+                        </div>
+                        <div class="p-4 bg-amber-100 dark:bg-amber-800 rounded-lg text-center">
+                            <h4 class="font-medium text-amber-800 dark:text-amber-200">Messages</h4>
+                            <p class="text-3xl font-bold text-amber-600 dark:text-amber-300">12</p>
+                            <p class="text-sm text-amber-700 dark:text-amber-200">Unread</p>
+                        </div>
+                        <div class="p-4 bg-emerald-100 dark:bg-emerald-800 rounded-lg text-center">
+                            <h4 class="font-medium text-emerald-800 dark:text-emerald-200">Updates</h4>
+                            <p class="text-3xl font-bold text-emerald-600 dark:text-emerald-300">3</p>
+                            <p class="text-sm text-emerald-700 dark:text-emerald-200">Pending</p>
+                        </div>
+                    </div>
+                </div>
+            </TabPanel>
+            <TabPanel Index="2">
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium">Application Settings</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <div>
+                                <span class="font-medium">Push Notifications</span>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">Get real-time updates</p>
+                            </div>
+                            <span class="px-3 py-1 text-xs bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 rounded-full">Enabled</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <div>
+                                <span class="font-medium">Desktop App</span>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">Launch on startup</p>
+                            </div>
+                            <span class="px-3 py-1 text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 rounded-full">Active</span>
+                        </div>
+                    </div>
+                </div>
+            </TabPanel>
+        </TabPanelsContent>
+    </Tabs>
+</div>

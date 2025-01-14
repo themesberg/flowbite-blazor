@@ -1,0 +1,231 @@
+@page "/docs/components/navbar"
+@using Flowbite.Components
+
+<PageTitle>Navbar - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Navbar Examples</h2>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+        The Navbar component provides a responsive navigation bar with flexible configurations, including brand logos, links, toggles, and interactive elements.
+    </p>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Default Navbar"
+                          Description="Use this example of a navigation bar to enable users to navigate across your website with basic navigation links."
+                          RazorCode=@(@"
+<Navbar>
+    <NavbarBrand Href=""/"">
+        <img src=""/images/logo.svg"" class=""mr-3 h-6 sm:h-9"" alt=""Flowbite Logo"" />
+        <span class=""self-center text-xl font-semibold whitespace-nowrap dark:text-white"">Flowbite</span>
+    </NavbarBrand>
+    <NavbarToggle />
+    <NavbarCollapse>
+        <NavbarLink Href=""/"" Active>Home</NavbarLink>
+        <NavbarLink Href=""/about"">About</NavbarLink>
+        <NavbarLink Href=""/services"">Services</NavbarLink>
+        <NavbarLink Href=""/pricing"">Pricing</NavbarLink>
+        <NavbarLink Href=""/contact"">Contact</NavbarLink>
+    </NavbarCollapse>
+</Navbar>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Navbar>
+                    <NavbarBrand Href="/">
+                        <img src="/images/logo.svg" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
+                        <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                    </NavbarBrand>
+                    <NavbarToggle />
+                    <NavbarCollapse>
+                        <NavbarLink Href="/" Active>Home</NavbarLink>
+                        <NavbarLink Href="/about">About</NavbarLink>
+                        <NavbarLink Href="/services">Services</NavbarLink>
+                        <NavbarLink Href="/pricing">Pricing</NavbarLink>
+                        <NavbarLink Href="/contact">Contact</NavbarLink>
+                    </NavbarCollapse>
+                </Navbar>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Navbar with CTA Button"
+                          Description="Include a call-to-action button alongside navigation items to encourage user interaction."
+                          RazorCode=@(@"
+<Navbar>
+    <NavbarBrand Href=""/"">
+        <img src=""/images/logo.svg"" class=""mr-3 h-6 sm:h-9"" alt=""Flowbite Logo"" />
+        <span class=""self-center text-xl font-semibold whitespace-nowrap dark:text-white"">Flowbite</span>
+    </NavbarBrand>
+    <div class=""flex md:order-2"">
+        <Button Color=""ButtonColor.Default"">Get started</Button>
+        <NavbarToggle />
+    </div>
+    <NavbarCollapse>
+        <NavbarLink Href=""/"" Active>Home</NavbarLink>
+        <NavbarLink Href=""/about"">About</NavbarLink>
+        <NavbarLink Href=""/services"">Services</NavbarLink>
+        <NavbarLink Href=""/contact"">Contact</NavbarLink>
+    </NavbarCollapse>
+</Navbar>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Navbar>
+                    <NavbarBrand Href="/">
+                        <img src="/images/logo.svg" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
+                        <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                    </NavbarBrand>
+                    <div class="flex md:order-2">
+                        <Button Color="ButtonColor.Default">Get started</Button>
+                        <NavbarToggle />
+                    </div>
+                    <NavbarCollapse>
+                        <NavbarLink Href="/" Active>Home</NavbarLink>
+                        <NavbarLink Href="/about">About</NavbarLink>
+                        <NavbarLink Href="/services">Services</NavbarLink>
+                        <NavbarLink Href="/contact">Contact</NavbarLink>
+                    </NavbarCollapse>
+                </Navbar>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Navbar with Disabled Link"
+                          Description="Demonstrate how to display disabled navigation items that cannot be interacted with."
+                          RazorCode=@(@"
+<Navbar>
+    <NavbarBrand Href=""/"">
+        <img src=""/images/logo.svg"" class=""mr-3 h-6 sm:h-9"" alt=""Flowbite Logo"" />
+        <span class=""self-center text-xl font-semibold whitespace-nowrap dark:text-white"">Flowbite</span>
+    </NavbarBrand>
+    <NavbarToggle />
+    <NavbarCollapse>
+        <NavbarLink Href=""/"" Active>Home</NavbarLink>
+        <NavbarLink Href=""/about"">About</NavbarLink>
+        <NavbarLink Href=""/services"" Disabled>Services</NavbarLink>
+        <NavbarLink Href=""/pricing"">Pricing</NavbarLink>
+        <NavbarLink Href=""/contact"">Contact</NavbarLink>
+    </NavbarCollapse>
+</Navbar>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Navbar>
+                    <NavbarBrand Href="/">
+                        <img src="/images/logo.svg" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
+                        <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                    </NavbarBrand>
+                    <NavbarToggle />
+                    <NavbarCollapse>
+                        <NavbarLink Href="/" Active>Home</NavbarLink>
+                        <NavbarLink Href="/about">About</NavbarLink>
+                        <NavbarLink Href="/services" Disabled>Services</NavbarLink>
+                        <NavbarLink Href="/pricing">Pricing</NavbarLink>
+                        <NavbarLink Href="/contact">Contact</NavbarLink>
+                    </NavbarCollapse>
+                </Navbar>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Navbar with Dropdown"
+                          Description="Add dropdown menus to navigation items and include a user profile dropdown for additional interactions."
+                          RazorCode=@(@"
+<Navbar>
+    <NavbarBrand Href=""/"">
+        <img src=""/images/logo.svg"" class=""mr-3 h-6 sm:h-9"" alt=""Flowbite Logo"" />
+        <span class=""self-center text-xl font-semibold whitespace-nowrap dark:text-white"">Flowbite</span>
+    </NavbarBrand>
+    <div class=""flex md:order-2"">
+        <Dropdown ArrowIcon=""false"" Inline=""true"">
+            <Label>
+                <Avatar Alt=""User settings"" ImageUrl=""https://flowbite.com/docs/images/people/profile-picture-5.jpg"" Rounded />
+            </Label>
+            <ChildContent>
+                <DropdownHeader>
+                    <span class=""block text-sm"">Bonnie Green</span>
+                    <span class=""block truncate text-sm font-medium"">name@flowbite.com</span>
+                </DropdownHeader>
+                <DropdownItem>Dashboard</DropdownItem>
+                <DropdownItem>Settings</DropdownItem>
+                <DropdownItem>Earnings</DropdownItem>
+                <DropdownDivider />
+                <DropdownItem>Sign out</DropdownItem>
+            </ChildContent>
+        </Dropdown>
+        <NavbarToggle />
+    </div>
+    <NavbarCollapse>
+        <NavbarLink Href=""/"" Active>Home</NavbarLink>
+        <NavbarLink HasDropdown>
+            <ChildContent>Features</ChildContent>
+            <DropdownContent>
+                <DropdownItem>Analytics</DropdownItem>
+                <DropdownItem>Automation</DropdownItem>
+                <DropdownItem>Reports</DropdownItem>
+            </DropdownContent>
+        </NavbarLink>
+        <NavbarLink Href=""/pricing"">Pricing</NavbarLink>
+        <NavbarLink HasDropdown>
+            <ChildContent>Resources</ChildContent>
+            <DropdownContent>
+                <DropdownHeader>Documentation</DropdownHeader>
+                <DropdownItem>Getting Started</DropdownItem>
+                <DropdownItem>Components</DropdownItem>
+                <DropdownDivider />
+                <DropdownHeader>Help</DropdownHeader>
+                <DropdownItem>Support</DropdownItem>
+                <DropdownItem>Contact</DropdownItem>
+            </DropdownContent>
+        </NavbarLink>
+    </NavbarCollapse>
+</Navbar>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Navbar>
+                    <NavbarBrand Href="/">
+                        <img src="/images/logo.svg" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
+                        <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                    </NavbarBrand>
+                    <div class="flex md:order-2">
+                        <Dropdown ArrowIcon="false" Inline="true">
+                            <Label>
+                                <Avatar Alt="User settings" ImageUrl="https://flowbite.com/docs/images/people/profile-picture-5.jpg" Rounded />
+                            </Label>
+                            <ChildContent>
+                                <DropdownHeader>
+                                    <span class="block text-sm">Bonnie Green</span>
+                                    <span class="block truncate text-sm font-medium">name@flowbite.com</span>
+                                </DropdownHeader>
+                                <DropdownItem>Dashboard</DropdownItem>
+                                <DropdownItem>Settings</DropdownItem>
+                                <DropdownItem>Earnings</DropdownItem>
+                                <DropdownDivider />
+                                <DropdownItem>Sign out</DropdownItem>
+                            </ChildContent>
+                        </Dropdown>
+                        <NavbarToggle />
+                    </div>
+                    <NavbarCollapse>
+                        <NavbarLink Href="/" Active>Home</NavbarLink>
+                        <NavbarLink HasDropdown>
+                            <ChildContent>Features</ChildContent>
+                            <DropdownContent>
+                                <DropdownItem>Analytics</DropdownItem>
+                                <DropdownItem>Automation</DropdownItem>
+                                <DropdownItem>Reports</DropdownItem>
+                            </DropdownContent>
+                        </NavbarLink>
+                        <NavbarLink Href="/pricing">Pricing</NavbarLink>
+                        <NavbarLink HasDropdown>
+                            <ChildContent>Resources</ChildContent>
+                            <DropdownContent>
+                                <DropdownHeader>Documentation</DropdownHeader>
+                                <DropdownItem>Getting Started</DropdownItem>
+                                <DropdownItem>Components</DropdownItem>
+                                <DropdownDivider />
+                                <DropdownHeader>Help</DropdownHeader>
+                                <DropdownItem>Support</DropdownItem>
+                                <DropdownItem>Contact</DropdownItem>
+                            </DropdownContent>
+                        </NavbarLink>
+                    </NavbarCollapse>
+                </Navbar>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>

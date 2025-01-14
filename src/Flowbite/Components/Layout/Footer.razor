@@ -1,0 +1,16 @@
+@inherits UiComponentBase
+
+<footer class="w-full mx-auto bg-white border-t border-gray-200 dark:border-gray-600 dark:bg-gray-800">
+    <div class="px-4 py-2.5 flex flex-wrap justify-between items-center" >
+        <div class="flex justify-start items-center">
+            <SectionOutlet SectionName="footer-content-left-outlet"/>
+        </div>
+        <div class="flex justify-center items-center">
+            <SectionOutlet SectionName="footer-content-center-outlet"/>
+        </div>
+        <div class="flex items-center space-x-2 lg:order-2">
+            <SectionOutlet SectionName="footer-content-right-outlet"/>
+        </div>
+    </div>
+</footer>
+

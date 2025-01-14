@@ -1,0 +1,35 @@
+@using Flowbite.Services
+@inherits Flowbite.Layout.MainLayout
+
+<SectionContent SectionName="header-content-left-outlet">
+    <HeaderLeft/>
+</SectionContent>
+
+<SectionContent SectionName="header-content-center-outlet">    
+</SectionContent>
+
+<SectionContent SectionName="header-content-right-outlet">
+    <HeaderRight/>
+</SectionContent>
+
+<SectionContent SectionName="sidebar-content-outlet">
+    <div id="da-sidebar-outlet" class="px-2">
+        <DemoAppSidebar/>
+    </div>
+</SectionContent>
+
+<SectionContent SectionName="footer-content-left-outlet">
+</SectionContent>
+
+<SectionContent SectionName="footer-content-center-outlet">    
+</SectionContent>
+
+<SectionContent SectionName="footer-content-right-outlet">
+    <FlowbiteVersion />
+</SectionContent>
+
+
+@{
+  // Display the base layout that we are inheriting from.
+  base.BuildRenderTree(__builder);
+}

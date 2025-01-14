@@ -1,0 +1,75 @@
+<div class="rounded-lg bg-white dark:bg-gray-800 p-4">
+    <Tabs>
+        <TabListContent>
+            <Tab Index="0">Profile</Tab>
+            <Tab Index="1">Dashboard</Tab>
+            <Tab Index="2">Settings</Tab>
+            <Tab Index="3" Disabled>Contacts</Tab>
+        </TabListContent>
+        <TabPanelsContent>
+            <TabPanel Index="0">
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium">Profile Information</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-white dark:bg-gray-700 rounded-lg">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                            <p class="mt-1 text-lg">John Doe</p>
+                        </div>
+                        <div class="p-4 bg-white dark:bg-gray-700 rounded-lg">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                            <p class="mt-1 text-lg">john.doe@example.com</p>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
+                        <p class="text-blue-600 dark:text-blue-200">Member since January 2024</p>
+                    </div>
+                </div>
+            </TabPanel>
+            <TabPanel Index="1">
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium">Dashboard Overview</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="p-4 bg-blue-100 dark:bg-blue-800 rounded-lg text-center">
+                            <h4 class="font-medium text-blue-800 dark:text-blue-200">Total Projects</h4>
+                            <p class="text-3xl font-bold text-blue-600 dark:text-blue-300">12</p>
+                        </div>
+                        <div class="p-4 bg-green-100 dark:bg-green-800 rounded-lg text-center">
+                            <h4 class="font-medium text-green-800 dark:text-green-200">Completed</h4>
+                            <p class="text-3xl font-bold text-green-600 dark:text-green-300">8</p>
+                        </div>
+                        <div class="p-4 bg-yellow-100 dark:bg-yellow-800 rounded-lg text-center">
+                            <h4 class="font-medium text-yellow-800 dark:text-yellow-200">In Progress</h4>
+                            <p class="text-3xl font-bold text-yellow-600 dark:text-yellow-300">4</p>
+                        </div>
+                    </div>
+                </div>
+            </TabPanel>
+            <TabPanel Index="2">
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium">Settings</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <span class="font-medium">Email Notifications</span>
+                            <span class="px-3 py-1 text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 rounded-full">Enabled</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <span class="font-medium">Two-Factor Authentication</span>
+                            <span class="px-3 py-1 text-xs bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300 rounded-full">Disabled</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <span class="font-medium">Dark Mode</span>
+                            <span class="px-3 py-1 text-xs bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 rounded-full">Active</span>
+                        </div>
+                    </div>
+                </div>
+            </TabPanel>
+            <TabPanel Index="3">
+                <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <div class="flex items-center justify-center h-32">
+                        <p class="text-gray-500 dark:text-gray-400">This tab is disabled</p>
+                    </div>
+                </div>
+            </TabPanel>
+        </TabPanelsContent>
+    </Tabs>
+</div>

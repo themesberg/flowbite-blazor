@@ -1,0 +1,11 @@
+﻿<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert" class="p-4 border rounded-lg bg-red-300 text-red-900 dark:bg-red-700 dark:text-red-100">Sorry, there's nothing at this address. This page is likely yet to be implemented</p>
+        </LayoutView>
+    </NotFound>
+</Router>

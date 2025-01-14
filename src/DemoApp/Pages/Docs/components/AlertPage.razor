@@ -1,0 +1,224 @@
+@page "/docs/components/alert"
+@using Flowbite.Components
+
+@using Microsoft.AspNetCore.Components.Web
+
+@code {
+    private InfoIcon _infoIcon = new();
+    private EyeIcon _eyeIcon = new();
+}
+
+<PageTitle>Alert - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Alert Examples</h2>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+        The alert component can be used to show contextual information to the user such as a success or error message after form validation inside an alert box where you can choose from multiple colors, sizes, and styles.
+    </p>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Default alert"
+                          Description="The default alert component is a simple alert box with a text inside it and you can use the Color property to change the color of the alert box and the TextEmphasis property to add a title to the alert box."
+                          RazorCode=@(@"
+<div class=""flex flex-col gap-4"">
+    <Alert Color=""AlertColor.Info""
+           TextEmphasis=""Info alert!""
+           Text=""More info about this info alert goes here."" />
+
+    <Alert Color=""AlertColor.Success"" 
+           TextEmphasis=""Success alert!""
+           Text=""More info about this success alert goes here."" />
+
+    <Alert Color=""AlertColor.Warning""
+           TextEmphasis=""Warning alert!""
+           Text=""More info about this warning alert goes here."" />
+
+    <Alert Color=""AlertColor.Failure""
+           TextEmphasis=""Failure alert!""
+           Text=""More info about this failure alert goes here."" />
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <Alert Color="AlertColor.Info"
+                        TextEmphasis="Info alert!"
+                        Text="More info about this info alert goes here." />
+                    
+                    <Alert Color="AlertColor.Success" 
+                        TextEmphasis="Success alert!"
+                        Text="More info about this success alert goes here." />
+                    
+                    <Alert Color="AlertColor.Warning"
+                        TextEmphasis="Warning alert!"
+                        Text="More info about this warning alert goes here." />
+                    
+                    <Alert Color="AlertColor.Failure"
+                        TextEmphasis="Failure alert!"
+                        Text="More info about this failure alert goes here." />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Alert with icon"
+                          Description="Use the Icon property to add an icon to the alert box. You can use any icon component from our icon library."
+                          RazorCode=@(@"
+<div class=""flex flex-col gap-4"">
+    <Alert Color=""AlertColor.Info""
+           Icon=""@_infoIcon""
+           TextEmphasis=""Info alert with icon!""
+           Text=""More info about this info alert goes here."" />
+
+    <Alert Color=""AlertColor.Warning""
+           Icon=""@_eyeIcon""
+           TextEmphasis=""Warning alert with icon!""
+           Text=""More info about this warning alert goes here."" />
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <Alert Color="AlertColor.Info"
+                           Icon="@_infoIcon"
+                           TextEmphasis="Info alert with icon!"
+                           Text="More info about this info alert goes here."/>
+
+                    <Alert Color="AlertColor.Warning"
+                           Icon="@_eyeIcon"
+                           TextEmphasis="Warning alert with icon!"
+                           Text="More info about this warning alert goes here."/>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Rounded alert"
+                          Description="To make the alert box rounded, you can use the Rounded property on the Alert component."
+                          RazorCode=@(@"
+<div class=""flex flex-col gap-4"">
+    <Alert Color=""AlertColor.Info""
+           TextEmphasis=""Info alert!""
+           Text=""More info about this info alert goes here.""
+           Rounded=""true"" />
+
+    <Alert Color=""AlertColor.Warning""
+           TextEmphasis=""Warning alert!""
+           Text=""More info about this warning alert goes here.""
+           Rounded=""true"" />
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <Alert Color="AlertColor.Info"
+                           TextEmphasis="Info alert!"
+                           Text="More info about this info alert goes here."
+                           Rounded="true"/>
+
+                    <Alert Color="AlertColor.Warning"
+                           TextEmphasis="Warning alert!"
+                           Text="More info about this warning alert goes here."
+                           Rounded="true"/>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Border accent"
+                          Description="Add a border accent to the alert box by applying the WithBorderAccent property on the Alert component."
+                          RazorCode=@(@"
+<div class=""flex flex-col gap-4"">
+    <Alert Color=""AlertColor.Warning""
+           TextEmphasis=""Warning alert!""
+           Text=""More info about this warning alert goes here.""
+           WithBorderAccent=""true"" />
+
+    <Alert Color=""AlertColor.Success""
+           TextEmphasis=""Success alert!""
+           Text=""More info about this success alert goes here.""
+           WithBorderAccent=""true"" />
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                <Alert Color="AlertColor.Warning"
+                       TextEmphasis="Warning alert!"
+                       Text="More info about this warning alert goes here."
+                       WithBorderAccent="true"/>
+
+                <Alert Color="AlertColor.Success"
+                       TextEmphasis="Success alert!"
+                       Text="More info about this success alert goes here."
+                       WithBorderAccent="true"/>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Additional content"
+                          Description="Add additional content by using the AdditionalContent property and add any type of content inside of it."
+                          RazorCode=@(@"
+<Alert Color=""AlertColor.Info"">
+    <CustomContent>
+        <div class=""flex items-center"">
+            <span class=""text-lg font-medium"">Ensure that these requirements are met:</span>
+        </div>
+    </CustomContent>
+    <AdditionalContent>
+        <div class=""mt-2 mb-4 text-sm text-blue-700 dark:text-blue-800"">
+            <ul class=""mt-1.5 list-disc list-inside"">
+                <li>At least 10 characters (and up to 100 characters)</li>
+                <li>At least one lowercase character</li>
+                <li>Inclusion of at least one special character, e.g., ! @@ # ?</li>
+            </ul>
+        </div>
+    </AdditionalContent>
+</Alert>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Alert Color="AlertColor.Info">
+                    <CustomContent>
+                        <div class="flex items-center">
+                            <span class="text-lg font-medium">Ensure that these requirements are met:</span>
+                        </div>
+                    </CustomContent>
+                    <AdditionalContent>
+                        <div class="mt-2 mb-4 text-sm text-blue-700 dark:text-blue-800">
+                            <ul class="mt-1.5 list-disc list-inside">
+                                <li>At least 10 characters (and up to 100 characters)</li>
+                                <li>At least one lowercase character</li>
+                                <li>Inclusion of at least one special character, e.g., ! @@ # ?</li>
+                            </ul>
+                        </div>
+                    </AdditionalContent>
+                </Alert>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="All options"
+                          Description="This is an example with all of the available options and properties for the Alert component."
+                          RazorCode=@(@"
+<Alert Color=""AlertColor.Info""
+       Icon=""@_infoIcon""
+       TextEmphasis=""Info alert with all features!""
+       Text=""This alert has an icon, border accent, and rounded corners.""
+       WithBorderAccent=""true""
+       Rounded=""true"">
+    <AdditionalContent>
+        <div class=""mt-2 mb-4 text-sm text-blue-700 dark:text-blue-800"">
+            This is an example of an alert with all available features enabled.
+        </div>
+    </AdditionalContent>
+</Alert>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Alert Color="AlertColor.Info"
+                       Icon="@_infoIcon"
+                       TextEmphasis="Info alert with all features!"
+                       Text="This alert has an icon, border accent, and rounded corners."
+                       WithBorderAccent="true"
+                       Rounded="true">
+                    <AdditionalContent>
+                        <div class="mt-2 mb-4 text-sm text-blue-700 dark:text-blue-800">
+                            This is an example of an alert with all available features enabled.
+                        </div>
+                    </AdditionalContent>
+                </Alert>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>

@@ -1,0 +1,196 @@
+@page "/docs/components/card"
+
+<PageTitle>Cards - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Card Examples</h2>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+        The Card component provides a flexible container for displaying content with various layouts and styles, suitable for different use cases like product listings, blog previews, and call-to-action sections.
+    </p>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Card with CTA Button"
+                          Description="Add a call-to-action button inside the card to encourage user interaction. This example shows how to combine the Card and Button components for an effective CTA layout."
+                          RazorCode=@(@"
+<Card class=""max-w-sm"">
+    <h5 class=""text-2xl font-bold tracking-tight text-gray-900 dark:text-white"">
+        Noteworthy technology acquisitions 2021
+    </h5>
+    <p class=""font-normal text-gray-700 dark:text-gray-400"">
+        Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+    </p>
+    <Button>
+        <div class=""inline-flex items-center"">
+            Read more
+            <svg class=""ml-2 h-4 w-4"" fill=""currentColor"" viewBox=""0 0 20 20"" xmlns=""http://www.w3.org/2000/svg"">
+                <path fillRule=""evenodd""
+                    d=""M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z""
+                    clipRule=""evenodd"" />
+            </svg>
+        </div>
+    </Button>
+</Card>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Card class="max-w-sm">
+                    <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        Noteworthy technology acquisitions 2021
+                    </h5>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">
+                        Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+                    </p>
+                    <Button>
+                        <div class="inline-flex items-center">
+                            Read more
+                            <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd"
+                                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                    clipRule="evenodd" />
+                            </svg>
+                        </div>
+                    </Button>
+                </Card>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Vertical Card with Image"
+                          Description="Enhance your card with an image to make it more visually appealing. This example demonstrates how to add an image along with title and description content."
+                          RazorCode=@(@"
+<Card class=""max-w-sm""
+    ImgSrc=""https://flowbite-react.com/images/blog/image-1.jpg""
+    ImgAlt=""Meaningful alt text for an image that is not purely decorative"">
+    <h5 class=""text-2xl font-bold tracking-tight text-gray-900 dark:text-white"">
+        Noteworthy technology acquisitions 2021
+    </h5>
+    <p class=""font-normal text-gray-700 dark:text-gray-400"">
+        Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+    </p>
+</Card>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Card class="max-w-sm"
+                    ImgSrc="https://flowbite-react.com/images/blog/image-1.jpg"
+                    ImgAlt="Meaningful alt text for an image that is not purely decorative">
+                    <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        Noteworthy technology acquisitions 2021
+                    </h5>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">
+                        Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+                    </p>
+                </Card>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Horizontal Card with Image"
+                          Description="Create a horizontal layout card that places the image beside the content instead of above it, perfect for news articles or blog post previews."
+                          RazorCode=@(@"
+<Card class=""max-w-sm""
+    ImgSrc=""https://flowbite-react.com/images/blog/image-1.jpg""
+    ImgAlt=""Meaningful alt text for an image that is not purely decorative""
+    Horizontal=""true"">
+    <h5 class=""text-2xl font-bold tracking-tight text-gray-900 dark:text-white"">
+        Noteworthy technology acquisitions 2021
+    </h5>
+    <p class=""font-normal text-gray-700 dark:text-gray-400"">
+        Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+    </p>
+</Card>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Card class="max-w-sm"
+                    ImgSrc="https://flowbite-react.com/images/blog/image-1.jpg"
+                    ImgAlt="Meaningful alt text for an image that is not purely decorative"
+                    Horizontal="true">
+                    <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        Noteworthy technology acquisitions 2021
+                    </h5>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">
+                        Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+                    </p>
+                </Card>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="E-commerce Card"
+                          Description="Display products in an e-commerce layout featuring product images, ratings, pricing, and an add to cart button. Perfect for online store product listings."
+                          RazorCode=@(@"
+<Card class=""max-w-sm""
+    imgAlt=""Apple Watch Series 7 in colors pink, silver, and black""
+    ImgSrc=""https://flowbite-react.com/images/products/apple-watch.png"">
+    <div class=""px-5 pb-5"">
+        <a href=""#"">
+            <h5 class=""text-xl font-semibold tracking-tight text-gray-900 dark:text-white"">
+                Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
+            </h5>
+        </a>
+        <div class=""mt-2.5 mb-5 flex items-center"">
+            <svg class=""h-5 w-5 text-yellow-300"" fill=""currentColor"" viewBox=""0 0 20 20"" xmlns=""http://www.w3.org/2000/svg"">
+                <path d=""M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"" />
+            </svg>
+            <svg class=""h-5 w-5 text-yellow-300"" fill=""currentColor"" viewBox=""0 0 20 20"" xmlns=""http://www.w3.org/2000/svg"">
+                <path d=""M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"" />
+            </svg>
+            <svg class=""h-5 w-5 text-yellow-300"" fill=""currentColor"" viewBox=""0 0 20 20"" xmlns=""http://www.w3.org/2000/svg"">
+                <path d=""M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"" />
+            </svg>
+            <svg class=""h-5 w-5 text-yellow-300"" fill=""currentColor"" viewBox=""0 0 20 20"" xmlns=""http://www.w3.org/2000/svg"">
+                <path d=""M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"" />
+            </svg>
+            <svg class=""h-5 w-5 text-yellow-300"" fill=""currentColor"" viewBox=""0 0 20 20"" xmlns=""http://www.w3.org/2000/svg"">
+                <path d=""M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"" />
+            </svg>
+            <span class=""ml-3 mr-2 rounded bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-800 dark:bg-blue-200 dark:text-blue-800"">
+                5.0
+            </span>
+        </div>
+        <div class=""flex items-center justify-between"">
+            <span class=""text-3xl font-bold text-gray-900 dark:text-white"">$599</span>
+            <Button Color=""ButtonColor.Default"">
+                Add to cart
+            </Button>
+        </div>
+    </div>
+</Card>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Card class="max-w-sm"
+                    imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
+                    ImgSrc="https://flowbite-react.com/images/products/apple-watch.png">
+                    <div class="px-5 pb-5">
+                        <a href="#">
+                            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                                Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
+                            </h5>
+                        </a>
+                        <div class="mt-2.5 mb-5 flex items-center">
+                            <svg class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <svg class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            <span class="ml-3 mr-2 rounded bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-800 dark:bg-blue-200 dark:text-blue-800">
+                                5.0
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-3xl font-bold text-gray-900 dark:text-white">$599</span>
+                            <Button Color="ButtonColor.Default">
+                                Add to cart
+                            </Button>
+                        </div>
+                    </div>
+                </Card>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>

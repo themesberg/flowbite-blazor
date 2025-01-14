@@ -1,0 +1,31 @@
+@using Flowbite.Components
+
+
+<div class="relative h-[600px] p-3 border border-gray-200 rounded-lg dark:border-gray-700 dark:bg-gray-900 mt-6">
+    <Sidebar>
+        <div class="flex flex-col h-full justify-between">
+            <div class="space-y-1">
+                <SidebarItem Href="#" Icon="@(new ChartPieIcon())">
+                    Dashboard
+                </SidebarItem>
+                <SidebarItem Href="#" Icon="@(new InboxIcon())">
+                    Inbox
+                </SidebarItem>
+                <SidebarItem Href="#" Icon="@(new BriefcaseIcon())">
+                    Projects
+                </SidebarItem>
+            </div>
+            
+            <SidebarCTA Color="SidebarCTAColor.Info">
+                <div class="mb-3 text-sm text-blue-800 dark:text-blue-400">
+                    Preview the new Flowbite dashboard navigation! You'll love it!
+                </div>
+                <div class="text-center">
+                    <Button Color="ButtonColor.Default" Size="ButtonSize.Small">
+                        Upgrade to Pro
+                    </Button>
+                </div>
+            </SidebarCTA>
+        </div>
+    </Sidebar>
+</div>

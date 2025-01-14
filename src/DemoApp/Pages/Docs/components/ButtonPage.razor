@@ -1,0 +1,234 @@
+@page "/docs/components/button"
+
+
+<PageTitle>Buttons - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Button Examples</h2>
+
+    <div class="space-y-8">
+        <ComponentExample 
+            Title="Default Buttons"
+            Description="Use this example to create a default button component with different colors. You can choose from several predefined button styles that include different colors, sizes, and variations."
+            RazorCode="@(
+@"<div class=""flex flex-wrap gap-4"">
+    <Button>Default</Button>
+    <Button Color=""ButtonColor.Gray"">Gray</Button>
+    <Button Color=""ButtonColor.Dark"">Dark</Button>
+    <Button Color=""ButtonColor.Light"">Light</Button>
+    <Button Color=""ButtonColor.Green"">Green</Button>
+    <Button Color=""ButtonColor.Red"">Red</Button>
+    <Button Color=""ButtonColor.Yellow"">Yellow</Button>
+    <Button Color=""ButtonColor.Purple"">Purple</Button>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-4">
+                    <Button>Default</Button>
+                    <Button Color="ButtonColor.Gray">Gray</Button>
+                    <Button Color="ButtonColor.Dark">Dark</Button>
+                    <Button Color="ButtonColor.Light">Light</Button>
+                    <Button Color="ButtonColor.Green">Green</Button>
+                    <Button Color="ButtonColor.Red">Red</Button>
+                    <Button Color="ButtonColor.Yellow">Yellow</Button>
+                    <Button Color="ButtonColor.Purple">Purple</Button>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Outline Buttons"
+            Description="Create outline buttons with transparent backgrounds and colored borders. These are useful for secondary actions or alternative styling options."
+            RazorCode="@(
+@"<div class=""flex flex-wrap gap-4"">
+    <Button Style=""ButtonStyle.Outline"">Default</Button>
+    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Gray"">Gray</Button>
+    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Dark"">Dark</Button>
+    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Light"">Light</Button>
+    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Green"">Green</Button>
+    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Red"">Red</Button>
+    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Yellow"">Yellow</Button>
+    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Purple"">Purple</Button>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-4">
+                    <Button Style="ButtonStyle.Outline">Default</Button>
+                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Gray">Gray</Button>
+                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Dark">Dark</Button>
+                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Light">Light</Button>
+                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Green">Green</Button>
+                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Red">Red</Button>
+                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Yellow">Yellow</Button>
+                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Purple">Purple</Button>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Buttons with Icons"
+            Description="Enhance button functionality and visual appeal by adding icons alongside text. Icons can help convey the button's purpose more clearly."
+            RazorCode="@(
+@"<div class=""flex flex-wrap gap-4"">
+    <Button Icon=""@(new InfoIcon())"" Color=""ButtonColor.Default"">Info with icon</Button>
+    <Button Icon=""@(new EyeIcon())"" Color=""ButtonColor.Yellow"">View alert</Button>
+    <Button Icon=""@(new InfoIcon())"" Size=""ButtonSize.Large"">Large with icon</Button>
+    <Button Icon=""@(new InfoIcon())"" 
+            Style=""ButtonStyle.Outline""
+            OverrideIconTextColor=""text-primary-700 group-hover:text-white"">
+            Outline with icon
+    </Button>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-4">
+                    <Button Icon="@(new InfoIcon())" Color="ButtonColor.Default">Info with icon</Button>
+                    <Button Icon="@(new EyeIcon())" Color="ButtonColor.Yellow">View alert</Button>
+                    <Button Icon="@(new InfoIcon())" Size="ButtonSize.Large">Large with icon</Button>
+                    <Button Icon="@(new InfoIcon())" 
+                            Style="ButtonStyle.Outline" 
+                            OverrideIconTextColor="text-primary-700 group-hover:text-white">
+                            Outline with icon
+                    </Button>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Button Sizes"
+            Description="Choose from different button sizes to match your design needs. Available sizes include small, medium (default), and large."
+            RazorCode="@(
+@"<div class=""flex flex-wrap items-center gap-4"">
+    <Button Size=""ButtonSize.Small"">Small</Button>
+    <Button Size=""ButtonSize.Medium"">Default</Button>
+    <Button Size=""ButtonSize.Large"">Large</Button>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap items-center gap-4">
+                    <Button Size="ButtonSize.Small">Small</Button>
+                    <Button Size="ButtonSize.Medium">Default</Button>
+                    <Button Size="ButtonSize.Large">Large</Button>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Pill Buttons"
+            Description="Create pill-shaped buttons with fully rounded corners for a modern and distinctive look."
+            RazorCode="@(
+@"<div class=""flex flex-wrap gap-4"">
+    <Button Pill>Default pill</Button>
+    <Button Pill Color=""ButtonColor.Green"">Success pill</Button>
+    <Button Pill Style=""ButtonStyle.Outline"">Outline pill</Button>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-4">
+                    <Button Pill>Default pill</Button>
+                    <Button Pill Color="ButtonColor.Green">Success pill</Button>
+                    <Button Pill Style="ButtonStyle.Outline">Outline pill</Button>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Block Buttons"
+            Description="Create full-width block buttons that span the entire width of their container, perfect for mobile interfaces or prominent calls-to-action."
+            RazorCode="@(
+@"<div class=""flex flex-col gap-4"">
+    <Button class=""w-full"">Full-width button</Button>
+    <Button Color=""ButtonColor.Gray"" class=""w-full"">Full-width Gray</Button>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <Button class="w-full">Full-width button</Button>
+                    <Button Color="ButtonColor.Gray" class="w-full">Full-width Gray</Button>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Button States"
+            Description="Buttons can be shown in different states including disabled and loading to indicate current interaction status."
+            RazorCode="@(
+@"<div class=""flex flex-wrap gap-4"">
+    <Button Disabled>Disabled</Button>
+    <Button Loading=>Loading...</Button>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-4">
+                    <Button Disabled>Disabled</Button>
+                    <Button Loading>Loading...</Button>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Link Buttons"
+            Description="Buttons can function as traditional buttons with click handlers or as links that navigate to other pages."
+            RazorCode="@(
+@"<div class=""flex flex-wrap gap-4"">
+    <Button OnClick=""@(() => Console.WriteLine(""""Clicked!""""))"">
+        Button with click
+    </Button>
+    <Button Href=""https://flowbite.com"" Target=""_blank"">
+        Link button
+    </Button>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-4">
+                    <Button OnClick="@(() => Console.WriteLine("Clicked!"))">
+                        Button with click
+                    </Button>
+                    <Button Href="https://flowbite.com" Target="_blank">
+                        Link button
+                    </Button>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Interactive Example"
+            Description="This example demonstrates a button with click event handling, showing how to respond to user interactions in real-time."
+            RazorCode="@(
+@"<div class=""flex flex-wrap gap-4 items-center"">
+    <Button OnClick=""HandleButtonClick"" Icon=""@(new InfoIcon())"">Click Me</Button>
+    @if (_lastClickTime.HasValue)
+    {
+        <p>Last clicked: @_lastClickTime.Value.ToString(""HH:mm:ss"")</p>
+    }
+</div>
+@code {
+    private DateTime? _lastClickTime;
+
+    private void HandleButtonClick()
+    {
+        _lastClickTime = DateTime.Now;
+    }
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-4 items-center">
+                    <Button OnClick="HandleButtonClick" Icon="@(new InfoIcon())">Click Me</Button>
+                    @if (_lastClickTime.HasValue)
+                    {
+                        <p>Last clicked: @_lastClickTime.Value.ToString("HH:mm:ss")</p>
+                    }
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>
+
+@code {
+    private DateTime? _lastClickTime;
+
+    private void HandleButtonClick()
+    {
+        _lastClickTime = DateTime.Now;
+    }
+}

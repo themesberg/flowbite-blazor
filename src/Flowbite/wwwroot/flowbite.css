@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Prism Syntax Highlighting -----------------------------------------------------------------------------------------------------------*/
+
+.leading-4\.5 {
+    line-height: 1.15rem;
+}
+
+pre {
+    @apply text-gray-100 dark:text-gray-100 rounded-lg text-xs bg-gray-800 dark:bg-gray-800/50 px-2 pb-1 overflow-x-auto leading-4.5;
+}
+
+.token.tag,
+.token.function,
+.token.property {
+    @apply text-pink-400;
+}
+
+.token.attr-name {
+    @apply text-sky-300;
+}
+
+.token.attr-value,
+.token.string {
+    @apply text-green-400;
+}
+
+.token.punctuation,
+.token.attr-equals {
+    @apply text-gray-400;
+}
+
+.token.comment {
+    @apply text-gray-500;
+}
+
+.token.operator {
+    @apply text-yellow-400;
+}
+
+.token.keyword {
+    @apply text-purple-400;
+}
+
+.token.block {
+    display: initial;
+}
+
+.line-highlight {
+    @apply absolute inset-x-0 mt-[1.25rem] border-l-4 border-blue-400 bg-blue-400/15 pointer-events-none;
+}
+
+pre[data-line] {
+    @apply relative;
+}
+
+pre[class^='language-diff-'] {
+    @apply flex px-9;
+}
+
+pre[class^='language-diff-'] > code {
+    @apply flex-none min-w-full;
+}
+
+
+
+
+

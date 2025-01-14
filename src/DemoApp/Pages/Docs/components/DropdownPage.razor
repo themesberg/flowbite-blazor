@@ -1,0 +1,325 @@
+@page "/docs/components/dropdown"
+@using Flowbite.Components
+
+<PageTitle>Dropdown - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Dropdown Examples</h2>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+        The Dropdown component provides a versatile menu that can be triggered by various elements, with customizable placement, size, and content options.
+    </p>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Default dropdown"
+                          Description="Create a simple dropdown with a list of menu items that can be clicked."
+                          RazorCode=@(@"
+<Dropdown>
+    <Label>Dropdown button</Label>
+    <ChildContent>
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Dashboard clicked""))"">Dashboard</DropdownItem>
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Settings clicked""))"">Settings</DropdownItem>
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Earnings clicked""))"">Earnings</DropdownItem>
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Sign out clicked""))"">Sign out</DropdownItem>
+    </ChildContent>
+</Dropdown>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Dropdown>
+                    <Label>Dropdown button</Label>
+                    <ChildContent>
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Dashboard clicked"))">Dashboard</DropdownItem>
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Settings clicked"))">Settings</DropdownItem>
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Earnings clicked"))">Earnings</DropdownItem>
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Sign out clicked"))">Sign out</DropdownItem>
+                    </ChildContent>
+                </Dropdown>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Dropdown divider"
+                          Description="Add a divider between dropdown items to visually separate groups of menu options."
+                          RazorCode=@(@"
+<Dropdown>
+    <Label>Dropdown</Label>
+    <ChildContent>
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Dashboard clicked""))"">Dashboard</DropdownItem>
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Settings clicked""))"">Settings</DropdownItem>
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Earnings clicked""))"">Earnings</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Sign out clicked""))"">Sign out</DropdownItem>
+    </ChildContent>
+</Dropdown>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Dropdown>
+                    <Label>Dropdown</Label>
+                    <ChildContent>
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Dashboard clicked"))">Dashboard</DropdownItem>
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Settings clicked"))">Settings</DropdownItem>
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Earnings clicked"))">Earnings</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Sign out clicked"))">Sign out</DropdownItem>
+                    </ChildContent>
+                </Dropdown>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Dropdown header"
+                          Description="Add a header to the dropdown menu to provide context or user information."
+                          RazorCode=@(@"
+<Dropdown>
+    <Label>Dropdown with header</Label>
+    <ChildContent>
+        <DropdownHeader>
+            <span class=""block text-sm"">Bonnie Green</span>
+            <span class=""block truncate text-sm font-medium"">name@flowbite.com</span>
+        </DropdownHeader>
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Dashboard clicked""))"">Dashboard</DropdownItem>
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Settings clicked""))"">Settings</DropdownItem>
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Earnings clicked""))"">Earnings</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Sign out clicked""))"">Sign out</DropdownItem>
+    </ChildContent>
+</Dropdown>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Dropdown>
+                    <Label>Dropdown with header</Label>
+                    <ChildContent>
+                        <DropdownHeader>
+                            <span class="block text-sm">Bonnie Green</span>
+                            <span class="block truncate text-sm font-medium">name@flowbite.com</span>
+                        </DropdownHeader>
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Dashboard clicked"))">Dashboard</DropdownItem>
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Settings clicked"))">Settings</DropdownItem>
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Earnings clicked"))">Earnings</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Sign out clicked"))">Sign out</DropdownItem>
+                    </ChildContent>
+                </Dropdown>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Dropdown with icons"
+                          Description="Enhance dropdown items with icons to provide visual cues and improve usability."
+                          RazorCode=@(@"
+<Dropdown>
+    <Label>Dropdown with icons</Label>
+    <ChildContent>
+        <DropdownItem Icon=""@(new UserIcon())"" OnClick=""@(() => Console.WriteLine(""Profile clicked""))"">Profile</DropdownItem>
+        <DropdownItem Icon=""@(new GearIcon())"" OnClick=""@(() => Console.WriteLine(""Settings clicked""))"">Settings</DropdownItem>
+        <DropdownItem Icon=""@(new WalletIcon())"" OnClick=""@(() => Console.WriteLine(""Earnings clicked""))"">Earnings</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem Icon=""@(new ArrowRightToBracketIcon())"" OnClick=""@(() => Console.WriteLine(""Sign out clicked""))"">Sign out</DropdownItem>
+    </ChildContent>
+</Dropdown>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Dropdown>
+                    <Label>Dropdown with icons</Label>
+                    <ChildContent>
+                        <DropdownItem Icon="@(new UserIcon())" OnClick="@(() => Console.WriteLine("Profile clicked"))">Profile</DropdownItem>
+                        <DropdownItem Icon="@(new GearIcon())" OnClick="@(() => Console.WriteLine("Settings clicked"))">Settings</DropdownItem>
+                        <DropdownItem Icon="@(new WalletIcon())" OnClick="@(() => Console.WriteLine("Earnings clicked"))">Earnings</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem Icon="@(new ArrowRightToBracketIcon())" OnClick="@(() => Console.WriteLine("Sign out clicked"))">Sign out</DropdownItem>
+                    </ChildContent>
+                </Dropdown>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Inline dropdown"
+                          Description="Use the Inline parameter to make the dropdown appear inline with surrounding text."
+                          RazorCode=@(@"
+<div class=""flex items-center gap-1"">
+    <span>View</span>
+    <Dropdown Inline=""true"">
+        <Label>settings</Label>
+        <ChildContent>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Profile clicked""))"">Profile</DropdownItem>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Settings clicked""))"">Settings</DropdownItem>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Sign out clicked""))"">Sign out</DropdownItem>
+        </ChildContent>
+    </Dropdown>
+    <span>for your account.</span>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex items-center gap-1">
+                    <span>View</span>
+                    <Dropdown Inline="true">
+                        <Label>settings</Label>
+                        <ChildContent>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Profile clicked"))">Profile</DropdownItem>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Settings clicked"))">Settings</DropdownItem>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Sign out clicked"))">Sign out</DropdownItem>
+                        </ChildContent>
+                    </Dropdown>
+                    <span>for your account.</span>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Dropdown sizes"
+                          Description="Choose from three different dropdown sizes using the Size parameter."
+                          RazorCode=@(@"
+<div class=""flex items-center gap-4"">
+    <Dropdown Size=""DropdownSize.Small"">
+        <Label>Small dropdown</Label>
+        <ChildContent>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Dashboard clicked""))"">Dashboard</DropdownItem>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Settings clicked""))"">Settings</DropdownItem>
+        </ChildContent>
+    </Dropdown>
+    <Dropdown Size=""DropdownSize.Medium"">
+        <Label>Default dropdown</Label>
+        <ChildContent>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Dashboard clicked""))"">Dashboard</DropdownItem>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Settings clicked""))"">Settings</DropdownItem>
+        </ChildContent>
+    </Dropdown>
+    <Dropdown Size=""DropdownSize.Large"">
+        <Label>Large dropdown</Label>
+        <ChildContent>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Dashboard clicked""))"">Dashboard</DropdownItem>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Settings clicked""))"">Settings</DropdownItem>
+        </ChildContent>
+    </Dropdown>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex items-center gap-4">
+                    <Dropdown Size="DropdownSize.Small">
+                        <Label>Small dropdown</Label>
+                        <ChildContent>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Dashboard clicked"))">Dashboard</DropdownItem>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Settings clicked"))">Settings</DropdownItem>
+                        </ChildContent>
+                    </Dropdown>
+                    <Dropdown Size="DropdownSize.Medium">
+                        <Label>Default dropdown</Label>
+                        <ChildContent>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Dashboard clicked"))">Dashboard</DropdownItem>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Settings clicked"))">Settings</DropdownItem>
+                        </ChildContent>
+                    </Dropdown>
+                    <Dropdown Size="DropdownSize.Large">
+                        <Label>Large dropdown</Label>
+                        <ChildContent>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Dashboard clicked"))">Dashboard</DropdownItem>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Settings clicked"))">Settings</DropdownItem>
+                        </ChildContent>
+                    </Dropdown>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Dropdown placement"
+                          Description="Control dropdown menu placement using the Placement parameter."
+                          RazorCode=@(@"
+<div class=""flex items-center gap-4"">
+    <Dropdown Placement=""DropdownPlacement.Top"">
+        <Label>Dropdown top</Label>
+        <ChildContent>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Dashboard clicked""))"">Dashboard</DropdownItem>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Settings clicked""))"">Settings</DropdownItem>
+        </ChildContent>
+    </Dropdown>
+    <Dropdown Placement=""DropdownPlacement.Right"">
+        <Label>Dropdown right</Label>
+        <ChildContent>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Dashboard clicked""))"">Dashboard</DropdownItem>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Settings clicked""))"">Settings</DropdownItem>
+        </ChildContent>
+    </Dropdown>
+    <Dropdown Placement=""DropdownPlacement.Bottom"">
+        <Label>Dropdown bottom</Label>
+        <ChildContent>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Dashboard clicked""))"">Dashboard</DropdownItem>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Settings clicked""))"">Settings</DropdownItem>
+        </ChildContent>
+    </Dropdown>
+    <Dropdown Placement=""DropdownPlacement.Left"">
+        <Label>Dropdown left</Label>
+        <ChildContent>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Dashboard clicked""))"">Dashboard</DropdownItem>
+            <DropdownItem OnClick=""@(() => Console.WriteLine(""Settings clicked""))"">Settings</DropdownItem>
+        </ChildContent>
+    </Dropdown>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex items-center gap-4">
+                    <Dropdown Placement="DropdownPlacement.Top">
+                        <Label>Dropdown top</Label>
+                        <ChildContent>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Dashboard clicked"))">Dashboard</DropdownItem>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Settings clicked"))">Settings</DropdownItem>
+                        </ChildContent>
+                    </Dropdown>
+                    <Dropdown Placement="DropdownPlacement.Right">
+                        <Label>Dropdown right</Label>
+                        <ChildContent>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Dashboard clicked"))">Dashboard</DropdownItem>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Settings clicked"))">Settings</DropdownItem>
+                        </ChildContent>
+                    </Dropdown>
+                    <Dropdown Placement="DropdownPlacement.Bottom">
+                        <Label>Dropdown bottom</Label>
+                        <ChildContent>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Dashboard clicked"))">Dashboard</DropdownItem>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Settings clicked"))">Settings</DropdownItem>
+                        </ChildContent>
+                    </Dropdown>
+                    <Dropdown Placement="DropdownPlacement.Left">
+                        <Label>Dropdown left</Label>
+                        <ChildContent>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Dashboard clicked"))">Dashboard</DropdownItem>
+                            <DropdownItem OnClick="@(() => Console.WriteLine("Settings clicked"))">Settings</DropdownItem>
+                        </ChildContent>
+                    </Dropdown>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Custom trigger"
+                          Description="Use the CustomTrigger parameter to provide a custom trigger element like an avatar."
+                          RazorCode=@(@"
+<Dropdown>
+    <CustomTrigger>
+        <Avatar Alt=""User settings"" ImageUrl=""https://flowbite.com/docs/images/people/profile-picture-5.jpg"" Rounded=""true"" />
+    </CustomTrigger>
+    <ChildContent>
+        <DropdownHeader>
+            <span class=""block text-sm"">Bonnie Green</span>
+            <span class=""block truncate text-sm font-medium"">name@flowbite.com</span>
+        </DropdownHeader>
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Dashboard clicked""))"">Dashboard</DropdownItem>
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Settings clicked""))"">Settings</DropdownItem>
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Earnings clicked""))"">Earnings</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem OnClick=""@(() => Console.WriteLine(""Sign out clicked""))"">Sign out</DropdownItem>
+    </ChildContent>
+</Dropdown>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Dropdown>
+                    <CustomTrigger>
+                        <Avatar Alt="User settings" ImageUrl="https://flowbite.com/docs/images/people/profile-picture-5.jpg" Rounded="true" />
+                    </CustomTrigger>
+                    <ChildContent>
+                        <DropdownHeader>
+                            <span class="block text-sm">Bonnie Green</span>
+                            <span class="block truncate text-sm font-medium">name@flowbite.com</span>
+                        </DropdownHeader>
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Dashboard clicked"))">Dashboard</DropdownItem>
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Settings clicked"))">Settings</DropdownItem>
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Earnings clicked"))">Earnings</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem OnClick="@(() => Console.WriteLine("Sign out clicked"))">Sign out</DropdownItem>
+                    </ChildContent>
+                </Dropdown>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>

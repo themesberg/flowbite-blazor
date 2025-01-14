@@ -1,0 +1,129 @@
+@page "/docs/components/spinner"
+@using Flowbite.Components
+
+<PageTitle>Spinner - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Spinner Examples</h2>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+        The Spinner component provides a versatile loading indicator with customizable colors, sizes, and alignment options to enhance user experience during asynchronous operations.
+    </p>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Default Spinner"
+                          Description="Use the default spinner element with an aria-label for screen reader accessibility."
+                          RazorCode=@(@"
+<Spinner aria-label=""Default spinner example"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Spinner aria-label="Default spinner example" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Spinner Colors"
+                          Description="Choose from different spinner colors to match your design needs or indicate different states."
+                          RazorCode=@(@"
+<div class=""flex flex-wrap items-center gap-4"">
+    <Spinner Color=""SpinnerColor.Info"" aria-label=""Info spinner example"" />
+    <Spinner Color=""SpinnerColor.Success"" aria-label=""Success spinner example"" />
+    <Spinner Color=""SpinnerColor.Warning"" aria-label=""Warning spinner example"" />
+    <Spinner Color=""SpinnerColor.Failure"" aria-label=""Failure spinner example"" />
+    <Spinner Color=""SpinnerColor.Pink"" aria-label=""Pink spinner example"" />
+    <Spinner Color=""SpinnerColor.Purple"" aria-label=""Purple spinner example"" />
+    <Spinner Color=""SpinnerColor.Gray"" aria-label=""Gray spinner example"" />
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap items-center gap-4">
+                    <Spinner Color="SpinnerColor.Info" aria-label="Info spinner example" />
+                    <Spinner Color="SpinnerColor.Success" aria-label="Success spinner example" />
+                    <Spinner Color="SpinnerColor.Warning" aria-label="Warning spinner example" />
+                    <Spinner Color="SpinnerColor.Failure" aria-label="Failure spinner example" />
+                    <Spinner Color="SpinnerColor.Pink" aria-label="Pink spinner example" />
+                    <Spinner Color="SpinnerColor.Purple" aria-label="Purple spinner example" />
+                    <Spinner Color="SpinnerColor.Gray" aria-label="Gray spinner example" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Sizing Options"
+                          Description="Adjust spinner size from extra small to extra large to fit different design contexts."
+                          RazorCode=@(@"
+<div class=""flex items-center gap-4"">
+    <Spinner Size=""SpinnerSize.Xs"" aria-label=""Extra small spinner"" />
+    <Spinner Size=""SpinnerSize.Sm"" aria-label=""Small spinner"" />
+    <Spinner Size=""SpinnerSize.Md"" aria-label=""Medium spinner"" />
+    <Spinner Size=""SpinnerSize.Lg"" aria-label=""Large spinner"" />
+    <Spinner Size=""SpinnerSize.Xl"" aria-label=""Extra large spinner"" />
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex items-center gap-4">
+                    <Spinner Size="SpinnerSize.Xs" aria-label="Extra small spinner" />
+                    <Spinner Size="SpinnerSize.Sm" aria-label="Small spinner" />
+                    <Spinner Size="SpinnerSize.Md" aria-label="Medium spinner" />
+                    <Spinner Size="SpinnerSize.Lg" aria-label="Large spinner" />
+                    <Spinner Size="SpinnerSize.Xl" aria-label="Extra large spinner" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Alignment"
+                          Description="Position spinners within a container using flexbox utility classes."
+                          RazorCode=@(@"
+<div class=""flex flex-col gap-4"">
+    <div class=""flex justify-start w-full"">
+        <Spinner aria-label=""Left aligned spinner"" />
+    </div>
+    <div class=""flex justify-center w-full"">
+        <Spinner aria-label=""Center aligned spinner"" />
+    </div>
+    <div class=""flex justify-end w-full"">
+        <Spinner aria-label=""Right aligned spinner"" />
+    </div>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <div class="flex justify-start w-full">
+                        <Spinner aria-label="Left aligned spinner" />
+                    </div>
+                    <div class="flex justify-center w-full">
+                        <Spinner aria-label="Center aligned spinner" />
+                    </div>
+                    <div class="flex justify-end w-full">
+                        <Spinner aria-label="Right aligned spinner" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Loading Buttons"
+                          Description="Integrate spinners into buttons to indicate loading states during form submissions or data processing."
+                          RazorCode=@(@"
+<div class=""flex flex-wrap items-center gap-4"">
+    <Button>
+        <Spinner Size=""SpinnerSize.Sm"" class=""mr-3"" aria-label=""Button loading"" />
+        Loading...
+    </Button>
+    <Button Color=""ButtonColor.Gray"" Disabled>
+        <Spinner Size=""SpinnerSize.Sm"" class=""mr-3"" aria-label=""Gray button loading"" />
+        Processing...
+    </Button>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap items-center gap-4">
+                    <Button>
+                        <Spinner Size="SpinnerSize.Sm" class="mr-3" aria-label="Button loading" />
+                        Loading...
+                    </Button>
+                    <Button Color="ButtonColor.Gray" Disabled>
+                        <Spinner Size="SpinnerSize.Sm" class="mr-3" aria-label="Gray button loading" />
+                        Processing...
+                    </Button>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>

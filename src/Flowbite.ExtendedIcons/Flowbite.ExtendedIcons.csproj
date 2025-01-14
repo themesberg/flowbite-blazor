@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    
+    <!-- Package Metadata -->
+    <PackageId>Flowbite.ExtendedIcons</PackageId>
+    <Version>0.0.1-alpha.4</Version>
+    <Authors>Todd Schavey</Authors>
+    <Company>PeakFlames</Company>
+    <Description>Extended icon set for Flowbite.Blazor, providing additional SVG icons as Blazor components.</Description>
+    <PackageTags>blazor;icons;svg;flowbite;ui</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/peakflames/flowbite-blazor</PackageProjectUrl>
+    <PackageReadmeFile>nuget.md</PackageReadmeFile>
+    <PackageIcon>favicon.png</PackageIcon>
+    
+    <!-- Documentation -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>CS1591</NoWarn> <!-- Suppress warnings for missing XML comments -->
+    
+    <!-- Source Link -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\DemoApp\wwwroot\favicon.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\docs\nuget.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Flowbite\Flowbite.csproj" />
+  </ItemGroup>
+
+</Project>

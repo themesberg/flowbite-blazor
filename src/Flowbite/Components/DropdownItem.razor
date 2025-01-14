@@ -1,0 +1,14 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<div class="@GetItemClasses()"
+     role="menuitem"
+     tabindex="-1"
+     @onclick="HandleClick"
+     @attributes="AdditionalAttributes">
+    @if (Icon != null)
+    {
+        <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object> { { "CssClass", GetIconClasses() } })" />
+    }
+    @ChildContent
+</div>

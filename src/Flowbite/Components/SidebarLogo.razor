@@ -1,0 +1,9 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<a href="@Href" class="@GetBaseClasses()">
+    <img src="@ImgSrc" class="@GetImgClasses()" alt="@ImgAlt">
+    <span class="@GetTextClasses()">
+        @ChildContent
+    </span>
+</a>

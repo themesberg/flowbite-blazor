@@ -1,0 +1,46 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<div aria-labelledby="@($"tab-{Index}")"
+     class="@ComponentClasses"
+     id="@($"tabpanel-{Index}")"
+     role="tabpanel"
+     style="display: @(Context?.ActiveIndex == Index ? "block" : "none")"
+     tabindex="0">
+    @ChildContent
+</div>
+
+@code {
+    [CascadingParameter]
+    private TabContext Context { get; set; } = default!;
+
+    private string BaseClasses => "p-4";
+
+    /// <summary>
+    /// The index of this panel in the tab panels list.
+    /// </summary>
+    [Parameter]
+    public int Index { get; set; }
+
+    /// <summary>
+    /// The content to display in the panel.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Additional attributes to be applied to the tab panel.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComponentClasses => CombineClasses(BaseClasses);
+
+    protected override void OnInitialized()
+    {
+        if (Context is null)
+        {
+            throw new InvalidOperationException($"{nameof(TabPanel)} must be used within a {nameof(Tabs)} component.");
+        }
+    }
+}

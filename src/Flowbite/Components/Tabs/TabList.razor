@@ -1,0 +1,54 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<div aria-label="Tabs" role="tablist" class="@ComponentClasses">
+    <CascadingValue Value="this" IsFixed="false">
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    private string BaseClasses => "flex text-center";
+
+    [CascadingParameter]
+    public TabContext Context { get; set; } = default!;
+
+    /// <summary>
+    /// The content containing Tab components.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Additional attributes to be applied to the tab list container.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComponentClasses => CombineClasses(
+        BaseClasses,
+        Context.Variant switch
+        {
+            TabVariant.Default => "border-b border-gray-200 dark:border-gray-700",
+            TabVariant.FullWidth => "w-full border-b border-gray-200 dark:border-gray-700",
+            TabVariant.Pills => "flex-wrap gap-2",
+            TabVariant.Underline => "border-b border-gray-200 dark:border-gray-700",
+            _ => string.Empty
+        });
+
+    internal async Task SetActiveIndexAsync(int index)
+    {
+        if (Context.ActiveIndex != index)
+        {
+            await Context.SetActiveIndexAsync(index);
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        if (Context is null)
+        {
+            throw new InvalidOperationException($"{nameof(TabList)} must be used within a {nameof(Tabs)} component.");
+        }
+    }
+}

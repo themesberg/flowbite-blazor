@@ -1,0 +1,40 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+
+@if (Href != null)
+{
+    <a href="@Href" class="@HrefClass">
+        <span class="@BadgeClass" @attributes="AdditionalAttributes">
+            @if (Icon != null)
+            {
+                <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object>
+                {
+                    { "class", $"{IconClass} {GetIconColorClass()}" },
+                    { "aria-hidden", true },
+                })" />
+            }
+            @if (ChildContent != null)
+            {
+                <span>@ChildContent</span>
+            }
+        </span>
+    </a>
+}
+else
+{
+    <span class="@BadgeClass" @attributes="AdditionalAttributes">
+        @if (Icon != null)
+        {
+            <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object>
+            {
+                { "class", $"{IconClass} {GetIconColorClass()}" },
+                { "aria-hidden", true },
+            })" />
+        }
+        @if (ChildContent != null)
+        {
+            <span>@ChildContent</span>
+        }
+    </span>
+}

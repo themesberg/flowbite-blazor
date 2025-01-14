@@ -1,0 +1,53 @@
+@using Flowbite.Components
+
+
+<div class="relative h-[600px] p-3 border border-gray-200 rounded-lg dark:border-gray-700 dark:bg-gray-900 mt-6">
+    <Sidebar>
+        <SidebarItem 
+            Href="/dashboard"
+            Icon="@(new ChartMixedIcon())">
+            Dashboard
+        </SidebarItem>
+        
+        <SidebarCollapse 
+            Label="E-commerce"
+            Icon="@(new CartIcon())">
+            <SidebarItem 
+                Href="/e-commerce/products"
+                Icon="@(new ClipboardListIcon())">
+                Products
+            </SidebarItem>
+            <SidebarItem 
+                Href="/e-commerce/billing"
+                Icon="@(new CashIcon())">
+                Billing
+            </SidebarItem>
+            <SidebarItem 
+                Href="/e-commerce/invoices"
+                Icon="@(new ClipboardCheckIcon())">
+                Invoices
+            </SidebarItem>
+        </SidebarCollapse>
+        
+        <SidebarCollapse 
+            Label="Users"
+            Icon="@(new BriefcaseIcon())">
+            <SidebarItem 
+                Href="/users/list"
+                Icon="@(new BriefcaseIcon())">
+                All Users
+            </SidebarItem>
+            <SidebarItem 
+                Href="/users/new"
+                Icon="@(new CirclePlusIcon())">
+                Add User
+            </SidebarItem>
+        </SidebarCollapse>
+        
+        <SidebarItem 
+            Href="/settings"
+            Icon="@(new CogIcon())">
+            Settings
+        </SidebarItem>
+    </Sidebar>
+</div>

@@ -1,0 +1,56 @@
+<div class="rounded-lg bg-white dark:bg-gray-800 p-4">
+    <Tabs Variant="TabVariant.Underline">
+        <TabListContent>
+            <Tab Index="0">Profile</Tab>
+            <Tab Index="1">Dashboard</Tab>
+            <Tab Index="2">Settings</Tab>
+        </TabListContent>
+        <TabPanelsContent>
+            <TabPanel Index="0">
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium">Profile Information</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-white dark:bg-gray-700 rounded-lg">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
+                            <p class="mt-1 text-lg">Administrator</p>
+                        </div>
+                        <div class="p-4 bg-white dark:bg-gray-700 rounded-lg">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+                            <p class="mt-1 text-lg">Active</p>
+                        </div>
+                    </div>
+                </div>
+            </TabPanel>
+            <TabPanel Index="1">
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium">Recent Activity</h3>
+                    <div class="space-y-3">
+                        <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Project "Alpha" completed</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <p class="text-sm text-gray-600 dark:text-gray-300">New team member added</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">5 hours ago</p>
+                        </div>
+                    </div>
+                </div>
+            </TabPanel>
+            <TabPanel Index="2">
+                <div class="space-y-4">
+                    <h3 class="text-lg font-medium">Preferences</h3>
+                    <div class="space-y-3">
+                        <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <span class="font-medium">Language</span>
+                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">English (US)</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                            <span class="font-medium">Time Zone</span>
+                            <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">UTC-8</p>
+                        </div>
+                    </div>
+                </div>
+            </TabPanel>
+        </TabPanelsContent>
+    </Tabs>
+</div>

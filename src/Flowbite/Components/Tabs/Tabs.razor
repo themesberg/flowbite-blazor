@@ -1,0 +1,82 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<div class="@ComponentClasses" @attributes="AdditionalAttributes">
+    <CascadingValue Value="@_context" IsFixed="false">
+        <TabList>
+            @TabListContent
+        </TabList>
+        <TabPanels>
+            @TabPanelsContent
+        </TabPanels>
+    </CascadingValue>
+</div>
+
+@code {
+    private string BaseClasses => "w-full";
+    private TabContext _context = null!;
+
+    /// <summary>
+    /// The visual style variant of the tabs.
+    /// </summary>
+    [Parameter]
+    public TabVariant Variant { get; set; } = TabVariant.Default;
+
+    /// <summary>
+    /// The currently active tab index.
+    /// </summary>
+    [Parameter]
+    public int ActiveIndex { get; set; }
+
+    /// <summary>
+    /// Callback fired when the active tab changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<int> ActiveIndexChanged { get; set; }
+
+    /// <summary>
+    /// The content for the tab list (Tab components).
+    /// </summary>
+    [Parameter]
+    public RenderFragment? TabListContent { get; set; }
+
+    /// <summary>
+    /// The content for the tab panels (TabPanel components).
+    /// </summary>
+    [Parameter]
+    public RenderFragment? TabPanelsContent { get; set; }
+
+    /// <summary>
+    /// Additional attributes to be applied to the tabs container.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string ComponentClasses => CombineClasses(BaseClasses);
+
+    protected override void OnInitialized()
+    {
+        _context = new TabContext
+        {
+            ActiveIndex = ActiveIndex,
+            ActiveIndexChanged = EventCallback.Factory.Create<int>(this, HandleActiveIndexChanged),
+            Variant = Variant
+        };
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (_context is not null)
+        {
+            _context.ActiveIndex = ActiveIndex;
+            _context.Variant = Variant;
+        }
+    }
+
+    private async Task HandleActiveIndexChanged(int index)
+    {
+        ActiveIndex = index;
+        await ActiveIndexChanged.InvokeAsync(index);
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,252 @@
+@page "/docs/getting-started/introduction"
+
+<PageTitle>Intro - Flowbite Blazor</PageTitle>
+
+<div class="container max-w-4xl">
+    <div class="flex min-w-0 flex-col px-4 pb-12 pt-6 lg:px-8 lg:pb-16 lg:pt-8 xl:pb-24">
+        <main>
+            <div class="divide-y divide-gray-200 dark:divide-gray-800">
+                <div class="pb-8">
+                    <div class="mb-2 inline-block w-full text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                        Flowbite Blazor - UI Component Library
+                    </div>
+                    <p class="text-lg text-gray-600 dark:text-gray-400">
+                        Learn more about the free and open-source Flowbite Blazor UI components and start building modern web applications using Blazor components based on Tailwind CSS
+                    </p>
+                </div>
+                <div class="flex flex-col py-8 space-y-4">
+                    <p>
+                        <a class="underline text-gray-900 dark:text-white font-medium" target="_blank" rel="noreferrer"
+                            href="https://github.com/peakflames/flowbite-blazor">Flowbite Blazor</a> is a free and
+                        open-source UI component library based on the core Flowbite components
+                        and built with Blazor components and interactivity handling.
+                    </p>
+                    <p>This library features hundreds of interactive elements such as navbars, dropdowns, modals, and
+                        sidebars all handled by Blazor and based on the utility classes from Tailwind CSS.</p>
+                    <h2 class="group relative scroll-mt-20 text-2xl font-bold text-gray-900 dark:text-white"
+                        id="getting-started"><a aria-hidden="true" tabindex="-1" target="_blank" rel="noreferrer"
+                            href="#getting-started"><span class="icon icon-link"></span></a>Getting started<a
+                            href="#getting-started" aria-label="Link to this section: Getting started"
+                            class="ml-2 text-primary-700 opacity-0 transition-opacity group-hover:opacity-100 dark:text-primary-500">#</a>
+                    </h2>
+                    <p>Learn how to get started with Flowbite Blazor and start leveraging the interactive Blazor
+                        components coupled with Flowbite and Tailwind CSS.</p>
+                    <h3 class="group relative scroll-mt-20 text-2xl font-bold text-gray-900 dark:text-white"
+                        id="setup-tailwind-css"><a aria-hidden="true" tabindex="-1" target="_blank" rel="noreferrer"
+                            href="#setup-tailwind-css"><span class="icon icon-link"></span></a>Setup Tailwind CSS<a
+                            href="#setup-tailwind-css"
+                            aria-label="Link to this section: Setup Tailwind CSS"
+                            class="ml-2 text-primary-700 opacity-0 transition-opacity group-hover:opacity-100 dark:text-primary-500">#</a>
+                    </h3>
+                    <p>Follow these steps to set up Tailwind CSS in your Blazor project:</p>
+                    <ol class="list-decimal list-inside space-y-2 ml-4">
+                        <li>Create a postcss.config.js file in your project root:</li>
+                    </ol>
+                    <pre class="ml-4 language-javascript"><code class="language-javascript code-highlight">
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  }
+}
+</code></pre>
+                    <ol class="list-decimal list-inside space-y-2 ml-4" start="2">
+                        <li>Create a tailwind.config.js file:</li>
+                    </ol>
+                    <pre class="ml-4 language-javascript"><code class="language-javascript code-highlight">
+/** @@type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './**/*.{razor,html,cshtml}',
+    '../Flowbite/**/*.{razor,html,cshtml}'
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+</code></pre>
+                    <ol class="list-decimal list-inside space-y-2 ml-4" start="3">
+                        <li>Create or update your wwwroot/css/app.css file:</li>
+                    </ol>
+                    <pre class="ml-4 language-css"><code class="language-css code-highlight">
+@@tailwind base;
+@@tailwind components;
+@@tailwind utilities;
+</code></pre>
+                    <ol class="list-decimal list-inside space-y-2 ml-4" start="4">
+                        <li>Add the CSS file to your _Host.cshtml or index.html:</li>
+                    </ol>
+                    <pre class="ml-4 language-html"><code class="language-html code-highlight">&lt;link href="css/app.min.css" rel="stylesheet" /&gt;</code></pre>
+                    <p class="mt-4">Note: Tailwind CSS processing is handled automatically through MSBuild during the build process. No npm or node.js installation is required.</p>
+                    <h3 class="group relative scroll-mt-20 text-2xl font-bold text-gray-900 dark:text-white"
+                        id="install-flowbite-Blazor"><a aria-hidden="true" tabindex="-1" target="_blank"
+                            rel="noreferrer" href="#install-flowbite-Blazor"><span
+                                class="icon icon-link"></span></a>Install Flowbite Blazor<a
+                            href="#install-flowbite-Blazor"
+                            aria-label="Link to this section: Install Flowbite Blazor"
+                            class="ml-2 text-primary-700 opacity-0 transition-opacity group-hover:opacity-100 dark:text-primary-500">#</a>
+                    </h3>
+                    <ol class="list-decimal list-inside space-y-2 ml-4">
+                        <li>Install the Flowbite Blazor NuGet package:</li>
+                    </ol>
+                    <pre class="ml-4 language-bash"><code class="language-bash code-highlight">dotnet add package Flowbite --version 0.0.1-alpha --prerelease</code></pre>
+                    <ol class="list-decimal list-inside space-y-2 ml-4" start="2">
+                        <li>Update your tailwind.config.js to include Flowbite styles:</li>
+                    </ol>
+                    <pre class="ml-4 language-javascript"><code class="language-javascript code-highlight">
+/** @@type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './**/*.{razor,html,cshtml}',
+    '../Flowbite/**/*.{razor,html,cshtml}'
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {},
+  },
+  plugins: [
+    require('flowbite/plugin')
+  ],
+}
+</code></pre>
+                    <ol class="list-decimal list-inside space-y-2 ml-4" start="3">
+                        <li>Add Flowbite services in your Program.cs:</li>
+                    </ol>
+                    <pre class="ml-4 language-csharp"><code class="language-csharp code-highlight">
+using Flowbite;
+
+builder.Services.AddFlowbiteServices();
+</code></pre>
+                    <ol class="list-decimal list-inside space-y-2 ml-4" start="4">
+                        <li>Add the Flowbite using statements in _Imports.razor:</li>
+                    </ol>
+                    <pre class="ml-4 language-razor"><code class="language-razor code-highlight">
+@@using Flowbite
+@@using Flowbite.Components
+</code></pre>
+                    <h3 class="group relative scroll-mt-20 text-2xl font-bold text-gray-900 dark:text-white"
+                        id="try-it-out"><a aria-hidden="true" tabindex="-1" target="_blank" rel="noreferrer"
+                            href="#try-it-out"><span class="icon icon-link"></span></a>Try it out<a href="#try-it-out"
+                            aria-label="Link to this section: Try it out"
+                            class="ml-2 text-primary-700 opacity-0 transition-opacity group-hover:opacity-100 dark:text-primary-500">#</a>
+                    </h3>
+                    <p>Now you can start using Flowbite Blazor components in your .razor files. Here's a simple example:</p>
+                    <pre class="ml-4 language-razor"><code class="language-razor code-highlight">
+@@page "/counter"
+
+&lt;div class="p-4"&gt;
+    &lt;h1 class="text-2xl font-bold mb-4"&gt;Counter&lt;/h1&gt;
+    
+    &lt;p class="mb-4"&gt;Current count: @@currentCount&lt;/p&gt;
+    
+    &lt;Button Color="ButtonColor.Primary" @@onclick="IncrementCount"&gt;
+        Click me
+    &lt;/Button&gt;
+&lt;/div&gt;
+
+@@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
+</code></pre>
+
+                    <h3 class="group relative scroll-mt-20 text-2xl font-bold text-gray-900 dark:text-white"
+                        id="troubleshooting"><a aria-hidden="true" tabindex="-1" target="_blank" rel="noreferrer"
+                            href="#troubleshooting"><span class="icon icon-link"></span></a>Troubleshooting<a
+                            href="#troubleshooting"
+                            aria-label="Link to this section: Troubleshooting"
+                            class="ml-2 text-primary-700 opacity-0 transition-opacity group-hover:opacity-100 dark:text-primary-500">#</a>
+                    </h3>
+                    <div class="space-y-4">
+                        <h4 class="text-xl font-semibold text-gray-900 dark:text-white">Common Issues</h4>
+                        
+                        <div class="space-y-2">
+                            <h5 class="font-medium text-gray-900 dark:text-white">Styles Not Loading</h5>
+                            <ul class="list-disc list-inside space-y-1 ml-4">
+                                <li>Ensure app.min.css is properly linked in your HTML</li>
+                                <li>Verify tailwind.config.js content paths are correct</li>
+                                <li>Check if the MSBuild Tailwind CSS task ran successfully</li>
+                                <li>Check browser console for CSS loading errors</li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h5 class="font-medium text-gray-900 dark:text-white">Components Not Rendering</h5>
+                            <ul class="list-disc list-inside space-y-1 ml-4">
+                                <li>Verify Flowbite services are registered in Program.cs</li>
+                                <li>Check _Imports.razor includes Flowbite namespaces</li>
+                                <li>Ensure component parameters are properly set</li>
+                                <li>Look for errors in browser console or Visual Studio output</li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h5 class="font-medium text-gray-900 dark:text-white">Dark Mode Issues</h5>
+                            <ul class="list-disc list-inside space-y-1 ml-4">
+                                <li>Confirm darkMode: 'class' in tailwind.config.js</li>
+                                <li>Verify dark: prefix in component classes</li>
+                                <li>Check if dark mode class is properly toggled on html tag</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3 class="group relative scroll-mt-20 text-2xl font-bold text-gray-900 dark:text-white mt-8"
+                        id="next-steps"><a aria-hidden="true" tabindex="-1" target="_blank" rel="noreferrer"
+                            href="#next-steps"><span class="icon icon-link"></span></a>Next steps<a href="#next-steps"
+                            aria-label="Link to this section: Next steps"
+                            class="ml-2 text-primary-700 opacity-0 transition-opacity group-hover:opacity-100 dark:text-primary-500">#</a>
+                    </h3>
+                    <h4 id="dark-mode" class="text-xl font-bold text-gray-900 dark:text-white"><a aria-hidden="true"
+                            tabindex="-1" target="_blank" rel="noreferrer" href="#dark-mode"><span
+                                class="icon icon-link"></span></a>Dark Mode</h4>
+                    <p>Flowbite Blazor supports dark mode out of the box. To implement dark mode in your app:</p>
+                    <pre class="ml-4 language-javascript"><code class="language-javascript code-highlight">// Add dark class to html tag
+document.documentElement.classList.add('dark');</code></pre>
+                    <p class="mt-2">Or toggle dynamically:</p>
+                    <pre class="ml-4 language-javascript"><code class="language-javascript code-highlight">// Check user preference
+if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.classList.add('dark')
+}</code></pre>
+
+                    <h4 id="customization" class="text-xl font-bold text-gray-900 dark:text-white mt-4"><a aria-hidden="true"
+                            tabindex="-1" target="_blank" rel="noreferrer" href="#customization"><span
+                                class="icon icon-link"></span></a>Customization</h4>
+                    <p>Customize components by extending your tailwind.config.js theme:</p>
+                    <pre class="ml-4 language-javascript"><code class="language-javascript code-highlight">module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          // ... other shades
+          900: '#0c4a6e',
+        },
+      },
+    },
+  },
+}</code></pre>
+
+                    <h4 id="contributing" class="text-xl font-bold text-gray-900 dark:text-white mt-4"><a aria-hidden="true"
+                            tabindex="-1" target="_blank" rel="noreferrer" href="#contributing"><span
+                                class="icon icon-link"></span></a>Contributing</h4>
+                    <p>We welcome contributions! Please check our <a href="https://github.com/peakflames/flowbite-blazor/blob/main/CONTRIBUTING.md" 
+                        class="text-blue-600 hover:underline dark:text-blue-500">contributing guidelines</a> for details on how to get started.</p>
+                </div>
+            </div>
+        </main>
+        <aside class="flex font-medium leading-6" aria-label="Previous and next page navigation"><a
+                class="ml-auto flex items-center justify-center text-right text-gray-500 transition-colors duration-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                href="/docs/getting-started/quickstart">Quickstart<svg class="ml-2 size-3.5" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 5h12m0 0L9 1m4 4L9 9"></path>
+                </svg></a></aside>
+    </div>
+</div>
