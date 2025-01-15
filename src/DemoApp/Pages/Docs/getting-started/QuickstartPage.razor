@@ -8,50 +8,68 @@
             <div class="divide-y divide-gray-200 dark:divide-gray-800">
                 <div class="pb-8">
                     <div class="mb-2 inline-block w-full text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-                        Quickstart
+                        Quickstart - Flowbite Blazor
                     </div>
                     <p class="text-lg text-gray-600 dark:text-gray-400">
-                        Quickly get started with Flowbite Blazor using our official starter template.
+                        Learn how to get started with the free and open-source Flowbite Blazor component library based on the utility classes from Tailwind CSS
                     </p>
                 </div>
 
                 <div class="flex flex-col py-8 space-y-4">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Using the Starter Template</h2>
+                    <p class="text-base text-gray-600 dark:text-gray-400">
+                        Quickly scaffold a new Flowbite Blazor application using the CLI
+                    </p>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Using the CLI</h2>
+                    <p class="text-base text-gray-600 dark:text-gray-400">
+                        1. Install the .NET Templates from NuGet. This allows you scaffold new projects
+                    </p>
+                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code=@(@"
+dotnet new install Flowbite.Blazor.Templates
+
+")/>
+                    <p class="text-base text-gray-600 dark:text-gray-400">
+                        2. Scaffold a new a Standalone WASM Web Application (i.e. client-side only)
+                    </p>
+                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code=@(@"
+dotnet new flowbite-blazor-wasm -o MyUnicornApp
+cd MyUnicornApp
+
+")/>
+
+                    <p class="text-base text-gray-600 dark:text-gray-400">
+                        3. <span class="font-semibold text-black dark:text-white">Before building</span>, one must install the Tailwind CSS CLI application. Copy the commands below to download the standalone exe to the project's ./tools directory.
+                    </p>
+                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code=@(@"
+# Mac/Linux
+mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ..
+
+# Windows
+mkdir ./tools -Force; cd ./tools; Invoke-WebRequest -Uri ""https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe"" -OutFile ""tailwindcss.exe"" -UseBasicParsing ; cd ..
+
+")/>
+                    <p class="text-base text-gray-600 dark:text-gray-400">
+                        4. Build and run the project. The build output will report the URL being served (e.g. http://localhost:5269)
+                    </p>
+                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code=@(@"
+dotnet run
+
+")/>
                     
-                    <p>Get started quickly by cloning our official starter template repository:</p>
-
-                    <pre class="language-bash"><code class="language-bash code-highlight">git clone --depth 1 https://github.com/peakflames/flowbite-blazor-starter-wasm.git my-flowbite-app
-cd my-flowbite-app</code></pre>
-
-                    <p class="mt-4">The starter template includes:</p>
-                    <ul class="list-disc list-inside space-y-2 ml-4">
-                        <li>Pre-configured Blazor WebAssembly project</li>
-                        <li>Flowbite Blazor components ready to use</li>
-                        <li>TailwindCSS setup with MSBuild integration</li>
-                        <li>Dark mode support</li>
-                        <li>Example pages and components</li>
-                    </ul>
-
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8">Running the Project</h2>
-                    
-                    <p>Build and run the project:</p>
-                    <pre class="language-bash"><code class="language-bash code-highlight">dotnet build
-dotnet run</code></pre>
-
                     <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
                         <h3 class="text-lg font-semibold text-blue-900 dark:text-blue-100">What's Next?</h3>
                         <p class="text-blue-800 dark:text-blue-200">
-                            Check out our <a href="/docs/components/alert" class="underline">components documentation</a> to learn more about 
-                            available components and their usage. For a more detailed setup guide, visit the 
+                            Check out our <a href="/docs/components/alert" class="underline">components documentation</a> to learn more about
+                            available components and their usage. For a more detailed setup guide, visit the
                             <a href="/docs/getting-started/introduction" class="underline">introduction page</a>.
                         </p>
                     </div>
 
                     <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8">Manual Installation</h2>
-                    
-                    <p>If you prefer to set up your project manually or integrate Flowbite Blazor into an existing project, 
-                    follow our <a href="/docs/getting-started/introduction" class="text-blue-600 hover:underline dark:text-blue-500">
-                    detailed installation guide</a>.</p>
+
+                    <p>If you prefer to set up your project manually or integrate Flowbite Blazor into an existing project,
+                        follow our
+                        <a href="/docs/getting-started/introduction" class="text-blue-600 hover:underline dark:text-blue-500">
+                            detailed installation guide</a>.</p>
                 </div>
             </div>
         </main>
