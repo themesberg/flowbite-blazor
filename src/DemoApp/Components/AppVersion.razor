@@ -29,9 +29,21 @@
         }
     }
 
-    /// <summary>
-    /// Gets the informational version of the Flowbite library (includes pre-release tags)
-    /// </summary>
-    private string AppInformationalVersion => Assembly.GetExecutingAssembly()
-        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "Unknown";
+    private string AppInformationalVersion
+    {
+        get
+        {
+            var appVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "Unknown";
+            
+            // if the version contains the '+' then the assembly version, then only
+            // display the content prior to the character.
+            var plusCharIndex = appVersion.IndexOf('+');
+            if (plusCharIndex > -1)
+            {
+                appVersion = appVersion.Substring(0, plusCharIndex);
+            }
+
+            return appVersion;
+        }
+    }
 }

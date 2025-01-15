@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <Version>0.0.2-alpha</Version>
+    <Version>0.0.4-alpha</Version>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -49,8 +49,8 @@
 
   <!-- Use package references for Release builds -->
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="Flowbite" Version="0.0.1-alpha.*" />
-    <PackageReference Include="Flowbite.ExtendedIcons" Version="0.0.1-alpha.*" />
+    <PackageReference Include="Flowbite" Version="0.0.*-*" />
+    <PackageReference Include="Flowbite.ExtendedIcons" Version="0.0.*-*" />
   </ItemGroup>
 
   <!-- Use project references for Debug/Development -->
