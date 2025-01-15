@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.4-alpha
+
+- Update project to always pull latest Flowbite assembles when build for Release for now.
+
 ## 0.0.3-alpha
 
 - Shows version of the App and the Flowbite assembly it is using.
