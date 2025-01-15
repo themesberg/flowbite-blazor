@@ -1,0 +1,37 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+@inject FlowbiteVersionService FlowbiteVersionService
+@using System.Reflection;
+
+<div class="flex items-center space-x-4 text-sm ">
+    <div class="flex items-center space-x-2">
+        <span class="font-medium">Flowbite:</span>
+        <p class="font-thin">@FlowbiteVersion</p>
+    </div>
+    <div class="flex items-center space-x-2">
+        <span class="font-medium">DemoApp:</span>
+        <p class="font-thin">@AppInformationalVersion</p>
+    </div>
+</div>
+
+@code
+{
+    private string FlowbiteVersion
+    {
+        get
+        {
+            var flowbiteVersion = FlowbiteVersionService.InformationalVersion;
+            if (flowbiteVersion.Contains("+"))
+            {
+                flowbiteVersion = flowbiteVersion.Substring(0, flowbiteVersion.IndexOf("+"));
+            }
+            return flowbiteVersion;
+        }
+    }
+
+    /// <summary>
+    /// Gets the informational version of the Flowbite library (includes pre-release tags)
+    /// </summary>
+    private string AppInformationalVersion => Assembly.GetExecutingAssembly()
+        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "Unknown";
+}
