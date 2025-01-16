@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.4-alpha
+
+- CodeBlock: add CopyToClipboard
+
+## 0.0.3-alpha
+
+- Namespace fixes
+
 ## 0.0.2-alpha
 
 - Rolled all assemblies to v0.0.2-alpha
