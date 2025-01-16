@@ -1,6 +1,14 @@
 @page "/docs/getting-started/quickstart"
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Quickstart - Flowbite Blazor</PageTitle>
+
+@{
+    var bashCmdDotnetNew = "dotnet new flowbite-blazor-wasm -o MyUnicornApp && cd MyUnicornApp";
+    var pwshCmdDotnetNew = "dotnet new flowbite-blazor-wasm -o MyUnicornApp; cd MyUnicornApp";
+    var bashCmdInstallTailwind = "mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ..";
+    var pwshCommandInstallTailwind = "mkdir ./tools -Force; cd ./tools; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ..";                   
+}
 
 <div class="container max-w-4xl">
     <div class="flex min-w-0 flex-col px-4 pb-12 pt-6 lg:px-8 lg:pb-16 lg:pt-8 xl:pb-24">
@@ -23,37 +31,41 @@
                     <p class="text-base text-gray-600 dark:text-gray-400">
                         1. Install the .NET Templates from NuGet. This allows you scaffold new projects
                     </p>
-                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code=@(@"
-dotnet new install Flowbite.Blazor.Templates
-
-")/>
+                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="dotnet new install Flowbite.Blazor.Templates" CopyToClipboard/>
                     <p class="text-base text-gray-600 dark:text-gray-400">
                         2. Scaffold a new a Standalone WASM Web Application (i.e. client-side only)
                     </p>
-                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code=@(@"
-dotnet new flowbite-blazor-wasm -o MyUnicornApp
-cd MyUnicornApp
 
-")/>
+                    @if (_isLoading)
+                    {
+                        <p>Detecting your operating system...</p>
+                    }
+                    else
+                    {                 
+                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? bashCmdDotnetNew : pwshCmdDotnetNew)" CopyToClipboard />
+                    }
 
                     <p class="text-base text-gray-600 dark:text-gray-400">
                         3. <span class="font-semibold text-black dark:text-white">Before building</span>, one must install the Tailwind CSS CLI application. Copy the commands below to download the standalone exe to the project's ./tools directory.
                     </p>
-                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code=@(@"
-# Mac/Linux
-mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ..
 
-# Windows
-mkdir ./tools -Force; cd ./tools; Invoke-WebRequest -Uri ""https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe"" -OutFile ""tailwindcss.exe"" -UseBasicParsing ; cd ..
+                    
+                    @if (_isLoading)
+                    {
+                        <p>Detecting your operating system...</p>
+                    }
+                    else
+                    {                 
+                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? bashCmdInstallTailwind : pwshCommandInstallTailwind)" CopyToClipboard />
+                    }
+                    
 
-")/>
                     <p class="text-base text-gray-600 dark:text-gray-400">
                         4. Build and run the project. The build output will report the URL being served (e.g. http://localhost:5269)
                     </p>
-                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code=@(@"
-dotnet run
 
-")/>
+
+                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="dotnet watch" CopyToClipboard />
                     
                     <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
                         <h3 class="text-lg font-semibold text-blue-900 dark:text-blue-100">What's Next?</h3>
@@ -84,3 +96,28 @@ dotnet run
         </aside>
     </div>
 </div>
+
+@code
+{
+    private bool _isWindows;
+    private bool _isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _isWindows = await IsWindowsOS();
+        _isLoading = false;
+    }
+
+    private async Task<bool> IsWindowsOS()
+    {
+        try
+        {
+            string userAgent = await JSRuntime.InvokeAsync<string>("eval", "navigator.userAgent");
+            return userAgent.Contains("Windows");
+        }
+        catch
+        {
+            return false;
+        }
+    }
+}
