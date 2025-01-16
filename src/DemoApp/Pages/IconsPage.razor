@@ -1,7 +1,7 @@
 @page "/icons"
 @layout StackedLayout
 @using System.Reflection
-@using Flowbite.Components.Base
+
 @inject IJSRuntime JSRuntime
 
 
@@ -74,34 +74,29 @@
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
         @foreach (var icon in CurrentPageIcons)
         {
-            <div class="group border dark:border-gray-700 rounded-lg p-4 flex flex-col items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                <div class="mb-3 flex items-center justify-center" style="width: @(_iconSize)px; height: @(_iconSize)px;">
-                    @{
-                        var iconType = icon.Type;
-                        var iconInstance = CreateIconInstance(iconType);
-                    }
-                    <DynamicComponent Type="iconType" 
-                                    Parameters="@(new Dictionary<string, object> { 
-                                        { nameof(IconBase.CssClass), $"w-full h-full text-gray-900 dark:text-white" },
-                                        { nameof(IconBase.StrokeWidth), _strokeWidth }
-                                    })" />
-                </div>
-                <div class="text-sm text-center w-full">
-                    <p class="font-medium text-gray-900 dark:text-white truncate mb-1">@icon.Name</p>
-                    <div class="flex justify-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button @onclick="() => CopyToClipboard(icon.Name)"
-                                class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                                title="Copy name">
-                            Copy
-                        </button>
-                        <button @onclick="() => CopyComponentUsage(icon.Name)"
-                                class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                                title="Copy component usage">
-                            Usage
-                        </button>
+            <button type="button" class="relative border border-gray-100 dark:border-gray-800 rounded-lg flex items-center justify-center group hover:cursor-pointer h-[95px]">
+                <div class="bg-[#1F2A37] absolute top-0 left-0 w-full h-full group-hover:opacity-80 opacity-0 rounded-lg transition-opacity flex items-center justify-center">
+                    <div class="flex items-center">
+                        <CopyToClipboardButton TextToCopy="@($"<{icon.Name}Icon />")" class="text-white" ShowTitle />
                     </div>
                 </div>
-            </div>
+                <div class="flex flex-col justify-center items-center">
+                    <div class="mb-2 flex items-center justify-center" style="width: @(_iconSize)px; height: @(_iconSize)px;">
+                        <div>
+                            @{
+                                var iconType = icon.Type;
+                                var iconInstance = CreateIconInstance(iconType);
+                            }
+                            <DynamicComponent Type="iconType" 
+                                            Parameters="@(new Dictionary<string, object> { 
+                                                { nameof(IconBase.CssClass), $"w-full h-full text-gray-800 dark:text-white" },
+                                                { nameof(IconBase.StrokeWidth), _strokeWidth }
+                                            })" />
+                        </div>
+                    </div>
+                    <span class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate whitespace-nowrap max-w-[90px]">@icon.Name</span>
+                </div>
+            </button>
         }
     </div>
 

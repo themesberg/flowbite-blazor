@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System.Collections.Generic;
-using Flowbite.Components.Base;
+
 using Microsoft.AspNetCore.Components.Routing;
 
 namespace Flowbite.Components;

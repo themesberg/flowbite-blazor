@@ -1,6 +1,6 @@
-@inherits UiComponentBase
+@inherits FlowbiteComponentBase
 
-<button onclick="flowbiteToggleDarkMode()" aria-label=@AriaLabel type="button" class=@ClassNames(btnClass, Class) >
+<button onclick="flowbiteToggleDarkMode()" aria-label=@AriaLabel type="button" class=@CombineClasses(btnClass, Class) >
   <span class="hidden dark:block">
     <slot name="lightIcon">
       <svg class=@SizeStyle fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
