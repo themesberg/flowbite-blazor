@@ -78,7 +78,7 @@ function New-ComponentContent {
     if ($IconStyle -eq "outline") {
         $content = @"
 @namespace Flowbite.Components.Icons
-@inherits Flowbite.Components.Base.IconBase
+@inherits Flowbite.Base.IconBase
 
 <svg class="@CombinedClassNames"
      fill="none"
@@ -98,7 +98,7 @@ function New-ComponentContent {
     else {
         $content = @"
 @namespace Flowbite.Components.Icons
-@inherits Flowbite.Components.Base.IconBase
+@inherits Flowbite.Base.IconBase
 
 <svg class="@CombinedClassNames"
      fill="none"

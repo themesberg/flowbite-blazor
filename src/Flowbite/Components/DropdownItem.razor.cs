@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Flowbite.Base;
-using Flowbite.Components.Base;
+
 
 namespace Flowbite.Components;
 
