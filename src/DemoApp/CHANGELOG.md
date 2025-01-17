@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.7-alpha
+
+- Tweaks to Quickstart
+
 ## 0.0.6-alpha
 
 - Tweaks to Quickstart
