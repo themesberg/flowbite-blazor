@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.7-alpha
+
+- Tweaks to Quickstart
+
+## 0.0.6-alpha
+
+- Tweaks to Quickstart
+
+## 0.0.5-alpha
+
+- Tweaks
+
 ## 0.0.4-alpha
 
 - Update project to always pull latest Flowbite assembles when build for Release for now.
