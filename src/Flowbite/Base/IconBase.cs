@@ -8,18 +8,6 @@ namespace Flowbite.Base;
 public abstract class IconBase : FlowbiteComponentBase
 {
     /// <summary>
-    /// Additional CSS class names to apply to the icon.
-    /// </summary>
-    [Parameter]
-    public string? CssClass { get; set; }
-
-    /// <summary>
-    /// Orverride CSS class names to apply to the icon.
-    /// </summary>
-    [Parameter]
-    public string? CssClassOverride { get; set; }
-
-    /// <summary>
     /// Whether the icon should be hidden from screen readers.
     /// </summary>
     [Parameter]
@@ -44,7 +32,7 @@ public abstract class IconBase : FlowbiteComponentBase
     {
         get
         {
-            return CombineClasses("w-6 h-6 text-gray-800 dark:text-white");
+            return CombineClasses(Class is not null ? Class : "w-6 h-6 text-gray-800 dark:text-white");
         }
     }
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.8-alpha
+
+- Simplify the IconBase
+
 ## 0.0.7-alpha
 
 - Tweaks to Quickstart

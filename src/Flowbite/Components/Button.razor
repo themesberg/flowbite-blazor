@@ -19,7 +19,7 @@
             @if (Icon != null)
             {
                 <span class="mr-2">
-                    <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object> { { "CssClassOverride", IconCssClassOverrides } })" />
+                    <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object> { { "Class", IconCssClassOverrides } })" />
                 </span>
             }
             @ChildContent
@@ -44,7 +44,7 @@ else
             @if (Icon != null)
             {
                 <span class="mr-2">
-                    <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object> { { "CssClassOverride", IconCssClassOverrides } })" />
+                    <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object> { { "Class", IconCssClassOverrides } })" />
                 </span>
             }
             @ChildContent
