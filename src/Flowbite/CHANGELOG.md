@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.5-alpha
+
+- simply the icon base class
+
 ## 0.0.4-alpha
 
 - CodeBlock: add CopyToClipboard
