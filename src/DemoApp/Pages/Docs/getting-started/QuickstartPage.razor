@@ -87,7 +87,7 @@
                                     var bashCmdDotnetNewDesktop = @"dotnet new flowbite-blazor-desktop -o MyUnicornDesktopApp && cd MyUnicornDesktopApp";
                                     var pwshCmdDotnetNewDesktop = @"dotnet new flowbite-blazor-desktop -o MyUnicornDesktopApp; cd MyUnicornDesktopApp";
                                     var bashCmdInstallTailwindDesktop = @"mkdir -p ./src/MyUnicornDesktopApp/tools && cd ./src/MyUnicornDesktopApp && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ../..";
-                                    var pwshCommandInstallTailwindDesktop = @"mkdir .\src\MyUnicornDesktopApp\tools -Force; .\src\MyUnicornDesktopApp; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ..\..";
+                                    var pwshCommandInstallTailwindDesktop = @"mkdir .\src\MyUnicornDesktopApp\tools -Force; cd .\src\MyUnicornDesktopApp; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ..\..";
                                 }
 
                                 <ol class="ps-5 space-y-4 list-decimal list-outside">
