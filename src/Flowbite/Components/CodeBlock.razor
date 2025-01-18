@@ -6,7 +6,7 @@
 {
     var codeToDisplay = $"\n{Code}\n\n";
 
-    <button type="button" class="relative border border-gray-100 dark:border-gray-800 rounded-lg flex items-center group hover:cursor-pointer">
+    <button type="button" class="@(FullWidth ? "w-full" : "max-w-full") relative border border-gray-100 dark:border-gray-800 rounded-lg flex items-center group hover:cursor-pointer">
         <div class="bg-[#1F2A37] absolute top-0 left-0 w-full h-full group-hover:opacity-80 opacity-0 rounded-lg transition-opacity flex items-center justify-center">
             <div class="flex items-center">
                 <CopyToClipboardButton TextToCopy="@Code" class="text-white" ShowTitle />
@@ -36,6 +36,9 @@ else
 
     [Parameter]
     public bool CopyToClipboard { get; set; } = false;
+
+    [Parameter]
+    public bool FullWidth { get; set; } = false;
 
     [Inject]
     private IJSRuntime? JSRuntime { get; set; }
