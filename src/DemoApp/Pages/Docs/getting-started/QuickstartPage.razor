@@ -3,175 +3,147 @@
 
 <PageTitle>Quickstart - Flowbite Blazor</PageTitle>
 
-
-
-<div class="container max-w-4xl">
-    <div class="flex min-w-0 flex-col px-4 pb-12 pt-6 lg:px-8 lg:pb-16 lg:pt-8 xl:pb-24">
-        <main>
-            <div class="divide-y divide-gray-200 dark:divide-gray-800">
-                <div class="pb-8">
-                    <div class="mb-2 inline-block w-full text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-                        Quickstart - Flowbite Blazor
-                    </div>
-                    <p class="text-lg text-gray-600 dark:text-gray-400">
-                        Learn how to get started with the free and open-source Flowbite Blazor component library based on the utility classes from Tailwind CSS
-                    </p>
-                </div>
-
-                <div class="flex flex-col py-8 space-y-4">
-                    <p class="text-base text-gray-600 dark:text-gray-400">
-                        Quickly scaffold a new Flowbite Blazor Web or Desktop application using the CLI
-                    </p>
-
-                    <Tabs Variant="TabVariant.Pills">
-                        <TabListContent>
-                            <Tab Index="0">Build a WebApp (Client-Side Only)</Tab>
-                            <Tab Index="1">Build a Desktop App</Tab>
-                        </TabListContent>
-                        <TabPanelsContent>
-                            <TabPanel Index="0" class="border border-gray-600 dark:border-gray-800">
-                                
-                                @{
-                                    var bashCmdDotnetNewWasm = @"dotnet new flowbite-blazor-wasm -o MyUnicornApp && cd MyUnicornApp";
-                                    var pwshCmdDotnetNewWasm = @"dotnet new flowbite-blazor-wasm -o MyUnicornApp; cd MyUnicornApp";
-                                    var bashCmdInstallTailwindWasm = @"mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ..";
-                                    var pwshCommandInstallTailwindWasm = @"mkdir .\tools -Force; cd .\tools; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ..";                   
-                                }
-
-                                <ol class="ps-5 space-y-4 list-decimal list-outside">
-                                    <li class="text-base text-gray-600 dark:text-gray-400">
-                                        Install the .NET Templates from NuGet. This allows you scaffold new projects
-                                    </li>
-                                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="dotnet new install Flowbite.Blazor.Templates" CopyToClipboard FullWidth/>
-                                    <li class="text-base text-gray-600 dark:text-gray-400">
-                                        Scaffold a new a Standalone WASM Web Application (i.e. client-side only)
-                                    </li>
-
-                                    @if (_isLoading)
-                                    {
-                                        <p>Detecting your operating system...</p>
-                                    }
-                                    else 
-                                    {                 
-                                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? pwshCmdDotnetNewWasm : bashCmdDotnetNewWasm)" CopyToClipboard FullWidth/>
-                                    }
-
-                                    <li class="text-base text-gray-600 dark:text-gray-400">
-                                        <span class="font-semibold text-black dark:text-white">Before building</span>, one must install the Tailwind CSS CLI application. Copy the commands below to download the standalone exe to the project's ./tools directory.
-                                    </li>
-
-                                    
-                                    @if (_isLoading)
-                                    {
-                                        <p>Detecting your operating system...</p>
-                                    }
-                                    else
-                                    {                 
-                                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? pwshCommandInstallTailwindWasm : bashCmdInstallTailwindWasm)" CopyToClipboard FullWidth/>
-                                    }
-                                    
-
-                                    <li class="text-base text-gray-600 dark:text-gray-400">
-                                        Build and run the project via `watch` (to allow hot reloading). The build console output will state the URL being served (e.g. http://localhost:5269)
-                                    </li>
-
-
-                                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="dotnet watch" CopyToClipboard FullWidth />
-                                </ol>
-                            </TabPanel>
-
-
-                            <TabPanel Index="1" class="border border-gray-600 dark:border-gray-800">
-
-                                @{
-                                    var bashCmdDotnetNewDesktop = @"dotnet new flowbite-blazor-desktop -o MyUnicornDesktopApp && cd MyUnicornDesktopApp";
-                                    var pwshCmdDotnetNewDesktop = @"dotnet new flowbite-blazor-desktop -o MyUnicornDesktopApp; cd MyUnicornDesktopApp";
-                                    var bashCmdInstallTailwindDesktop = @"mkdir -p ./src/MyUnicornDesktopApp/tools && cd ./src/MyUnicornDesktopApp/tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ../../..";
-                                    var pwshCommandInstallTailwindDesktop = @"mkdir .\src\MyUnicornDesktopApp\tools -Force; cd .\src\MyUnicornDesktopApp\tools; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ..\..\..";
-                                    var bashCmdWatchDesktop = @"cd ./src/MyUnicornDesktopApp && dotnet watch";
-                                    var pwshCommandWatchDesktop = @"cd .\src\MyUnicornDesktopApp; dotnet watch";
-                                }
-
-                                <ol class="ps-5 space-y-4 list-decimal list-outside">
-                                    <li class="text-base text-gray-600 dark:text-gray-400">
-                                        Install the .NET Templates from NuGet. This allows you scaffold new projects
-                                    </li>
-                                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="dotnet new install Flowbite.Blazor.Templates" CopyToClipboard FullWidth/>
-
-                                    <li class="text-base text-gray-600 dark:text-gray-400">
-                                        Scaffold a new a Desktop Web Application based on the lightweight <a  class="text-blue-600 hover:underline dark:text-blue-500" href="https://www.tryphotino.io/">photino desktop framework</a>
-                                    </li>
-
-                                    @if (_isLoading)
-                                    {
-                                        <p>Detecting your operating system...</p>
-                                    }
-                                    else
-                                    {                 
-                                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? pwshCmdDotnetNewDesktop : bashCmdDotnetNewDesktop)" CopyToClipboard FullWidth/>
-                                    }
-
-                                    <li class="text-base text-gray-600 dark:text-gray-400">
-                                        <span class="font-semibold text-black dark:text-white">Before building</span>, one must install the Tailwind CSS CLI application. Copy the commands below to download the standalone exe into the project's ./tools directory.
-                                    </li>
-
-                                    
-                                    @if (_isLoading)
-                                    {
-                                        <p>Detecting your operating system...</p>
-                                    }
-                                    else
-                                    {                 
-                                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? pwshCommandInstallTailwindDesktop : bashCmdInstallTailwindDesktop)" CopyToClipboard FullWidth/>
-                                    }
-                                    
-
-                                    <li class="text-base text-gray-600 dark:text-gray-400">
-                                        Build and run the project via `watch` (to allow hot reloading). The Desktop Application will be running.
-                                    </li>
-                                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? pwshCommandWatchDesktop : bashCmdWatchDesktop)" CopyToClipboard FullWidth/>
-
-                                    <li class="text-base text-gray-600 dark:text-gray-400">
-                                        Finally, the project is pre-configured to generate a Windows distributable setup.exe (OSX and Linux coming soon). Just follow the instructions found in your project's README.md file.
-                                    </li>
-                                </ol>
-
-                            </TabPanel>
-                        </TabPanelsContent>
-                    </Tabs>
-
-                    
-                    
-                    <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
-                        <h3 class="text-lg font-semibold text-blue-900 dark:text-blue-100">What's Next?</h3>
-                        <p class="text-blue-800 dark:text-blue-200">
-                            Check out our <a href="/docs/components/alert" class="underline">components documentation</a> to learn more about
-                            available components and their usage. For a more detailed setup guide, visit the
-                            <a href="/docs/getting-started/introduction" class="underline">introduction page</a>.
+@if (_isLoading)
+{
+    <p>Detecting your operating system...</p>
+}
+else
+{   
+    <div class="container max-w-4xl">
+        <div class="flex min-w-0 flex-col px-4 pb-12 pt-6 lg:px-8 lg:pb-16 lg:pt-8 xl:pb-24">
+            <main>
+                <div class="divide-y divide-gray-200 dark:divide-gray-800">
+                    <div class="pb-8">
+                        <div class="mb-2 inline-block w-full text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                            Quickstart - Flowbite Blazor
+                        </div>
+                        <p class="text-lg text-gray-600 dark:text-gray-400">
+                            Learn how to get started with the free and open-source Flowbite Blazor component library based on the utility classes from Tailwind CSS
                         </p>
                     </div>
 
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8">Manual Installation</h2>
+                    <div class="flex flex-col py-8 space-y-4">
+                        <p class="text-base text-gray-600 dark:text-gray-400">
+                            Quickly scaffold a new Flowbite Blazor Web or Desktop application using the CLI
+                        </p>
 
-                    <p>If you prefer to set up your project manually or integrate Flowbite Blazor into an existing project,
-                        follow our
-                        <a href="/docs/getting-started/introduction" class="text-blue-600 hover:underline dark:text-blue-500">
-                            detailed installation guide</a>.</p>
+                        <Tabs Variant="TabVariant.Pills">
+                            <TabListContent>
+                                <Tab Index="0">Build a WebApp (Client-Side Only)</Tab>
+                                <Tab Index="1">Build a Desktop App</Tab>
+                            </TabListContent>
+                            <TabPanelsContent>
+                                <TabPanel Index="0" class="border border-gray-600 dark:border-gray-800">
+                                    
+                                    @{
+                                        var bashCmdDotnetNewWasm = @"dotnet new flowbite-blazor-wasm -o MyUnicornApp && cd MyUnicornApp";
+                                        var pwshCmdDotnetNewWasm = @"dotnet new flowbite-blazor-wasm -o MyUnicornApp; cd MyUnicornApp";
+                                        var bashCmdInstallTailwindWasm = @"mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ..";
+                                        var pwshCommandInstallTailwindWasm = @"mkdir .\tools -Force; cd .\tools; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ..";                   
+                                    }
+
+                                    <ol class="ps-5 space-y-4 list-decimal list-outside">
+                                        <li class="text-base text-gray-600 dark:text-gray-400">
+                                            Install the .NET Templates from NuGet. This allows you scaffold new projects
+                                        </li>
+                                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="dotnet new install Flowbite.Blazor.Templates" CopyToClipboard FullWidth/>
+                                        
+                                        <li class="text-base text-gray-600 dark:text-gray-400">
+                                            Scaffold a new a Standalone WASM Web Application (i.e. client-side only)
+                                        </li>
+                                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? pwshCmdDotnetNewWasm : bashCmdDotnetNewWasm)" CopyToClipboard FullWidth/>
+                                        
+                                        
+                                        <li class="text-base text-gray-600 dark:text-gray-400">
+                                            <span class="font-semibold text-black dark:text-white">Before building</span>, one must install the Tailwind CSS CLI application. Copy the commands below to download the standalone exe to the project's ./tools directory.
+                                        </li>
+                                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? pwshCommandInstallTailwindWasm : bashCmdInstallTailwindWasm)" CopyToClipboard FullWidth/>
+                                        
+
+                                        <li class="text-base text-gray-600 dark:text-gray-400">
+                                            Build and run the project via `watch` (to allow hot reloading). The build console output will state the URL being served (e.g. http://localhost:5269)
+                                        </li>
+                                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="dotnet watch" CopyToClipboard FullWidth />
+                                    </ol>
+                                </TabPanel>
+
+
+                                <TabPanel Index="1" class="border border-gray-600 dark:border-gray-800">
+
+                                    @{
+                                        var bashCmdDotnetNewDesktop = @"dotnet new flowbite-blazor-desktop -o MyUnicornDesktopApp && cd MyUnicornDesktopApp";
+                                        var pwshCmdDotnetNewDesktop = @"dotnet new flowbite-blazor-desktop -o MyUnicornDesktopApp; cd MyUnicornDesktopApp";
+                                        var bashCmdInstallTailwindDesktop = @"mkdir -p ./src/MyUnicornDesktopApp/tools && cd ./src/MyUnicornDesktopApp/tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ../../..";
+                                        var pwshCommandInstallTailwindDesktop = @"mkdir .\src\MyUnicornDesktopApp\tools -Force; cd .\src\MyUnicornDesktopApp\tools; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ..\..\..";
+                                        var bashCmdWatchDesktop = @"cd ./src/MyUnicornDesktopApp && dotnet watch";
+                                        var pwshCommandWatchDesktop = @"cd .\src\MyUnicornDesktopApp; dotnet watch";
+                                    }
+
+                                    <ol class="ps-5 space-y-4 list-decimal list-outside">
+                                        <li class="text-base text-gray-600 dark:text-gray-400">
+                                            Install the .NET Templates from NuGet. This allows you scaffold new projects
+                                        </li>
+                                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="dotnet new install Flowbite.Blazor.Templates" CopyToClipboard FullWidth/>
+
+                                        <li class="text-base text-gray-600 dark:text-gray-400">
+                                            Scaffold a new a Desktop Web Application based on the lightweight <a  class="text-blue-600 hover:underline dark:text-blue-500" href="https://www.tryphotino.io/">photino desktop framework</a>
+                                        </li>
+                                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? pwshCmdDotnetNewDesktop : bashCmdDotnetNewDesktop)" CopyToClipboard FullWidth/>
+                                        
+
+                                        <li class="text-base text-gray-600 dark:text-gray-400">
+                                            <span class="font-semibold text-black dark:text-white">Before building</span>, one must install the Tailwind CSS CLI application. Copy the commands below to download the standalone exe into the project's ./tools directory.
+                                        </li>
+                                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? pwshCommandInstallTailwindDesktop : bashCmdInstallTailwindDesktop)" CopyToClipboard FullWidth/>
+                                        
+                                        
+
+                                        <li class="text-base text-gray-600 dark:text-gray-400">
+                                            Build and run the project via `watch` (to allow hot reloading). The Desktop Application will be running.
+                                        </li>
+                                        <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? pwshCommandWatchDesktop : bashCmdWatchDesktop)" CopyToClipboard FullWidth/>
+
+                                        <li class="text-base text-gray-600 dark:text-gray-400">
+                                            Finally, the project is pre-configured to generate a Windows distributable setup.exe (OSX and Linux coming soon). Just follow the instructions found in your project's README.md file.
+                                        </li>
+                                    </ol>
+
+                                </TabPanel>
+                            </TabPanelsContent>
+                        </Tabs>
+
+                        
+                        
+                        <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
+                            <h3 class="text-lg font-semibold text-blue-900 dark:text-blue-100">What's Next?</h3>
+                            <p class="text-blue-800 dark:text-blue-200">
+                                Check out our <a href="/docs/components/alert" class="underline">components documentation</a> to learn more about
+                                available components and their usage. For a more detailed setup guide, visit the
+                                <a href="/docs/getting-started/introduction" class="underline">introduction page</a>.
+                            </p>
+                        </div>
+
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8">Manual Installation</h2>
+
+                        <p>If you prefer to set up your project manually or integrate Flowbite Blazor into an existing project,
+                            follow our
+                            <a href="/docs/getting-started/introduction" class="text-blue-600 hover:underline dark:text-blue-500">
+                                detailed installation guide</a>.</p>
+                    </div>
                 </div>
-            </div>
-        </main>
-        <aside class="flex font-medium leading-6" aria-label="Previous and next page navigation">
-            <a class="flex items-center justify-center text-gray-500 transition-colors duration-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                href="/docs/getting-started/introduction">
-                <svg class="mr-2 size-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0l4 4M1 5l4-4"/>
-                </svg>
-                Introduction
-            </a>
-        </aside>
+            </main>
+            <aside class="flex font-medium leading-6" aria-label="Previous and next page navigation">
+                <a class="flex items-center justify-center text-gray-500 transition-colors duration-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                    href="/docs/getting-started/introduction">
+                    <svg class="mr-2 size-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0l4 4M1 5l4-4"/>
+                    </svg>
+                    Introduction
+                </a>
+            </aside>
+        </div>
     </div>
-</div>
-
+}
 @code
 {
     private bool _isWindows;
