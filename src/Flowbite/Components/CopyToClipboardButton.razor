@@ -2,7 +2,7 @@
 @using Microsoft.JSInterop
 
 
-<button @onclick="CopyToClipboard" class="p-2 flex items-center space-x-2 text-gray-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+<button @onclick="CopyToClipboard" class="@CombineClasses(Class, "p-2 flex items-center space-x-2 text-gray-200 hover:text-gray-100 dark:text-gray-400 dark:hover:text-white")">
     <ClipboardArrowIcon class="mt-1 w-5 h-5" />
     @if (ShowTitle)
     {
@@ -22,7 +22,7 @@
     [Inject]
     private IJSRuntime? JSRuntime { get; set; }
 
-    private async Task CopyToClipboard()
+    public async Task CopyToClipboard()
     {
         if (JSRuntime is null)
         {

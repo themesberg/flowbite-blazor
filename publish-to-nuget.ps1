@@ -21,6 +21,10 @@ if ($currentBranch -ne "main") {
   Write-ErrorAndExit "Publishing is only allowed from the 'main' branch. Current branch: $currentBranch"
 }
 
+# Clear all the old nuget-local folder
+Write-Host "Clear all the old nuget-local folder..."
+rm -r -force .\nuget-local
+
 # Build and pack Flowbite.Blazor
 Write-Host "Building and packing Flowbite.Blazor..."
 dotnet pack src/Flowbite/Flowbite.csproj -c Release -o nuget-local

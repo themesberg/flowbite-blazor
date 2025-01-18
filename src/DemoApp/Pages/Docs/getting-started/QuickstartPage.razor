@@ -32,10 +32,10 @@
                             <TabPanel Index="0" class="border border-gray-600 dark:border-gray-800">
                                 
                                 @{
-                                    var bashCmdDotnetNewWasm = "dotnet new flowbite-blazor-wasm -o MyUnicornApp && cd MyUnicornApp";
-                                    var pwshCmdDotnetNewWasm = "dotnet new flowbite-blazor-wasm -o MyUnicornApp; cd MyUnicornApp";
-                                    var bashCmdInstallTailwindWasm = "mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ..";
-                                    var pwshCommandInstallTailwindWasm = "mkdir ./tools -Force; cd ./tools; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ..";                   
+                                    var bashCmdDotnetNewWasm = @"dotnet new flowbite-blazor-wasm -o MyUnicornApp && cd MyUnicornApp";
+                                    var pwshCmdDotnetNewWasm = @"dotnet new flowbite-blazor-wasm -o MyUnicornApp; cd MyUnicornApp";
+                                    var bashCmdInstallTailwindWasm = @"mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ..";
+                                    var pwshCommandInstallTailwindWasm = @"mkdir .\tools -Force; cd .\tools; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ..";                   
                                 }
 
                                 <ol class="ps-5 space-y-4 list-decimal list-outside">
@@ -51,7 +51,7 @@
                                     {
                                         <p>Detecting your operating system...</p>
                                     }
-                                    else
+                                    else 
                                     {                 
                                         <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? pwshCmdDotnetNewWasm : bashCmdDotnetNewWasm)" CopyToClipboard FullWidth/>
                                     }
@@ -84,10 +84,12 @@
                             <TabPanel Index="1" class="border border-gray-600 dark:border-gray-800">
 
                                 @{
-                                    var bashCmdDotnetNewDesktop = "dotnet new flowbite-blazor-desktop -o MyUnicornApp && cd MyUnicornDesktopApp";
-                                    var pwshCmdDotnetNewDesktop = "dotnet new flowbite-blazor-desktop -o MyUnicornApp; cd MyUnicornDesktopApp";
-                                    var bashCmdInstallTailwindDesktop = "mkdir -p ./src/MyUnicornDesktopApp && cd ./src/MyUnicornDesktopApp && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ../..";
-                                    var pwshCommandInstallTailwindDesktop = "mkdir ../src/MyUnicornDesktopApp -Force; ./src/MyUnicornDesktopApp; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ../..";
+                                    var bashCmdDotnetNewDesktop = @"dotnet new flowbite-blazor-desktop -o MyUnicornDesktopApp && cd MyUnicornDesktopApp";
+                                    var pwshCmdDotnetNewDesktop = @"dotnet new flowbite-blazor-desktop -o MyUnicornDesktopApp; cd MyUnicornDesktopApp";
+                                    var bashCmdInstallTailwindDesktop = @"mkdir -p ./src/MyUnicornDesktopApp/tools && cd ./src/MyUnicornDesktopApp/tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ../../..";
+                                    var pwshCommandInstallTailwindDesktop = @"mkdir .\src\MyUnicornDesktopApp\tools -Force; cd .\src\MyUnicornDesktopApp\tools; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ..\..\..";
+                                    var bashCmdWatchDesktop = @"cd ./src/MyUnicornDesktopApp && dotnet watch";
+                                    var pwshCommandWatchDesktop = @"cd .\src\MyUnicornDesktopApp; dotnet watch";
                                 }
 
                                 <ol class="ps-5 space-y-4 list-decimal list-outside">
@@ -127,10 +129,10 @@
                                     <li class="text-base text-gray-600 dark:text-gray-400">
                                         Build and run the project via `watch` (to allow hot reloading). The Desktop Application will be running.
                                     </li>
-                                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="dotnet watch" CopyToClipboard FullWidth/>
+                                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? pwshCommandWatchDesktop : bashCmdWatchDesktop)" CopyToClipboard FullWidth/>
 
                                     <li class="text-base text-gray-600 dark:text-gray-400">
-                                        Finally, the scaffolded project is also configured to generated a distributable setup.exe. Just follow the instructions found in your project's README.md file.
+                                        Finally, the project is pre-configured to generate a Windows distributable setup.exe (OSX and Linux coming soon). Just follow the instructions found in your project's README.md file.
                                     </li>
                                 </ol>
 
