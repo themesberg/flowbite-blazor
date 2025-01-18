@@ -129,7 +129,7 @@
                                     <li class="text-base text-gray-600 dark:text-gray-400">
                                         Build and run the project via `watch` (to allow hot reloading). The Desktop Application will be running.
                                     </li>
-                                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="dotnet watch" CopyToClipboard FullWidth/>
+                                    <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@(_isWindows ? pwshCommandWatchDesktop : bashCmdWatchDesktop)" CopyToClipboard FullWidth/>
 
                                     <li class="text-base text-gray-600 dark:text-gray-400">
                                         Finally, the scaffolded project is also configured to generated a distributable setup.exe. Just follow the instructions found in your project's README.md file.
