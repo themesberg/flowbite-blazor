@@ -84,8 +84,8 @@
                             <TabPanel Index="1" class="border border-gray-600 dark:border-gray-800">
 
                                 @{
-                                    var bashCmdDotnetNewDesktop = "dotnet new flowbite-blazor-desktop -o MyUnicornApp && cd MyUnicornDesktopApp";
-                                    var pwshCmdDotnetNewDesktop = "dotnet new flowbite-blazor-desktop -o MyUnicornApp; cd MyUnicornDesktopApp";
+                                    var bashCmdDotnetNewDesktop = "dotnet new flowbite-blazor-desktop -o MyUnicornDesktopApp && cd MyUnicornDesktopApp";
+                                    var pwshCmdDotnetNewDesktop = "dotnet new flowbite-blazor-desktop -o MyUnicornDesktopApp; cd MyUnicornDesktopApp";
                                     var bashCmdInstallTailwindDesktop = "mkdir -p ./src/MyUnicornDesktopApp && cd ./src/MyUnicornDesktopApp && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ../..";
                                     var pwshCommandInstallTailwindDesktop = "mkdir ../src/MyUnicornDesktopApp -Force; ./src/MyUnicornDesktopApp; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ../..";
                                 }
