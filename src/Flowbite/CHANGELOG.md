@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.6-alpha
+
+- enhancements to CodeBlock and CopyToClipboardButton
+
 ## 0.0.5-alpha
 
 - simply the icon base class
