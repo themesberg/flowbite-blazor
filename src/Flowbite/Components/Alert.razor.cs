@@ -201,7 +201,7 @@ public partial class Alert
         AlertColor.Green => "border-green-500 bg-green-100 text-green-700 dark:bg-green-200 dark:text-green-800",
         AlertColor.Yellow => "border-yellow-500 bg-yellow-100 text-yellow-700 dark:bg-yellow-200 dark:text-yellow-800",
         AlertColor.Blue => "border-blue-500 bg-blue-100 text-blue-700 dark:bg-blue-200 dark:text-blue-800",
-        AlertColor.primary => "border-primary-500 bg-primary-100 text-primary-700 dark:bg-primary-200 dark:text-primary-800",
+        AlertColor.Primary => "border-primary-500 bg-primary-100 text-primary-700 dark:bg-primary-200 dark:text-primary-800",
         AlertColor.Pink => "border-pink-500 bg-pink-100 text-pink-700 dark:bg-pink-200 dark:text-pink-800",
         AlertColor.Lime => "border-lime-500 bg-lime-100 text-lime-700 dark:bg-lime-200 dark:text-lime-800",
         AlertColor.Dark => "border-gray-600 bg-gray-800 text-gray-200 dark:bg-gray-900 dark:text-gray-300",
@@ -214,7 +214,7 @@ public partial class Alert
 
     private string GetIconColorClass() => Color switch
     {
-        AlertColor.Info or AlertColor.primary => "text-primary-500",
+        AlertColor.Info or AlertColor.Primary => "text-primary-500",
         AlertColor.Success or AlertColor.Green => "text-green-500",
         AlertColor.Warning or AlertColor.Yellow => "text-yellow-500",
         AlertColor.Failure or AlertColor.Red => "text-red-500",
@@ -240,7 +240,7 @@ public partial class Alert
         AlertColor.Green => "-m-1.5 ml-auto inline-flex h-8 w-8 rounded-lg p-1.5 bg-green-100 text-green-500 hover:bg-green-200 focus:ring-2 focus:ring-green-400 dark:bg-green-200 dark:text-green-600 dark:hover:bg-green-300",
         AlertColor.Yellow => "-m-1.5 ml-auto inline-flex h-8 w-8 rounded-lg p-1.5 bg-yellow-100 text-yellow-500 hover:bg-yellow-200 focus:ring-2 focus:ring-yellow-400 dark:bg-yellow-200 dark:text-yellow-600 dark:hover:bg-yellow-300",
         AlertColor.Blue => "-m-1.5 ml-auto inline-flex h-8 w-8 rounded-lg p-1.5 bg-blue-100 text-blue-500 hover:bg-blue-200 focus:ring-2 focus:ring-blue-400 dark:bg-blue-200 dark:text-blue-600 dark:hover:bg-blue-300",
-        AlertColor.primary => "-m-1.5 ml-auto inline-flex h-8 w-8 rounded-lg p-1.5 bg-primary-100 text-primary-500 hover:bg-primary-200 focus:ring-2 focus:ring-primary-400 dark:bg-primary-200 dark:text-primary-600 dark:hover:bg-primary-300",
+        AlertColor.Primary => "-m-1.5 ml-auto inline-flex h-8 w-8 rounded-lg p-1.5 bg-primary-100 text-primary-500 hover:bg-primary-200 focus:ring-2 focus:ring-primary-400 dark:bg-primary-200 dark:text-primary-600 dark:hover:bg-primary-300",
         AlertColor.Pink => "-m-1.5 ml-auto inline-flex h-8 w-8 rounded-lg p-1.5 bg-pink-100 text-pink-500 hover:bg-pink-200 focus:ring-2 focus:ring-pink-400 dark:bg-pink-200 dark:text-pink-600 dark:hover:bg-pink-300",
         AlertColor.Lime => "-m-1.5 ml-auto inline-flex h-8 w-8 rounded-lg p-1.5 bg-lime-100 text-lime-500 hover:bg-lime-200 focus:ring-2 focus:ring-lime-400 dark:bg-lime-200 dark:text-lime-600 dark:hover:bg-lime-300",
         AlertColor.Dark => "-m-1.5 ml-auto inline-flex h-8 w-8 rounded-lg p-1.5 bg-gray-100 text-gray-500 hover:bg-gray-200 focus:ring-2 focus:ring-gray-400 dark:bg-gray-200 dark:text-gray-600 dark:hover:bg-gray-300",
@@ -308,7 +308,7 @@ public enum AlertColor
     /// <summary>
     /// Primary color alert (typically matching the application's primary theme).
     /// </summary>
-    primary,
+    Primary,
 
     /// <summary>
     /// Pink-colored alert.

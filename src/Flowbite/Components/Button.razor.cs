@@ -169,6 +169,7 @@ public partial class Button
             ButtonStyle.Default => Color switch
             {
                 ButtonColor.Default => new[] { "text-white", "bg-blue-700", "hover:bg-blue-800", "focus:ring-4", "focus:ring-blue-300", "dark:bg-blue-600", "dark:hover:bg-blue-700", "dark:focus:ring-blue-800" },
+                ButtonColor.Primary => new[] { "text-white", "bg-primary-700", "hover:bg-primary-800", "focus:ring-4", "focus:ring-primary-300", "dark:bg-primary-600", "dark:hover:bg-primary-700", "dark:focus:ring-primary-800" },
                 ButtonColor.Gray => new[] { "text-gray-900", "bg-white", "border", "border-gray-200", "hover:bg-gray-100", "focus:ring-4", "focus:ring-gray-100", "dark:bg-gray-800", "dark:text-white", "dark:border-gray-600", "dark:hover:bg-gray-700", "dark:focus:ring-gray-700" },
                 ButtonColor.Dark => new[] { "text-white", "bg-gray-800", "hover:bg-gray-900", "focus:ring-4", "focus:ring-gray-300", "dark:bg-gray-800", "dark:hover:bg-gray-700", "dark:focus:ring-gray-700" },
                 ButtonColor.Light => new[] { "text-gray-900", "bg-white", "border", "border-gray-300", "hover:bg-gray-100", "focus:ring-4", "focus:ring-gray-100", "dark:bg-gray-800", "dark:text-white", "dark:border-gray-600", "dark:hover:bg-gray-700", "dark:focus:ring-gray-700" },
@@ -181,6 +182,7 @@ public partial class Button
             ButtonStyle.Outline => Color switch
             {
                 ButtonColor.Default => new[] { "text-blue-700", "border", "border-blue-700", "hover:bg-blue-700", "hover:text-white", "focus:ring-4", "focus:ring-blue-300", "dark:border-blue-500", "dark:text-blue-500", "dark:hover:text-white", "dark:hover:bg-blue-500", "dark:focus:ring-blue-800" },
+                ButtonColor.Primary => new[] { "text-primary-700", "border", "border-primary-700", "hover:bg-primary-700", "hover:text-white", "focus:ring-4", "focus:ring-primary-300", "dark:border-primary-500", "dark:text-primary-500", "dark:hover:text-white", "dark:hover:bg-primary-500", "dark:focus:ring-primary-800" },
                 ButtonColor.Gray => new[] { "text-gray-900", "border", "border-gray-800", "hover:bg-gray-900", "hover:text-white", "focus:ring-4", "focus:ring-gray-300", "dark:border-gray-600", "dark:text-gray-400", "dark:hover:text-white", "dark:hover:bg-gray-600", "dark:focus:ring-gray-700" },
                 ButtonColor.Dark => new[] { "text-gray-900", "border", "border-gray-800", "hover:bg-gray-900", "hover:text-white", "focus:ring-4", "focus:ring-gray-300", "dark:border-gray-600", "dark:text-gray-400", "dark:hover:text-white", "dark:hover:bg-gray-600", "dark:focus:ring-gray-700" },
                 ButtonColor.Light => new[] { "text-gray-500", "border", "border-gray-300", "hover:bg-gray-100", "focus:ring-4", "focus:ring-gray-200", "dark:border-gray-600", "dark:text-gray-400", "dark:hover:text-white", "dark:hover:bg-gray-600", "dark:focus:ring-gray-700" },
@@ -223,6 +225,11 @@ public partial class Button
         /// Default blue color.
         /// </summary>
         Default,
+
+        /// <summary>
+        /// Primary color
+        /// </summary>
+        Primary,
 
         /// <summary>
         /// Gray light/gray color.
