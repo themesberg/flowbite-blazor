@@ -20,33 +20,11 @@ Flowbite Blazor provides two icon packages:
 <Alert Icon="@(new InfoIcon())" Color="AlertColor.Info">
     Important information
 </Alert>
-```
 
-### Extended Icons
-
-Install the additional icons package:
-
-```bash
-dotnet add package Flowbite.ExtendedIcons
-```
-
-Then add to _Imports.razor:
-
-```razor
-@using Flowbite.ExtendedIcons
-```
-
-Now you can use any of the extended icons:
-
-```razor
-<Button>
-    <ChartPieIcon class="w-5 h-5 mr-2" />
-    Statistics
+<!-- Using icons in components -->
+<Button Icon="@(new HomeIcon())" Color="ButtonColor.Primary">
+    Home
 </Button>
-
-<SidebarItem Icon="@(new DashboardIcon())">
-    Dashboard
-</SidebarItem>
 ```
 
 </doc>
