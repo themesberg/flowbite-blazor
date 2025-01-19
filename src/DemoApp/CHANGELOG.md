@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.21-alpha
+
+- Refine the llms-ctx.md
+
+## 0.0.20-alpha
+
+- Quickstart. Stable and vetted version
+
 ## 0.0.9-alpha
 
 - Quickstart - Add tabs and add instructions for the desktop app template. relies on Flowbite 0.0.6
