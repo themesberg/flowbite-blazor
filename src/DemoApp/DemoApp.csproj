@@ -11,6 +11,10 @@
     <TailwindConfig>tailwind.config.js</TailwindConfig>
   </PropertyGroup>
 
+  <ItemGroup>
+        <Watch Include="**\*.cs;**\*.cshtml;*.razor;**\*.js;**\*.css" Exclude="**\obj\**\*;bin\**\*" />
+  </ItemGroup>
+
   <PropertyGroup>
     <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents>
   </PropertyGroup>

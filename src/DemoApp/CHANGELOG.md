@@ -3,6 +3,7 @@
 ## 0.0.21-alpha
 
 - Refine the llms-ctx.md
+- Add link to llmx-ctx.md from the header, IndexPage, and Quickstart
 
 ## 0.0.20-alpha
 
