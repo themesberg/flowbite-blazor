@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.21-alpha
+
+- llms-ctx.md:
+    - Refine the llms-ctx.md
+    - Add link to llmx-ctx.md from the header, IndexPage, and Quickstart
+    - Include the list of built-in icons
+- Other updates
+    - Simplify the docs page.
+
+## 0.0.20-alpha
+
+- Quickstart. Stable and vetted version
+
 ## 0.0.9-alpha
 
 - Quickstart - Add tabs and add instructions for the desktop app template. relies on Flowbite 0.0.6

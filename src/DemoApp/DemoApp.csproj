@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <Version>0.0.20-alpha</Version>
+    <Version>0.0.21-alpha</Version>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -10,6 +10,10 @@
     <PostCSSConfig>postcss.config.js</PostCSSConfig>
     <TailwindConfig>tailwind.config.js</TailwindConfig>
   </PropertyGroup>
+
+  <ItemGroup>
+        <Watch Include="**\*.cs;**\*.cshtml;*.razor;**\*.js;**\*.css" Exclude="**\obj\**\*;bin\**\*" />
+  </ItemGroup>
 
   <PropertyGroup>
     <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents>

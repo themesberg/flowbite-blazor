@@ -1,15 +1,21 @@
 <project title="Flowbite Blazor" summary="A comprehensive Blazor component library that ports the Flowbite React component library to ASP.NET Blazor 8.0. Built on TailwindCSS, it provides strongly-typed Blazor components that implement Flowbite design patterns while maintaining consistency with the React implementation. The library offers a rich set of accessible, dark-mode compatible components with built-in ARIA support.">
 
+## Project Links
+
+- [Github Repository](https://github.com/peakflames/flowbite-blazor)
+- [Documenation Site](https://flowbite-blazor.peakflames.org/docs/components/{{COMPONENT_NAME}})
+
+
 ## Features
 
-- 🎨 TailwindCSS Integration - Beautiful, responsive designs out of the box
-- 🌙 Dark Mode Support - Automatic dark mode through TailwindCSS classes
-- ♿ Built-in Accessibility - ARIA attributes and keyboard navigation included
-- 📱 Responsive Design - Mobile-first components that work everywhere
-- 🚀 Native Blazor Events - Seamless integration with Blazor's event system
-- 🎯 Strong Typing - Full type safety and IntelliSense support
-- 📦 No Node.js Required - Simple MSBuild integration for TailwindCSS
-- 🔌 Extended Icons - Optional package for additional icon components
+- TailwindCSS Integration - Beautiful, responsive designs out of the box
+- Dark Mode Support - Automatic dark mode through TailwindCSS classes
+- Built-in Accessibility - ARIA attributes and keyboard navigation included
+- Responsive Design - Mobile-first components that work everywhere
+- Native Blazor Events - Seamless integration with Blazor's event system
+- Strong Typing - Full type safety and IntelliSense support
+- No Node.js Required - Simple MSBuild integration for TailwindCSS
+- Extended Icons - Optional package for additional icon components
 
 
 <docs>
@@ -18,97 +24,109 @@
 
 ## Installation
 
-```bash
-# Install Flowbite Blazor packages
-dotnet add package Flowbite.Blazor
-dotnet add package Flowbite.ExtendedIcons  # Optional: Additional icons
-```
+Quickly scaffold a new project using the using the CLI. The following project types include:
+1. Blazor WebAssembly Standalone App
+2. Desktop Application using Blazor and Photino.NET
 
-Configure your .csproj file with TailwindCSS build targets:
+### Scaffold a Blazor WebAssembly Standalone App
 
-```xml
-<PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <InvariantGlobalization>true</InvariantGlobalization>
-    <BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
-    <PostCSSConfig>postcss.config.js</PostCSSConfig>
-    <TailwindConfig>tailwind.config.js</TailwindConfig>
-</PropertyGroup>
+- __For Window Platform:__
 
-<!-- Tailwind CSS Build Targets -->
-<Target Name="Tailwind" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
-    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --minify --postcss" />
-</Target>
+    ```powershell
+    dotnet new install Flowbite.Blazor.Templates
+    dotnet new flowbite-blazor-wasm -o {{PROJECT_NAME}};
+    cd {{PROJECT_NAME}}
+    mkdir .\tools -Force
+    cd .\tools
+    Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing
+    cd ..
+    dotnet build
+    ```
 
-<Target Name="TailwindWatch" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
-    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --watch --postcss" />
-</Target>
+- __For Mac OSX Arm64:__
 
-<Target Name="DisableTailwindOnPublish" BeforeTargets="Publish">
-    <PropertyGroup>
-        <DisableTailwind>true</DisableTailwind>
-    </PropertyGroup>
-</Target>
+    ```zsh
+    dotnet new install Flowbite.Blazor.Templates
+    dotnet new flowbite-blazor-wasm -o {{PROJECT_NAME}};
+    cd {{PROJECT_NAME}}
+    mkdir ./tools
+    cd ./tools
+    curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64
+    chmod +x tailwindcss-macos-arm64 
+    mv tailwindcss-macos-arm64 tailwindcss
+    cd ..
+    dotnet build
+    ```
 
-<ItemGroup>
-    <UpToDateCheckBuilt Include="wwwroot/css/app.css" Set="Css" />
-    <UpToDateCheckBuilt Include="wwwroot/css/app.min.css" Set="Css" />
-    <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
-</ItemGroup>
-```
+### Scaffold a Desktop Application using Blazor and Photino.NET
 
-Add to _Imports.razor:
+- __For Window Platform:__
 
-```razor
-@using Flowbite
-@using Flowbite.Components
-@using Flowbite.ExtendedIcons  // If using extended icons
-```
+    ```powershell
+    dotnet new install Flowbite.Blazor.Templates
+    dotnet new flowbite-blazor-desktop -o {{PROJECT_NAME}};
+    cd {{PROJECT_NAME}}
+    mkdir .\src\{{PROJECT_NAME}}\tools -Force;
+    cd .\src\{{PROJECT_NAME}}\tools;
+    Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ;
+    cd ..\..\..
+    dotnet build
+    ```
 
-Configure in Program.cs:
+- __For Mac OSX Arm64:__
 
-```csharp
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddFlowbiteBlazor();
-```
-
-Add the references to Flowbite CSS file to the <head> element
-
-```html
-<link rel="stylesheet" href="_content/Flowbite/flowbite.min.css" />
-```
-
-Add the reference to Flowbite Javascript file to end of your <body> element
-
-```html
-<script src="_content/Flowbite/flowbite.js"></script>
-```
-
-> **Note**
->
-> TailwindCSS is integrated via MSBuild targets and uses a local tailwindcss. No Node.js installation is required.
-
-> **Note**
->
-> The AddFlowbiteBlazor() method automatically registers all Flowbite components and services. You don't need to register components individually.
-
-> **Note**
->
-> The  Flowbite CSS file and Javascript file are mandatory.
+    ```zsh
+    dotnet new install Flowbite.Blazor.Templates
+    dotnet new flowbite-blazor-desktop -o {{PROJECT_NAME}};
+    cd {{PROJECT_NAME}}
+    mkdir -p ./src/{{PROJECT_NAME}}/tools
+    cd ./src/{{PROJECT_NAME}}/tools 
+    curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64
+    chmod +x tailwindcss-macos-arm64
+    mv tailwindcss-macos-arm64 tailwindcss && cd ../../..
+    dotnet build
+    ```
 
 ## Available Components
 
-Flowbite Blazor provides a comprehensive set of UI components:
+Flowbite Blazor provides the following set of UI components:
+
+- Alert
+- Avatar
+- Badge
+- Breadcrumb
+- Button
+- Card
+- Dropdown
+- Navbar
+- Spinner
+- Sidebar
+- Tabs
+- Tooltip
 
 ### Interactive Components
 
 #### Button Examples
 
+The available Button colors are:
+- None specified is the same as ButtonColor.Default
+- ButtonColor.Gray
+- ButtonColor.Primary
+- ButtonColor.Dark
+- ButtonColor.Light
+- ButtonColor.Green
+- ButtonColor.Red
+- ButtonColor.Yellow
+- ButtonColor.Purple
+
+The available Button sizes are:
+- ButtonSize.Small,
+- ButtonSize.Medium,
+- ButtonSize.Large
+
 ```razor
 <!-- Default button with color -->
-<Button Color="ButtonColor.Primary" Size="ButtonSize.Large">
+<Button Color="ButtonColor.Green" Size="ButtonSize.Large">
     Click me
 </Button>
 
@@ -134,6 +152,25 @@ Flowbite Blazor provides a comprehensive set of UI components:
 ```
 
 #### Alert Examples
+
+The available Alert colors are:
+- AlertColor.Info
+- AlertColor.Gray
+- AlertColor.Failure
+- AlertColor.Success
+- AlertColor.Warning
+- AlertColor.Red
+- AlertColor.Green
+- AlertColor.Yellow
+- AlertColor.Blue
+- AlertColor.Primary
+- AlertColor.Pink
+- AlertColor.Lime
+- AlertColor.Dark
+- AlertColor.Indigo
+- AlertColor.Purple
+- AlertColor.Teal
+- AlertColor.Light
 
 ```razor
 <!-- Default alert with emphasis -->
@@ -651,34 +688,110 @@ Flowbite Blazor provides two icon packages:
 <Alert Icon="@(new InfoIcon())" Color="AlertColor.Info">
     Important information
 </Alert>
-```
 
-### Extended Icons
-
-Install the additional icons package:
-
-```bash
-dotnet add package Flowbite.ExtendedIcons
-```
-
-Then add to _Imports.razor:
-
-```razor
-@using Flowbite.ExtendedIcons
-```
-
-Now you can use any of the extended icons:
-
-```razor
-<Button>
-    <ChartPieIcon class="w-5 h-5 mr-2" />
-    Statistics
+<!-- Using icons in components -->
+<Button Icon="@(new HomeIcon())" Color="ButtonColor.Primary">
+    Home
 </Button>
-
-<SidebarItem Icon="@(new DashboardIcon())">
-    Dashboard
-</SidebarItem>
 ```
+
+### List of Icon Components
+
+The Icon class name is defined as `{{name}}Icon` where `name` is from the following list:
+- Apple
+- ArrowDown
+- ArrowLeft                                                                                                                                                                                                                                              
+- ArrowRight
+- ArrowRightToBracket
+- ArrowUp
+- ArrowUpRightFromSquare
+- Aws
+- Bars
+- Bell
+- Bluesky
+- CalendarMonth
+- Chart
+- CheckCircle
+- Check
+- ChevronDown
+- ChevronLeft
+- ChevronRight
+- ChevronUp
+- ClipboardArrow
+- Clock                                                                                                                                                                                                                                                  
+- CloseCircle
+- CloseCircleSolid
+- Close
+- CodeBranch
+- Compress
+- Database
+- Discord
+- DotsHorizontal
+- DotsVertical
+- Download
+- Edit
+- Envelope
+- ExclamationSolid
+- ExclamationTriangle
+- Expand
+- Eye                                                                                                                                                                                                                                                    
+- EyeSlash
+- Facebook
+- FileCopy
+- FileExport
+- File
+- FileImport
+- Filter
+- FloppyDiskAlt
+- FloppyDisk
+- Folder
+- Forward
+- Gear
+- Github
+- Gitlab
+- Google
+- Grid
+- Hamburger                                                                                                                                                                                                                                              
+- Heart
+- Home
+- Image
+- InfoCircle
+- Info
+- Instagram
+- Linkedin
+- List
+- Lock
+- LockOpen
+- MapPin
+- Messages
+- PaperClip
+- Pencil
+- Phone
+- Play
+- Plus                                                                                                                                                                                                                                                   
+- Printer
+- QuestionCircle
+- Reddit
+- Refresh
+- Rocket
+- Search
+- ShareNodes
+- Sort
+- Star
+- Stop                                                                                                                                                                                                                                                   
+- TableRow
+- TrashBin
+- Twitter
+- Undo
+- Upload
+- UserCircle
+- User
+- UserSolid
+- Whatsapp
+- Windows
+- X
+- Youtube
+
 
 </doc>
 
@@ -735,35 +848,6 @@ Enable dark mode by adding the 'dark' class to any parent element:
         </p>
     </Card>
 </div>
-```
-
-### Accessibility
-
-Components include built-in accessibility features:
-
-```razor
-<!-- Automatic ARIA attributes -->
-<Alert Color="AlertColor.Warning" 
-       IsDismissible="true"
-       Role="alert">
-    <p>Warning: This action cannot be undone.</p>
-</Alert>
-
-<!-- Keyboard navigation -->
-<Dropdown>
-    <Label>Accessible Menu</Label>
-    <ChildContent>
-        <!-- Tab and arrow key navigation supported -->
-        <DropdownItem>Profile</DropdownItem>
-        <DropdownItem>Settings</DropdownItem>
-    </ChildContent>
-</Dropdown>
-
-<!-- Screen reader text -->
-<Button>
-    <span class="sr-only">Close menu</span>
-    <XMarkIcon class="w-5 h-5" />
-</Button>
 ```
 
 </doc>

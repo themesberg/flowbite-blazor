@@ -51,33 +51,4 @@ Enable dark mode by adding the 'dark' class to any parent element:
 </div>
 ```
 
-### Accessibility
-
-Components include built-in accessibility features:
-
-```razor
-<!-- Automatic ARIA attributes -->
-<Alert Color="AlertColor.Warning" 
-       IsDismissible="true"
-       Role="alert">
-    <p>Warning: This action cannot be undone.</p>
-</Alert>
-
-<!-- Keyboard navigation -->
-<Dropdown>
-    <Label>Accessible Menu</Label>
-    <ChildContent>
-        <!-- Tab and arrow key navigation supported -->
-        <DropdownItem>Profile</DropdownItem>
-        <DropdownItem>Settings</DropdownItem>
-    </ChildContent>
-</Dropdown>
-
-<!-- Screen reader text -->
-<Button>
-    <span class="sr-only">Close menu</span>
-    <XMarkIcon class="w-5 h-5" />
-</Button>
-```
-
 </doc>

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.8-alpha
+
+- Added Primary as color enum to Button and Alert components.
+
+## 0.0.7-alpha
+
+- update flowbite.min.css
+
 ## 0.0.6-alpha
 
 - enhancements to CodeBlock and CopyToClipboardButton

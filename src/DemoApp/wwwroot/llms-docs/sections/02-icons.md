@@ -20,33 +20,109 @@ Flowbite Blazor provides two icon packages:
 <Alert Icon="@(new InfoIcon())" Color="AlertColor.Info">
     Important information
 </Alert>
-```
 
-### Extended Icons
-
-Install the additional icons package:
-
-```bash
-dotnet add package Flowbite.ExtendedIcons
-```
-
-Then add to _Imports.razor:
-
-```razor
-@using Flowbite.ExtendedIcons
-```
-
-Now you can use any of the extended icons:
-
-```razor
-<Button>
-    <ChartPieIcon class="w-5 h-5 mr-2" />
-    Statistics
+<!-- Using icons in components -->
+<Button Icon="@(new HomeIcon())" Color="ButtonColor.Primary">
+    Home
 </Button>
-
-<SidebarItem Icon="@(new DashboardIcon())">
-    Dashboard
-</SidebarItem>
 ```
+
+### List of Icon Components
+
+The Icon class name is defined as `{{name}}Icon` where `name` is from the following list:
+- Apple
+- ArrowDown
+- ArrowLeft                                                                                                                                                                                                                                              
+- ArrowRight
+- ArrowRightToBracket
+- ArrowUp
+- ArrowUpRightFromSquare
+- Aws
+- Bars
+- Bell
+- Bluesky
+- CalendarMonth
+- Chart
+- CheckCircle
+- Check
+- ChevronDown
+- ChevronLeft
+- ChevronRight
+- ChevronUp
+- ClipboardArrow
+- Clock                                                                                                                                                                                                                                                  
+- CloseCircle
+- CloseCircleSolid
+- Close
+- CodeBranch
+- Compress
+- Database
+- Discord
+- DotsHorizontal
+- DotsVertical
+- Download
+- Edit
+- Envelope
+- ExclamationSolid
+- ExclamationTriangle
+- Expand
+- Eye                                                                                                                                                                                                                                                    
+- EyeSlash
+- Facebook
+- FileCopy
+- FileExport
+- File
+- FileImport
+- Filter
+- FloppyDiskAlt
+- FloppyDisk
+- Folder
+- Forward
+- Gear
+- Github
+- Gitlab
+- Google
+- Grid
+- Hamburger                                                                                                                                                                                                                                              
+- Heart
+- Home
+- Image
+- InfoCircle
+- Info
+- Instagram
+- Linkedin
+- List
+- Lock
+- LockOpen
+- MapPin
+- Messages
+- PaperClip
+- Pencil
+- Phone
+- Play
+- Plus                                                                                                                                                                                                                                                   
+- Printer
+- QuestionCircle
+- Reddit
+- Refresh
+- Rocket
+- Search
+- ShareNodes
+- Sort
+- Star
+- Stop                                                                                                                                                                                                                                                   
+- TableRow
+- TrashBin
+- Twitter
+- Undo
+- Upload
+- UserCircle
+- User
+- UserSolid
+- Whatsapp
+- Windows
+- X
+- Youtube
+
 
 </doc>
