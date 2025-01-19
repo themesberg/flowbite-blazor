@@ -4,6 +4,7 @@
 
 - Refine the llms-ctx.md
 - Add link to llmx-ctx.md from the header, IndexPage, and Quickstart
+- Simplify the docs page.
 
 ## 0.0.20-alpha
 
