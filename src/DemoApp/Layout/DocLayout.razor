@@ -1,0 +1,28 @@
+@inherits LayoutComponentBase
+
+<div class="bg-white text-gray-600 antialiased dark:bg-gray-900 dark:text-gray-400">
+<div class="w-full min-w-0 flex-auto">
+    <div class="relative">
+        <DocLayoutNavbar IsCollapsed="@_isCollapsed" OnToggleCollapse="@HandleToggleCollapse" />
+        
+        <div class="mx-auto w-full max-w-8xl lg:flex lg:px-4">
+            <DocLayoutSidebar IsCollapsed="@_isCollapsed" OnToggleCollapse="@HandleToggleCollapse" />
+            <div class="w-full min-w-0">
+                @Body
+            </div>
+        </div>
+
+        <DocLayoutFooter />
+    </div>
+</div>
+</div>
+
+@code {
+    private bool _isCollapsed = true;
+
+    private void HandleToggleCollapse()
+    {
+        _isCollapsed = !_isCollapsed;
+        StateHasChanged();
+    }
+}

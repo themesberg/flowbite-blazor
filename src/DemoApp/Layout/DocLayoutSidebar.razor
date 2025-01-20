@@ -1,0 +1,100 @@
+
+
+<div class="@(_baseClasses) @(IsCollapsed ? "hidden" : "")"
+     style="height: calc(100vh - 61px)">
+    <nav aria-label="Docs navigation"
+         class="px-1 pb-8 pl-3 pt-16 text-base font-normal lg:pl-0 lg:pt-2 lg:text-sm">
+        <ul>
+            @foreach (var sectionData in DocLayoutSidebarData.Sections)
+            {
+                <li class="mt-8">
+                    <h5 class="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-900 lg:text-xs dark:text-white">
+                        @sectionData.Title
+                    </h5>
+                    <ul class="py-1">
+                        @foreach (var item in sectionData.Items)
+                        {
+                            <li>
+                                <NavLink 
+                                        href="@item.Href" 
+                                        target="@(item.IsExternal ? "_blank" : null)"
+                                        class="side-bar-item"
+                                        ActiveClass="bg-primary-50 dark:bg-primary-900"
+                                        Match="NavLinkMatch.All"
+                                        @onclick="HandleItemClick">
+                                    @if (item.IsNew)
+                                    {
+                                        <span class="flex items-center gap-2">
+                                            @item.Title
+                                            <span class="ml-2 inline-flex h-[1.1rem] items-center rounded border border-cyan-100 bg-cyan-100 px-1.5 text-[10px] font-semibold uppercase text-cyan-800 dark:border-cyan-400 dark:bg-gray-700 dark:text-cyan-400">
+                                                new
+                                            </span>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        @item.Title
+                                    }
+                                </NavLink>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+
+@if (!IsCollapsed)
+{
+    <div @onclick="HandleBackdropClick"
+         @onkeyup="HandleBackdropKeyUp"
+         class="fixed inset-0 z-40 bg-gray-900/50 lg:hidden dark:bg-gray-900/60">
+    </div>
+}
+
+@code 
+{
+    private readonly string _baseClasses = "fixed inset-0 z-50 size-full max-w-64 overflow-y-auto bg-white lg:sticky lg:top-[61px] lg:block dark:bg-gray-900";
+
+    [Parameter]
+    public bool IsCollapsed { get; set; }
+
+    [Parameter]
+    public EventCallback OnToggleCollapse { get; set; }
+
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; } = default!;
+
+    private string GetNavLinkClass(NavLinkMatch match)
+    {
+        var matchClasses = match == NavLinkMatch.All 
+            ? "text-primary-700 hover:text-primary-700 dark:text-primary-500" 
+            : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white";
+
+        return $"flex flex-wrap items-center py-2 font-medium {matchClasses}";
+    }
+
+    private async Task HandleItemClick()
+    {
+        
+        var windowWidth = await JSRuntime.InvokeAsync<int?>("window.getInnerWidth");
+        if (windowWidth is not null && windowWidth < 768)
+        {
+            await OnToggleCollapse.InvokeAsync();
+        }
+    }
+
+    private async Task HandleBackdropClick()
+    {
+        await OnToggleCollapse.InvokeAsync();
+    }
+
+    private async Task HandleBackdropKeyUp(KeyboardEventArgs e)
+    {
+        if (e.Code == "Escape")
+        {
+            await OnToggleCollapse.InvokeAsync();
+        }
+    }
+}

@@ -1,0 +1,91 @@
+@inject FlowbiteVersionService FlowbiteVersionService
+@using System.Reflection;
+
+<footer class="mx-auto w-full max-w-8xl px-4 py-8 lg:px-4">
+    <div class="border-t border-gray-200 pt-8 dark:border-gray-700">
+        <div class="md:flex md:justify-between">
+            <div class="mb-4 max-w-sm lg:mb-0">
+                <a class="flex items-center gap-3" href="/">
+                    <img alt="" loading="lazy" width="32" height="32" decoding="async" data-nimg="1" src="/images/logo.svg" style="color: transparent;">
+                    <span class="text-xl font-semibold text-gray-900 dark:text-gray-100">Flowbite Blazor Doc App</span>
+                    <Badge>v@($"{AppInformationalVersion}")</Badge>
+                </a>
+                
+                <p class="mb-3 mt-4 max-w-sm text-gray-600 dark:text-gray-400">Flowbite is an ecosystem built on top of Tailwind CSS including a component library, block sections, a Figma design system and other resources.</p>
+                <p class="mb-3 mt-4 max-w-sm text-gray-600 dark:text-gray-400">Code licensed <a href="https://github.com/peakflames/flowbite-blazor/blob/main/LICENSE" rel="nofollow noopener noreferrer" target="_blank" class="text-cyan-600 hover:underline">MIT</a>, docs <a href="https://creativecommons.org/licenses/by/3.0/" rel="nofollow noopener noreferrer" target="_blank" class="text-cyan-600 hover:underline">CC BY 3.0</a></p>
+            </div>
+            <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+                <div>
+                    <h2 class="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">Resources</h2>
+                    <ul class="text-gray-500 dark:text-gray-400 space-y-4">
+                        <li>
+                            <a href="https://github.com/peakflames/flowbite-blazor" target="_blank" class="hover:underline">GitHub</a>
+                        </li>
+                        <li>
+                            <a href="https://flowbite.com" target="_blank" class="hover:underline">Flowbite</a>
+                        </li>
+                        <li>
+                            <a href="https://tailwindcss.com/" target="_blank" class="hover:underline">Tailwind CSS</a>
+                        </li>
+                        <li>
+                            <a href="https://flowbite.com/figma/" target="_blank" class="hover:underline">Figma</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h2 class="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">Help</h2>
+                    <ul class="text-gray-500 dark:text-gray-400 space-y-4">
+                        <li>
+                            <a href="https://github.com/themesberg/flowbite-blazor/discussions" target="_blank" class="hover:underline">
+                                GitHub Discussions
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://discord.com/invite/4eeurUVvTy" target="_blank" class="hover:underline">
+                                Discord Community
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h2 class="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">Legal</h2>
+                    <ul class="text-gray-500 dark:text-gray-400 space-y-4">
+                        <li>
+                            <NavLink href="https://flowbite.com/license/" class="hover:underline">License</NavLink>
+                        </li>
+                        <li>
+                            <NavLink href="https://flowbite.com/brand/" class="hover:underline">Brand guideline</NavLink>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <hr class="my-6 border-gray-200 dark:border-gray-700 sm:mx-auto lg:my-8" />
+        <div class="w-full text-center sm:flex sm:items-center sm:justify-center">
+            <div data-testid="flowbite-footer-copyright" class="text-gray-500 dark:text-gray-400 sm:text-center text-base">
+                © 2025<a href="/" class="ml-1 hover:underline">All Rights Reserved. Flowbite™ is a registered trademark.</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+@code
+{
+    private string AppInformationalVersion
+    {
+        get
+        {
+            var appVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "Unknown";
+            
+            // if the version contains the '+' then the assembly version, then only
+            // display the content prior to the character.
+            var plusCharIndex = appVersion.IndexOf('+');
+            if (plusCharIndex > -1)
+            {
+                appVersion = appVersion.Substring(0, plusCharIndex);
+            }
+
+            return appVersion;
+        }
+    }
+}
