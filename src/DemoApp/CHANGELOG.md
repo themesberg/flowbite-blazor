@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.22-alpha
+
+- Migrate the Demo App site to the de facto document site layout. The styling and components are
+  influenced by the Flowbite React layout components [#PR 2](https://github.com/peakflames/flowbite-blazor/pull/2)
+
 ## 0.0.21-alpha
 
 - llms-ctx.md:
