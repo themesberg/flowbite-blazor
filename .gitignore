@@ -507,4 +507,4 @@ tailwindcss*.*
 
 # AI Assistants
 cline_docs/
-.clinerules
+.clinerules*

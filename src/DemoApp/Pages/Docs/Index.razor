@@ -1,0 +1,54 @@
+@page "/docs"
+@layout DocLayout
+
+<PageTitle>Documentation - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+        Documentation
+    </h1>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <section class="pt-4">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                Getting Started
+            </h2>
+            <p class="text-gray-500 dark:text-gray-400 mb-4">
+                Welcome to Flowbite Blazor, a collection of UI components built on top of Tailwind CSS and Blazor.
+                This library helps you build beautiful, responsive web applications faster.
+            </p>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+                    <h3 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                        Quick Start
+                    </h3>
+                    <p class="mb-3 text-gray-500 dark:text-gray-400">
+                        Get started quickly with our pre-built components and examples.
+                    </p>
+                    <NavLink href="/docs/quickstart" 
+                            class="inline-flex items-center text-primary-600 hover:underline dark:text-primary-500">
+                        Learn more
+                        <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </NavLink>
+                </div>
+                <div class="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+                    <h3 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                        Components
+                    </h3>
+                    <p class="mb-3 text-gray-500 dark:text-gray-400">
+                        Explore our collection of UI components and their usage examples.
+                    </p>
+                    <NavLink href="/docs/components" 
+                            class="inline-flex items-center text-primary-600 hover:underline dark:text-primary-500">
+                        Browse components
+                        <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </NavLink>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
