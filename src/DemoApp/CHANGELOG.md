@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.24-alpha
+
+- Add robustness handling when the app.js is not fully load due to cdn caching.
+
 ## 0.0.23-alpha
 
 - Index page now uses DocLayoutNoSidebar.
