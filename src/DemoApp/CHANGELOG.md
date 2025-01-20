@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.23-alpha
+
+- Index page now uses DocLayoutNoSidebar.
+  
 ## 0.0.22-alpha
 
 - Migrate the Demo App site to the de facto document site layout. The styling and components are
