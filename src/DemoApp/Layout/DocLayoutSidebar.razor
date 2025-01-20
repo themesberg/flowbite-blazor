@@ -77,8 +77,17 @@
 
     private async Task HandleItemClick()
     {
+        int? windowWidth = null;
         
-        var windowWidth = await JSRuntime.InvokeAsync<int?>("window.getInnerWidth");
+        try
+        {
+            await JSRuntime.InvokeAsync<int?>("window.getInnerWidth");
+        }
+        catch
+        {
+            Console.WriteLine("warn: calling window.getInnerWidth threw an exception.");
+        }
+
         if (windowWidth is not null && windowWidth < 768)
         {
             await OnToggleCollapse.InvokeAsync();
