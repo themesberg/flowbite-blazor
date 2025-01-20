@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <Version>0.0.21-alpha</Version>
+    <Version>0.0.22-alpha</Version>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -35,9 +35,9 @@
     <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --minify --postcss" />
   </Target>
 
-  <Target Name="TailwindWatch" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
-    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --watch --postcss" />
-  </Target>
+<!--  <Target Name="TailwindWatch" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">-->
+<!--    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css &#45;&#45;watch &#45;&#45;postcss" />-->
+<!--  </Target>-->
 
   <Target Name="DisableTailwindOnPublish" BeforeTargets="Publish">
     <PropertyGroup>

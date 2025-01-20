@@ -1,0 +1,138 @@
+@inject FlowbiteVersionService FlowbiteVersionService
+@using System.Reflection;
+
+<nav class="sticky top-0 z-[60] mx-auto flex w-full items-center justify-between border-b border-gray-200 bg-white text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">
+    <div class="mx-auto flex w-full max-w-8xl flex-wrap items-center justify-between px-4 py-2.5 lg:px-4">
+        <div class="flex items-center">
+            @if (IsCollapsed)
+            {
+                <button type="button" class="-ml-3 mr-1 p-2 lg:mx-0 lg:hidden" @onclick="HandleToggle">
+                    <svg class="size-6 cursor-pointer text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            }
+            else
+            {
+                <button type="button" class="-ml-3 mr-1 rounded p-2 lg:mx-0 lg:hidden dark:bg-gray-700" @onclick="HandleToggle">
+                    <svg class="size-6 cursor-pointer text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            }
+
+            <NavLink href="/" class="flex items-center gap-3 text-2xl font-semibold text-gray-900 dark:text-white">
+                <img src="/images/logo.svg" alt="Flowbite Blazor logo" class="size-8" />
+                <span>Flowbite Blazor</span>
+            </NavLink>
+
+            @* <div class="hidden lg:ml-[4.5rem] lg:flex"> *@
+            @*     <div class="relative"> *@
+            @*         <!-- Search placeholder - to be implemented --> *@
+            @*         <input type="search"  *@
+            @*                class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"  *@
+            @*                placeholder="Search documentation..."  *@
+            @*                disabled /> *@
+            @*     </div> *@
+            @* </div> *@
+        </div>
+
+        <div class="flex items-center">
+
+            @* Text Links *@
+            <div class="hidden md:flex items-center gap-1">
+
+                @* LLM Context Link *@
+                <Tooltip Content="Single File Docs for LLMs" Placement="TooltipPlacement.Bottom">
+                    <div class="w-fit">
+                        <a rel="nofollow noopener noreferrer" target="_blank"
+                           href="/llms-ctx.md" aria-label="Join Discord Community"
+                           class="hidden rounded-lg p-2.5 text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 lg:block dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+                            🤖
+                        </a>
+                    </div>
+                </Tooltip>
+
+
+                <a href="/docs/getting-started/introduction"
+                   class="rounded-lg p-2.5 text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-gray-300 dark:hover:text-primary-500">
+                    Docs
+                </a>
+                <a href="/docs/getting-started/quickstart"
+                   class="rounded-lg p-2.5 text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-gray-300 dark:hover:text-primary-500">
+                    Quickstart
+                </a>
+                <a href="/icons"
+                   class="rounded-lg p-2.5 text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-gray-300 dark:hover:text-primary-500">
+                    Icons
+                </a>
+                <a rel="noopener" target="_blank" href="https://flowbite.com/figma/"
+                   class="rounded-lg p-2.5 text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-gray-300 dark:hover:text-primary-500">
+                    Figma
+                </a>
+                <a rel="noopener" target="_blank" href="https://flowbite-react.com"
+                   class="rounded-lg p-2.5 text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-gray-300 dark:hover:text-primary-500">
+                    Flowbite React
+                </a>
+            </div>
+
+            @* Icons Links *@
+            <div class="flex items-center gap-1">
+
+                @* Discord Link *@
+                <Tooltip Content="Join Discord Community" Placement="TooltipPlacement.Bottom">
+                    <div class="w-fit">
+                        <a rel="nofollow noopener noreferrer" target="_blank"
+                           href="https://discord.gg/4eeurUVvTy" aria-label="Join Discord Community"
+                           class="hidden rounded-lg p-2.5 text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 lg:block dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+                            <DiscordIcon/>
+                        </a>
+                    </div>
+                </Tooltip>
+
+                @* Github Link *@
+                <Tooltip Content="View on GitHub" Placement="TooltipPlacement.Bottom">
+                    <div class="w-fit">
+                        <a rel="noopener" target="_blank" href="https://github.com/peakflames/flowbite-blazor"
+                           aria-label="View on GitHub"
+                           class="hidden rounded-lg p-2.5 text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 lg:block dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+                            <GithubIcon />
+                        </a>
+                    </div>
+                </Tooltip>
+
+                <DarkMode class="mr-1" />
+                
+                <Badge>v@($"{FlowbiteVersion}")</Badge>
+
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+@code {
+    [Parameter]
+    public bool IsCollapsed { get; set; }
+
+    [Parameter]
+    public EventCallback OnToggleCollapse { get; set; }
+
+    private async Task HandleToggle()
+    {
+        await OnToggleCollapse.InvokeAsync();
+    }
+    
+    private string FlowbiteVersion
+    {
+        get
+        {
+            var flowbiteVersion = FlowbiteVersionService.InformationalVersion;
+            if (flowbiteVersion.Contains("+"))
+            {
+                flowbiteVersion = flowbiteVersion.Substring(0, flowbiteVersion.IndexOf("+", StringComparison.Ordinal));
+            }
+            return flowbiteVersion;
+        }
+    }
+}

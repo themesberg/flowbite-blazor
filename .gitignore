@@ -503,3 +503,8 @@ CapitalComparison/
 [Dd]ist/
 src/DemoApp/wwwroot/llms-ctx.txt
 tailwindcss*.*
+
+
+# AI Assistants
+cline_docs/
+.clinerules*

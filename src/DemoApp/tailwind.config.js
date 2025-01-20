@@ -13,9 +13,21 @@ module.exports = {
             colors: {
                 primary: { "50": "#eff6ff", "100": "#dbeafe", "200": "#bfdbfe", "300": "#93c5fd", "400": "#60a5fa", "500": "#3b82f6", "600": "#2563eb", "700": "#1d4ed8", "800": "#1e40af", "900": "#1e3a8a", "950": "#172554" }
             },
-            maxHeight: {
-                'table-xl': '60rem',
-            }
+            maxWidth: {
+                "8xl": "90rem",
+            },
+            keyframes: {
+                fadeIn: {
+                    "0%": { opacity: "0" },
+                    "100%": { opacity: "1" },
+                },
+            },
+            animation: {
+                "fade-in": "fadeIn 200ms ease-in-out",
+            },
+            boxShadow: {
+                "lg-light": "0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -2px rgba(255, 255, 255, 0.05)",
+            },
         },
         fontFamily: {
             'body': [
