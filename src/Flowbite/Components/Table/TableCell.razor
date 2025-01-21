@@ -1,0 +1,76 @@
+@namespace Flowbite.Components.Table
+@inherits FlowbiteComponentBase
+
+<td class="@CombineClasses(GetCellClasses(), AlignmentClass)" colspan="@ColSpan">
+    @ChildContent
+</td>
+
+@code {
+    /// <summary>
+    /// Gets or sets the content to be rendered inside the cell.
+    /// </summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the text alignment for the cell. Valid values are "left", "center", or "right".
+    /// </summary>
+    [Parameter] public string? Align { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the number of columns this cell should span.
+    /// </summary>
+    [Parameter] public int ColSpan { get; set; } = 1;
+
+    /// <summary>
+    /// Gets or sets whether this cell is in the first column. When true, applies specific styling for first column cells.
+    /// </summary>
+    [Parameter] public bool IsFirstColumn { get; set; }
+    
+    /// <summary>
+    /// Gets the TableContext from the cascading parameter.
+    /// </summary>
+    [CascadingParameter] protected TableContext? TableContext { get; set; }
+
+    private string GetCellClasses()
+    {
+        var classes = new List<string>
+        {
+            "px-6",
+            "py-4",
+            "group-first/body:group-first/row:first:rounded-tl-lg",
+            "group-first/body:group-first/row:last:rounded-tr-lg",
+            "group-last/body:group-last/row:first:rounded-bl-lg",
+            "group-last/body:group-last/row:last:rounded-br-lg"
+        };
+
+        if (IsFirstColumn)
+        {
+            classes.AddRange(new[]
+            {
+                "whitespace-nowrap",
+                "font-medium",
+                "text-gray-900",
+                "dark:text-white"
+            });
+        }
+
+        return string.Join(" ", classes);
+    }
+    
+    private string AlignmentClass => Align?.ToLower() switch
+    {
+        "left" => "text-left",
+        "center" => "text-center",
+        "right" => "text-right",
+        _ => string.Empty
+    };
+
+    protected override void OnParametersSet()
+    {
+        if (TableContext is null)
+        {
+            throw new InvalidOperationException($"{nameof(TableCell)} must be used within a {nameof(Table)}");
+        }
+        base.OnParametersSet();
+    }
+}

@@ -3,6 +3,7 @@
 ## 0.0.8-alpha
 
 - Added Primary as color enum to Button and Alert components.
+- Added Tree component
 
 ## 0.0.7-alpha
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.25-alpha
+
+- Add Tree Component and updated llms-ctx.md
+
 ## 0.0.24-alpha
 
 - Add robustness handling when the app.js is not fully load due to cdn caching.
