@@ -20,7 +20,7 @@
 
 <docs>
 
-<doc title="Quick Start" desc="Getting started with Flowbite Blazor">
+<doc title="Quick Start" description="Getting started with Flowbite Blazor">
 
 ## Installation
 
@@ -87,10 +87,13 @@ Quickly scaffold a new project using the using the CLI. The following project ty
     dotnet build
     ```
 
+</doc>
+
+<doc title="UI Components" description="Blazor UI Components">
+
 ## Available Components
 
 Flowbite Blazor provides the following set of UI components:
-
 - Alert
 - Avatar
 - Badge
@@ -103,6 +106,7 @@ Flowbite Blazor provides the following set of UI components:
 - Sidebar
 - Tabs
 - Tooltip
+- Table
 
 ### Components
 
@@ -195,48 +199,53 @@ The available Alert colors are:
 
 #### Badge Examples
 
+The available Badge colors are:
+- BadgeColor.Primary,
+- BadgeColor.Info,
+- BadgeColor.Gray,
+- BadgeColor.Success,
+- BadgeColor.Warning,
+- BadgeColor.Indigo,
+- BadgeColor.Purple,
+- BadgeColor.Pink
+
+The available Badge sizes are:
+- BadgeSize.ExtraSmall,
+- BadgeSize.Small
+
+
 ```razor
 <!-- Default badges with different colors -->
 <div class="flex flex-wrap gap-2">
-    <Badge>Primary</Badge>
     <Badge Color="BadgeColor.Info">Info</Badge>
-    <Badge Color="BadgeColor.Gray">Gray</Badge>
-    <Badge Color="BadgeColor.Failure">Failure</Badge>
-    <Badge Color="BadgeColor.Success">Success</Badge>
-    <Badge Color="BadgeColor.Warning">Warning</Badge>
-    <Badge Color="BadgeColor.Indigo">Indigo</Badge>
-    <Badge Color="BadgeColor.Purple">Purple</Badge>
-    <Badge Color="BadgeColor.Pink">Pink</Badge>
+    ....
 </div>
 
 <!-- Badge as link -->
 <div class="flex flex-wrap gap-2">
     <Badge Href="#">Primary</Badge>
     <Badge Color="BadgeColor.Gray" Href="#">Gray</Badge>
-    <Badge Color="BadgeColor.Success" Href="#">Success</Badge>
+    ...
 </div>
 
 <!-- Badge with icon -->
 <div class="flex flex-wrap gap-2">
     <Badge Icon="@(new CheckIcon())">2 minutes ago</Badge>
     <Badge Color="BadgeColor.Gray" Icon="@(new ClockIcon())">In progress</Badge>
-    <Badge Color="BadgeColor.Success" Icon="@(new CheckCircleIcon())">Completed</Badge>
+    ...
 </div>
 
 <!-- Badge with icon only -->
 <div class="flex flex-wrap gap-2">
     <Badge Icon="@(new CheckIcon())" />
     <Badge Icon="@(new CheckIcon())" Color="BadgeColor.Gray" />
-    <Badge Icon="@(new CheckIcon())" Size="BadgeSize.Small" />
-    <Badge Color="BadgeColor.Gray" Icon="@(new CheckIcon())" Size="BadgeSize.Small" />
+    ...
 </div>
 
 <!-- Different sizes -->
 <div class="flex flex-wrap items-center gap-2">
     <Badge Size="BadgeSize.ExtraSmall">Extra small</Badge>
     <Badge Size="BadgeSize.Small">Small</Badge>
-    <Badge Size="BadgeSize.ExtraSmall" Icon="@(new CheckIcon())">With icon</Badge>
-    <Badge Size="BadgeSize.Small" Icon="@(new CheckIcon())">With icon</Badge>
 </div>
 ```
 
@@ -421,18 +430,55 @@ The available Button sizes are:
 #### Navbar Examples
 
 ```razor
+
+<!-- Add dropdown menus to navigation items and include a user profile dropdown for additional interactions. -- >
 <Navbar>
-    <NavbarBrand>
-        <img src="logo.svg" class="h-6 mr-3" alt="Logo" />
-        <span class="self-center text-xl font-semibold">Brand</span>
+    <NavbarBrand Href="/">
+        <img src="/images/logo.svg" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
+        <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
     </NavbarBrand>
-    <NavbarToggle />
+    <div class="flex md:order-2">
+        <Dropdown ArrowIcon="false" Inline="true">
+            <Label>
+                <Avatar Alt="User settings" ImageUrl="https://flowbite.com/docs/images/people/profile-picture-5.jpg" Rounded />
+            </Label>
+            <ChildContent>
+                <DropdownHeader>
+                    <span class="block text-sm">Bonnie Green</span>
+                    <span class="block truncate text-sm font-medium">name@flowbite.com</span>
+                </DropdownHeader>
+                <DropdownItem>Dashboard</DropdownItem>
+                <DropdownItem>Settings</DropdownItem>
+                <DropdownItem>Earnings</DropdownItem>
+                <DropdownDivider />
+                <DropdownItem>Sign out</DropdownItem>
+            </ChildContent>
+        </Dropdown>
+        <NavbarToggle />
+    </div>
     <NavbarCollapse>
-        <NavbarLink Href="#" Active>Home</NavbarLink>
-        <NavbarLink Href="#">About</NavbarLink>
-        <NavbarLink Href="#">Services</NavbarLink>
-        <NavbarLink Href="#">Pricing</NavbarLink>
-        <NavbarLink Href="#">Contact</NavbarLink>
+        <NavbarLink Href="/" Active>Home</NavbarLink>
+        <NavbarLink HasDropdown>
+            <ChildContent>Features</ChildContent>
+            <DropdownContent>
+                <DropdownItem>Analytics</DropdownItem>
+                <DropdownItem>Automation</DropdownItem>
+                <DropdownItem>Reports</DropdownItem>
+            </DropdownContent>
+        </NavbarLink>
+        <NavbarLink Href="/pricing">Pricing</NavbarLink>
+        <NavbarLink HasDropdown>
+            <ChildContent>Resources</ChildContent>
+            <DropdownContent>
+                <DropdownHeader>Documentation</DropdownHeader>
+                <DropdownItem>Getting Started</DropdownItem>
+                <DropdownItem>Components</DropdownItem>
+                <DropdownDivider />
+                <DropdownHeader>Help</DropdownHeader>
+                <DropdownItem>Support</DropdownItem>
+                <DropdownItem>Contact</DropdownItem>
+            </DropdownContent>
+        </NavbarLink>
     </NavbarCollapse>
 </Navbar>
 ```
@@ -443,43 +489,175 @@ The available Button sizes are:
 #### Sidebar Examples
 
 ```razor
-<!-- Sidebar with logo and collapse -->
-<Sidebar>
-    <SidebarLogo>
-        <img src="logo.svg" class="h-6 mr-3" alt="Logo" />
-        <span class="self-center text-xl font-semibold">Brand</span>
-    </SidebarLogo>
-    
-    <!-- Simple items -->
-    <SidebarItem Href="#" Icon="@(new HomeIcon())">Dashboard</SidebarItem>
-    <SidebarItem Href="#" Icon="@(new ChartPieIcon())">Analytics</SidebarItem>
-    
-    <!-- Grouped items -->
-    <SidebarGroup Text="Management">
-        <SidebarItem Href="#" Icon="@(new UsersIcon())">Users</SidebarItem>
-        <SidebarItem Href="#" Icon="@(new GearIcon())">Settings</SidebarItem>
-    </SidebarGroup>
-    
-    <!-- CTA section -->
-    <SidebarCTA>
-        <div class="mb-3 text-sm">
-            Preview the new Flowbite dashboard navigation!
-        </div>
-        <Button Color="ButtonColor.Primary" class="w-full">
-            Upgrade to Pro
+<!-- Sidebar example that comprehensively demonstration the majority of features. This includes logos, icons, dropdowns, item grouping, responsiveness, CTA region with a button -->
+<div class="flex">
+        <!-- Mobile menu button -->
+        <Button Color="ButtonColor.Dark" class="lg:hidden mb-3">
+            <BarsIcon class="w-5 h-5" />
         </Button>
-    </SidebarCTA>
+    </div>
+
+    <Sidebar CollapseMode="SidebarCollapseMode.Responsive">
+        <SidebarLogo 
+            Href="#"
+            ImgSrc="/images/logo.svg">
+            Flowbite
+        </SidebarLogo>
+
+        <SidebarItemGroup>
+            <SidebarItem 
+                Href="#"
+                Icon="@(new HomeIcon())">
+                Dashboard
+            </SidebarItem>
+            
+            <SidebarCollapse 
+                Label="Analytics"
+                Icon="@(new ChartPieIcon())">
+                <SidebarItem 
+                    Href="#"
+                    Icon="@(new ChartLineUpIcon())">
+                    Overview
+                </SidebarItem>
+                <SidebarItem 
+                    Href="#"
+                    Icon="@(new ChartMixedIcon())">
+                    Reports
+                </SidebarItem>
+            </SidebarCollapse>
+            
+            <SidebarItem 
+                Href="#"
+                Icon="@(new BriefcaseIcon())">
+                Users
+            </SidebarItem>
+            
+            <SidebarItem 
+                Href="#"
+                Icon="@(new CartIcon())">
+                Products
+            </SidebarItem>
+        </SidebarItemGroup>
+
+        <SidebarItemGroup>
+            <SidebarItem 
+                Href="#"
+                Icon="@(new CogIcon())">
+                Settings
+            </SidebarItem>
+            
+            <SidebarItem 
+                Href="#"
+                Icon="@(new BellIcon())">
+                Help Center
+            </SidebarItem>
+        </SidebarItemGroup>
+
+        <SidebarCTA>
+            <div class="mb-3 text-sm text-blue-900 dark:text-blue-400">
+                Preview the new Flowbite dashboard navigation! You can turn the new navigation off for a limited time in your profile.
+            </div>
+            <Button Color="ButtonColor.Default" class="w-full">
+                Upgrade to Pro
+            </Button>
+        </SidebarCTA>
+    </Sidebar>
+
+
+<!-- Mulit-Level Sidebar  that demonstrates deep nested navigation with multiple levels of dropdowns, perfect for complex application hierarchies. -->
+<Sidebar>
+    <SidebarItem 
+        Href="/dashboard"
+        Icon="@(new HomeIcon())">
+        Dashboard
+    </SidebarItem>
+    
+    <SidebarCollapse 
+        Label="Settings"
+        Icon="@(new CogIcon())">
+        <SidebarItem 
+            Href="/settings/profile"
+            Icon="@(new BriefcaseIcon())">
+            Profile
+        </SidebarItem>
+        <SidebarCollapse 
+            Label="System"
+            Icon="@(new ServerIcon())">
+            <SidebarItem 
+                Href="/settings/system/general"
+                Icon="@(new AdjustmentsHorizontalIcon())">
+                General
+            </SidebarItem>
+            <SidebarCollapse 
+                Label="Security"
+                Icon="@(new ShieldCheckIcon())">
+                <SidebarItem 
+                    Href="/settings/system/security/permissions"
+                    Icon="@(new BadgeCheckIcon())">
+                    Permissions
+                </SidebarItem>
+                <SidebarItem 
+                    Href="/settings/system/security/authentication"
+                    Icon="@(new BellIcon())">
+                    Authentication
+                </SidebarItem>
+                <SidebarItem 
+                    Href="/settings/system/security/encryption"
+                    Icon="@(new ShieldCheckIcon())">
+                    Encryption
+                </SidebarItem>
+            </SidebarCollapse>
+            <SidebarItem 
+                Href="/settings/system/backup"
+                Icon="@(new CloudArrowUpIcon())">
+                Backup
+            </SidebarItem>
+        </SidebarCollapse>
+        <SidebarItem 
+            Href="/settings/notifications"
+            Icon="@(new BellIcon())">
+            Notifications
+        </SidebarItem>
+    </SidebarCollapse>
+    
+    <SidebarItem 
+        Href="/help"
+        Icon="@(new BellIcon())">
+        Help
+    </SidebarItem>
 </Sidebar>
+
 ```
+
+
+
 
 
 
 
 #### Spinner Examples
 
+The available Button colors are:
+- None specified is the same as SpinnerColor.Info
+- SpinnerColor.Info,
+- SpinnerColor.Success,
+- SpinnerColor.Warning,
+- SpinnerColor.Failure,
+- SpinnerColor.Pink,
+- SpinnerColor.Purple,
+- SpinnerColor.Gray
+
+The available Button sizes are:
+- SpinnerSize.Xs,
+- SpinnerSize.Sm,
+- SpinnerSize.Md,
+- SpinnerSize.Lg,
+- SpinnerSize.Xl
+
+
 ```razor
 <!-- Different sizes -->
-<Spinner Size="SpinnerSize.Small" Color="SpinnerColor.Info" />
+<Spinner Size="SpinnerSize.Small" />
 <Spinner Size="SpinnerSize.Medium" Color="SpinnerColor.Success" />
 <Spinner Size="SpinnerSize.Large" Color="SpinnerColor.Warning" />
 
