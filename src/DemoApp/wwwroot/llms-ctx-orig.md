@@ -1,3 +1,25 @@
+<project title="Flowbite Blazor" summary="A comprehensive Blazor component library that ports the Flowbite React component library to ASP.NET Blazor 8.0. Built on TailwindCSS, it provides strongly-typed Blazor components that implement Flowbite design patterns while maintaining consistency with the React implementation. The library offers a rich set of accessible, dark-mode compatible components with built-in ARIA support.">
+
+## Project Links
+
+- [Github Repository](https://github.com/peakflames/flowbite-blazor)
+- [Documenation Site](https://flowbite-blazor.peakflames.org/docs/components/{{COMPONENT_NAME}})
+
+
+## Features
+
+- TailwindCSS Integration - Beautiful, responsive designs out of the box
+- Dark Mode Support - Automatic dark mode through TailwindCSS classes
+- Built-in Accessibility - ARIA attributes and keyboard navigation included
+- Responsive Design - Mobile-first components that work everywhere
+- Native Blazor Events - Seamless integration with Blazor's event system
+- Strong Typing - Full type safety and IntelliSense support
+- No Node.js Required - Simple MSBuild integration for TailwindCSS
+- Extended Icons - Optional package for additional icon components
+
+
+<docs>
+
 <doc title="Quick Start" desc="Getting started with Flowbite Blazor">
 
 ## Installation
@@ -641,3 +663,198 @@ All components are designed with dark mode in mind:
 ```
 
 </doc>
+
+
+
+<doc title="Using Icons" desc="Working with Flowbite Blazor icons">
+
+## Icon Packages
+
+Flowbite Blazor provides two icon packages:
+
+1. Core Icons - Built into the main package
+2. Extended Icons - Additional icons in a separate package
+
+### Basic Usage
+
+```razor
+<!-- Using core icons -->
+<Button>
+    <HomeIcon class="w-5 h-5 mr-2" />
+    Home
+</Button>
+
+<!-- Using icons in components -->
+<Alert Icon="@(new InfoIcon())" Color="AlertColor.Info">
+    Important information
+</Alert>
+
+<!-- Using icons in components -->
+<Button Icon="@(new HomeIcon())" Color="ButtonColor.Primary">
+    Home
+</Button>
+```
+
+### List of Icon Components
+
+The Icon class name is defined as `{{name}}Icon` where `name` is from the following list:
+- Apple
+- ArrowDown
+- ArrowLeft                                                                                                                                                                                                                                              
+- ArrowRight
+- ArrowRightToBracket
+- ArrowUp
+- ArrowUpRightFromSquare
+- Aws
+- Bars
+- Bell
+- Bluesky
+- CalendarMonth
+- Chart
+- CheckCircle
+- Check
+- ChevronDown
+- ChevronLeft
+- ChevronRight
+- ChevronUp
+- ClipboardArrow
+- Clock                                                                                                                                                                                                                                                  
+- CloseCircle
+- CloseCircleSolid
+- Close
+- CodeBranch
+- Compress
+- Database
+- Discord
+- DotsHorizontal
+- DotsVertical
+- Download
+- Edit
+- Envelope
+- ExclamationSolid
+- ExclamationTriangle
+- Expand
+- Eye                                                                                                                                                                                                                                                    
+- EyeSlash
+- Facebook
+- FileCopy
+- FileExport
+- File
+- FileImport
+- Filter
+- FloppyDiskAlt
+- FloppyDisk
+- Folder
+- Forward
+- Gear
+- Github
+- Gitlab
+- Google
+- Grid
+- Hamburger                                                                                                                                                                                                                                              
+- Heart
+- Home
+- Image
+- InfoCircle
+- Info
+- Instagram
+- Linkedin
+- List
+- Lock
+- LockOpen
+- MapPin
+- Messages
+- PaperClip
+- Pencil
+- Phone
+- Play
+- Plus                                                                                                                                                                                                                                                   
+- Printer
+- QuestionCircle
+- Reddit
+- Refresh
+- Rocket
+- Search
+- ShareNodes
+- Sort
+- Star
+- Stop                                                                                                                                                                                                                                                   
+- TableRow
+- TrashBin
+- Twitter
+- Undo
+- Upload
+- UserCircle
+- User
+- UserSolid
+- Whatsapp
+- Windows
+- X
+- Youtube
+
+
+</doc>
+
+
+
+<doc title="Common Patterns" desc="Common patterns and best practices">
+
+## Best Practices
+
+### Event Handling
+
+Components use standard Blazor event handling:
+
+```razor
+<Button OnClick="@HandleClick">
+    Click me
+</Button>
+
+@code {
+    private void HandleClick()
+    {
+        // Handle the click event
+    }
+}
+
+<!-- With parameters -->
+<Dropdown>
+    <ChildContent>
+        <DropdownItem OnClick="@(() => HandleItemClick(item.Id))">
+            @item.Name
+        </DropdownItem>
+    </ChildContent>
+</Dropdown>
+```
+
+### Dark Mode
+
+Enable dark mode by adding the 'dark' class to any parent element:
+
+```razor
+<!-- Dark mode container -->
+<div class="dark">
+    <!-- Components will use dark mode styles -->
+    <Alert Color="AlertColor.Info">
+        This alert uses dark mode styles
+    </Alert>
+    
+    <Card>
+        <h5 class="text-gray-900 dark:text-white">
+            Dark mode card
+        </h5>
+        <p class="text-gray-700 dark:text-gray-400">
+            Content adapts automatically
+        </p>
+    </Card>
+</div>
+```
+
+</doc>
+
+
+
+</docs>
+
+</project>
+

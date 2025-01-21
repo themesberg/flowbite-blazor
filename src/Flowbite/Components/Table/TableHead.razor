@@ -1,0 +1,11 @@
+@namespace Flowbite.Components.Table
+@inherits FlowbiteComponentBase
+
+<thead class="group/head">
+    @ChildContent
+</thead>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [CascadingParameter] public TableContext? TableContext { get; set; }
+}

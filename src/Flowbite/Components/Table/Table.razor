@@ -1,0 +1,70 @@
+@namespace Flowbite.Components.Table
+@inherits FlowbiteComponentBase
+
+<div class="@TableContext.ContainerClasses">
+    <div class="@TableContext.WrapperClasses">
+        <div class="@TableContext.ShadowClasses"></div>
+        <table class="@CombineClasses(TableContext.BaseClasses, GetTableClasses())">
+            @if (CaptionContent != null)
+            {
+                <caption class="@CaptionClass">@CaptionContent</caption>
+            }
+            <CascadingValue Value="TableContext">
+                @ChildContent
+            </CascadingValue>
+        </table>
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Gets or sets the content to be rendered inside the table.
+    /// </summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the caption content for the table.
+    /// </summary>
+    [Parameter] public RenderFragment? CaptionContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the CSS class for the caption.
+    /// </summary>
+    [Parameter] public string? CaptionClass { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the table has striped rows.
+    /// </summary>
+    [Parameter] public bool Striped { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the table rows are hoverable.
+    /// </summary>
+    [Parameter] public bool Hoverable { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the table has borders.
+    /// </summary>
+    [Parameter] public bool Bordered { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the table is responsive.
+    /// </summary>
+    [Parameter] public bool Responsive { get; set; } = true;
+
+    private TableContext TableContext => new(Striped, Hoverable, Bordered, Responsive);
+
+    private string GetTableClasses()
+    {
+        var classes = new List<string>();
+
+        if (Bordered)
+        {
+            classes.Add("border-collapse border border-gray-300 dark:border-gray-700");
+            classes.Add("[&_th]:border [&_th]:border-gray-300 [&_th]:dark:border-gray-700");
+            classes.Add("[&_td]:border [&_td]:border-gray-300 [&_td]:dark:border-gray-700");
+        }
+
+        return string.Join(" ", classes);
+    }
+}

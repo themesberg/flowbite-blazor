@@ -503,7 +503,8 @@ CapitalComparison/
 [Dd]ist/
 src/DemoApp/wwwroot/llms-ctx.txt
 tailwindcss*.*
-
+dotnet/
+dotnet-install.sh
 
 # AI Assistants
 cline_docs/

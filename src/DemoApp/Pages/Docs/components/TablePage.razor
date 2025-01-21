@@ -1,0 +1,137 @@
+@page "/docs/components/table"
+@using Flowbite.Components.Table
+@using Flowbite.Components
+
+<PageTitle>Table - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2 class="text-3xl font-bold dark:text-white">Table Examples</h2>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Default Table"
+                          Description="Basic table structure with header and body"
+                          RazorCode="@(@"<Table>
+    <TableHead>
+        <TableRow>
+            <TableHeadCell>Product name</TableHeadCell>
+            <TableHeadCell>Color</TableHeadCell>
+            <TableHeadCell>Category</TableHeadCell>
+            <TableHeadCell>Price</TableHeadCell>
+            <TableHeadCell>
+                <span class=""sr-only"">Edit</span>
+            </TableHeadCell>
+        </TableRow>
+    </TableHead>
+    <TableBody class=""divide-y"">
+        <TableRow class=""bg-white dark:border-gray-700 dark:bg-gray-800"">
+            <TableCell class=""whitespace-nowrap font-medium text-gray-900 dark:text-white"">Apple MacBook Pro 17""</TableCell>
+            <TableCell>Sliver</TableCell>
+            <TableCell>Laptop</TableCell>
+            <TableCell>$2999</TableCell>
+            <TableCell>
+                <a href=""#"" class=""font-medium text-primary-600 hover:underline dark:text-primary-500"">Edit</a>
+            </TableCell>
+        </TableRow>
+        <!-- More rows... -->
+    </TableBody>
+</Table>")"
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="mx-auto w-full bg-white bg-gradient-to-r dark:bg-gray-900 p-5">
+                    <TableDefaultExample />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Striped Rows"
+                          Description="Alternating row background colors"
+                          RazorCode="@(@"<Table Striped=""true"">
+    <TableHead>
+        <TableRow>
+            <TableHeadCell>Product name</TableHeadCell>
+            <TableHeadCell>Color</TableHeadCell>
+            <TableHeadCell>Category</TableHeadCell>
+            <TableHeadCell>Price</TableHeadCell>
+            <TableHeadCell>
+                <span class=""sr-only"">Edit</span>
+            </TableHeadCell>
+        </TableRow>
+    </TableHead>
+    <TableBody class=""divide-y"">
+        <!-- Table rows... -->
+    </TableBody>
+</Table>")"
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="mx-auto w-full bg-white bg-gradient-to-r dark:bg-gray-900 p-5">
+                    <TableStripedExample />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Hoverable Rows"
+                          Description="Highlight rows on hover"
+                          RazorCode="@(@"<Table Hoverable=""true"">
+    <TableHead>
+        <TableRow>
+            <TableHeadCell>Product</TableHeadCell>
+            <TableHeadCell>Category</TableHeadCell>
+            <TableHeadCell Align=""right"">Price</TableHeadCell>
+        </TableRow>
+    </TableHead>
+    <TableBody>
+        <!-- Table rows... -->
+    </TableBody>
+</Table>")"
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="mx-auto w-full bg-white bg-gradient-to-r dark:bg-gray-900 p-5">
+                    <TableHoverableExample />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="With Checkboxes"
+                          Description="Row selection with checkboxes"
+                          RazorCode="@(@"<Table Hoverable=""true"">
+    <TableHead>
+        <TableRow>
+            <TableCheckboxColumn TItem=""Product"" 
+                               Items=""@_products""
+                               IsSelected=""@(p => p.IsSelected)""
+                               OnSelectionChange=""@OnSelectionChange"" />
+            <TableHeadCell>Product</TableHeadCell>
+            <TableHeadCell>Category</TableHeadCell>
+            <TableHeadCell Align=""right"">Price</TableHeadCell>
+        </TableRow>
+    </TableHead>
+    <TableBody>
+        @foreach (var product in _products)
+        {
+            <TableRow>
+                <TableCell>
+                    <input type=""checkbox""
+                           class=""h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600""
+                           checked=""@product.IsSelected""
+                           @onchange=""@(e => OnSelectionChange(product, e.Value is bool value && value))"" />
+                </TableCell>
+                <TableCell IsFirstColumn=""true"">@product.Name</TableCell>
+                <TableCell>@product.Category</TableCell>
+                <TableCell Align=""right"">@product.Price</TableCell>
+            </TableRow>
+        }
+    </TableBody>
+</Table>")"
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="mx-auto w-full bg-white bg-gradient-to-r dark:bg-gray-900 p-5">
+                    <TableWithCheckboxesExample />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>
+
+@code {
+    // Code moved to individual example components
+}
