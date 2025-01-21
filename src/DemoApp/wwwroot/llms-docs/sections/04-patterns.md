@@ -1,4 +1,4 @@
-<doc title="Common Patterns" desc="Common patterns and best practices">
+<doc title="Common Patterns" description="Common patterns and best practices">
 
 ## Best Practices
 

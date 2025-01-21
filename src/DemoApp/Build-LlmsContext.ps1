@@ -40,7 +40,19 @@ $content += "`n<docs>`n"
 # Add documentation sections in order
 Write-Host "Adding documentation sections..."
 $sectionFiles = @(
-    "01-quickstart.md",
+    "01-00-quickstart.md",
+    "01-01-alert.md",
+    "01-02-avatar.md",
+    "01-03-badge.md",
+    "01-04-breadcrumb.md",
+    "01-05-button.md",
+    "01-06-card.md",
+    "01-07-dropdown.md",
+    "01-08-navbar.md",
+    "01-09-sidebar.md",
+    "01-10-spinner.md",
+    "01-11-tabs.md",
+    "01-12-tooltip.md",
     "02-icons.md",
     "03-patterns.md"
 )

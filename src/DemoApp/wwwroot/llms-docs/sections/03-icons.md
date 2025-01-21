@@ -1,4 +1,7 @@
-<doc title="Using Icons" desc="Working with Flowbite Blazor icons">
+
+</doc>
+
+<doc title="Using Icons" description="Working with Flowbite Blazor icons">
 
 ## Icon Packages
 
@@ -32,7 +35,7 @@ Flowbite Blazor provides two icon packages:
 The Icon class name is defined as `{{name}}Icon` where `name` is from the following list:
 - Apple
 - ArrowDown
-- ArrowLeft                                                                                                                                                                                                                                              
+- ArrowLeft
 - ArrowRight
 - ArrowRightToBracket
 - ArrowUp
@@ -50,7 +53,7 @@ The Icon class name is defined as `{{name}}Icon` where `name` is from the follow
 - ChevronRight
 - ChevronUp
 - ClipboardArrow
-- Clock                                                                                                                                                                                                                                                  
+- Clock
 - CloseCircle
 - CloseCircleSolid
 - Close
@@ -66,7 +69,7 @@ The Icon class name is defined as `{{name}}Icon` where `name` is from the follow
 - ExclamationSolid
 - ExclamationTriangle
 - Expand
-- Eye                                                                                                                                                                                                                                                    
+- Eye
 - EyeSlash
 - Facebook
 - FileCopy
@@ -83,7 +86,7 @@ The Icon class name is defined as `{{name}}Icon` where `name` is from the follow
 - Gitlab
 - Google
 - Grid
-- Hamburger                                                                                                                                                                                                                                              
+- Hamburger
 - Heart
 - Home
 - Image
@@ -100,7 +103,7 @@ The Icon class name is defined as `{{name}}Icon` where `name` is from the follow
 - Pencil
 - Phone
 - Play
-- Plus                                                                                                                                                                                                                                                   
+- Plus
 - Printer
 - QuestionCircle
 - Reddit
@@ -110,7 +113,7 @@ The Icon class name is defined as `{{name}}Icon` where `name` is from the follow
 - ShareNodes
 - Sort
 - Star
-- Stop                                                                                                                                                                                                                                                   
+- Stop
 - TableRow
 - TrashBin
 - Twitter
