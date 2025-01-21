@@ -72,7 +72,6 @@ Quickly scaffold a new project using the using the CLI. The following project ty
 ## Available Components
 
 Flowbite Blazor provides the following set of UI components:
-
 - Alert
 - Avatar
 - Badge
