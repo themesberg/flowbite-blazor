@@ -13,7 +13,12 @@ if ($LASTEXITCODE -ne 0) { exit 1 }
 Write-Host "NuGet packages created in nuget-local directory" -ForegroundColor Green
 
 # Publist the DemoApp to .\dist
-Write-Host "Publishing to .\dist directory..."
+Write-Host "Delete and Publish to .\dist directory..."
+if (Test-Path dist)
+{ 
+    Remove-Item -Path dist -Recurse -Force
+}
+
 dotnet publish ./src/DemoApp/DemoApp.csproj -c Release -o dist
 if ($LASTEXITCODE -ne 0) { exit 1 }
 Write-Host "Successfully published to .\dist" -ForegroundColor Green
