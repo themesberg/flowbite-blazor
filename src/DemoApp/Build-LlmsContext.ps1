@@ -53,6 +53,7 @@ $sectionFiles = @(
     "01-10-spinner.md",
     "01-11-tabs.md",
     "01-12-tooltip.md",
+    "01-13-table.md",
     "02-icons.md",
     "03-patterns.md"
 )
