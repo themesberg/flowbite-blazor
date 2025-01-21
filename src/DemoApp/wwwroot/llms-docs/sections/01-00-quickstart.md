@@ -85,6 +85,7 @@ Flowbite Blazor provides the following set of UI components:
 - Sidebar
 - Tabs
 - Tooltip
+- Table
 
 ### Components
 
