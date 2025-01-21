@@ -1,8 +1,9 @@
 @namespace Flowbite.Components.Table
 @inherits FlowbiteComponentBase
 
-<div class="@TableContext.WrapperClasses">
-    <div class="@TableContext.ShadowClasses">
+<div class="@TableContext.ContainerClasses">
+    <div class="@TableContext.WrapperClasses">
+        <div class="@TableContext.ShadowClasses"></div>
         <table class="@CombineClasses(TableContext.BaseClasses, GetTableClasses())">
             @if (CaptionContent != null)
             {

@@ -18,7 +18,13 @@
     "cSpell.words": [
         "flowbite",
         "Flowbite",
-        "Hoverable"
+        "Hoverable",
+        "nowrap",
+        "onchange",
+        "nameof",
+        "typeparam",
+        "Blazor",
+        "subcomponents"
     ],
     "markdown.extension.toc.updateOnSave": false,
 }

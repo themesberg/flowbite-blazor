@@ -1,0 +1,245 @@
+@page "/docs/components/table"
+@using Flowbite.Components.Table
+
+<PageTitle>Table - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2 class="text-3xl font-bold dark:text-white">Table Examples</h2>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <!-- Default Table -->
+        <section class="pt-4 flex flex-col space-y-2">
+            <h3 class="text-xl font-semibold dark:text-white">Default Table</h3>
+            <p class="doc-text">Basic table structure with header and body</p>
+            
+            <div class="overflow-x-auto">
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableHeadCell>Product name</TableHeadCell>
+                            <TableHeadCell>Color</TableHeadCell>
+                            <TableHeadCell>Category</TableHeadCell>
+                            <TableHeadCell>Price</TableHeadCell>
+                            <TableHeadCell>
+                                <span class="sr-only">Edit</span>
+                            </TableHeadCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody class="divide-y">
+                        <TableRow class="bg-white dark:border-gray-700 dark:bg-gray-800">
+                            <TableCell class="whitespace-nowrap font-medium text-gray-900 dark:text-white">Apple MacBook Pro 17"</TableCell>
+                            <TableCell>Sliver</TableCell>
+                            <TableCell>Laptop</TableCell>
+                            <TableCell>$2999</TableCell>
+                            <TableCell>
+                                <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow class="bg-white dark:border-gray-700 dark:bg-gray-800">
+                            <TableCell class="whitespace-nowrap font-medium text-gray-900 dark:text-white">Microsoft Surface Pro</TableCell>
+                            <TableCell>White</TableCell>
+                            <TableCell>Laptop PC</TableCell>
+                            <TableCell>$1999</TableCell>
+                            <TableCell>
+                                <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow class="bg-white dark:border-gray-700 dark:bg-gray-800">
+                            <TableCell class="whitespace-nowrap font-medium text-gray-900 dark:text-white">Magic Mouse 2</TableCell>
+                            <TableCell>Black</TableCell>
+                            <TableCell>Accessories</TableCell>
+                            <TableCell>$99</TableCell>
+                            <TableCell>
+                                <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>
+                            </TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </div>
+        </section>
+
+        <!-- Striped Rows -->
+        <section class="pt-4 flex flex-col space-y-2">
+            <h3 class="text-xl font-semibold dark:text-white">Striped Rows</h3>
+            <p class="doc-text">Alternating row background colors</p>
+            
+            <div class="overflow-x-auto">
+                <Table Striped="true">
+                    <TableHead class="group/head">
+                        <TableRow class="group/row">
+                            <TableHeadCell>Product name</TableHeadCell>
+                            <TableHeadCell>Color</TableHeadCell>
+                            <TableHeadCell>Category</TableHeadCell>
+                            <TableHeadCell>Price</TableHeadCell>
+                            <TableHeadCell>
+                                <span class="sr-only">Edit</span>
+                            </TableHeadCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody class="group/body divide-y">
+                        <TableRow class="bg-white dark:border-gray-700 dark:bg-gray-800">
+                            <TableCell class="whitespace-nowrap font-medium text-gray-900 dark:text-white">Apple MacBook Pro 17"</TableCell>
+                            <TableCell>Sliver</TableCell>
+                            <TableCell>Laptop</TableCell>
+                            <TableCell>$2999</TableCell>
+                            <TableCell>
+                                <a href="#" class="font-medium text-cyan-600 hover:underline dark:text-cyan-500">Edit</a>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow class="bg-white dark:border-gray-700 dark:bg-gray-800">
+                            <TableCell class="whitespace-nowrap font-medium text-gray-900 dark:text-white">Microsoft Surface Pro</TableCell>
+                            <TableCell>White</TableCell>
+                            <TableCell>Laptop PC</TableCell>
+                            <TableCell>$1999</TableCell>
+                            <TableCell>
+                                <a href="#" class="font-medium text-cyan-600 hover:underline dark:text-cyan-500">Edit</a>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow class="bg-white dark:border-gray-700 dark:bg-gray-800">
+                            <TableCell class="whitespace-nowrap font-medium text-gray-900 dark:text-white">Magic Mouse 2</TableCell>
+                            <TableCell>Black</TableCell>
+                            <TableCell>Accessories</TableCell>
+                            <TableCell>$99</TableCell>
+                            <TableCell>
+                                <a href="#" class="font-medium text-cyan-600 hover:underline dark:text-cyan-500">Edit</a>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow class="bg-white dark:border-gray-700 dark:bg-gray-800">
+                            <TableCell class="whitespace-nowrap font-medium text-gray-900 dark:text-white">Google Pixel Phone</TableCell>
+                            <TableCell>Gray</TableCell>
+                            <TableCell>Phone</TableCell>
+                            <TableCell>$799</TableCell>
+                            <TableCell>
+                                <a href="#" class="font-medium text-cyan-600 hover:underline dark:text-cyan-500">Edit</a>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow class="bg-white dark:border-gray-700 dark:bg-gray-800">
+                            <TableCell class="whitespace-nowrap font-medium text-gray-900 dark:text-white">Apple Watch 5</TableCell>
+                            <TableCell>Red</TableCell>
+                            <TableCell>Wearables</TableCell>
+                            <TableCell>$999</TableCell>
+                            <TableCell>
+                                <a href="#" class="font-medium text-cyan-600 hover:underline dark:text-cyan-500">Edit</a>
+                            </TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </div>
+        </section>
+
+        <!-- Hoverable Rows -->
+        <section class="pt-4 flex flex-col space-y-2">
+            <h3 class="text-xl font-semibold dark:text-white">Hoverable Rows</h3>
+            <p class="doc-text">Highlight rows on hover</p>
+            
+            <Table Hoverable="true">
+                <TableHead>
+                    <TableRow>
+                        <TableHeadCell>Product</TableHeadCell>
+                        <TableHeadCell>Category</TableHeadCell>
+                        <TableHeadCell Align="right">Price</TableHeadCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    <TableRow>
+                        <TableCell>Apple MacBook Pro 17"</TableCell>
+                        <TableCell>Laptop</TableCell>
+                        <TableCell Align="right">$2999</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>Microsoft Surface Pro</TableCell>
+                        <TableCell>Tablet</TableCell>
+                        <TableCell Align="right">$999</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </section>
+
+        <!-- Bordered Table -->
+        <section class="pt-4 flex flex-col space-y-2">
+            <h3 class="text-xl font-semibold dark:text-white">Bordered Table</h3>
+            <p class="doc-text">Table with borders around cells</p>
+            
+            <Table Bordered="true">
+                <TableHead>
+                    <TableRow>
+                        <TableHeadCell>Product</TableHeadCell>
+                        <TableHeadCell>Category</TableHeadCell>
+                        <TableHeadCell Align="right">Price</TableHeadCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    <TableRow>
+                        <TableCell>Apple MacBook Pro 17"</TableCell>
+                        <TableCell>Laptop</TableCell>
+                        <TableCell Align="right">$2999</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>Microsoft Surface Pro</TableCell>
+                        <TableCell>Tablet</TableCell>
+                        <TableCell Align="right">$999</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </section>
+
+        <!-- With Checkboxes -->
+        <section class="pt-4 flex flex-col space-y-2">
+            <h3 class="text-xl font-semibold dark:text-white">With Checkboxes</h3>
+            <p class="doc-text">Row selection with checkboxes</p>
+            
+            <Table Hoverable="true">
+                <TableHead>
+                    <TableRow>
+                        <TableCheckboxColumn TItem="Product" 
+                                           Items="@_products"
+                                           IsSelected="@(p => p.IsSelected)"
+                                           OnSelectionChange="@OnSelectionChange" />
+                        <TableHeadCell>Product</TableHeadCell>
+                        <TableHeadCell>Category</TableHeadCell>
+                        <TableHeadCell Align="right">Price</TableHeadCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    @foreach (var product in _products)
+                    {
+                        <TableRow>
+                            <TableCell>
+                                <input type="checkbox"
+                                       class="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                                       checked="@product.IsSelected"
+                                       @onchange="@(e => OnSelectionChange(product, e.Value is bool value && value))" />
+                            </TableCell>
+                            <TableCell IsFirstColumn="true">@product.Name</TableCell>
+                            <TableCell>@product.Category</TableCell>
+                            <TableCell Align="right">@product.Price</TableCell>
+                        </TableRow>
+                    }
+                </TableBody>
+            </Table>
+        </section>
+    </div>
+</main>
+
+@code {
+    private List<Product> _products = new()
+    {
+        new() { Name = "Apple MacBook Pro 17\"", Category = "Laptop", Price = "$2999" },
+        new() { Name = "Microsoft Surface Pro", Category = "Tablet", Price = "$999" },
+        new() { Name = "Magic Mouse 2", Category = "Accessories", Price = "$99" }
+    };
+
+    private void OnSelectionChange(Product product, bool selected)
+    {
+        product.IsSelected = selected;
+        StateHasChanged();
+    }
+
+    private class Product
+    {
+        public bool IsSelected { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
+        public string Price { get; set; } = string.Empty;
+    }
+}

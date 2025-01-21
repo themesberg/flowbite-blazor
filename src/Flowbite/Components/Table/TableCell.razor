@@ -20,6 +20,11 @@
     /// Gets or sets the number of columns this cell should span.
     /// </summary>
     [Parameter] public int ColSpan { get; set; } = 1;
+
+    /// <summary>
+    /// Gets or sets whether this cell is in the first column. When true, applies specific styling for first column cells.
+    /// </summary>
+    [Parameter] public bool IsFirstColumn { get; set; }
     
     /// <summary>
     /// Gets the TableContext from the cascading parameter.
@@ -32,11 +37,22 @@
         {
             "px-6",
             "py-4",
-            "whitespace-nowrap",
-            "text-sm",
-            "text-gray-500",
-            "dark:text-gray-400"
+            "group-first/body:group-first/row:first:rounded-tl-lg",
+            "group-first/body:group-first/row:last:rounded-tr-lg",
+            "group-last/body:group-last/row:first:rounded-bl-lg",
+            "group-last/body:group-last/row:last:rounded-br-lg"
         };
+
+        if (IsFirstColumn)
+        {
+            classes.AddRange(new[]
+            {
+                "whitespace-nowrap",
+                "font-medium",
+                "text-gray-900",
+                "dark:text-white"
+            });
+        }
 
         return string.Join(" ", classes);
     }
