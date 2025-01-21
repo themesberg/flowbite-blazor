@@ -35,7 +35,10 @@ public class TableContext
     /// <summary>
     /// Gets the wrapper CSS classes for the table container.
     /// </summary>
-    public string ContainerClasses => Responsive ? "overflow-x-auto" : string.Empty;
+    public string ContainerClasses => CombineClasses(
+        "relative",
+        Responsive ? "overflow-x-auto" : string.Empty
+    );
 
     /// <summary>
     /// Gets the wrapper CSS classes for the table element.
@@ -45,7 +48,7 @@ public class TableContext
     /// <summary>
     /// Gets the shadow CSS classes for the table.
     /// </summary>
-    public string ShadowClasses => "absolute left-0 top-0 -z-10 h-full w-full rounded-lg bg-white drop-shadow-md dark:bg-black";
+    public string ShadowClasses => "absolute left-0 top-0 -z-10 h-full w-full rounded-lg bg-white drop-shadow-md dark:bg-gray-800";
 
     /// <summary>
     /// Initializes a new instance of the TableContext class.
