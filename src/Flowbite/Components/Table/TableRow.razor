@@ -1,0 +1,54 @@
+@namespace Flowbite.Components.Table
+@inherits FlowbiteComponentBase
+
+<tr class="@GetRowClasses()">
+    @ChildContent
+</tr>
+
+@code {
+    /// <summary>
+    /// Gets or sets the content to be rendered inside the row.
+    /// </summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the row is selected.
+    /// </summary>
+    [Parameter] public bool IsSelected { get; set; }
+
+    /// <summary>
+    /// Gets the TableContext from the cascading parameter.
+    /// </summary>
+    [CascadingParameter] protected TableContext? TableContext { get; set; }
+
+    private string GetRowClasses()
+    {
+        var classes = new List<string> { "bg-white dark:bg-gray-800" };
+        
+        if (TableContext?.Striped ?? false)
+        {
+            classes.Add("even:bg-gray-50 dark:even:bg-gray-700");
+        }
+        
+        if (TableContext?.Hoverable ?? false)
+        {
+            classes.Add("hover:bg-gray-50 dark:hover:bg-gray-600");
+        }
+        
+        if (IsSelected)
+        {
+            classes.Add("bg-blue-50 dark:bg-blue-900");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (TableContext is null)
+        {
+            throw new InvalidOperationException($"{nameof(TableRow)} must be used within a {nameof(Table)}");
+        }
+        base.OnParametersSet();
+    }
+}

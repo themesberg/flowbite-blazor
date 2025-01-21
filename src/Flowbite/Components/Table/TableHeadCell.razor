@@ -1,0 +1,64 @@
+@namespace Flowbite.Components.Table
+@inherits FlowbiteComponentBase
+
+<th class="@CombineClasses(GetHeadCellClasses(), AlignmentClass)" colspan="@ColSpan">
+    @ChildContent
+</th>
+
+@code {
+    /// <summary>
+    /// Gets or sets the content to be rendered inside the header cell.
+    /// </summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text alignment for the header cell. Valid values are "left", "center", or "right".
+    /// </summary>
+    [Parameter] public string? Align { get; set; }
+
+    /// <summary>
+    /// Gets or sets the number of columns this header cell should span.
+    /// </summary>
+    [Parameter] public int ColSpan { get; set; } = 1;
+
+    /// <summary>
+    /// Gets the TableContext from the cascading parameter.
+    /// </summary>
+    [CascadingParameter] public TableContext? TableContext { get; set; }
+
+    private string GetHeadCellClasses()
+    {
+        var classes = new List<string>
+        {
+            "px-6",
+            "py-3",
+            "text-xs",
+            "font-medium",
+            "uppercase",
+            "tracking-wider",
+            "text-gray-700",
+            "dark:text-gray-400",
+            "bg-gray-50",
+            "dark:bg-gray-700"
+        };
+
+        return string.Join(" ", classes);
+    }
+
+    private string AlignmentClass => Align?.ToLower() switch
+    {
+        "left" => "text-left",
+        "center" => "text-center",
+        "right" => "text-right",
+        _ => string.Empty
+    };
+
+    protected override void OnParametersSet()
+    {
+        if (TableContext is null)
+        {
+            throw new InvalidOperationException($"{nameof(TableHeadCell)} must be used within a {nameof(Table)}");
+        }
+        base.OnParametersSet();
+    }
+}
