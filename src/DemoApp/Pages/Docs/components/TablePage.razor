@@ -91,28 +91,6 @@
             </PreviewContent>
         </ComponentExample>
 
-        <ComponentExample Title="Bordered Table"
-                          Description="Table with borders around cells"
-                          RazorCode="@(@"<Table Bordered=""true"">
-    <TableHead>
-        <TableRow>
-            <TableHeadCell>Product</TableHeadCell>
-            <TableHeadCell>Category</TableHeadCell>
-            <TableHeadCell Align=""right"">Price</TableHeadCell>
-        </TableRow>
-    </TableHead>
-    <TableBody>
-        <!-- Table rows... -->
-    </TableBody>
-</Table>")"
-                          SupportedLanguages="@(new[] { "razor" })">
-            <PreviewContent>
-                <div class="mx-auto w-full bg-white bg-gradient-to-r dark:bg-gray-900 p-5">
-                    <TableBorderedExample />
-                </div>
-            </PreviewContent>
-        </ComponentExample>
-
         <ComponentExample Title="With Checkboxes"
                           Description="Row selection with checkboxes"
                           RazorCode="@(@"<Table Hoverable=""true"">
