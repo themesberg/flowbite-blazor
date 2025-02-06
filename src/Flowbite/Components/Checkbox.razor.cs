@@ -8,12 +8,7 @@ namespace Flowbite.Components;
 /// </summary>
 public partial class Checkbox
 {
-    private const string BaseClasses = "w-4 h-4 rounded focus:ring-2 focus:ring-offset-2";
-
-    /// <summary>
-    /// Gets or sets the color variant of the checkbox.
-    /// </summary>
-    [Parameter] public CheckboxColor Color { get; set; } = CheckboxColor.Default;
+    private const string BaseClasses = "w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:bg-gray-700 dark:border-gray-600 dark:ring-offset-gray-800 dark:focus:ring-primary-600";
 
     /// <summary>
     /// Gets or sets whether the checkbox is checked.
@@ -54,18 +49,6 @@ public partial class Checkbox
     private string GetClasses()
     {
         var classes = new List<string> { BaseClasses };
-
-        // Add color classes
-        var colorClasses = Color switch
-        {
-            CheckboxColor.Primary => "text-primary-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:ring-offset-gray-800 focus:ring-primary-600 dark:focus:ring-primary-600",
-            CheckboxColor.Success => "text-green-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:ring-offset-gray-800 focus:ring-green-600 dark:focus:ring-green-600",
-            CheckboxColor.Warning => "text-yellow-400 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:ring-offset-gray-800 focus:ring-yellow-400 dark:focus:ring-yellow-400",
-            CheckboxColor.Failure => "text-red-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:ring-offset-gray-800 focus:ring-red-600 dark:focus:ring-red-600",
-            CheckboxColor.Info => "text-cyan-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:ring-offset-gray-800 focus:ring-cyan-600 dark:focus:ring-cyan-600",
-            _ => "text-primary-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:ring-offset-gray-800 focus:ring-primary-600 dark:focus:ring-primary-600" // default
-        };
-        classes.Add(colorClasses);
 
         // Add disabled state
         if (Disabled)

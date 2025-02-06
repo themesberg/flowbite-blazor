@@ -163,18 +163,6 @@
             Placeholder=""Write your thoughts here..."" 
             Required=""true"" />
     </div>
-    <div>
-        <Textarea 
-            Color=""TextInputColor.Success"" 
-            Value=""A valid message"" 
-            HelperText=""Message saved successfully."" />
-    </div>
-    <div>
-        <Textarea 
-            Color=""TextInputColor.Failure"" 
-            Value=""An invalid message"" 
-            HelperText=""Message is too short."" />
-    </div>
 </form>")">
             <PreviewContent>
                 <form class="flex max-w-md flex-col gap-4">
@@ -188,25 +176,13 @@
                             Placeholder="Write your thoughts here..." 
                             Required="true" />
                     </div>
-                    <div>
-                        <Textarea 
-                            Color="TextInputColor.Success" 
-                            Value="A valid message" 
-                            HelperText="Message saved successfully." />
-                    </div>
-                    <div>
-                        <Textarea 
-                            Color="TextInputColor.Failure" 
-                            Value="An invalid message" 
-                            HelperText="Message is too short." />
-                    </div>
                 </form>
             </PreviewContent>
         </ComponentExample>
 
         <ComponentExample 
             Title="Checkbox Examples"
-            Description="Use checkboxes to allow users to select multiple options."
+            Description="Basic checkbox examples showing different states."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
     <!-- Default checkbox -->
     <div class=""flex items-center gap-2"">
@@ -224,30 +200,6 @@
     <div class=""flex items-center gap-2"">
         <Checkbox Id=""disabled"" Disabled=""true"" />
         <Label For=""disabled"" Disabled=""true"">Disabled checkbox</Label>
-    </div>
-
-    <!-- Different colors -->
-    <div class=""flex flex-col gap-2"">
-        <div class=""flex items-center gap-2"">
-            <Checkbox Id=""primary"" Color=""CheckboxColor.Primary"" Checked=""true"" />
-            <Label For=""primary"">Primary</Label>
-        </div>
-        <div class=""flex items-center gap-2"">
-            <Checkbox Id=""success"" Color=""CheckboxColor.Success"" Checked=""true"" />
-            <Label For=""success"">Success</Label>
-        </div>
-        <div class=""flex items-center gap-2"">
-            <Checkbox Id=""warning"" Color=""CheckboxColor.Warning"" Checked=""true"" />
-            <Label For=""warning"">Warning</Label>
-        </div>
-        <div class=""flex items-center gap-2"">
-            <Checkbox Id=""failure"" Color=""CheckboxColor.Failure"" Checked=""true"" />
-            <Label For=""failure"">Failure</Label>
-        </div>
-        <div class=""flex items-center gap-2"">
-            <Checkbox Id=""info"" Color=""CheckboxColor.Info"" Checked=""true"" />
-            <Label For=""info"">Info</Label>
-        </div>
     </div>
 </div>")">
             <PreviewContent>
@@ -267,30 +219,6 @@
                     <div class="flex items-center gap-2">
                         <Checkbox Id="disabled" Disabled="true" />
                         <Label For="disabled" Disabled="true">Disabled checkbox</Label>
-                    </div>
-
-                    <!-- Different colors -->
-                    <div class="flex flex-col gap-2">
-                        <div class="flex items-center gap-2">
-                            <Checkbox Id="primary" Color="CheckboxColor.Primary" Checked="true" />
-                            <Label For="primary">Primary</Label>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <Checkbox Id="success" Color="CheckboxColor.Success" Checked="true" />
-                            <Label For="success">Success</Label>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <Checkbox Id="warning" Color="CheckboxColor.Warning" Checked="true" />
-                            <Label For="warning">Warning</Label>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <Checkbox Id="failure" Color="CheckboxColor.Failure" Checked="true" />
-                            <Label For="failure">Failure</Label>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <Checkbox Id="info" Color="CheckboxColor.Info" Checked="true" />
-                            <Label For="info">Info</Label>
-                        </div>
                     </div>
                 </div>
             </PreviewContent>

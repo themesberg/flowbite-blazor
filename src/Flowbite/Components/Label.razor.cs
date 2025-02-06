@@ -18,16 +18,6 @@ public partial class Label
     [Parameter] public string? Value { get; set; }
 
     /// <summary>
-    /// Gets or sets the color variant of the label.
-    /// </summary>
-    /// <example>
-    /// <code>
-    /// &lt;Label Color="LabelColor.Success" Value="Status" /&gt;
-    /// </code>
-    /// </example>
-    [Parameter] public LabelColor Color { get; set; } = LabelColor.Default;
-
-    /// <summary>
     /// Gets or sets whether the label is disabled.
     /// </summary>
     /// <example>
@@ -57,19 +47,8 @@ public partial class Label
     {
         var classes = new List<string>
         {
-            "text-sm font-medium", // Base classes
+            "text-sm font-medium text-gray-900 dark:text-gray-300", // Base classes
         };
-
-        // Add color classes
-        var colorClasses = Color switch
-        {
-            LabelColor.Info => "text-cyan-500 dark:text-cyan-600",
-            LabelColor.Success => "text-green-500 dark:text-green-600",
-            LabelColor.Failure => "text-red-500 dark:text-red-600",
-            LabelColor.Warning => "text-yellow-500 dark:text-yellow-600",
-            _ => "text-gray-900 dark:text-gray-300" // default
-        };
-        classes.Add(colorClasses);
 
         // Add disabled state
         if (Disabled)
