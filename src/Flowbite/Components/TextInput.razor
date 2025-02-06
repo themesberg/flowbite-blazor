@@ -1,0 +1,46 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<div class="@GetWrapperClasses()">
+    @if (Addon != null)
+    {
+        <span class="@GetAddonClasses()">@Addon</span>
+    }
+    <div class="@GetFieldClasses()">
+        @if (Icon != null)
+        {
+            <div class="@GetIconClasses()">
+                <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object>
+                {
+                    { "class", "w-4 h-4 text-gray-500 dark:text-gray-400" },
+                    { "aria-hidden", true }
+                })" />
+            </div>
+        }
+        @if (RightIcon != null)
+        {
+            <div class="@GetRightIconClasses()" data-testid="right-icon">
+                <DynamicComponent Type="@RightIcon.GetType()" Parameters="@(new Dictionary<string, object>
+                {
+                    { "class", "w-4 h-4 text-gray-500 dark:text-gray-400" },
+                    { "aria-hidden", true }
+                })" />
+            </div>
+        }
+        <input type="@Type"
+               class="@GetInputClasses()"
+               value="@Value"
+               @oninput="OnInputChanged"
+               placeholder="@Placeholder"
+               disabled="@Disabled"
+               required="@Required"
+               data-testid="flowbite-text-input"
+               @attributes="AdditionalAttributes" />
+    </div>
+</div>
+@if (!string.IsNullOrEmpty(HelperText))
+{
+    <div class="@GetHelperTextClasses()">
+        @HelperText
+    </div>
+}

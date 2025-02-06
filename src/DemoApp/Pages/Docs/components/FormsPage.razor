@@ -1,0 +1,211 @@
+@page "/docs/components/forms"
+@using Flowbite.Icons
+
+<PageTitle>Forms - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Form Examples</h2>
+
+    <div class="space-y-8">
+        <ComponentExample 
+            Title="Default Form"
+            Description="Example of a form with TextInput, Checkbox, Label and Button elements for user authentication."
+            RazorCode="@(@"<form class=""flex max-w-md flex-col gap-4"">
+    <div>
+        <div class=""mb-2 block"">
+            <Label For=""email"" Value=""Your email"" />
+        </div>
+        <TextInput Id=""email"" Type=""email"" Placeholder=""name@flowbite.com"" Required=""true"" />
+    </div>
+    <div>
+        <div class=""mb-2 block"">
+            <Label For=""password"" Value=""Your password"" />
+        </div>
+        <TextInput Id=""password"" Type=""password"" Required=""true"" />
+    </div>
+    <div class=""flex items-center gap-2"">
+        <Checkbox Id=""remember"" />
+        <Label For=""remember"">Remember me</Label>
+    </div>
+    <Button Type=""submit"">Submit</Button>
+</form>")">
+            <PreviewContent>
+                <form class="flex max-w-md flex-col gap-4">
+                    <div>
+                        <div class="mb-2 block">
+                            <Label For="email" Value="Your email" />
+                        </div>
+                        <TextInput Id="email" Type="email" Placeholder="name@flowbite.com" Required="true" />
+                    </div>
+                    <div>
+                        <div class="mb-2 block">
+                            <Label For="password" Value="Your password" />
+                        </div>
+                        <TextInput Id="password" Type="password" Required="true" />
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <Checkbox Id="remember" />
+                        <Label For="remember">Remember me</Label>
+                    </div>
+                    <Button Type="submit">Submit</Button>
+                </form>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Input Sizing"
+            Description="Use different sizes for your input fields based on your needs."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <TextInput Size=""TextInputSize.Small"" Placeholder=""Small input"" />
+    <TextInput Size=""TextInputSize.Medium"" Placeholder=""Default input"" />
+    <TextInput Size=""TextInputSize.Large"" Placeholder=""Large input"" />
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <TextInput Size="TextInputSize.Small" Placeholder="Small input" />
+                    <TextInput Size="TextInputSize.Medium" Placeholder="Default input" />
+                    <TextInput Size="TextInputSize.Large" Placeholder="Large input" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Input States"
+            Description="Different states for input validation and feedback."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <div>
+        <TextInput Color=""TextInputColor.Success"" Value=""Success input"" HelperText=""This is a success message"" />
+    </div>
+    <div>
+        <TextInput Color=""TextInputColor.Failure"" Value=""Error input"" HelperText=""This is an error message"" />
+    </div>
+    <div>
+        <TextInput Disabled=""true"" Value=""Disabled input"" />
+    </div>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <div>
+                        <TextInput Color="TextInputColor.Success" Value="Success input" HelperText="This is a success message" />
+                    </div>
+                    <div>
+                        <TextInput Color="TextInputColor.Failure" Value="Error input" HelperText="This is an error message" />
+                    </div>
+                    <div>
+                        <TextInput Disabled="true" Value="Disabled input" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Input with Icons"
+            Description="Add icons to your input fields for better visual context."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <TextInput Icon=""@(new EnvelopeOpenIcon())"" Placeholder=""Email with icon"" />
+    <TextInput RightIcon=""@(new SearchIcon())"" Placeholder=""Search with icon"" />
+    <TextInput Icon=""@(new UserIcon())"" RightIcon=""@(new CheckIcon())"" Placeholder=""Input with both icons"" />
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <TextInput Icon="@(new EnvelopeOpenIcon())" Placeholder="Email with icon" />
+                    <TextInput RightIcon="@(new SearchIcon())" Placeholder="Search with icon" />
+                    <TextInput Icon="@(new UserIcon())" RightIcon="@(new CheckIcon())" Placeholder="Input with both icons" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Checkbox Examples"
+            Description="Use checkboxes to allow users to select multiple options."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <!-- Default checkbox -->
+    <div class=""flex items-center gap-2"">
+        <Checkbox Id=""default"" />
+        <Label For=""default"">Default checkbox</Label>
+    </div>
+
+    <!-- Checked checkbox -->
+    <div class=""flex items-center gap-2"">
+        <Checkbox Id=""checked"" Checked=""true"" />
+        <Label For=""checked"">Checked state</Label>
+    </div>
+
+    <!-- Disabled checkbox -->
+    <div class=""flex items-center gap-2"">
+        <Checkbox Id=""disabled"" Disabled=""true"" />
+        <Label For=""disabled"" Disabled=""true"">Disabled checkbox</Label>
+    </div>
+
+    <!-- Different colors -->
+    <div class=""flex flex-col gap-2"">
+        <div class=""flex items-center gap-2"">
+            <Checkbox Id=""primary"" Color=""CheckboxColor.Primary"" Checked=""true"" />
+            <Label For=""primary"">Primary</Label>
+        </div>
+        <div class=""flex items-center gap-2"">
+            <Checkbox Id=""success"" Color=""CheckboxColor.Success"" Checked=""true"" />
+            <Label For=""success"">Success</Label>
+        </div>
+        <div class=""flex items-center gap-2"">
+            <Checkbox Id=""warning"" Color=""CheckboxColor.Warning"" Checked=""true"" />
+            <Label For=""warning"">Warning</Label>
+        </div>
+        <div class=""flex items-center gap-2"">
+            <Checkbox Id=""failure"" Color=""CheckboxColor.Failure"" Checked=""true"" />
+            <Label For=""failure"">Failure</Label>
+        </div>
+        <div class=""flex items-center gap-2"">
+            <Checkbox Id=""info"" Color=""CheckboxColor.Info"" Checked=""true"" />
+            <Label For=""info"">Info</Label>
+        </div>
+    </div>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <!-- Default checkbox -->
+                    <div class="flex items-center gap-2">
+                        <Checkbox Id="default" />
+                        <Label For="default">Default checkbox</Label>
+                    </div>
+
+                    <!-- Checked checkbox -->
+                    <div class="flex items-center gap-2">
+                        <Checkbox Id="checked" Checked="true" />
+                        <Label For="checked">Checked state</Label>
+                    </div>
+
+                    <!-- Disabled checkbox -->
+                    <div class="flex items-center gap-2">
+                        <Checkbox Id="disabled" Disabled="true" />
+                        <Label For="disabled" Disabled="true">Disabled checkbox</Label>
+                    </div>
+
+                    <!-- Different colors -->
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center gap-2">
+                            <Checkbox Id="primary" Color="CheckboxColor.Primary" Checked="true" />
+                            <Label For="primary">Primary</Label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <Checkbox Id="success" Color="CheckboxColor.Success" Checked="true" />
+                            <Label For="success">Success</Label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <Checkbox Id="warning" Color="CheckboxColor.Warning" Checked="true" />
+                            <Label For="warning">Warning</Label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <Checkbox Id="failure" Color="CheckboxColor.Failure" Checked="true" />
+                            <Label For="failure">Failure</Label>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <Checkbox Id="info" Color="CheckboxColor.Info" Checked="true" />
+                            <Label For="info">Info</Label>
+                        </div>
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>

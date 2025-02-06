@@ -1,0 +1,61 @@
+@page "/docs/components/label"
+
+<PageTitle>Label - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Label Examples</h2>
+
+    <div class="space-y-8">
+        <ComponentExample 
+            Title="Default Label"
+            Description="Use the default label component to add a simple label above form elements."
+            RazorCode="@(@"<Label Value=""Email address"" />")">
+            <PreviewContent>
+                <Label Value="Email address" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Label Colors"
+            Description="Use different colors to highlight the importance or state of a label."
+            RazorCode="@(@"<div class=""flex flex-col gap-2"">
+    <Label Value=""Default label"" Color=""LabelColor.Default"" />
+    <Label Value=""Info label"" Color=""LabelColor.Info"" />
+    <Label Value=""Success label"" Color=""LabelColor.Success"" />
+    <Label Value=""Warning label"" Color=""LabelColor.Warning"" />
+    <Label Value=""Failure label"" Color=""LabelColor.Failure"" />
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-2">
+                    <Label Value="Default label" Color="LabelColor.Default" />
+                    <Label Value="Info label" Color="LabelColor.Info" />
+                    <Label Value="Success label" Color="LabelColor.Success" />
+                    <Label Value="Warning label" Color="LabelColor.Warning" />
+                    <Label Value="Failure label" Color="LabelColor.Failure" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Disabled Label"
+            Description="Use the disabled state to show that a form field is not available."
+            RazorCode="@(@"<Label Value=""Disabled label"" Disabled=""true"" />")">
+            <PreviewContent>
+                <Label Value="Disabled label" Disabled="true" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Label with Child Content"
+            Description="Use child content to create more complex labels with custom HTML."
+            RazorCode="@(@"<Label>
+    Custom label with <span class=""font-bold text-red-500"">important</span> text
+</Label>")">
+            <PreviewContent>
+                <Label>
+                    Custom label with <span class="font-bold text-red-500">important</span> text
+                </Label>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>
