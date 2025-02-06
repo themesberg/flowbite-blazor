@@ -1,0 +1,20 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<textarea class="@GetTextareaClasses()"
+          @bind="Value"
+          @bind:event="oninput"
+          placeholder="@Placeholder"
+          rows="@Rows"
+          disabled="@Disabled"
+          required="@Required"
+          id="@_elementId"
+          aria-describedby="@(HelperText != null ? $"helper-{_elementId}" : null)"
+          data-testid="flowbite-textarea"
+          @attributes="AdditionalAttributes"></textarea>
+@if (!string.IsNullOrEmpty(HelperText))
+{
+    <div id="helper-@_elementId" class="@GetHelperTextClasses()" role="note">
+        @HelperText
+    </div>
+}

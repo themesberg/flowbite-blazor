@@ -150,6 +150,61 @@
         </ComponentExample>
 
         <ComponentExample 
+            Title="Textarea Example"
+            Description="Use textarea for multi-line text input with validation states and helper text."
+            RazorCode="@(@"<form class=""flex max-w-md flex-col gap-4"">
+    <div>
+        <div class=""mb-2 block"">
+            <Label For=""comment"" Value=""Your message"" />
+        </div>
+        <Textarea 
+            Id=""comment"" 
+            Rows=""4"" 
+            Placeholder=""Write your thoughts here..."" 
+            Required=""true"" />
+    </div>
+    <div>
+        <Textarea 
+            Color=""TextInputColor.Success"" 
+            Value=""A valid message"" 
+            HelperText=""Message saved successfully."" />
+    </div>
+    <div>
+        <Textarea 
+            Color=""TextInputColor.Failure"" 
+            Value=""An invalid message"" 
+            HelperText=""Message is too short."" />
+    </div>
+</form>")">
+            <PreviewContent>
+                <form class="flex max-w-md flex-col gap-4">
+                    <div>
+                        <div class="mb-2 block">
+                            <Label For="comment" Value="Your message" />
+                        </div>
+                        <Textarea 
+                            Id="comment" 
+                            Rows="4" 
+                            Placeholder="Write your thoughts here..." 
+                            Required="true" />
+                    </div>
+                    <div>
+                        <Textarea 
+                            Color="TextInputColor.Success" 
+                            Value="A valid message" 
+                            HelperText="Message saved successfully." />
+                    </div>
+                    <div>
+                        <Textarea 
+                            Color="TextInputColor.Failure" 
+                            Value="An invalid message" 
+                            HelperText="Message is too short." />
+                    </div>
+                </form>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
             Title="Checkbox Examples"
             Description="Use checkboxes to allow users to select multiple options."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
