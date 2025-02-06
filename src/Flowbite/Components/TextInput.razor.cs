@@ -8,10 +8,10 @@ namespace Flowbite.Components;
 /// </summary>
 public partial class TextInput
 {
-    private const string BaseWrapperClasses = "relative";
+    private const string BaseWrapperClasses = "relative flex";
     private const string BaseFieldClasses = "relative w-full";
     private const string BaseInputClasses = "block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500";
-    private const string BaseAddonClasses = "inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-200 px-3 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400";
+    private const string BaseAddonClasses = "inline-flex items-center border border-gray-300 bg-gray-200 px-3 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400";
     private const string BaseIconClasses = "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3";
     private const string BaseRightIconClasses = "pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3";
     private const string BaseHelperTextClasses = "mt-1 text-sm";
@@ -77,9 +77,14 @@ public partial class TextInput
     [Parameter] public IconBase? RightIcon { get; set; }
 
     /// <summary>
-    /// Gets or sets the addon content displayed before the input.
+    /// Gets or sets the text to display before the input.
     /// </summary>
-    [Parameter] public RenderFragment? Addon { get; set; }
+    [Parameter] public string? AddonLeft { get; set; }
+
+    /// <summary>
+    /// Gets or sets the text to display after the input.
+    /// </summary>
+    [Parameter] public string? AddonRight { get; set; }
 
     /// <summary>
     /// Additional attributes that will be applied to the input element.
@@ -91,7 +96,21 @@ public partial class TextInput
 
     private string GetFieldClasses() => BaseFieldClasses;
 
-    private string GetAddonClasses() => BaseAddonClasses;
+    private string GetAddonClasses(bool isLeft = true)
+    {
+        var classes = new List<string> { BaseAddonClasses };
+        
+        if (isLeft)
+        {
+            classes.Add("rounded-l-md border-r-0");
+        }
+        else
+        {
+            classes.Add("rounded-r-md border-l-0");
+        }
+
+        return string.Join(" ", classes);
+    }
 
     private string GetIconClasses() => BaseIconClasses;
 
@@ -135,9 +154,18 @@ public partial class TextInput
         }
 
         // Add addon classes
-        if (Addon != null)
+        if (!string.IsNullOrEmpty(AddonLeft) && !string.IsNullOrEmpty(AddonRight))
         {
-            classes.Add("rounded-r-lg");
+            // No rounded corners when both addons are present
+            classes.Add("border-l-0 border-r-0");
+        }
+        else if (!string.IsNullOrEmpty(AddonLeft))
+        {
+            classes.Add("rounded-r-lg border-l-0");
+        }
+        else if (!string.IsNullOrEmpty(AddonRight))
+        {
+            classes.Add("rounded-l-lg border-r-0");
         }
         else
         {

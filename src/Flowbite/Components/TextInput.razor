@@ -2,9 +2,9 @@
 @inherits FlowbiteComponentBase
 
 <div class="@GetWrapperClasses()">
-    @if (Addon != null)
+    @if (!string.IsNullOrEmpty(AddonLeft))
     {
-        <span class="@GetAddonClasses()">@Addon</span>
+        <span class="@GetAddonClasses()">@AddonLeft</span>
     }
     <div class="@GetFieldClasses()">
         @if (Icon != null)
@@ -37,6 +37,10 @@
                data-testid="flowbite-text-input"
                @attributes="AdditionalAttributes" />
     </div>
+    @if (!string.IsNullOrEmpty(AddonRight))
+    {
+        <span class="@GetAddonClasses(false)">@AddonRight</span>
+    }
 </div>
 @if (!string.IsNullOrEmpty(HelperText))
 {

@@ -99,6 +99,40 @@
         </ComponentExample>
 
         <ComponentExample 
+            Title="Input with Shadow"
+            Description="Add a subtle shadow effect to your input fields."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <TextInput Shadow=""true"" Placeholder=""Input with shadow"" />
+    <TextInput Shadow=""true"" Color=""TextInputColor.Success"" Placeholder=""Success input with shadow"" />
+    <TextInput Shadow=""true"" Color=""TextInputColor.Info"" Placeholder=""Info input with shadow"" />
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <TextInput Shadow="true" Placeholder="Input with shadow" />
+                    <TextInput Shadow="true" Color="TextInputColor.Success" Placeholder="Success input with shadow" />
+                    <TextInput Shadow="true" Color="TextInputColor.Info" Placeholder="Info input with shadow" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Input with Addons"
+            Description="Add content before and/or after your input fields."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <TextInput Placeholder=""Your domain"" AddonLeft=""https://"" />
+    <TextInput Placeholder=""Your domain"" AddonRight="".com"" />
+    <TextInput Placeholder=""Amount"" AddonLeft=""$"" AddonRight="".00"" />
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <TextInput Placeholder="Your domain" AddonLeft="https://" />
+                    <TextInput Placeholder="Your domain" AddonRight=".com" />
+                    <TextInput Placeholder="Amount" AddonLeft="$" AddonRight=".00" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
             Title="Input with Icons"
             Description="Add icons to your input fields for better visual context."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
@@ -175,7 +209,6 @@
                         <Label For="checked">Checked state</Label>
                     </div>
 
-                    <!-- Disabled checkbox -->
                     <div class="flex items-center gap-2">
                         <Checkbox Id="disabled" Disabled="true" />
                         <Label For="disabled" Disabled="true">Disabled checkbox</Label>
