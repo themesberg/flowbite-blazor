@@ -363,5 +363,89 @@
                 </div>
             </PreviewContent>
         </ComponentExample>
+
+        <ComponentExample 
+            Title="Radio Button Examples"
+            Description="Use radio buttons when users need to select a single option from a list."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <!-- Default radio -->
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""united-states"" Name=""countries"" Value=""true"" />
+        <Label For=""united-states"">United States</Label>
+    </div>
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""germany"" Name=""countries"" />
+        <Label For=""germany"">Germany</Label>
+    </div>
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""spain"" Name=""countries"" />
+        <Label For=""spain"">Spain</Label>
+    </div>
+
+    <!-- Disabled radio -->
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""disabled"" Disabled=""true"" />
+        <Label For=""disabled"" Disabled=""true"">Disabled radio</Label>
+    </div>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <!-- Default radio -->
+                    <div class="flex items-center gap-2">
+                        <Radio Id="united-states" Name="countries" Value="true" />
+                        <Label For="united-states">United States</Label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <Radio Id="germany" Name="countries" />
+                        <Label For="germany">Germany</Label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <Radio Id="spain" Name="countries" />
+                        <Label For="spain">Spain</Label>
+                    </div>
+
+                    <!-- Disabled radio -->
+                    <div class="flex items-center gap-2">
+                        <Radio Id="disabled" Disabled="true" />
+                        <Label For="disabled" Disabled="true">Disabled radio</Label>
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Inline Radio Layout"
+            Description="Display radio buttons in a horizontal layout."
+            RazorCode="@(@"<div class=""flex gap-4"">
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""react"" Name=""framework"" Value=""true"" />
+        <Label For=""react"">React</Label>
+    </div>
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""angular"" Name=""framework"" />
+        <Label For=""angular"">Angular</Label>
+    </div>
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""vue"" Name=""framework"" />
+        <Label For=""vue"">Vue</Label>
+    </div>
+</div>")">
+            <PreviewContent>
+                <div class="flex gap-4">
+                    <div class="flex items-center gap-2">
+                        <Radio Id="react" Name="framework" Value="true" />
+                        <Label For="react">React</Label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <Radio Id="angular" Name="framework" />
+                        <Label For="angular">Angular</Label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <Radio Id="vue" Name="framework" />
+                        <Label For="vue">Vue</Label>
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
     </div>
 </main>
