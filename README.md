@@ -44,6 +44,15 @@
    - Sidebar
    - Navbar
    - Dropdown
+   - Form Components
+   - TextInport
+       - TextArea
+       - Select
+       - Checkbox
+       - Radio
+       - FileInput
+       - ToggeSwitch
+       - RangeSlider
    - more coming soon...
 
 ## Other Assemblies
