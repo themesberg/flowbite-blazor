@@ -1,0 +1,35 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<button @ref="_buttonRef"
+        type="button"
+        role="switch"
+        aria-checked="@Checked"
+        aria-labelledby="@($"{Id}-flowbite-toggleswitch-label")"
+        id="@($"{Id}-flowbite-toggleswitch")"
+        disabled="@Disabled"
+        @onclick="HandleClick"
+        tabindex="0"
+        class="@CombineClasses(GetRootClasses(), Class)"
+        @attributes="AdditionalAttributes">
+    <div data-testid="flowbite-toggleswitch-toggle"
+         class="@CombineClasses(GetToggleClasses())">
+    </div>
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <span data-testid="flowbite-toggleswitch-label"
+              id="@($"{Id}-flowbite-toggleswitch-label")"
+              class="ms-3 mt-0.5 text-start text-sm font-medium text-gray-900 dark:text-gray-300">
+            @Label
+        </span>
+    }
+</button>
+
+@if (!string.IsNullOrEmpty(Name) && Checked)
+{
+    <input type="checkbox"
+           class="sr-only"
+           name="@Name"
+           checked="checked"
+           readonly />
+}

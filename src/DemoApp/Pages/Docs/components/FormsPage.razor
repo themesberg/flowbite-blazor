@@ -472,6 +472,33 @@
                 </div>
             </PreviewContent>
         </ComponentExample>
+
+        <ComponentExample 
+            Title="Toggle switch"
+            Description="Use the ToggleSwitch component to ask users to enable or disable an option such as newsletter settings."
+            RazorCode="@(@"<div class=""flex max-w-md flex-col items-start gap-4"">
+    <ToggleSwitch @bind-Checked=""switch1"" Label=""Toggle me"" />
+    <ToggleSwitch @bind-Checked=""switch2"" Label=""Toggle me (checked)"" />
+    <ToggleSwitch Checked=""false"" Disabled Label=""Toggle me (disabled)"" />
+    <ToggleSwitch Checked=""true"" Disabled Label=""Toggle me (disabled)"" />
+    <ToggleSwitch @bind-Checked=""switch3"" />
+</div>")">
+            <PreviewContent>
+                <div class="flex max-w-md flex-col items-start gap-4">
+                    <ToggleSwitch @bind-Checked="switch1" Label="Toggle me" />
+                    <ToggleSwitch @bind-Checked="switch2" Label="Toggle me (checked)" />
+                    <ToggleSwitch Checked="false" Disabled Label="Toggle me (disabled)" />
+                    <ToggleSwitch Checked="true" Disabled Label="Toggle me (disabled)" />
+                    <ToggleSwitch @bind-Checked="switch3" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
         
     </div>
 </main>
+
+@code {
+    private bool switch1;
+    private bool switch2 = true;
+    private bool switch3 = true;
+}
