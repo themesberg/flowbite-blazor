@@ -447,5 +447,31 @@
                 </div>
             </PreviewContent>
         </ComponentExample>
+
+        <ComponentExample 
+            Title="File Input Examples"
+            Description="Use file inputs to allow users to upload files with support for different states and sizes."
+            RazorCode="@(@"
+<div id=""fileUpload"" class=""max-w-md"">
+    <div class=""mb-2 block"">
+        <Label For=""file-upload"" Value=""Upload file"" />
+    </div>
+    <FileInput Id=""file-upload"" 
+               HelperText=""A profile picture is useful to confirm your are logged into your account."" />
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <div id="fileUpload" class="max-w-md">
+                        <div class="mb-2 block">
+                            <Label For="file-upload" Value="Upload file" />
+                        </div>
+                        <FileInput 
+                            Id="file" 
+                            HelperText="A profile picture is useful to confirm your are logged into your account." />
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+        
     </div>
 </main>

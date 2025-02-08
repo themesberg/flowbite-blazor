@@ -1,0 +1,26 @@
+@namespace Flowbite.Components
+@inherits FlowbiteComponentBase
+@using Microsoft.AspNetCore.Components.Forms
+@using Flowbite.Components
+
+<div class="@WrapperClasses">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <div class="mb-2 block">
+            <Label For="@Id" Value="@Label" />
+        </div>
+    }
+    <div class="flex">
+        <div class="relative w-full">
+            <InputFile 
+                id="@Id"
+                class="@InputClasses"
+                OnChange="OnChange"
+                @attributes="AdditionalAttributes" />
+        </div>
+    </div>
+    @if (!string.IsNullOrEmpty(HelperText))
+    {
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400" role="note">@HelperText</p>
+    }
+</div>
