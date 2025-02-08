@@ -1,0 +1,13 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<label class="@GetClasses()" data-testid="flowbite-label" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Value))
+    {
+        @Value
+    }
+    else
+    {
+        @ChildContent
+    }
+</label>

@@ -53,3 +53,6 @@ if ($LASTEXITCODE -ne 0) {
 # Publish Flowbite.ExtendedIcons (skip duplicate if exists)
 dotnet nuget push .\nuget-local\Flowbite.ExtendedIcons.*.nupkg -s https://api.nuget.org/v3/index.json -k $apiKey --skip-duplicate
 Write-Host "Flowbite libraries published successfully to NuGet.org!" -ForegroundColor Green
+Write-Host ""
+Write-Host "Goto URL https://www.nuget.org/packages?q=flowbite to view the published packages."
+Write-Host ""

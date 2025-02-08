@@ -1,0 +1,13 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<input type="checkbox"
+       class="@GetClasses()"
+       checked="@Checked"
+       @onchange="OnCheckboxChanged"
+       disabled="@Disabled"
+       required="@Required"
+       id="@Id"
+       name="@Name"
+       data-testid="flowbite-checkbox"
+       @attributes="AdditionalAttributes" />
