@@ -493,6 +493,77 @@
                 </div>
             </PreviewContent>
         </ComponentExample>
+
+        <ComponentExample 
+            Title="Range slider"
+            Description="Use the range slider component to get a value from the user within a range using a sliding bar."
+            RazorCode="@(@"<div class=""flex max-w-md flex-col gap-4"">
+    <div>
+        <div class=""mb-1 block"">
+            <Label For=""default-range"" Value=""Default"" />
+        </div>
+        <RangeSlider Id=""default-range"" />
+    </div>
+    <div>
+        <div class=""mb-1 block"">
+            <Label For=""disabled-range"" Value=""Disabled"" />
+        </div>
+        <RangeSlider Id=""disabled-range"" Disabled=""true"" />
+    </div>
+    <div>
+        <div class=""mb-1 block"">
+            <Label For=""sm-range"" Value=""Small"" />
+        </div>
+        <RangeSlider Id=""sm-range"" Size=""RangeSliderSize.Small"" />
+    </div>
+    <div>
+        <div class=""mb-1 block"">
+            <Label For=""md-range"" Value=""Medium"" />
+        </div>
+        <RangeSlider Id=""md-range"" Size=""RangeSliderSize.Medium"" />
+    </div>
+    <div>
+        <div class=""mb-1 block"">
+            <Label For=""lg-range"" Value=""Large"" />
+        </div>
+        <RangeSlider Id=""lg-range"" Size=""RangeSliderSize.Large"" />
+    </div>
+</div>")">
+            <PreviewContent>
+                <div class="flex max-w-md flex-col gap-4">
+                    <div>
+                        <div class="mb-1 block">
+                            <Label For="default-range" Value="Default" />
+                        </div>
+                        <RangeSlider Id="default-range" />
+                    </div>
+                    <div>
+                        <div class="mb-1 block">
+                            <Label For="disabled-range" Value="Disabled" />
+                        </div>
+                        <RangeSlider Id="disabled-range" Disabled="true" />
+                    </div>
+                    <div>
+                        <div class="mb-1 block">
+                            <Label For="sm-range" Value="Small" />
+                        </div>
+                        <RangeSlider Id="sm-range" Size="RangeSliderSize.Small" />
+                    </div>
+                    <div>
+                        <div class="mb-1 block">
+                            <Label For="md-range" Value="Medium" />
+                        </div>
+                        <RangeSlider Id="md-range" Size="RangeSliderSize.Medium" />
+                    </div>
+                    <div>
+                        <div class="mb-1 block">
+                            <Label For="lg-range" Value="Large" />
+                        </div>
+                        <RangeSlider Id="lg-range" Size="RangeSliderSize.Large" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
         
     </div>
 </main>

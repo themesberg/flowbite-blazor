@@ -1,0 +1,18 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<div data-testid="flowbite-range-slider" class="@CombineClasses(GetRootClasses(), Class)">
+    <div class="relative">
+        <input type="range"
+               @ref="_inputRef"
+               @bind-value="Value"
+               @bind-value:event="oninput"
+               id="@Id"
+               min="@Min"
+               max="@Max"
+               step="@Step"
+               disabled="@Disabled"
+               class="@GetInputClasses()"
+               @attributes="AdditionalAttributes" />
+    </div>
+</div>
