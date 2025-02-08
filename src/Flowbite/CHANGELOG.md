@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.9-alpha
+
+- Added Form controls:
+    - TextInport
+    - TextArea
+    - Select
+    - Checkbox
+    - Radio
+    - FileInput
+    - ToggeSwitch
+    - RangeSlider
+    - Vaidation examples.
+
 ## 0.0.8-alpha
 
 - Added Primary as color enum to Button and Alert components.

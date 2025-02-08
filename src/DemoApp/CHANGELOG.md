@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.26-alpha
+
+- Add Forms & FormValidation Components and updated llms-ctx.md
+
 ## 0.0.25-alpha
 
 - Add Tree Component and updated llms-ctx.md
