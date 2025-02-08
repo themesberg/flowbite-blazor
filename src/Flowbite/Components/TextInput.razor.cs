@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
+using System.Linq;
 
 namespace Flowbite.Components;
 
 /// <summary>
 /// TextInput component for forms and user input.
 /// </summary>
-public partial class TextInput<TValue>
+public partial class TextInput<TValue> : IDisposable
 {
     private const string BaseWrapperClasses = "relative flex";
     private const string BaseFieldClasses = "relative w-full";
@@ -30,6 +32,9 @@ public partial class TextInput<TValue>
     /// Gets or sets the color variant of the input.
     /// </summary>
     [Parameter] public TextInputColor Color { get; set; } = TextInputColor.Gray;
+
+
+    [CascadingParameter] private EditContext? CurrentEditContext { get; set; }
 
     /// <summary>
     /// Gets or sets the size variant of the input.
@@ -115,6 +120,27 @@ public partial class TextInput<TValue>
     private string GetIconClasses() => BaseIconClasses;
 
     private string GetRightIconClasses() => BaseRightIconClasses;
+
+    protected override void OnInitialized()
+    {
+        if (CurrentEditContext != null)
+        {
+            CurrentEditContext.OnValidationStateChanged += ValidationStateChanged;
+        }
+    }
+
+    private void ValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
+    {
+        // Nothing to do for now.
+    }
+
+    public void Dispose()
+    {
+        if (CurrentEditContext != null)
+        {
+            CurrentEditContext.OnValidationStateChanged -= ValidationStateChanged;
+        }
+    }
 
     private string GetInputClasses()
     {
