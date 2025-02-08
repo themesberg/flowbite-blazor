@@ -181,6 +181,146 @@
         </ComponentExample>
 
         <ComponentExample 
+            Title="Select Examples"
+            Description="Use select dropdowns to allow users to choose from predefined options."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <div>
+        <div class=""mb-2 block"">
+            <Label For=""countries"" Value=""Select your country"" />
+        </div>
+        <Select Id=""countries"">
+            <option value="""">Choose a country</option>
+            <option value=""US"">United States</option>
+            <option value=""CA"">Canada</option>
+            <option value=""FR"">France</option>
+            <option value=""DE"">Germany</option>
+        </Select>
+    </div>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <div>
+                        <div class="mb-2 block">
+                            <Label For="countries" Value="Select your country" />
+                        </div>
+                        <Select Id="countries">
+                            <option value="">Choose a country</option>
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="FR">France</option>
+                            <option value="DE">Germany</option>
+                        </Select>
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Select Sizing"
+            Description="Different size variants for select dropdowns."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <Select Size=""TextInputSize.Small"">
+        <option>Small select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+    <Select Size=""TextInputSize.Medium"">
+        <option>Default select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+    <Select Size=""TextInputSize.Large"">
+        <option>Large select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <Select Size="TextInputSize.Small">
+                        <option>Small select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                    <Select Size="TextInputSize.Medium">
+                        <option>Default select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                    <Select Size="TextInputSize.Large">
+                        <option>Large select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Select with Icon"
+            Description="Add an icon to your select dropdown for better visual context."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <Select Icon=""@(typeof(EnvelopeOpenIcon))"">
+        <option>Choose an option</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+        <option>Option 3</option>
+    </Select>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+    <Select Icon="@(typeof(EnvelopeOpenIcon))">
+        <option>Choose an option</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+        <option>Option 3</option>
+    </Select>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Select States"
+            Description="Different states and validation styles for select dropdowns."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <Select Color=""SelectColor.Success"" HelperText=""This is a success message"">
+        <option>Success select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+    <Select Color=""SelectColor.Failure"" HelperText=""This is an error message"">
+        <option>Error select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+    <Select Disabled=""true"">
+        <option>Disabled select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <Select Color="SelectColor.Success" HelperText="This is a success message">
+                        <option>Success select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                    <Select Color="SelectColor.Failure" HelperText="This is an error message">
+                        <option>Error select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                    <Select Disabled="true">
+                        <option>Disabled select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
             Title="Checkbox Examples"
             Description="Basic checkbox examples showing different states."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
