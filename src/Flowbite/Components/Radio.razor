@@ -1,0 +1,10 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<input type="radio" 
+       class="@RadioClass" 
+       @bind="@Value" 
+       disabled="@Disabled"
+       id="@Id"
+       name="@Name"
+       @attributes="@AdditionalAttributes" />

@@ -1,0 +1,579 @@
+@page "/docs/components/forms"
+@using Flowbite.Icons
+
+<PageTitle>Forms - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Form Examples</h2>
+
+    <div class="space-y-8">
+        <ComponentExample 
+            Title="Default Form"
+            Description="Example of a form with TextInput, Checkbox, Label and Button elements for user authentication."
+            RazorCode="@(@"<form class=""flex max-w-md flex-col gap-4"">
+    <div>
+        <div class=""mb-2 block"">
+            <Label For=""email"" Value=""Your email"" />
+        </div>
+        <TextInput TValue=""string"" Id=""email"" Type=""email"" Placeholder=""name@flowbite.com"" Required=""true"" />
+    </div>
+    <div>
+        <div class=""mb-2 block"">
+            <Label For=""password"" Value=""Your password"" />
+        </div>
+        <TextInput TValue=""string"" Id=""password"" Type=""password"" Required=""true"" />
+    </div>
+    <div class=""flex items-center gap-2"">
+        <Checkbox Id=""remember"" />
+        <Label For=""remember"">Remember me</Label>
+    </div>
+    <Button Type=""submit"">Submit</Button>
+</form>")">
+            <PreviewContent>
+                <form class="flex max-w-md flex-col gap-4">
+                    <div>
+                        <div class="mb-2 block">
+                            <Label For="email" Value="Your email" />
+                        </div>
+                        <TextInput TValue="string" Id="email" Type="email" Placeholder="name@flowbite.com" Required="true" />
+                    </div>
+                    <div>
+                        <div class="mb-2 block">
+                            <Label For="password" Value="Your password" />
+                        </div>
+                        <TextInput TValue="string" Id="password" Type="password" Required="true" />
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <Checkbox Id="remember" />
+                        <Label For="remember">Remember me</Label>
+                    </div>
+                    <Button Type="submit">Submit</Button>
+                </form>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Input Sizing"
+            Description="Use different sizes for your input fields based on your needs."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <TextInput TValue=""string"" Size=""TextInputSize.Small"" Placeholder=""Small input"" />
+    <TextInput TValue=""string"" Size=""TextInputSize.Medium"" Placeholder=""Default input"" />
+    <TextInput TValue=""string"" Size=""TextInputSize.Large"" Placeholder=""Large input"" />
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <TextInput TValue="string" Size="TextInputSize.Small" Placeholder="Small input" />
+                    <TextInput TValue="string" Size="TextInputSize.Medium" Placeholder="Default input" />
+                    <TextInput TValue="string" Size="TextInputSize.Large" Placeholder="Large input" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Input States"
+            Description="Different states for input validation and feedback."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <div>
+        <TextInput TValue=""string"" Color=""TextInputColor.Success"" @bind-Value=""successInput"" HelperText=""This is a success message"" />
+    </div>
+    <div>
+        <TextInput TValue=""string"" Color=""TextInputColor.Failure"" @bind-Value=""errorInput"" HelperText=""This is an error message"" />
+    </div>
+    <div>
+        <TextInput TValue=""string"" Disabled=""true"" @bind-Value=""disabledInput"" />
+    </div>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <div>
+                        <TextInput TValue="string" Color="TextInputColor.Success" @bind-Value="successInput" HelperText="This is a success message" />
+                    </div>
+                    <div>
+                        <TextInput TValue="string" Color="TextInputColor.Failure" @bind-Value="errorInput" HelperText="This is an error message" />
+                    </div>
+                    <div>
+                        <TextInput TValue="string" Disabled="true" @bind-Value="disabledInput" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Input with Shadow"
+            Description="Add a subtle shadow effect to your input fields."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <TextInput TValue=""string"" Shadow=""true"" Placeholder=""Input with shadow"" />
+    <TextInput TValue=""string"" Shadow=""true"" Color=""TextInputColor.Success"" Placeholder=""Success input with shadow"" />
+    <TextInput TValue=""string"" Shadow=""true"" Color=""TextInputColor.Info"" Placeholder=""Info input with shadow"" />
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <TextInput TValue="string" Shadow="true" Placeholder="Input with shadow" />
+                    <TextInput TValue="string" Shadow="true" Color="TextInputColor.Success" Placeholder="Success input with shadow" />
+                    <TextInput TValue="string" Shadow="true" Color="TextInputColor.Info" Placeholder="Info input with shadow" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Input with Addons"
+            Description="Add content before and/or after your input fields."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <TextInput TValue=""string"" Placeholder=""Your domain"" AddonLeft=""https://"" />
+    <TextInput TValue=""string"" Placeholder=""Your domain"" AddonRight="".com"" />
+    <TextInput TValue=""string"" Placeholder=""Amount"" AddonLeft=""$"" AddonRight="".00"" />
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <TextInput TValue="string" Placeholder="Your domain" AddonLeft="https://" />
+                    <TextInput TValue="string" Placeholder="Your domain" AddonRight=".com" />
+                    <TextInput TValue="string" Placeholder="Amount" AddonLeft="$" AddonRight=".00" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Input with Icons"
+            Description="Add icons to your input fields for better visual context."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <TextInput TValue=""string"" Icon=""@@(new EnvelopeOpenIcon())"" Placeholder=""Email with icon"" />
+    <TextInput TValue=""string"" RightIcon=""@@(new SearchIcon())"" Placeholder=""Search with icon"" />
+    <TextInput TValue=""string"" Icon=""@@(new UserIcon())"" RightIcon=""@@(new CheckIcon())"" Placeholder=""Input with both icons"" />
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <TextInput TValue="string" Icon="@(new EnvelopeOpenIcon())" Placeholder="Email with icon" />
+                    <TextInput TValue="string" RightIcon="@(new SearchIcon())" Placeholder="Search with icon" />
+                    <TextInput TValue="string" Icon="@(new UserIcon())" RightIcon="@(new CheckIcon())" Placeholder="Input with both icons" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Textarea Example"
+            Description="Use textarea for multi-line text input with validation states and helper text."
+            RazorCode="@(@"<form class=""flex max-w-md flex-col gap-4"">
+    <div>
+        <div class=""mb-2 block"">
+            <Label For=""comment"" Value=""Your message"" />
+        </div>
+        <Textarea 
+            Id=""comment"" 
+            Rows=""4"" 
+            Placeholder=""Write your thoughts here..."" 
+            Required=""true"" />
+    </div>
+</form>")">
+            <PreviewContent>
+                <form class="flex max-w-md flex-col gap-4">
+                    <div>
+                        <div class="mb-2 block">
+                            <Label For="comment" Value="Your message" />
+                        </div>
+                        <Textarea 
+                            Id="comment" 
+                            Rows="4" 
+                            Placeholder="Write your thoughts here..." 
+                            Required="true" />
+                    </div>
+                </form>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Select Examples"
+            Description="Use select dropdowns to allow users to choose from predefined options."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <div>
+        <div class=""mb-2 block"">
+            <Label For=""countries"" Value=""Select your country"" />
+        </div>
+        <Select Id=""countries"">
+            <option value="""">Choose a country</option>
+            <option value=""US"">United States</option>
+            <option value=""CA"">Canada</option>
+            <option value=""FR"">France</option>
+            <option value=""DE"">Germany</option>
+        </Select>
+    </div>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <div>
+                        <div class="mb-2 block">
+                            <Label For="countries" Value="Select your country" />
+                        </div>
+                        <Select Id="countries">
+                            <option value="">Choose a country</option>
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="FR">France</option>
+                            <option value="DE">Germany</option>
+                        </Select>
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Select Sizing"
+            Description="Different size variants for select dropdowns."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <Select Size=""TextInputSize.Small"">
+        <option>Small select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+    <Select Size=""TextInputSize.Medium"">
+        <option>Default select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+    <Select Size=""TextInputSize.Large"">
+        <option>Large select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <Select Size="TextInputSize.Small">
+                        <option>Small select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                    <Select Size="TextInputSize.Medium">
+                        <option>Default select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                    <Select Size="TextInputSize.Large">
+                        <option>Large select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Select with Icon"
+            Description="Add an icon to your select dropdown for better visual context."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <Select Icon=""@@(typeof(EnvelopeOpenIcon))"">
+        <option>Choose an option</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+        <option>Option 3</option>
+    </Select>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <Select Icon="@(typeof(EnvelopeOpenIcon))">
+                        <option>Choose an option</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                    </Select>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Select States"
+            Description="Different states and validation styles for select dropdowns."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <Select Color=""SelectColor.Success"" HelperText=""This is a success message"">
+        <option>Success select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+    <Select Color=""SelectColor.Failure"" HelperText=""This is an error message"">
+        <option>Error select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+    <Select Disabled=""true"">
+        <option>Disabled select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <Select Color="SelectColor.Success" HelperText="This is a success message">
+                        <option>Success select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                    <Select Color="SelectColor.Failure" HelperText="This is an error message">
+                        <option>Error select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                    <Select Disabled="true">
+                        <option>Disabled select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Checkbox Examples"
+            Description="Basic checkbox examples showing different states."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <!-- Default checkbox -->
+    <div class=""flex items-center gap-2"">
+        <Checkbox Id=""default"" />
+        <Label For=""default"">Default checkbox</Label>
+    </div>
+
+    <!-- Checked checkbox -->
+    <div class=""flex items-center gap-2"">
+        <Checkbox Id=""checked"" Checked=""true"" />
+        <Label For=""checked"">Checked state</Label>
+    </div>
+
+    <!-- Disabled checkbox -->
+    <div class=""flex items-center gap-2"">
+        <Checkbox Id=""disabled"" Disabled=""true"" />
+        <Label For=""disabled"" Disabled=""true"">Disabled checkbox</Label>
+    </div>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <!-- Default checkbox -->
+                    <div class="flex items-center gap-2">
+                        <Checkbox Id="default" />
+                        <Label For="default">Default checkbox</Label>
+                    </div>
+
+                    <!-- Checked checkbox -->
+                    <div class="flex items-center gap-2">
+                        <Checkbox Id="checked" Checked="true" />
+                        <Label For="checked">Checked state</Label>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <Checkbox Id="disabled" Disabled="true" />
+                        <Label For="disabled" Disabled="true">Disabled checkbox</Label>
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Radio Button Examples"
+            Description="Use radio buttons when users need to select a single option from a list."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <!-- Default radio -->
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""united-states"" Name=""countries"" Value=""true"" />
+        <Label For=""united-states"">United States</Label>
+    </div>
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""germany"" Name=""countries"" />
+        <Label For=""germany"">Germany</Label>
+    </div>
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""spain"" Name=""countries"" />
+        <Label For=""spain"">Spain</Label>
+    </div>
+
+    <!-- Disabled radio -->
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""disabled"" Disabled=""true"" />
+        <Label For=""disabled"" Disabled=""true"">Disabled radio</Label>
+    </div>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <!-- Default radio -->
+                    <div class="flex items-center gap-2">
+                        <Radio Id="united-states" Name="countries" Value="true" />
+                        <Label For="united-states">United States</Label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <Radio Id="germany" Name="countries" />
+                        <Label For="germany">Germany</Label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <Radio Id="spain" Name="countries" />
+                        <Label For="spain">Spain</Label>
+                    </div>
+
+                    <!-- Disabled radio -->
+                    <div class="flex items-center gap-2">
+                        <Radio Id="disabled" Disabled="true" />
+                        <Label For="disabled" Disabled="true">Disabled radio</Label>
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Inline Radio Layout"
+            Description="Display radio buttons in a horizontal layout."
+            RazorCode="@(@"<div class=""flex gap-4"">
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""react"" Name=""framework"" Value=""true"" />
+        <Label For=""react"">React</Label>
+    </div>
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""angular"" Name=""framework"" />
+        <Label For=""angular"">Angular</Label>
+    </div>
+    <div class=""flex items-center gap-2"">
+        <Radio Id=""vue"" Name=""framework"" />
+        <Label For=""vue"">Vue</Label>
+    </div>
+</div>")">
+            <PreviewContent>
+                <div class="flex gap-4">
+                    <div class="flex items-center gap-2">
+                        <Radio Id="react" Name="framework" Value="true" />
+                        <Label For="react">React</Label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <Radio Id="angular" Name="framework" />
+                        <Label For="angular">Angular</Label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <Radio Id="vue" Name="framework" />
+                        <Label For="vue">Vue</Label>
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="File Input Examples"
+            Description="Use file inputs to allow users to upload files with support for different states and sizes."
+            RazorCode="@(@"
+<div id=""fileUpload"" class=""max-w-md"">
+    <div class=""mb-2 block"">
+        <Label For=""file-upload"" Value=""Upload file"" />
+    </div>
+    <FileInput Id=""file-upload"" 
+               HelperText=""A profile picture is useful to confirm your are logged into your account."" />
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-4">
+                    <div id="fileUpload" class="max-w-md">
+                        <div class="mb-2 block">
+                            <Label For="file-upload" Value="Upload file" />
+                        </div>
+                        <FileInput 
+                            Id="file" 
+                            HelperText="A profile picture is useful to confirm your are logged into your account." />
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Toggle switch"
+            Description="Use the ToggleSwitch component to ask users to enable or disable an option such as newsletter settings."
+            RazorCode="@(@"<div class=""flex max-w-md flex-col items-start gap-4"">
+    <ToggleSwitch @bind-Checked=""switch1"" Label=""Toggle me"" />
+    <ToggleSwitch @bind-Checked=""switch2"" Label=""Toggle me (checked)"" />
+    <ToggleSwitch Checked=""false"" Disabled Label=""Toggle me (disabled)"" />
+    <ToggleSwitch Checked=""true"" Disabled Label=""Toggle me (disabled)"" />
+    <ToggleSwitch @bind-Checked=""switch3"" />
+</div>")">
+            <PreviewContent>
+                <div class="flex max-w-md flex-col items-start gap-4">
+                    <ToggleSwitch @bind-Checked="switch1" Label="Toggle me" />
+                    <ToggleSwitch @bind-Checked="switch2" Label="Toggle me (checked)" />
+                    <ToggleSwitch Checked="false" Disabled Label="Toggle me (disabled)" />
+                    <ToggleSwitch Checked="true" Disabled Label="Toggle me (disabled)" />
+                    <ToggleSwitch @bind-Checked="switch3" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Range slider"
+            Description="Use the range slider component to get a value from the user within a range using a sliding bar."
+            RazorCode="@(@"<div class=""flex max-w-md flex-col gap-4"">
+    <div>
+        <div class=""mb-1 block"">
+            <Label For=""default-range"" Value=""Default"" />
+        </div>
+        <RangeSlider Id=""default-range"" />
+    </div>
+    <div>
+        <div class=""mb-1 block"">
+            <Label For=""disabled-range"" Value=""Disabled"" />
+        </div>
+        <RangeSlider Id=""disabled-range"" Disabled=""true"" />
+    </div>
+    <div>
+        <div class=""mb-1 block"">
+            <Label For=""sm-range"" Value=""Small"" />
+        </div>
+        <RangeSlider Id=""sm-range"" Size=""RangeSliderSize.Small"" />
+    </div>
+    <div>
+        <div class=""mb-1 block"">
+            <Label For=""md-range"" Value=""Medium"" />
+        </div>
+        <RangeSlider Id=""md-range"" Size=""RangeSliderSize.Medium"" />
+    </div>
+    <div>
+        <div class=""mb-1 block"">
+            <Label For=""lg-range"" Value=""Large"" />
+        </div>
+        <RangeSlider Id=""lg-range"" Size=""RangeSliderSize.Large"" />
+    </div>
+</div>")">
+            <PreviewContent>
+                <div class="flex max-w-md flex-col gap-4">
+                    <div>
+                        <div class="mb-1 block">
+                            <Label For="default-range" Value="Default" />
+                        </div>
+                        <RangeSlider Id="default-range" />
+                    </div>
+                    <div>
+                        <div class="mb-1 block">
+                            <Label For="disabled-range" Value="Disabled" />
+                        </div>
+                        <RangeSlider Id="disabled-range" Disabled="true" />
+                    </div>
+                    <div>
+                        <div class="mb-1 block">
+                            <Label For="sm-range" Value="Small" />
+                        </div>
+                        <RangeSlider Id="sm-range" Size="RangeSliderSize.Small" />
+                    </div>
+                    <div>
+                        <div class="mb-1 block">
+                            <Label For="md-range" Value="Medium" />
+                        </div>
+                        <RangeSlider Id="md-range" Size="RangeSliderSize.Medium" />
+                    </div>
+                    <div>
+                        <div class="mb-1 block">
+                            <Label For="lg-range" Value="Large" />
+                        </div>
+                        <RangeSlider Id="lg-range" Size="RangeSliderSize.Large" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+        
+    </div>
+</main>
+
+@code {
+    private bool switch1;
+    private bool switch2 = true;
+    private bool switch3 = true;
+
+    private string successInput = "Success input";
+    private string errorInput = "Error input";
+    private string disabledInput = "Disabled input";
+}

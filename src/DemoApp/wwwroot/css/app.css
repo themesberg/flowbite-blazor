@@ -13,7 +13,7 @@
 }
 
 .validation-message {
-    color: #e50000;
+    @apply text-red-600 dark:text-red-500;
 }
 
 .blazor-error-boundary {

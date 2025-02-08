@@ -1,0 +1,51 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+@typeparam TValue
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(AddonLeft))
+    {
+        <span class="@GetAddonClasses()">@AddonLeft</span>
+    }
+    <div class="@GetFieldClasses()">
+        @if (Icon != null)
+        {
+            <div class="@GetIconClasses()">
+                <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object>
+                {
+                    { "class", "w-4 h-4 text-gray-500 dark:text-gray-400" },
+                    { "aria-hidden", true }
+                })" />
+            </div>
+        }
+        @if (RightIcon != null)
+        {
+            <div class="@GetRightIconClasses()" data-testid="right-icon">
+                <DynamicComponent Type="@RightIcon.GetType()" Parameters="@(new Dictionary<string, object>
+                {
+                    { "class", "w-4 h-4 text-gray-500 dark:text-gray-400" },
+                    { "aria-hidden", true }
+                })" />
+            </div>
+        }
+        <input type="@Type"
+               class="@GetInputClasses()"
+               value="@CurrentValueAsString"
+               @oninput="OnInputChanged"
+               placeholder="@Placeholder"
+               disabled="@Disabled"
+               required="@Required"
+               data-testid="flowbite-text-input"
+               @attributes="AdditionalAttributes" />
+    </div>
+    @if (!string.IsNullOrEmpty(AddonRight))
+    {
+        <span class="@GetAddonClasses(false)">@AddonRight</span>
+    }
+</div>
+@if (!string.IsNullOrEmpty(HelperText))
+{
+    <div class="@GetHelperTextClasses()">
+        @HelperText
+    </div>
+}
