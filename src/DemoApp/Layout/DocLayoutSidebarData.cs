@@ -43,6 +43,7 @@ public static class DocLayoutSidebarData
                 new() { Title = "Spinner", Href = "/docs/components/spinner" },
                 new() { Title = "Table", Href = "/docs/components/table"},
                 new() { Title = "Forms", Href = "/docs/components/forms", IsNew = true },
+                new() { Title = "Form Validation", Href = "/docs/components/form-validation", IsNew = true },
                 new() { Title = "Sidebar", Href = "/docs/components/sidebar" },
                 new() { Title = "Tabs", Href = "/docs/components/tabs" },
                 new() { Title = "Tooltip", Href = "/docs/components/tooltip" },

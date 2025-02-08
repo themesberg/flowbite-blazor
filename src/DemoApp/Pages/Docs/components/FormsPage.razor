@@ -15,13 +15,13 @@
         <div class=""mb-2 block"">
             <Label For=""email"" Value=""Your email"" />
         </div>
-        <TextInput Id=""email"" Type=""email"" Placeholder=""name@flowbite.com"" Required=""true"" />
+        <TextInput TValue=""string"" Id=""email"" Type=""email"" Placeholder=""name@flowbite.com"" Required=""true"" />
     </div>
     <div>
         <div class=""mb-2 block"">
             <Label For=""password"" Value=""Your password"" />
         </div>
-        <TextInput Id=""password"" Type=""password"" Required=""true"" />
+        <TextInput TValue=""string"" Id=""password"" Type=""password"" Required=""true"" />
     </div>
     <div class=""flex items-center gap-2"">
         <Checkbox Id=""remember"" />
@@ -35,13 +35,13 @@
                         <div class="mb-2 block">
                             <Label For="email" Value="Your email" />
                         </div>
-                        <TextInput Id="email" Type="email" Placeholder="name@flowbite.com" Required="true" />
+                        <TextInput TValue="string" Id="email" Type="email" Placeholder="name@flowbite.com" Required="true" />
                     </div>
                     <div>
                         <div class="mb-2 block">
                             <Label For="password" Value="Your password" />
                         </div>
-                        <TextInput Id="password" Type="password" Required="true" />
+                        <TextInput TValue="string" Id="password" Type="password" Required="true" />
                     </div>
                     <div class="flex items-center gap-2">
                         <Checkbox Id="remember" />
@@ -56,15 +56,15 @@
             Title="Input Sizing"
             Description="Use different sizes for your input fields based on your needs."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
-    <TextInput Size=""TextInputSize.Small"" Placeholder=""Small input"" />
-    <TextInput Size=""TextInputSize.Medium"" Placeholder=""Default input"" />
-    <TextInput Size=""TextInputSize.Large"" Placeholder=""Large input"" />
+    <TextInput TValue=""string"" Size=""TextInputSize.Small"" Placeholder=""Small input"" />
+    <TextInput TValue=""string"" Size=""TextInputSize.Medium"" Placeholder=""Default input"" />
+    <TextInput TValue=""string"" Size=""TextInputSize.Large"" Placeholder=""Large input"" />
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
-                    <TextInput Size="TextInputSize.Small" Placeholder="Small input" />
-                    <TextInput Size="TextInputSize.Medium" Placeholder="Default input" />
-                    <TextInput Size="TextInputSize.Large" Placeholder="Large input" />
+                    <TextInput TValue="string" Size="TextInputSize.Small" Placeholder="Small input" />
+                    <TextInput TValue="string" Size="TextInputSize.Medium" Placeholder="Default input" />
+                    <TextInput TValue="string" Size="TextInputSize.Large" Placeholder="Large input" />
                 </div>
             </PreviewContent>
         </ComponentExample>
@@ -74,25 +74,25 @@
             Description="Different states for input validation and feedback."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
     <div>
-        <TextInput Color=""TextInputColor.Success"" Value=""Success input"" HelperText=""This is a success message"" />
+        <TextInput TValue=""string"" Color=""TextInputColor.Success"" @bind-Value=""successInput"" HelperText=""This is a success message"" />
     </div>
     <div>
-        <TextInput Color=""TextInputColor.Failure"" Value=""Error input"" HelperText=""This is an error message"" />
+        <TextInput TValue=""string"" Color=""TextInputColor.Failure"" @bind-Value=""errorInput"" HelperText=""This is an error message"" />
     </div>
     <div>
-        <TextInput Disabled=""true"" Value=""Disabled input"" />
+        <TextInput TValue=""string"" Disabled=""true"" @bind-Value=""disabledInput"" />
     </div>
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
                     <div>
-                        <TextInput Color="TextInputColor.Success" Value="Success input" HelperText="This is a success message" />
+                        <TextInput TValue="string" Color="TextInputColor.Success" @bind-Value="successInput" HelperText="This is a success message" />
                     </div>
                     <div>
-                        <TextInput Color="TextInputColor.Failure" Value="Error input" HelperText="This is an error message" />
+                        <TextInput TValue="string" Color="TextInputColor.Failure" @bind-Value="errorInput" HelperText="This is an error message" />
                     </div>
                     <div>
-                        <TextInput Disabled="true" Value="Disabled input" />
+                        <TextInput TValue="string" Disabled="true" @bind-Value="disabledInput" />
                     </div>
                 </div>
             </PreviewContent>
@@ -102,15 +102,15 @@
             Title="Input with Shadow"
             Description="Add a subtle shadow effect to your input fields."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
-    <TextInput Shadow=""true"" Placeholder=""Input with shadow"" />
-    <TextInput Shadow=""true"" Color=""TextInputColor.Success"" Placeholder=""Success input with shadow"" />
-    <TextInput Shadow=""true"" Color=""TextInputColor.Info"" Placeholder=""Info input with shadow"" />
+    <TextInput TValue=""string"" Shadow=""true"" Placeholder=""Input with shadow"" />
+    <TextInput TValue=""string"" Shadow=""true"" Color=""TextInputColor.Success"" Placeholder=""Success input with shadow"" />
+    <TextInput TValue=""string"" Shadow=""true"" Color=""TextInputColor.Info"" Placeholder=""Info input with shadow"" />
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
-                    <TextInput Shadow="true" Placeholder="Input with shadow" />
-                    <TextInput Shadow="true" Color="TextInputColor.Success" Placeholder="Success input with shadow" />
-                    <TextInput Shadow="true" Color="TextInputColor.Info" Placeholder="Info input with shadow" />
+                    <TextInput TValue="string" Shadow="true" Placeholder="Input with shadow" />
+                    <TextInput TValue="string" Shadow="true" Color="TextInputColor.Success" Placeholder="Success input with shadow" />
+                    <TextInput TValue="string" Shadow="true" Color="TextInputColor.Info" Placeholder="Info input with shadow" />
                 </div>
             </PreviewContent>
         </ComponentExample>
@@ -119,15 +119,15 @@
             Title="Input with Addons"
             Description="Add content before and/or after your input fields."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
-    <TextInput Placeholder=""Your domain"" AddonLeft=""https://"" />
-    <TextInput Placeholder=""Your domain"" AddonRight="".com"" />
-    <TextInput Placeholder=""Amount"" AddonLeft=""$"" AddonRight="".00"" />
+    <TextInput TValue=""string"" Placeholder=""Your domain"" AddonLeft=""https://"" />
+    <TextInput TValue=""string"" Placeholder=""Your domain"" AddonRight="".com"" />
+    <TextInput TValue=""string"" Placeholder=""Amount"" AddonLeft=""$"" AddonRight="".00"" />
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
-                    <TextInput Placeholder="Your domain" AddonLeft="https://" />
-                    <TextInput Placeholder="Your domain" AddonRight=".com" />
-                    <TextInput Placeholder="Amount" AddonLeft="$" AddonRight=".00" />
+                    <TextInput TValue="string" Placeholder="Your domain" AddonLeft="https://" />
+                    <TextInput TValue="string" Placeholder="Your domain" AddonRight=".com" />
+                    <TextInput TValue="string" Placeholder="Amount" AddonLeft="$" AddonRight=".00" />
                 </div>
             </PreviewContent>
         </ComponentExample>
@@ -136,15 +136,15 @@
             Title="Input with Icons"
             Description="Add icons to your input fields for better visual context."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
-    <TextInput Icon=""@(new EnvelopeOpenIcon())"" Placeholder=""Email with icon"" />
-    <TextInput RightIcon=""@(new SearchIcon())"" Placeholder=""Search with icon"" />
-    <TextInput Icon=""@(new UserIcon())"" RightIcon=""@(new CheckIcon())"" Placeholder=""Input with both icons"" />
+    <TextInput TValue=""string"" Icon=""@@(new EnvelopeOpenIcon())"" Placeholder=""Email with icon"" />
+    <TextInput TValue=""string"" RightIcon=""@@(new SearchIcon())"" Placeholder=""Search with icon"" />
+    <TextInput TValue=""string"" Icon=""@@(new UserIcon())"" RightIcon=""@@(new CheckIcon())"" Placeholder=""Input with both icons"" />
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
-                    <TextInput Icon="@(new EnvelopeOpenIcon())" Placeholder="Email with icon" />
-                    <TextInput RightIcon="@(new SearchIcon())" Placeholder="Search with icon" />
-                    <TextInput Icon="@(new UserIcon())" RightIcon="@(new CheckIcon())" Placeholder="Input with both icons" />
+                    <TextInput TValue="string" Icon="@(new EnvelopeOpenIcon())" Placeholder="Email with icon" />
+                    <TextInput TValue="string" RightIcon="@(new SearchIcon())" Placeholder="Search with icon" />
+                    <TextInput TValue="string" Icon="@(new UserIcon())" RightIcon="@(new CheckIcon())" Placeholder="Input with both icons" />
                 </div>
             </PreviewContent>
         </ComponentExample>
@@ -260,7 +260,7 @@
             Title="Select with Icon"
             Description="Add an icon to your select dropdown for better visual context."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
-    <Select Icon=""@(typeof(EnvelopeOpenIcon))"">
+    <Select Icon=""@@(typeof(EnvelopeOpenIcon))"">
         <option>Choose an option</option>
         <option>Option 1</option>
         <option>Option 2</option>
@@ -269,12 +269,12 @@
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
-    <Select Icon="@(typeof(EnvelopeOpenIcon))">
-        <option>Choose an option</option>
-        <option>Option 1</option>
-        <option>Option 2</option>
-        <option>Option 3</option>
-    </Select>
+                    <Select Icon="@(typeof(EnvelopeOpenIcon))">
+                        <option>Choose an option</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                    </Select>
                 </div>
             </PreviewContent>
         </ComponentExample>
@@ -572,4 +572,8 @@
     private bool switch1;
     private bool switch2 = true;
     private bool switch3 = true;
+
+    private string successInput = "Success input";
+    private string errorInput = "Error input";
+    private string disabledInput = "Disabled input";
 }

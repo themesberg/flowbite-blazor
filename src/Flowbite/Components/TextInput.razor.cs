@@ -6,7 +6,7 @@ namespace Flowbite.Components;
 /// <summary>
 /// TextInput component for forms and user input.
 /// </summary>
-public partial class TextInput
+public partial class TextInput<TValue>
 {
     private const string BaseWrapperClasses = "relative flex";
     private const string BaseFieldClasses = "relative w-full";
@@ -19,12 +19,12 @@ public partial class TextInput
     /// <summary>
     /// Gets or sets the value of the input.
     /// </summary>
-    [Parameter] public string? Value { get; set; }
+    [Parameter] public TValue? Value { get; set; }
 
     /// <summary>
     /// Event callback for when the input value changes.
     /// </summary>
-    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the color variant of the input.
@@ -199,12 +199,51 @@ public partial class TextInput
         return string.Join(" ", classes);
     }
 
-    private async Task OnInputChanged(ChangeEventArgs e)
+    private string? CurrentValueAsString
     {
-        if (e.Value is string newValue)
+        get => Value?.ToString();
+        set
         {
-            Value = newValue;
-            await ValueChanged.InvokeAsync(Value);
+            var success = false;
+            var parsedValue = default(TValue);
+
+            if (typeof(TValue) == typeof(int))
+            {
+                success = int.TryParse(value, out var result);
+                parsedValue = (TValue)(object)result;
+            }
+            else if (typeof(TValue) == typeof(decimal))
+            {
+                success = decimal.TryParse(value, out var result);
+                parsedValue = (TValue)(object)result;
+            }
+            else if (typeof(TValue) == typeof(double))
+            {
+                success = double.TryParse(value, out var result);
+                parsedValue = (TValue)(object)result;
+            }
+            else if (typeof(TValue) == typeof(float))
+            {
+                success = float.TryParse(value, out var result);
+                parsedValue = (TValue)(object)result;
+            }
+            else if (typeof(TValue) == typeof(string))
+            {
+                success = true;
+                parsedValue = (TValue)(object)(value ?? string.Empty);
+            }
+
+            if (success && !EqualityComparer<TValue>.Default.Equals(parsedValue, Value))
+            {
+                Value = parsedValue;
+                _ = ValueChanged.InvokeAsync(Value);
+            }
         }
+    }
+
+    private Task OnInputChanged(ChangeEventArgs e)
+    {
+        CurrentValueAsString = e.Value?.ToString();
+        return Task.CompletedTask;
     }
 }

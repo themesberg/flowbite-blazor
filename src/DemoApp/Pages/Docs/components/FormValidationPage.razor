@@ -1,0 +1,407 @@
+@page "/docs/components/form-validation"
+@using System.ComponentModel.DataAnnotations
+@using Flowbite.Icons
+
+<PageTitle>Form Validation - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Form Validation Examples</h2>
+
+    <div class="space-y-8">
+        <ComponentExample 
+            Title="Basic Form Validation"
+            Description="Example of form validation using EditForm and DataAnnotations with real-time validation feedback."
+            RazorCode="@(@"<EditForm Model=""@model"" OnValidSubmit=""@HandleValidSubmit"">
+    <DataAnnotationsValidator />
+    <div class=""flex max-w-md flex-col gap-4"">
+        <div>
+            <div class=""mb-2 block"">
+                <Label For=""email"" Value=""Email address"" />
+            </div>
+            <TextInput TValue=""string"" Id=""email"" @@bind-Value=""model.Email"" Type=""email"" />
+            <ValidationMessage For=""@(() => model.Email)"" />
+        </div>
+        <div>
+            <div class=""mb-2 block"">
+                <Label For=""password"" Value=""Password"" />
+            </div>
+            <TextInput TValue=""string"" Id=""password"" @@bind-Value=""model.Password"" Type=""password"" />
+            <ValidationMessage For=""@(() => model.Password)"" />
+        </div>
+        <Button Type=""submit"">Register</Button>
+    </div>
+</EditForm>")">
+            <PreviewContent>
+                <EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="flex max-w-md flex-col gap-4">
+                        <div>
+                            <div class="mb-2 block">
+                                <Label For="email" Value="Email address" />
+                            </div>
+                            <TextInput TValue="string" Id="email" @bind-Value="model.Email" Type="email" />
+                            <ValidationMessage For="@(() => model.Email)" />
+                        </div>
+                        <div>
+                            <div class="mb-2 block">
+                                <Label For="password" Value="Password" />
+                            </div>
+                            <TextInput TValue="string" Id="password" @bind-Value="model.Password" Type="password" />
+                            <ValidationMessage For="@(() => model.Password)" />
+                        </div>
+                        <Button Type="submit">Register</Button>
+                    </div>
+                </EditForm>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Custom Validation"
+            Description="Example of custom validation rules with field-level validation and custom messages."
+            RazorCode="@(@"<EditForm Model=""@customModel"" OnValidSubmit=""@HandleCustomValidSubmit"">
+    <CustomValidator @ref=""customValidator"" />
+    <div class=""flex max-w-md flex-col gap-4"">
+        <div>
+            <div class=""mb-2 block"">
+                <Label For=""username"" Value=""Username"" />
+            </div>
+            <TextInput TValue=""string"" Id=""username"" @@bind-Value=""customModel.Username"" />
+            <ValidationMessage For=""@(() => customModel.Username)"" />
+        </div>
+        <div>
+            <div class=""mb-2 block"">
+                <Label For=""confirmUsername"" Value=""Confirm Username"" />
+            </div>
+            <TextInput TValue=""string"" Id=""confirmUsername"" @@bind-Value=""customModel.ConfirmUsername"" />
+            <ValidationMessage For=""@(() => customModel.ConfirmUsername)"" />
+        </div>
+        <Button Type=""submit"">Submit</Button>
+    </div>
+</EditForm>")">
+            <PreviewContent>
+                <EditForm Model="@customModel" OnValidSubmit="@HandleCustomValidSubmit">
+                    <CustomValidator @ref="customValidator" />
+                    <div class="flex max-w-md flex-col gap-4">
+                        <div>
+                            <div class="mb-2 block">
+                                <Label For="username" Value="Username" />
+                            </div>
+                            <TextInput TValue="string" Id="username" @bind-Value="customModel.Username" />
+                            <ValidationMessage For="@(() => customModel.Username)" />
+                        </div>
+                        <div>
+                            <div class="mb-2 block">
+                                <Label For="confirmUsername" Value="Confirm Username" />
+                            </div>
+                            <TextInput TValue="string" Id="confirmUsername" @bind-Value="customModel.ConfirmUsername" />
+                            <ValidationMessage For="@(() => customModel.ConfirmUsername)" />
+                        </div>
+                        <Button Type="submit">Submit</Button>
+                    </div>
+                </EditForm>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Form State Management"
+            Description="Example showing form state management including dirty state tracking and reset functionality."
+            RazorCode="@(@"<EditForm EditContext=""@editContext"" OnValidSubmit=""@HandleStateFormSubmit"">
+    <DataAnnotationsValidator />
+    <div class=""flex max-w-md flex-col gap-4"">
+        <div>
+            <div class=""mb-2 block"">
+                <Label For=""name"" Value=""Name"" />
+            </div>
+            <TextInput TValue=""string"" Id=""name"" Value=""@name"" ValueChanged=""@OnNameChanged"" />
+            <ValidationMessage For=""@(() => stateModel.Name)"" />
+        </div>
+        <div>
+            <div class=""mb-2 block"">
+                <Label For=""age"" Value=""Age"" />
+            </div>
+            <TextInput TValue=""int"" Id=""age"" Value=""@age"" ValueChanged=""@OnAgeChanged"" Type=""number"" />
+            <ValidationMessage For=""@(() => stateModel.Age)"" />
+        </div>
+        <div class=""flex gap-2"">
+            <Button Type=""submit"" Disabled=""@(!editContext?.IsModified() ?? true)"">Submit</Button>
+            <Button Color=""ButtonColor.Light"" OnClick=""@ResetForm"">Reset</Button>
+        </div>
+        <div class=""text-sm text-gray-500"">
+            Form Status: @(editContext?.IsModified() ?? false ? ""Modified"" : ""Unmodified"")
+        </div>
+    </div>
+</EditForm>")">
+            <PreviewContent>
+                <EditForm EditContext="@editContext" OnValidSubmit="@HandleStateFormSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="flex max-w-md flex-col gap-4">
+                        <div>
+                            <div class="mb-2 block">
+                                <Label For="name" Value="Name" />
+                            </div>
+                            <TextInput TValue="string" Id="name" Value="@name" ValueChanged="@OnNameChanged" />
+                            <ValidationMessage For="@(() => stateModel.Name)" />
+                        </div>
+                        <div>
+                            <div class="mb-2 block">
+                                <Label For="age" Value="Age" />
+                            </div>
+                            <TextInput TValue="int" Id="age" Value="@age" ValueChanged="@OnAgeChanged" Type="number" />
+                            <ValidationMessage For="@(() => stateModel.Age)" />
+                        </div>
+                        <div class="flex gap-2">
+                            <Button Type="submit" Disabled="@(!editContext?.IsModified() ?? true)">Submit</Button>
+                            <Button Color="ButtonColor.Light" OnClick="@ResetForm">Reset</Button>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            Form Status: @(editContext?.IsModified() ?? false ? "Modified" : "Unmodified")
+                        </div>
+                    </div>
+                </EditForm>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Complex Form Example"
+            Description="A complex form example with multiple field types and validation rules."
+            RazorCode="@(@"<EditForm Model=""@complexModel"" OnValidSubmit=""@HandleComplexFormSubmit"">
+    <DataAnnotationsValidator />
+    <div class=""flex max-w-md flex-col gap-4"">
+        <div>
+            <div class=""mb-2 block"">
+                <Label For=""fullName"" Value=""Full Name"" />
+            </div>
+            <TextInput TValue=""string"" Id=""fullName"" @@bind-Value=""complexModel.FullName"" />
+            <ValidationMessage For=""@(() => complexModel.FullName)"" />
+        </div>
+        <div>
+            <div class=""mb-2 block"">
+                <Label For=""email"" Value=""Email"" />
+            </div>
+            <TextInput TValue=""string"" Id=""email"" @@bind-Value=""complexModel.Email"" Type=""email"" />
+            <ValidationMessage For=""@(() => complexModel.Email)"" />
+        </div>
+        <div>
+            <div class=""mb-2 block"">
+                <Label For=""age"" Value=""Age"" />
+            </div>
+            <TextInput TValue=""int"" Id=""age"" @@bind-Value=""complexModel.Age"" Type=""number"" />
+            <ValidationMessage For=""@(() => complexModel.Age)"" />
+        </div>
+        <div>
+            <div class=""mb-2 block"">
+                <Label For=""country"" Value=""Country"" />
+            </div>
+            <Select Id=""country"" @bind-Value=""complexModel.Country"">
+                <option value="""">Select a country</option>
+                <option value=""US"">United States</option>
+                <option value=""UK"">United Kingdom</option>
+                <option value=""CA"">Canada</option>
+            </Select>
+            <ValidationMessage For=""@(() => complexModel.Country)"" />
+        </div>
+        <div class=""flex items-center gap-2"">
+            <Checkbox Id=""terms"" @bind-Value=""complexModel.AcceptTerms"" />
+            <Label For=""terms"">I accept the terms and conditions</Label>
+        </div>
+        <ValidationMessage For=""@(() => complexModel.AcceptTerms)"" />
+        <Button Type=""submit"" Disabled=""@isSubmitting"">
+            @if (isSubmitting)
+            {
+                <Spinner class=""mr-2"" />
+                <span>Submitting...</span>
+            }
+            else
+            {
+                <span>Submit</span>
+            }
+        </Button>
+    </div>
+</EditForm>")">
+            <PreviewContent>
+                <EditForm Model="@complexModel" OnValidSubmit="@HandleComplexFormSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="flex max-w-md flex-col gap-4">
+                        <div>
+                            <div class="mb-2 block">
+                                <Label For="fullName" Value="Full Name" />
+                            </div>
+                            <TextInput TValue="string" Id="fullName" @bind-Value="complexModel.FullName" />
+                            <ValidationMessage For="@(() => complexModel.FullName)" />
+                        </div>
+                        <div>
+                            <div class="mb-2 block">
+                                <Label For="email" Value="Email" />
+                            </div>
+                            <TextInput TValue="string" Id="email" @bind-Value="complexModel.Email" Type="email" />
+                            <ValidationMessage For="@(() => complexModel.Email)" />
+                        </div>
+                        <div>
+                            <div class="mb-2 block">
+                                <Label For="age" Value="Age" />
+                            </div>
+                            <TextInput TValue="int" Id="age" @bind-Value="complexModel.Age" Type="number" />
+                            <ValidationMessage For="@(() => complexModel.Age)" />
+                        </div>
+                        <div>
+                            <div class="mb-2 block">
+                                <Label For="country" Value="Country" />
+                            </div>
+                            <Select Id="country" @bind-Value="complexModel.Country">
+                                <option value="">Select a country</option>
+                                <option value="US">United States</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="CA">Canada</option>
+                            </Select>
+                            <ValidationMessage For="@(() => complexModel.Country)" />
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <Checkbox Id="terms" @bind-Value="complexModel.AcceptTerms" />
+                            <Label For="terms">I accept the terms and conditions</Label>
+                        </div>
+                        <ValidationMessage For="@(() => complexModel.AcceptTerms)" />
+                        <Button Type="submit" Disabled="@isSubmitting">
+                            @if (isSubmitting)
+                            {
+                                <Spinner class="mr-2" />
+                                <span>Submitting...</span>
+                            }
+                            else
+                            {
+                                <span>Submit</span>
+                            }
+                        </Button>
+                    </div>
+                </EditForm>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>
+
+@code {
+    // Basic validation model
+    private class RegisterModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = "";
+
+        [Required]
+        [MinLength(8)]
+        public string Password { get; set; } = "";
+    }
+    private RegisterModel model = new();
+
+    private async Task HandleValidSubmit()
+    {
+        // Simulating form submission
+        await Task.Delay(1000);
+    }
+
+    // Custom validation model
+    private class CustomModel
+    {
+        public string Username { get; set; } = "";
+        public string ConfirmUsername { get; set; } = "";
+    }
+    private CustomModel customModel = new();
+    private CustomValidator? customValidator;
+
+    private async Task HandleCustomValidSubmit()
+    {
+        if (customModel.Username != customModel.ConfirmUsername)
+        {
+            customValidator?.DisplayError("ConfirmUsername", "Usernames do not match");
+            return;
+        }
+        await Task.Delay(1000);
+    }
+
+    // State management model
+    private class StateModel
+    {
+        [Required]
+        public string Name { get; set; } = "";
+
+        [Required]
+        [Range(18, 100)]
+        public int Age { get; set; }
+    }
+    private StateModel stateModel = new();
+    private EditContext? editContext;
+    private string? name;
+    private int age;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(stateModel);
+        name = stateModel.Name;
+        age = stateModel.Age;
+    }
+
+    private void OnNameChanged(string? value)
+    {
+        name = value;
+        stateModel.Name = value ?? "";
+        if (editContext != null)
+        {
+            editContext.NotifyFieldChanged(editContext.Field(nameof(StateModel.Name)));
+        }
+    }
+
+    private void OnAgeChanged(int value)
+    {
+        age = value;
+        stateModel.Age = value;
+        if (editContext != null)
+        {
+            editContext.NotifyFieldChanged(editContext.Field(nameof(StateModel.Age)));
+        }
+    }
+
+    private void ResetForm()
+    {
+        stateModel = new StateModel();
+        editContext = new EditContext(stateModel);
+        name = stateModel.Name;
+        age = stateModel.Age;
+    }
+
+    private async Task HandleStateFormSubmit()
+    {
+        await Task.Delay(1000);
+        ResetForm();
+    }
+
+    // Complex form model
+    private class ComplexModel
+    {
+        [Required]
+        [MinLength(2)]
+        public string FullName { get; set; } = "";
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = "";
+
+        [Required]
+        [Range(18, 100, ErrorMessage = "Age must be between 18 and 100")]
+        public int Age { get; set; }
+
+        [Required(ErrorMessage = "Please select a country")]
+        public string Country { get; set; } = "";
+
+        [Required]
+        [Range(typeof(bool), "true", "true", ErrorMessage = "You must accept the terms and conditions")]
+        public bool AcceptTerms { get; set; }
+    }
+    private ComplexModel complexModel = new();
+    private bool isSubmitting;
+
+    private async Task HandleComplexFormSubmit()
+    {
+        isSubmitting = true;
+        await Task.Delay(2000); // Simulate API call
+        isSubmitting = false;
+    }
+}
