@@ -1,0 +1,68 @@
+@page "/docs/components/testing"
+@using Flowbite.Icons
+
+<PageTitle>Testing</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+
+<div class="flex flex-col gap-4">
+    <div>
+        <div class="mb-2 block">
+            <Label For="countries" Value="Select your country" />
+        </div>
+        <Select Id="countries" @bind-Value="selectedCountry1">
+            <option value="">-- Select a country --</option>
+            @foreach (var country in countries)
+            {
+                <option value="@country">@country</option>
+            }
+        </Select>
+    </div>
+    <div>HI THERE '@selectedCountry1'</div>
+    @if (!string.IsNullOrEmpty(selectedCountry1))
+    {
+        <div class="alert alert-info shadow-sm">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-globe me-2"></i>
+                <strong>Selected Country:</strong>
+                <span class="ms-2">@selectedCountry1</span>
+            </div>
+        </div>
+    }
+</div>
+
+</main>    
+
+@code {
+    private string selectedCountry1 = string.Empty;
+    private string selectedCountry2 = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine($"TestPage initialized with selectedCountry1: '{selectedCountry1}'");
+    }
+
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine($"TestPage parameters set with selectedCountry1: '{selectedCountry1}'");
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Console.WriteLine($"TestPage rendered (firstRender: {firstRender}) with selectedCountry1: '{selectedCountry1}'");
+    }
+
+    private List<string> countries = new List<string>
+    {
+        "United States",
+        "Canada",
+        "United Kingdom",
+        "France",
+        "Germany",
+        "Japan",
+        "Australia",
+        "Brazil",
+        "India",
+        "China"
+    };
+}

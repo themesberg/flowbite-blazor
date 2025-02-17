@@ -47,6 +47,7 @@ public static class DocLayoutSidebarData
                 new() { Title = "Sidebar", Href = "/docs/components/sidebar" },
                 new() { Title = "Tabs", Href = "/docs/components/tabs" },
                 new() { Title = "Tooltip", Href = "/docs/components/tooltip" },
+                new() { Title = "Testing", Href = "/docs/components/testing" },
                 
                 // new() { Title = "Forms", Href = "/docs/components/form", IsNew = true },
             }
