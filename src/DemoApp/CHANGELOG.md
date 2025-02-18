@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.27-alpha
+
+- Quickstart - ensure users download v3.x of Tailwindcss CLI until migration to v4 is complete
+
 ## 0.0.26-alpha
 
 - Add Forms & FormValidation Components and updated llms-ctx.md
