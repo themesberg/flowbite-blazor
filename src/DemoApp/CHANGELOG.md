@@ -3,6 +3,8 @@
 ## 0.0.27-alpha
 
 - Quickstart - ensure users download v3.x of Tailwindcss CLI until migration to v4 is complete
+- llm-ctx - big update and refinement
+- publis-local.ps1 - minor path update in user message
 
 ## 0.0.26-alpha
 
