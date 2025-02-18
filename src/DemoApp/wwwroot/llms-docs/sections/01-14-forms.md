@@ -63,7 +63,7 @@ The available form components are:
      - HelperText: string - Help text below select
      - Icon: Type - Icon component type
      - Shadow: bool - Adds shadow effect -->
-<Select Id="countries">
+<Select Id="countries" @bind-Value="selectedCountry">
     <option value="">Choose a country</option>
     <option value="US">United States</option>
     <option value="CA">Canada</option>

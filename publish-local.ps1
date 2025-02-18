@@ -25,5 +25,5 @@ Write-Host "Successfully published to .\dist" -ForegroundColor Green
 
 Write-Host "To serve locally:"
 Write-Host "   1. Ensure you have the tool dotnet-sevre installed"
-Write-Host "   2  run: cd dist\wwwwroot; dotnet serve"
+Write-Host "   2  run: cd .\dist\wwwroot; dotnet serve"
 Write-Host ""

@@ -38,8 +38,8 @@ else
                                     @{
                                         var bashCmdDotnetNewWasm = @"dotnet new flowbite-blazor-wasm -o MyUnicornApp && cd MyUnicornApp";
                                         var pwshCmdDotnetNewWasm = @"dotnet new flowbite-blazor-wasm -o MyUnicornApp; cd MyUnicornApp";
-                                        var bashCmdInstallTailwindWasm = @"mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ..";
-                                        var pwshCommandInstallTailwindWasm = @"mkdir .\tools -Force; cd .\tools; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ..";                   
+                                        var bashCmdInstallTailwindWasm = $@"mkdir ./tools && cd ./tools && curl -sLO {_tailwindUtilUrlMacOsArm64} && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ..";
+                                        var pwshCommandInstallTailwindWasm = $@"mkdir .\tools -Force; cd .\tools; Invoke-WebRequest -Uri {_tailwindUtilUrlWinX64} -OutFile tailwindcss.exe -UseBasicParsing ; cd ..";                   
                                     }
 
                                     <ol class="ps-5 space-y-4 list-decimal list-outside">
@@ -78,8 +78,8 @@ else
                                     @{
                                         var bashCmdDotnetNewDesktop = @"dotnet new flowbite-blazor-desktop -o MyUnicornDesktopApp && cd MyUnicornDesktopApp";
                                         var pwshCmdDotnetNewDesktop = @"dotnet new flowbite-blazor-desktop -o MyUnicornDesktopApp; cd MyUnicornDesktopApp";
-                                        var bashCmdInstallTailwindDesktop = @"mkdir -p ./src/MyUnicornDesktopApp/tools && cd ./src/MyUnicornDesktopApp/tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ../../..";
-                                        var pwshCommandInstallTailwindDesktop = @"mkdir .\src\MyUnicornDesktopApp\tools -Force; cd .\src\MyUnicornDesktopApp\tools; Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing ; cd ..\..\..";
+                                        var bashCmdInstallTailwindDesktop = $@"mkdir -p ./src/MyUnicornDesktopApp/tools && cd ./src/MyUnicornDesktopApp/tools && curl -sLO {_tailwindUtilUrlMacOsArm64} && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss && cd ../../..";
+                                        var pwshCommandInstallTailwindDesktop = $@"mkdir .\src\MyUnicornDesktopApp\tools -Force; cd .\src\MyUnicornDesktopApp\tools; Invoke-WebRequest -Uri {_tailwindUtilUrlWinX64} -OutFile tailwindcss.exe -UseBasicParsing ; cd ..\..\..";
                                         var bashCmdWatchDesktop = @"cd ./src/MyUnicornDesktopApp && dotnet watch";
                                         var pwshCommandWatchDesktop = @"cd .\src\MyUnicornDesktopApp; dotnet watch";
                                     }
@@ -165,10 +165,14 @@ else
         </div>
     </div>
 }
+
+
 @code
 {
     private bool _isWindows;
     private bool _isLoading = true;
+    private string _tailwindUtilUrlMacOsArm64 = "https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-macos-arm64";
+    private string _tailwindUtilUrlWinX64 = "https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-windows-x64.exe";
 
     protected override async Task OnInitializedAsync()
     {
