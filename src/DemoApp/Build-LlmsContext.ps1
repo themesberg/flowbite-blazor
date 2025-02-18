@@ -40,7 +40,7 @@ $content += "`n<docs>`n"
 # Add documentation sections in order
 Write-Host "Adding documentation sections..."
 $sectionFiles = @(
-    "01-00-quickstart.md",
+    "01-00-components.md",
     "01-01-alert.md",
     "01-02-avatar.md",
     "01-03-badge.md",
@@ -56,7 +56,8 @@ $sectionFiles = @(
     "01-13-table.md",
     "01-14-forms.md",
     "02-icons.md",
-    "03-patterns.md"
+    "03-patterns.md",
+    "04-quickstart.md"
 )
 
 $sectionsDir = Join-Path $sourceDir "sections"
