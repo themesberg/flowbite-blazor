@@ -938,7 +938,7 @@ The available form components are:
      - HelperText: string - Help text below select
      - Icon: Type - Icon component type
      - Shadow: bool - Adds shadow effect -->
-<Select Id="countries">
+<Select Id="countries" @bind-Value="selectedCountry">
     <option value="">Choose a country</option>
     <option value="US">United States</option>
     <option value="CA">Canada</option>
@@ -1630,7 +1630,9 @@ static void ConfigureServices(IServiceCollection services, string baseAddress)
 @using static Flowbite.Components.Dropdown
 @using PROJECT_NAME
 @using PROJECT_NAME.Layout
-@using PROJECT_NAME.Components
+
+# if the project creates it's own components uncomment this out
+# @using PROJECT_NAME.Components
 ```
 
 ### 8. Tweak the tailwind.config.js (v3)
