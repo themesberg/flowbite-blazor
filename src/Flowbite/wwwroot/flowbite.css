@@ -124,7 +124,7 @@ pre[class^='language-diff-'] > code {
 
 
 .quickgrid[theme=flowbite] .col-options {
-    @apply dark:bg-gray-700 dark:text-white text-xs;
+    @apply dark:bg-gray-700 dark:text-white text-xs p-0;
 }
 
 .quickgrid[theme=flowbite] .col-options  input ,select, textarea {
@@ -136,16 +136,14 @@ pre[class^='language-diff-'] > code {
 }
 
 .quickgrid[theme=flowbite] .col-options-button {
-    background-image: url('data:image/svg+xml;utf8,<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M18.796 4H5.204a1 1 0 0 0-.753 1.659l5.302 6.058a1 1 0 0 1 .247.659v4.874a.5.5 0 0 0 .2.4l3 2.25a.5.5 0 0 0 .8-.4v-7.124a1 1 0 0 1 .247-.659l5.302-6.059c.566-.646.106-1.658-.753-1.658Z"/></svg>');
+    @apply mr-1;
+    background-image: url('data:image/svg+xml;utf8,<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="rgb(17 24 39)" stroke-linecap="round" stroke-width="2" d="M18.796 4H5.204a1 1 0 0 0-.753 1.659l5.302 6.058a1 1 0 0 1 .247.659v4.874a.5.5 0 0 0 .2.4l3 2.25a.5.5 0 0 0 .8-.4v-7.124a1 1 0 0 1 .247-.659l5.302-6.059c.566-.646.106-1.658-.753-1.658Z"/></svg>');
 }
 
-/* .quickgrid[theme=flowbite] .col-sort-desc .sort-indicator, .col-sort-asc .sort-indicator {
-    background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>');
-} */
-
-/* .quickgrid[theme=tight] tr > td {
-    @apply border-0;
-} */
+.dark .quickgrid[theme=flowbite] .col-options-button {
+    @apply mr-1;
+    background-image: url('data:image/svg+xml;utf8,<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path stroke="white" stroke-linecap="round" stroke-width="2" d="M18.796 4H5.204a1 1 0 0 0-.753 1.659l5.302 6.058a1 1 0 0 1 .247.659v4.874a.5.5 0 0 0 .2.4l3 2.25a.5.5 0 0 0 .8-.4v-7.124a1 1 0 0 1 .247-.659l5.302-6.059c.566-.646.106-1.658-.753-1.658Z"/></svg>');
+}
 
 
 

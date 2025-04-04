@@ -14,8 +14,7 @@
     <div class="space-y-8">
         <ComponentExample Title="Basic Grid"
                          Description="A simple grid showing Pokemon data with basic columns."
-                         RazorCode=@(@"
-<div class=""grid flowbite-grid text-xs"">
+                         RazorCode=@(@"<div class=""grid flowbite-grid text-xs"">
     <QuickGrid Items=""@_pokemon"" Theme=""flowbite"">
         <PropertyColumn Property=""@(p => p.Id)"" Title=""#"" Align=""Align.Center"" />
         <PropertyColumn Property=""@(p => p.Name)"" Title=""Name"" />
@@ -42,37 +41,35 @@
 
         <ComponentExample Title="Sorting and Filtering"
                          Description="Grid with sortable columns and name filtering capability."
-                         RazorCode=@(@"
-<div class=""mb-4"">
-    <input type=""text"" 
-           class=""bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5""
-           @bind=""@_nameFilter"" 
-           @bind:event=""oninput"" 
-           placeholder=""Search Pokemon..."" />
-</div>
-
-<QuickGrid Items=""@FilteredPokemon"">
-    <PropertyColumn Property=""@(p => p.Id)"" Title=""#"" Sortable=""true"" Align=""Align.Center"" />
-    <PropertyColumn Property=""@(p => p.Name)"" Title=""Name"" Sortable=""true"" />
-    <PropertyColumn Property=""@(p => p.Type1)"" Title=""Type"" Sortable=""true"" />
-    <PropertyColumn Property=""@(p => p.HP)"" Title=""HP"" Sortable=""true"" Align=""Align.Center"" />
-    <PropertyColumn Property=""@(p => p.Attack)"" Title=""Attack"" Sortable=""true"" Align=""Align.Center"" />
-    <PropertyColumn Property=""@(p => p.Defense)"" Title=""Defense"" Sortable=""true"" Align=""Align.Center"" />
-</QuickGrid>")
+                         RazorCode=@(@"<div class=""grid flowbite-grid text-xs"">
+    <QuickGrid Items=""@FilteredPokemon"">
+        <PropertyColumn Property=""@(p => p.Id)"" Title=""#"" Sortable=""true"" Align=""Align.Center"" />
+        <PropertyColumn Property=""@(p => p.Name)"" Title=""Name"" Sortable=""true"">
+            <ColumnOptions>
+                <div class=""search-box"">
+                    <input type=""search"" autofocus @bind=""_nameFilter"" @bind:event=""oninput"" placeholder=""Search..."" />
+                </div>
+            </ColumnOptions>
+        </PropertyColumn>
+        <PropertyColumn Property=""@(p => p.Type1)"" Title=""Type"" Sortable=""true"" />
+        <PropertyColumn Property=""@(p => p.HP)"" Title=""HP"" Sortable=""true"" Align=""Align.Center"" />
+        <PropertyColumn Property=""@(p => p.Attack)"" Title=""Attack"" Sortable=""true"" Align=""Align.Center"" />
+        <PropertyColumn Property=""@(p => p.Defense)"" Title=""Defense"" Sortable=""true"" Align=""Align.Center"" />
+    </QuickGrid>
+</div>")
                          SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
-                <div class="mb-4">
-                    <input type="text" 
-                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                           @bind="@_nameFilter" 
-                           @bind:event="oninput" 
-                           placeholder="Search Pokemon..." />
-                </div>
-
+                
                 <div class="grid flowbite-grid text-xs">
                     <QuickGrid Items="@FilteredPokemon" Theme="flowbite">
                         <PropertyColumn Property="@(p => p.Id)" Title="#" Sortable="true" Align="Align.Center" />
-                        <PropertyColumn Property="@(p => p.Name)" Title="Name" Sortable="true" />
+                        <PropertyColumn Property="@(p => p.Name)" Title="Name" Sortable="true">
+                            <ColumnOptions>
+                                <div class="search-box">
+                                    <input type="search" autofocus @bind="_nameFilter" @bind:event="oninput" placeholder="Search..." />
+                                </div>
+                            </ColumnOptions>
+                        </PropertyColumn>
                         <PropertyColumn Property="@(p => p.Type1)" Title="Type" Sortable="true" />
                         <PropertyColumn Property="@(p => p.HP)" Title="HP" Sortable="true" Align="Align.Center" />
                         <PropertyColumn Property="@(p => p.Attack)" Title="Attack" Sortable="true" Align="Align.Center" />
