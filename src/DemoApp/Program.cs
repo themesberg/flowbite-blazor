@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using DemoApp;
+using DemoApp.Services;
 using Flowbite.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -18,5 +19,6 @@ static void ConfigureServices(IServiceCollection services, string baseAddress)
 {
   services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
   services.AddFlowbite();
+  services.AddScoped<PokemonService>();
 }
 
