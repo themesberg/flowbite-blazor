@@ -3,6 +3,8 @@
 
 <nav class="@NavbarClasses">
     <div class="@ContainerClasses">
-        @ChildContent
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
     </div>
 </nav>

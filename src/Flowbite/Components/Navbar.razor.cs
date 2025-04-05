@@ -143,4 +143,16 @@ public partial class Navbar : FlowbiteComponentBase
         "flex flex-wrap justify-between items-center"
     }).Trim());
 
+    protected override void OnInitialized()
+    {
+        // Subscribe to our own MenuOpenChanged event
+        MenuOpenChanged = EventCallback.Factory.Create<bool>(this, OnMenuOpenChanged);
+        base.OnInitialized();
+    }
+
+    private void OnMenuOpenChanged(bool isOpen)
+    {
+        MenuOpen = isOpen;
+        StateHasChanged();
+    }
 }
