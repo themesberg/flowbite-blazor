@@ -131,7 +131,7 @@ public partial class Navbar : FlowbiteComponentBase
 
     private string NavbarClasses => CombineClasses(string.Join(" ", new[]
     {
-        "bg-white dark:border-gray-700 dark:bg-gray-800 px-2 py-2.5 rounded sm:px-4",
+        "bg-white dark:border-gray-700 dark:bg-gray-800 px-2 py-2.5 rounded sm:px-4 w-full",
         Rounded ? "rounded" : "",
         Border ? "border" : ""
     }).Trim());
@@ -143,4 +143,16 @@ public partial class Navbar : FlowbiteComponentBase
         "flex flex-wrap justify-between items-center"
     }).Trim());
 
+    protected override void OnInitialized()
+    {
+        // Subscribe to our own MenuOpenChanged event
+        MenuOpenChanged = EventCallback.Factory.Create<bool>(this, OnMenuOpenChanged);
+        base.OnInitialized();
+    }
+
+    private void OnMenuOpenChanged(bool isOpen)
+    {
+        MenuOpen = isOpen;
+        StateHasChanged();
+    }
 }

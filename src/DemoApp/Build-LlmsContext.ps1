@@ -55,6 +55,7 @@ $sectionFiles = @(
     "01-12-tooltip.md",
     "01-13-table.md",
     "01-14-forms.md",
+    "01-15-quickgrid.md",
     "02-icons.md",
     "03-patterns.md",
     "04-quickstart.md"

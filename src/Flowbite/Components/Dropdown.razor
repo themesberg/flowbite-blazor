@@ -2,9 +2,8 @@
 @inherits FlowbiteComponentBase
 
 <div class="@GetContainerClasses()" 
-     @onfocusout="HandleFocusOut"
      @onkeydown="HandleKeyDown"
-     tabindex="-1">
+     tabindex="0">
     <div>
         @if (CustomTrigger != null)
         {
@@ -64,14 +63,15 @@
 
     @if (IsOpen)
     {
-        <div class="@GetMenuClasses()"
-             role="menu" 
-             aria-orientation="vertical" 
-             aria-labelledby="@Id"
-             @onclick="HandleMenuClick">
-            <div class="py-1 text-sm text-gray-700 dark:text-gray-200" role="none">
-                @ChildContent
+        <CascadingValue Value="this">
+            <div class="@GetMenuClasses()"
+                 role="menu" 
+                 aria-orientation="vertical" 
+                 aria-labelledby="@Id">
+                <div class="py-1 text-sm text-gray-700 dark:text-gray-200" role="none">
+                    @ChildContent
+                </div>
             </div>
-        </div>
+        </CascadingValue>
     }
 </div>

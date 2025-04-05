@@ -81,7 +81,7 @@ private void HandleKeyDown(KeyboardEventArgs e)
         {
             "relative h-6 w-11 min-w-11 rounded-full border",
             "after:absolute after:left-px after:top-px after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all rtl:after:right-px",
-            "group-focus:ring-4 group-focus:ring-cyan-500/25",
+            "group-focus:ring-4 group-focus:ring-primary-500/25",
             "border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"
         };
 

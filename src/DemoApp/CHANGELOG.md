@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.28-alpha
+
+- Add Extended Icons component page
+- Add QuickGrid component examples with udpated llms-ctx.md
+- Fix Navbar component examples
+- Add safelist to tailwind.config.js
+
 ## 0.0.27-alpha
 
 - Quickstart - ensure users download v3.x of Tailwindcss CLI until migration to v4 is complete

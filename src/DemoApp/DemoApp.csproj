@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <Version>0.0.27-alpha</Version>
+    <Version>0.0.28-alpha</Version>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="BlazorWasmPreRendering.Build" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.0" PrivateAssets="all" />
   </ItemGroup>

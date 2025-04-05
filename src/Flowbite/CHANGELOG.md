@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.10-alpha
+
+- Fixed Dropdown onclick event handling
+- Replaced all cyan with primary colors
+- Add CSS classes and Theme for Microsoft QuickGrid component
+- Navbar: Add support for responsive menus
+
 ## 0.0.9-alpha
 
 - Added Form controls:
