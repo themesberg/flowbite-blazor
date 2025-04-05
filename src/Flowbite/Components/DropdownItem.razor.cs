@@ -13,6 +13,9 @@ namespace Flowbite.Components;
 /// </remarks>
 public partial class DropdownItem
 {
+    [CascadingParameter]
+    private Dropdown ParentDropdown { get; set; } = default!;
+
     /// <summary>
     /// The content to be displayed in the dropdown item.
     /// </summary>
@@ -113,9 +116,18 @@ public partial class DropdownItem
 
     private async Task HandleClick(MouseEventArgs args)
     {
-        if (!Disabled)
+        if (Disabled) return;
+
+        // Execute click handler first
+        if (OnClick.HasDelegate)
         {
             await OnClick.InvokeAsync(args);
+        }
+
+        // Close dropdown after click handler completes
+        if (ParentDropdown.DismissOnClick)
+        {
+            await ParentDropdown.CloseDropdown();
         }
     }
 

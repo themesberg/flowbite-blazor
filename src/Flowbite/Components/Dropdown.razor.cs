@@ -13,7 +13,6 @@ namespace Flowbite.Components;
 public partial class Dropdown : IDisposable
 {
     private bool isDisposed;
-    private bool isFocusLeaving;
 
     /// <summary>
     /// Defines the label content for the dropdown trigger.
@@ -219,38 +218,9 @@ public partial class Dropdown : IDisposable
         await IsOpenChanged.InvokeAsync(IsOpen);
     }
 
-    private async Task HandleFocusOut(FocusEventArgs args)
-    {
-        if (isFocusLeaving)
-        {
-            return;
-        }
-
-        isFocusLeaving = true;
-        
-        // Add a small delay to allow for checking if focus moved within the dropdown
-        await Task.Delay(10);
-        
-        // Only close if we're still in the leaving state (no focus returned to dropdown)
-        if (isFocusLeaving)
-        {
-            await CloseDropdown();
-        }
-        
-        isFocusLeaving = false;
-    }
-
     private async Task HandleKeyDown(KeyboardEventArgs args)
     {
         if (args.Key == "Escape")
-        {
-            await CloseDropdown();
-        }
-    }
-
-    private async Task HandleMenuClick(MouseEventArgs args)
-    {
-        if (DismissOnClick)
         {
             await CloseDropdown();
         }
