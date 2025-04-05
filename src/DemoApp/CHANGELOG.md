@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.28-alpha
+
+- Add QuickGrid component examples with udpated llms-ctx.md
+
 ## 0.0.27-alpha
 
 - Quickstart - ensure users download v3.x of Tailwindcss CLI until migration to v4 is complete
