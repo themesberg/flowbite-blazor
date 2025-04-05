@@ -11,6 +11,19 @@
 <main class="p-6 space-y-4 max-w-4xl">
     <h2 class="text-2xl font-bold">QuickGrid Examples</h2>
 
+    <p>Leverage the Microsoft's QuickGrid Blazor componet and achieve Flowbite styling by applying the
+    <em class="text-primary-700 dark:text-primary-100">flowbite-grid</em> CSS class and the
+    <em class="text-primary-700 dark:text-primary-100">Theme="flowbite".</em>
+    </p>
+
+    @{
+        var example = @"<div class=""grid flowbite-grid"">
+    <QuickGrid Theme=""flowbite"">
+</div>";
+    }
+    <CodeBlock Code="@example" Language="razor" class="dark:bg-gray-900 text-xs border border-gray-500 p-2"/>
+
+
     <div class="space-y-8">
         <ComponentExample Title="Basic Grid"
                          Description="A simple grid showing Pokemon data with basic columns."
@@ -42,7 +55,7 @@
         <ComponentExample Title="Sorting and Filtering"
                          Description="Grid with sortable columns and name filtering capability."
                          RazorCode=@(@"<div class=""grid flowbite-grid text-xs"">
-    <QuickGrid Items=""@FilteredPokemon"">
+    <QuickGrid Items=""@FilteredPokemon"" Theme=""flowbite"">
         <PropertyColumn Property=""@(p => p.Id)"" Title=""#"" Sortable=""true"" Align=""Align.Center"" />
         <PropertyColumn Property=""@(p => p.Name)"" Title=""Name"" Sortable=""true"">
             <ColumnOptions>
@@ -81,105 +94,90 @@
 
         <ComponentExample Title="Template Columns"
                          Description="Custom column templates for enhanced visualization of Pokemon types and stats."
-                         RazorCode=@(@"
-<QuickGrid Items=""@_pokemon"">
-    <PropertyColumn Property=""@(p => p.Id)"" Title=""#"" Align=""Align.Center"" />
-    <PropertyColumn Property=""@(p => p.Name)"" Title=""Name"" />
-    <TemplateColumn Title=""Types"">
-        <div class=""flex gap-2"">
-            <span class=""@GetTypeClass(context.Type1)"">@context.Type1</span>
-            @if (!string.IsNullOrEmpty(context.Type2))
-            {
-                <span class=""@GetTypeClass(context.Type2)"">@context.Type2</span>
-            }
-        </div>
-    </TemplateColumn>
-    <TemplateColumn Title=""Stats"">
-        <div class=""flex flex-col gap-1"">
-            <div class=""flex items-center gap-2"">
-                <span class=""w-16 text-sm"">HP: @context.HP</span>
-                <div class=""w-32 bg-gray-200 rounded-full h-2"">
-                    <div class=""bg-green-600 h-2 rounded-full"" style=""width: @(context.HP * 100 / 255)%""></div>
+                         RazorCode=@(@"<div class=""grid flowbite-grid text-xs"">
+    <QuickGrid Items=""@_pokemon"" Theme=""flowbite"">
+        <PropertyColumn Property=""@(p => p.Id)"" Title=""#"" Align=""Align.Center"" />
+        <PropertyColumn Property=""@(p => p.Name)"" Title=""Name"" />
+        <TemplateColumn Title=""Types"">
+            <div class=""flex gap-2"">
+                <span class=""@GetTypeClass(context.Type1)"">@context.Type1</span>
+                @if (!string.IsNullOrEmpty(context.Type2))
+                {
+                    <span class=""@GetTypeClass(context.Type2)"">@context.Type2</span>
+                }
+            </div>
+        </TemplateColumn>
+        <TemplateColumn Title=""Stats"">
+            <div class=""flex flex-col gap-1"">
+                <div class=""flex items-center gap-2"">
+                    <span class=""w-16 text-sm"">HP: @context.HP</span>
+                    <div class=""w-32 bg-gray-200 rounded-full h-2"">
+                        <div class=""bg-green-600 h-2 rounded-full"" style=""width: @(context.HP * 100 / 255)%""></div>
+                    </div>
+                </div>
+                <div class=""flex items-center gap-2"">
+                    <span class=""w-16 text-sm"">Attack: @context.Attack</span>
+                    <div class=""w-32 bg-gray-200 rounded-full h-2"">
+                        <div class=""bg-red-600 h-2 rounded-full"" style=""width: @(context.Attack * 100 / 255)%""></div>
+                    </div>
                 </div>
             </div>
-            <div class=""flex items-center gap-2"">
-                <span class=""w-16 text-sm"">Attack: @context.Attack</span>
-                <div class=""w-32 bg-gray-200 rounded-full h-2"">
-                    <div class=""bg-red-600 h-2 rounded-full"" style=""width: @(context.Attack * 100 / 255)%""></div>
-                </div>
-            </div>
-        </div>
-    </TemplateColumn>
-</QuickGrid>")
+        </TemplateColumn>
+    </QuickGrid>
+</div>")
                          SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
-                <div class="grid flowbite-grid">
-                    <QuickGrid Items="@_pokemon" Theme="flowbite">
-                        <PropertyColumn Property="@(p => p.Id)" Title="#" Align="Align.Center" />
-                        <PropertyColumn Property="@(p => p.Name)" Title="Name" />
-                        <TemplateColumn Title="Types">
-                            <div class="flex gap-2">
-                                <span class="@GetTypeClass(context.Type1)">@context.Type1</span>
-                                @if (!string.IsNullOrEmpty(context.Type2))
-                                {
-                                    <span class="@GetTypeClass(context.Type2)">@context.Type2</span>
-                                }
-                            </div>
-                        </TemplateColumn>
-                        <TemplateColumn Title="Stats">
-                            <div class="flex flex-col gap-1">
-                                <div class="flex items-center gap-2 space-x-3">
-                                    <span class="w-16 text-sm whitespace-nowrap">HP: @context.HP</span>
-                                    <div class="w-32 bg-gray-200 rounded-full h-2">
-                                        <div class="bg-green-600 h-2 rounded-full" style="width: @(context.HP * 100 / 255)%"></div>
+                <div class="h-96">
+                    <div class="grid flowbite-grid h-96">
+                        <QuickGrid Items="@_pokemon" Theme="flowbite">
+                            <PropertyColumn Property="@(p => p.Id)" Title="#" Align="Align.Center" />
+                            <PropertyColumn Property="@(p => p.Name)" Title="Name" />
+                            <TemplateColumn Title="Types">
+                                <div class="flex gap-2">
+                                    <span class="@GetTypeClass(context.Type1)">@context.Type1</span>
+                                    @if (!string.IsNullOrEmpty(context.Type2))
+                                    {
+                                        <span class="@GetTypeClass(context.Type2)">@context.Type2</span>
+                                    }
+                                </div>
+                            </TemplateColumn>
+                            <TemplateColumn Title="Stats">
+                                <div class="flex flex-col gap-1">
+                                    <div class="flex items-center gap-2 space-x-3">
+                                        <span class="w-16 text-sm whitespace-nowrap">HP: @context.HP</span>
+                                        <div class="w-32 bg-gray-200 rounded-full h-2">
+                                            <div class="bg-green-600 h-2 rounded-full" style="width: @(context.HP * 100 / 255)%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2 space-x-3">
+                                        <span class="w-16 text-sm whitespace-nowrap">Attack: @context.Attack</span>
+                                        <div class="w-32 bg-gray-200 rounded-full h-2">
+                                            <div class="bg-red-600 h-2 rounded-full" style="width: @(context.Attack * 100 / 255)%"></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-2 space-x-3">
-                                    <span class="w-16 text-sm whitespace-nowrap">Attack: @context.Attack</span>
-                                    <div class="w-32 bg-gray-200 rounded-full h-2">
-                                        <div class="bg-red-600 h-2 rounded-full" style="width: @(context.Attack * 100 / 255)%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </TemplateColumn>
-                    </QuickGrid>
+                            </TemplateColumn>
+                        </QuickGrid>
+                    </div>
                 </div>
             </PreviewContent>
         </ComponentExample>
 
         <ComponentExample Title="Paging"
                          Description="Grid with pagination support and page size selection."
-                         RazorCode=@(@"
-<div class=""flex justify-end mb-4"">
-    <select @bind=""_pageSize"" class=""bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"">
-        <option value=""5"">5 per page</option>
-        <option value=""10"">10 per page</option>
-        <option value=""15"">15 per page</option>
-    </select>
-</div>
-
-<QuickGrid Items=""@_pokemon"" Pagination=""@_pagination"">
-    <PropertyColumn Property=""@(p => p.Id)"" Title=""#"" Sortable=""true"" Align=""Align.Center"" />
-    <PropertyColumn Property=""@(p => p.Name)"" Title=""Name"" Sortable=""true"" />
-    <PropertyColumn Property=""@(p => p.Type1)"" Title=""Type"" Sortable=""true"" />
-    <PropertyColumn Property=""@(p => p.HP)"" Title=""HP"" Sortable=""true"" Align=""Align.Center"" />
-    <PropertyColumn Property=""@(p => p.Attack)"" Title=""Attack"" Sortable=""true"" Align=""Align.Center"" />
-    <PropertyColumn Property=""@(p => p.Defense)"" Title=""Defense"" Sortable=""true"" Align=""Align.Center"" />
-</QuickGrid>
-
-<Paginator State=""@_pagination"" />")
+                         RazorCode=@(@"<div class=""grid flowbite-grid text-xs"">
+    <QuickGrid Theme=""flowbite"" Items=""@_pokemon"" Pagination=""@_pagination"">
+        <PropertyColumn Property=""@(p => p.Id)"" Title=""#"" Sortable=""true"" Align=""Align.Center"" />
+        <PropertyColumn Property=""@(p => p.Name)"" Title=""Name"" Sortable=""true"" />
+        <PropertyColumn Property=""@(p => p.Type1)"" Title=""Type"" Sortable=""true"" />
+        <PropertyColumn Property=""@(p => p.HP)"" Title=""HP"" Sortable=""true"" Align=""Align.Center"" />
+        <PropertyColumn Property=""@(p => p.Attack)"" Title=""Attack"" Sortable=""true"" Align=""Align.Center"" />
+        <PropertyColumn Property=""@(p => p.Defense)"" Title=""Defense"" Sortable=""true"" Align=""Align.Center"" />
+    </QuickGrid>
+    <Paginator State=""@_pagination"" />
+</div>")
                          SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
-                <div class="flex justify-end mb-4">
-                    <select @bind="_pageSize" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
-                        <option value="5">5 per page</option>
-                        <option value="10">10 per page</option>
-                        <option value="15">15 per page</option>
-                    </select>
-                </div>
-                <div class="grid">
-                    <Paginator State="@_pagination" />
-                </div>
                 <div class="grid flowbite-grid text-xs">
                     <QuickGrid Items="@_pokemon" Pagination="@_pagination" Theme="flowbite">
                         <PropertyColumn Property="@(p => p.Id)" Title="#" Sortable="true" Align="Align.Center" />
@@ -189,6 +187,7 @@
                         <PropertyColumn Property="@(p => p.Attack)" Title="Attack" Sortable="true" Align="Align.Center" />
                         <PropertyColumn Property="@(p => p.Defense)" Title="Defense" Sortable="true" Align="Align.Center" />
                     </QuickGrid>
+                    <Paginator State="@_pagination" />
                 </div>    
                 
             </PreviewContent>
