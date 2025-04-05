@@ -6,7 +6,7 @@
         @if (Icon != null)
         {
             <span class="mr-3 inline flex-shrink-0">
-                <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object> { { "CssClass", GetIconColorClass() } })" />
+                <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object> { { "Class", $"w-6 h-6 {GetIconColorClass()}" } })" />
             </span>
         }
         <div>

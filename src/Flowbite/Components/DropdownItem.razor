@@ -11,7 +11,7 @@
         disabled="@Disabled">
     @if (Icon != null)
     {
-        <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object> { { "CssClass", GetIconClasses() } })" />
+        <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object> { { "Class", GetIconClasses() } })" />
     }
     @ChildContent
 </button>
