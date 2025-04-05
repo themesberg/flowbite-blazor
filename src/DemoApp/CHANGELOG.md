@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.29-alpha
+
+- Fix reference to Flowbite.ExtendedIcons on the Extended Icons page
+
 ## 0.0.28-alpha
 
 - Add Extended Icons component page
