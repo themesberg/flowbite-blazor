@@ -1,0 +1,254 @@
+@page "/extendedicons"
+@layout DocLayout
+@using System.Reflection
+@inject IJSRuntime JSRuntime
+
+
+<PageTitle>Extended Icons - Flowbite Blazor</PageTitle>
+
+<div class="container mx-auto p-4">
+    <p class="text-3xl font-bold mb-6">Extended Icons</p>
+    <p class="text-gray-600 dark:text-gray-400 mb-2">Browse through our collection of Extended Icons designed for Flowbite found <span class="text-primary-700 dark:text-primary-400">Flowbite.Extended</span> nuget package.</p>
+    <p class="mb-2">Besure to add the using statement to your project's _Import.razor file.</p>
+    @{
+        var example = @"//_Imports.razor
+@using Flowbite.Icons.Extended";
+    }
+    <CodeBlock Code="@example" Language="razor" class="dark:bg-gray-900 text-xs border border-gray-500 p-2 mb-6"/>
+
+    <div class="grid gap-6 mb-8">
+        <!-- Controls -->
+        <div class="flex flex-wrap gap-4">
+        <!-- Search -->
+            <div class="flex-1 min-w-[200px]">
+                <label for="search-icons" class="sr-only">Search icons</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <input type="text"
+                       id="search-icons"
+                       placeholder="Search icons..."
+                       @bind-value="_searchTerm"
+                       @bind-value:event="oninput"
+                       class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white dark:bg-gray-700 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500" />
+            </div>
+        </div>
+
+            <!-- Size Control -->
+            <div class="flex items-center space-x-2">
+                <label for="icon-size" class="text-sm font-medium text-gray-700 dark:text-gray-300">Size:</label>
+                    <input type="range"
+                           id="icon-size"
+                           min="16"
+                           max="48"
+                           step="4"
+                           @bind-value="_iconSize"
+                           @bind-value:event="oninput"
+                           class="w-32" />
+                <span class="text-sm text-gray-600 dark:text-gray-400">@_iconSize px</span>
+            </div>
+
+            <!-- Stroke Width Control -->
+            <div class="flex items-center space-x-2">
+                <label for="stroke-width" class="text-sm font-medium text-gray-700 dark:text-gray-300">Stroke:</label>
+                    <input type="range"
+                           id="stroke-width"
+                           min="0.1"
+                           max="3.0"
+                           step="0.1"
+                           @bind-value="_strokeWidth"
+                           @bind-value:event="oninput"
+                           class="w-32" />
+                <span class="text-sm text-gray-600 dark:text-gray-400">@_strokeWidth</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Icon Count -->
+    <div class="mb-4">
+        <p class="text-sm text-gray-600 dark:text-gray-400">
+            Showing @((_currentPage - 1) * _itemsPerPage + 1) to @Math.Min(_currentPage * _itemsPerPage, FilteredIcons.Count()) icons of @FilteredIcons.Count() in total.
+        </p>
+    </div>
+
+    <!-- Icon Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6">
+        @foreach (var icon in CurrentPageIcons)
+        {
+            <button type="button" class="relative border border-gray-100 dark:border-gray-800 rounded-lg flex items-center justify-center group hover:cursor-pointer h-[95px]">
+                <div class="bg-[#1F2A37] absolute top-0 left-0 w-full h-full group-hover:opacity-80 opacity-0 rounded-lg transition-opacity flex items-center justify-center">
+                    <div class="flex items-center">
+                        <CopyToClipboardButton TextToCopy="@($"<{icon.Name}Icon />")" class="text-white" ShowTitle />
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center items-center">
+                    <div class="mb-2 flex items-center justify-center" style="width: @(_iconSize)px; height: @(_iconSize)px;">
+                        <div>
+                            @{
+                                var iconType = icon.Type;
+                                var iconInstance = CreateIconInstance(iconType);
+                            }
+                            <DynamicComponent Type="iconType" 
+                                            Parameters="@(new Dictionary<string, object> { 
+                                                { nameof(IconBase.Class), $"w-full h-full text-gray-800 dark:text-white" },
+                                                { nameof(IconBase.StrokeWidth), _strokeWidth }
+                                            })" />
+                        </div>
+                    </div>
+                    <span class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate whitespace-nowrap max-w-[90px]">@icon.Name</span>
+                </div>
+            </button>
+        }
+    </div>
+
+
+
+    <!-- Pagination -->
+    <div class="flex flex-col items-center mt-8 pb-12">
+        <div class="flex text-gray-700 dark:text-gray-400">
+            <button @onclick="PreviousPage"
+                    disabled="@(_currentPage <= 1)"
+                    class="px-4 text-sm font-medium rounded-l-lg leading-tight border border-gray-300 bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white
+                        @(_currentPage <= 1
+                            ? "opacity-50 cursor-not-allowed"
+                            : "cursor-normal")">
+                Previous
+            </button>
+
+            <div class="">
+                @{
+                    var startPage = Math.Max(1, Math.Min(_currentPage - 2, TotalPages - 4));
+                    var endPage = Math.Min(TotalPages, startPage + 4);
+                }
+                @for (var i = startPage; i <= endPage; i++)
+                {
+                    
+                    var pageNumber = i;
+                    <button @onclick="() => GoToPage(pageNumber)"
+                        class="w-12 border  bg-gray-50 py-2 leading-tight text-gray-500 
+                                @(pageNumber == _currentPage 
+                                    ? "text-blue-600 bg-blue-50 bg-primary-200 dark:bg-primary-800 text-black dark:text-white border-primary-600"
+                                    : "border-gray-300 hover:bg-gray-100 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white")">
+                        @pageNumber
+                    </button>
+                }
+            </div>
+
+            <button @onclick="NextPage"
+                    disabled="@(_currentPage >= TotalPages)"
+                    class="px-4 text-sm font-medium rounded-r-lg leading-tight border border-gray-300 bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white
+                         @(_currentPage >= TotalPages 
+                            ? "opacity-50 cursor-not-allowed" 
+                            : "cursor-normal")">
+                Next
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    private string _searchTerm = "";
+    private int _iconSize = 24;
+    private double _strokeWidth = 1.5;
+    private int _currentPage = 1;
+    private const int _itemsPerPage = 72;
+
+    private record IconInfo(string Name, Type Type);
+
+    private List<IconInfo> AllIcons => GetAllIcons();
+
+    private IEnumerable<IconInfo> FilteredIcons 
+    {
+        get 
+        {
+            return AllIcons
+                .Where(icon => string.IsNullOrEmpty(_searchTerm) || 
+                               icon.Name.Contains(_searchTerm, StringComparison.OrdinalIgnoreCase))
+                .OrderBy(i => i.Name);
+        }
+    }
+
+    private IEnumerable<IconInfo> CurrentPageIcons
+    {
+        get
+        {
+            return FilteredIcons
+                .Skip((_currentPage - 1) * _itemsPerPage)
+                .Take(_itemsPerPage);
+        }
+    }
+
+    private int TotalPages => (int)Math.Ceiling(FilteredIcons.Count() / (double)_itemsPerPage);
+
+    private void NextPage()
+    {
+        if (_currentPage < TotalPages)
+        {
+            _currentPage++;
+        }
+    }
+
+    private void GoToPage(int pageNumber)
+    {
+        if (pageNumber >= 1 && pageNumber <= TotalPages)
+        {
+            _currentPage = pageNumber;
+        }
+    }
+
+    private void PreviousPage()
+    {
+        if (_currentPage > 1)
+        {
+            _currentPage = Math.Max(1, _currentPage - 1);
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        // Reset to first page when search term changes
+        if (_searchTerm != null)
+        {
+            _currentPage = 1;
+        }
+        base.OnParametersSet();
+    }
+
+    private List<IconInfo> GetAllIcons()
+    {
+        return typeof(Flowbite.Icons.Extended.FlagIcon).Assembly
+            .GetTypes()
+            .Where(t => t.Namespace == "Flowbite.Icons.Extended" && 
+                        t.Name.EndsWith("Icon") && 
+                        !t.Name.Contains("Base"))
+            .Select(t => new IconInfo(
+                t.Name.Replace("Icon", ""), 
+                t
+            ))
+            .ToList();
+    }
+
+    private IconBase CreateIconInstance(Type iconType)
+    {
+        ArgumentNullException.ThrowIfNull(iconType);
+        return Activator.CreateInstance(iconType) as IconBase 
+            ?? throw new InvalidOperationException($"Failed to create icon instance for {iconType.Name}");
+    }
+
+    private async Task CopyToClipboard(string text)
+    {
+        await JSRuntime.InvokeAsync<object>("navigator.clipboard.writeText", text);
+    }
+
+    private async Task CopyComponentUsage(string iconName)
+    {
+        var usage = $"<{iconName}Icon />";
+        await JSRuntime.InvokeAsync<object>("navigator.clipboard.writeText", usage);
+    }
+}

@@ -2,6 +2,7 @@
 
 ## 0.0.28-alpha
 
+- Add Extended Icons component page
 - Add QuickGrid component examples with udpated llms-ctx.md
 - Fix Navbar component examples
 - Add safelist to tailwind.config.js
