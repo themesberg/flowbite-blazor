@@ -73,7 +73,7 @@ public partial class Textarea
             TextInputColor.Success => "border-green-500 bg-green-50 text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100 dark:focus:border-green-500 dark:focus:ring-green-500",
             TextInputColor.Failure => "border-red-500 bg-red-50 text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500 dark:border-red-400 dark:bg-red-100 dark:focus:border-red-500 dark:focus:ring-red-500",
             TextInputColor.Warning => "border-yellow-500 bg-yellow-50 text-yellow-900 placeholder-yellow-700 focus:border-yellow-500 focus:ring-yellow-500 dark:border-yellow-400 dark:bg-yellow-100 dark:focus:border-yellow-500 dark:focus:ring-yellow-500",
-            TextInputColor.Info => "border-cyan-500 bg-cyan-50 text-cyan-900 placeholder-cyan-700 focus:border-cyan-500 focus:ring-cyan-500 dark:border-cyan-400 dark:bg-cyan-100 dark:focus:border-cyan-500 dark:focus:ring-cyan-500",
+            TextInputColor.Info => "border-primary-500 bg-primary-50 text-primary-900 placeholder-primary-700 focus:border-primary-500 focus:ring-primary-500 dark:border-primary-400 dark:bg-primary-100 dark:focus:border-primary-500 dark:focus:ring-primary-500",
             _ => string.Empty // Gray (default) uses base classes
         };
         if (!string.IsNullOrEmpty(colorClasses))
@@ -108,7 +108,7 @@ public partial class Textarea
             TextInputColor.Success => "text-green-500 dark:text-green-400",
             TextInputColor.Failure => "text-red-500 dark:text-red-400",
             TextInputColor.Warning => "text-yellow-500 dark:text-yellow-400",
-            TextInputColor.Info => "text-cyan-500 dark:text-cyan-400",
+            TextInputColor.Info => "text-primary-500 dark:text-primary-400",
             _ => "text-gray-500 dark:text-gray-400"
         };
 
