@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.10-alpha
+
+- Add CSS classes and Theme for Microsoft QuickGrid component
+
 ## 0.0.9-alpha
 
 - Added Form controls:
