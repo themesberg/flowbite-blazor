@@ -5,19 +5,19 @@
 ## Project Structure
 
 PROJECT_DIR_ROOT
-├───PROJECT_NAME/
-│   ├───Layout/
-│   ├───Pages/
-│   ├   └───Home.razor # @page "/" route
-│   ├───Properties/
-│   ├───tools/
-│   ├   └───tailwindcss.exe
-│   ├───wwwroot/
+|---PROJECT_NAME/
+|   |---Layout/
+|   |---Pages/
+|   |   |---Home.razor # @page "/" route
+|   |---Properties/
+|   |---tools/
+|   |   |---tailwindcss.exe
+|   |---wwwroot/
 |   ...
 |   ...
-│   ├───PROJECT_NAME.csproj
-│   └───tailwind.config.js
-└───README.md
+|   |---PROJECT_NAME.csproj
+|   |---tailwind.config.js
+|---README.md
 
 
 # Overview

@@ -34,6 +34,7 @@ Flowbite Blazor provides the following set of UI components:
 - Card
 - Dropdown
 - Navbar
+- QuickGrid
 - Spinner
 - Sidebar
 - Tabs
@@ -1161,6 +1162,41 @@ The form validation system integrates seamlessly with Blazor's built-in form han
 
 
 
+#### QuickGrid Examples
+
+Leverage the Microsoft's QuickGrid Blazor componet and achieve Flowbite styling by applying the flowbite-grid CSS class and the Theme="flowbite".
+
+```razor
+@* the parent div must have both the grid and flowbite-grid classes *@
+<div class="grid flowbite-grid">
+    @* Set the Theme property to flowbite *@
+    <QuickGrid Theme="flowbite">
+    ...
+    </QuickGrid>
+</div>
+```
+
+Example:
+
+```razor
+<!-- Basic QuickGrid-->
+<div class="grid flowbite-grid text-xs">
+    <QuickGrid Items="@_pokemon" Theme="flowbite">
+        <PropertyColumn Property="@(p => p.Id)" Title="#" Align="Align.Center" />
+        <PropertyColumn Property="@(p => p.Name)" Title="Name" />
+        <PropertyColumn Property="@(p => p.Type1)" Title="Type" />
+        <PropertyColumn Property="@(p => p.HP)" Title="HP" Align="Align.Center" />
+        <PropertyColumn Property="@(p => p.Attack)" Title="Attack" Align="Align.Center" />
+        <PropertyColumn Property="@(p => p.Defense)" Title="Defense" Align="Align.Center" />
+    </QuickGrid>
+</div>
+
+
+```
+
+
+
+
 </doc>
 
 <doc title="Using Icons" description="Working with Flowbite Blazor icons">
@@ -1357,19 +1393,19 @@ Enable dark mode by adding the 'dark' class to any parent element:
 ## Project Structure
 
 PROJECT_DIR_ROOT
-├───PROJECT_NAME/
-│   ├───Layout/
-│   ├───Pages/
-│   ├   └───Home.razor # @page "/" route
-│   ├───Properties/
-│   ├───tools/
-│   ├   └───tailwindcss.exe
-│   ├───wwwroot/
+|---PROJECT_NAME/
+|   |---Layout/
+|   |---Pages/
+|   |   |---Home.razor # @page "/" route
+|   |---Properties/
+|   |---tools/
+|   |   |---tailwindcss.exe
+|   |---wwwroot/
 |   ...
 |   ...
-│   ├───PROJECT_NAME.csproj
-│   └───tailwind.config.js
-└───README.md
+|   |---PROJECT_NAME.csproj
+|   |---tailwind.config.js
+|---README.md
 
 
 # Overview
