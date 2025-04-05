@@ -131,7 +131,7 @@ public partial class Navbar : FlowbiteComponentBase
 
     private string NavbarClasses => CombineClasses(string.Join(" ", new[]
     {
-        "bg-white dark:border-gray-700 dark:bg-gray-800 px-2 py-2.5 rounded sm:px-4",
+        "bg-white dark:border-gray-700 dark:bg-gray-800 px-2 py-2.5 rounded sm:px-4 w-full",
         Rounded ? "rounded" : "",
         Border ? "border" : ""
     }).Trim());
