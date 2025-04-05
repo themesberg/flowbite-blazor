@@ -3,6 +3,7 @@
 ## 0.0.10-alpha
 
 - Add CSS classes and Theme for Microsoft QuickGrid component
+- Navbar: Add support for responsive menus
 
 ## 0.0.9-alpha
 
