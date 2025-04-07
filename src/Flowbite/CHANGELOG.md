@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.11-alpha
+
+- Fixed Select component data binding issue [#1]
+
 ## 0.0.10-alpha
 
 - Fixed Dropdown onclick event handling
