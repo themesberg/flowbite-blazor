@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.29-alpha
+
+- Update example of Select data binding [#1]
+
 ## 0.0.28-alpha
 
 - Add Extended Icons component page
