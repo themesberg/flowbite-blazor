@@ -41,6 +41,7 @@ public static class DocLayoutSidebarData
                 new() { Title = "Dropdown", Href = "/docs/components/dropdown" },
                 new() { Title = "Form Validation", Href = "/docs/components/form-validation"},
                 new() { Title = "Forms", Href = "/docs/components/forms" },
+                new() { Title = "Modal", Href = "/docs/components/modal", IsNew = true },
                 new() { Title = "Navbar", Href = "/docs/components/navbar" },
                 new() { Title = "QuickGrid", Href = "/docs/components/quickgrid", IsNew = true },
                 new() { Title = "Sidebar", Href = "/docs/components/sidebar" },

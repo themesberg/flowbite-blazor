@@ -1,0 +1,47 @@
+@implements IDisposable
+
+<CascadingValue Value="this">
+    @foreach (var modal in _modals)
+    {
+        <div class="flowbite-modal-container">
+            @modal.Content
+        </div>
+    }
+</CascadingValue>
+
+@code {
+    [Inject] private IModalService ModalService { get; set; } = default!;
+    
+    private List<ModalInstance> _modals = new();
+    
+    protected override void OnInitialized()
+    {
+        ModalService.OnModalInstanceAdded += AddModal;
+        ModalService.OnModalCloseRequested += CloseModal;
+    }
+    
+    private void AddModal(ModalInstance modal)
+    {
+        _modals.Add(modal);
+        InvokeAsync(StateHasChanged);
+    }
+    
+    private void CloseModal(string modalId)
+    {
+        var modal = _modals.FirstOrDefault(m => m.Id == modalId);
+        if (modal != null)
+        {
+            _modals.Remove(modal);
+            InvokeAsync(StateHasChanged);
+        }
+    }
+    
+    public void Dispose()
+    {
+        if (ModalService != null)
+        {
+            ModalService.OnModalInstanceAdded -= AddModal;
+            ModalService.OnModalCloseRequested -= CloseModal;
+        }
+    }
+}
