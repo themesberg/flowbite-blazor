@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using System;
 using System.Threading.Tasks;
 
 namespace Flowbite.Components;
@@ -68,6 +69,30 @@ public partial class Modal
     /// Gets or sets the data-testid attribute for testing.
     /// </summary>
     [Parameter] public string? DataTestId { get; set; }
+    
+    /// <summary>
+    /// The modal context to share with child components.
+    /// </summary>
+    private ModalContext? _modalContext;
+    
+    /// <summary>
+    /// Method invoked when the component is initialized.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        _modalContext = new ModalContext(Id, Dismissible, CloseAsync);
+        base.OnInitialized();
+    }
+    
+    /// <summary>
+    /// Method invoked when the component parameters are set.
+    /// </summary>
+    protected override void OnParametersSet()
+    {
+        // Update the context if parameters change
+        _modalContext = new ModalContext(Id, Dismissible, CloseAsync);
+        base.OnParametersSet();
+    }
     
     /// <summary>
     /// Method invoked when the component is initialized.

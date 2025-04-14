@@ -6,29 +6,37 @@
     <h2>Modal Examples</h2>
 
     <div class="space-y-8">
+        
         <ComponentExample 
             Title="Default Modal"
-            Description="Use this example to create a basic modal dialog with a title, content, and close button. The modal can be opened by clicking a button and closed by clicking the X, clicking outside the modal, or pressing the Escape key."
+            Description="The modal component can be used to show any type of content such as text, form elements, and notifications to your website visitors by creating an off-canvas box on top of the main content area of your website."
             RazorCode="@(
 @"<div>
     <Button OnClick=""@(() => showDefaultModal = true)"">Open Modal</Button>
     
-    <Modal Show=""showDefaultModal"" ShowChanged=""(value) => showDefaultModal = value"" Title=""Default Modal"">
-        <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
-            This is a default modal dialog with a title and content. You can close it by clicking the X button,
-            clicking outside the modal, or pressing the Escape key.
-        </p>
-        <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400 mt-4"">
-            Modal components are useful when you want to create dialogs, notifications, or any content that
-            should be displayed on top of the page.
-        </p>
-        
-        <FooterContent>
-            <div class=""flex justify-end w-full"">
-                <Button OnClick=""@(() => showDefaultModal = false)"" Color=""ButtonColor.Gray"" class=""mr-2"">Cancel</Button>
-                <Button OnClick=""@(() => showDefaultModal = false)"">Confirm</Button>
+    <Modal Show=""showDefaultModal"" ShowChanged=""(value) => showDefaultModal = value"">
+        <ModalHeader>
+            <h3>Terms of Service</h3>
+        </ModalHeader>
+        <ModalBody>
+            <div class=""space-y-6"">
+                <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
+                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens,
+                    companies around the world are updating their terms of service agreements to comply.
+                </p>
+                <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
+                    The European Union's General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant
+                    to ensure a common set of data rights in the European Union. It requires organizations to notify users as
+                    soon as possible of high-risk data breaches that could personally affect them.
+                </p>
             </div>
-        </FooterContent>
+        </ModalBody>
+        <ModalFooter>
+            <div class=""flex justify-end w-full"">
+                <Button OnClick=""@(() => showDefaultModal = false)"" Color=""ButtonColor.Gray"" class=""mr-2"">Decline</Button>
+                <Button OnClick=""@(() => showDefaultModal = false)"">Accept</Button>
+            </div>
+        </ModalFooter>
     </Modal>
 </div>
 
@@ -40,279 +48,29 @@
                 <div>
                     <Button OnClick="@(() => showDefaultModal = true)">Open Modal</Button>
                     
-                    <Modal Show="showDefaultModal" ShowChanged="(value) => showDefaultModal = value" Title="Default Modal">
-                        <ChildContent>
-                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                This is a default modal dialog with a title and content. You can close it by clicking the X button,
-                                clicking outside the modal, or pressing the Escape key.
-                            </p>
-                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400 mt-4">
-                                Modal components are useful when you want to create dialogs, notifications, or any content that
-                                should be displayed on top of the page.
-                            </p>
-                        </ChildContent>
-                        <FooterContent>
-                            <div class="flex justify-end w-full">
-                                <Button OnClick="@(() => showDefaultModal = false)" Color="ButtonColor.Gray" class="mr-2">Cancel</Button>
-                                <Button OnClick="@(() => showDefaultModal = false)">Confirm</Button>
+                    <Modal Show="showDefaultModal" ShowChanged="(value) => showDefaultModal = value">
+                        <ModalHeader>
+                            <h3>Terms of Service</h3>
+                        </ModalHeader>
+                        <ModalBody>
+                            <div class="space-y-6">
+                                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens,
+                                    companies around the world are updating their terms of service agreements to comply.
+                                </p>
+                                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                    The European Union's General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant
+                                    to ensure a common set of data rights in the European Union. It requires organizations to notify users as
+                                    soon as possible of high-risk data breaches that could personally affect them.
+                                </p>
                             </div>
-                        </FooterContent>
-                    </Modal>
-                </div>
-            </PreviewContent>
-        </ComponentExample>
-
-        <ComponentExample 
-            Title="Modal Sizes"
-            Description="Modals come in different sizes to accommodate various content needs. Choose from small, medium, large, extra large, and more."
-            RazorCode="@(
-@"<div class=""flex flex-wrap gap-4"">
-    <Button OnClick=""@(() => showSmallModal = true)"" Size=""ButtonSize.Small"">Small Modal</Button>
-    <Button OnClick=""@(() => showDefaultModal = true)"">Default Modal</Button>
-    <Button OnClick=""@(() => showLargeModal = true)"" Size=""ButtonSize.Large"">Large Modal</Button>
-    <Button OnClick=""@(() => showExtraLargeModal = true)"">Extra Large Modal</Button>
-    
-    <Modal Show=""showSmallModal"" ShowChanged=""(value) => showSmallModal = value"" 
-           Title=""Small Modal"" Size=""ModalSize.Small"">
-        <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
-            This is a small modal dialog.
-        </p>
-        <FooterContent>
-            <Button OnClick=""@(() => showSmallModal = false)"" class=""ml-auto"">Close</Button>
-        </FooterContent>
-    </Modal>
-    
-    <Modal Show=""showDefaultModal"" ShowChanged=""(value) => showDefaultModal = value"" 
-           Title=""Default Modal"" Size=""ModalSize.Default"">
-        <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
-            This is a default (2XL) modal dialog.
-        </p>
-        <FooterContent>
-            <Button OnClick=""@(() => showDefaultModal = false)"" class=""ml-auto"">Close</Button>
-        </FooterContent>
-    </Modal>
-    
-    <Modal Show=""showLargeModal"" ShowChanged=""(value) => showLargeModal = value"" 
-           Title=""Large Modal"" Size=""ModalSize.Large"">
-        <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
-            This is a large modal dialog.
-        </p>
-        <FooterContent>
-            <Button OnClick=""@(() => showLargeModal = false)"" class=""ml-auto"">Close</Button>
-        </FooterContent>
-    </Modal>
-    
-    <Modal Show=""showExtraLargeModal"" ShowChanged=""(value) => showExtraLargeModal = value"" 
-           Title=""Extra Large Modal"" Size=""ModalSize.FourExtraLarge"">
-        <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
-            This is an extra large (4XL) modal dialog.
-        </p>
-        <FooterContent>
-            <Button OnClick=""@(() => showExtraLargeModal = false)"" class=""ml-auto"">Close</Button>
-        </FooterContent>
-    </Modal>
-</div>
-
-@code {
-    private bool showSmallModal = false;
-    private bool showDefaultModal = false;
-    private bool showLargeModal = false;
-    private bool showExtraLargeModal = false;
-}")"
-            SupportedLanguages="@(new[] { "razor" })">
-            <PreviewContent>
-                <div class="flex flex-wrap gap-4">
-                    <Button OnClick="@(() => showSmallModal = true)" Size="ButtonSize.Small">Small Modal</Button>
-                    <Button OnClick="@(() => showDefaultModal = true)">Default Modal</Button>
-                    <Button OnClick="@(() => showLargeModal = true)" Size="ButtonSize.Large">Large Modal</Button>
-                    <Button OnClick="@(() => showExtraLargeModal = true)">Extra Large Modal</Button>
-                    
-                    <Modal Show="showSmallModal" ShowChanged="(value) => showSmallModal = value" 
-                           Title="Small Modal" Size="ModalSize.Small">
-                        <ChildContent>
-                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                This is a small modal dialog.
-                            </p>
-                        </ChildContent>
-                        <FooterContent>
-                            <Button OnClick="@(() => showSmallModal = false)" class="ml-auto">Close</Button>
-                        </FooterContent>
-                    </Modal>
-                    
-                    <Modal Show="showDefaultModal" ShowChanged="(value) => showDefaultModal = value" 
-                           Title="Default Modal" Size="ModalSize.Default">
-                        <ChildContent>
-                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                This is a default (2XL) modal dialog.
-                            </p>
-                        </ChildContent>
-                        <FooterContent>
-                            <Button OnClick="@(() => showDefaultModal = false)" class="ml-auto">Close</Button>
-                        </FooterContent>
-                    </Modal>
-                    
-                    <Modal Show="showLargeModal" ShowChanged="(value) => showLargeModal = value" 
-                           Title="Large Modal" Size="ModalSize.Large">
-                        <ChildContent>
-                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                This is a large modal dialog.
-                            </p>
-                        </ChildContent>
-                        <FooterContent>
-                            <Button OnClick="@(() => showLargeModal = false)" class="ml-auto">Close</Button>
-                        </FooterContent>
-                    </Modal>
-                    
-                    <Modal Show="showExtraLargeModal" ShowChanged="(value) => showExtraLargeModal = value" 
-                           Title="Extra Large Modal" Size="ModalSize.FourExtraLarge">
-                        <ChildContent>
-                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                This is an extra large (4XL) modal dialog.
-                            </p>
-                        </ChildContent>
-                        <FooterContent>
-                            <Button OnClick="@(() => showExtraLargeModal = false)" class="ml-auto">Close</Button>
-                        </FooterContent>
-                    </Modal>
-                </div>
-            </PreviewContent>
-        </ComponentExample>
-
-        <ComponentExample 
-            Title="Modal Positions"
-            Description="Modals can be positioned in different locations on the screen. This example shows how to position modals at the top, center, or bottom of the screen."
-            RazorCode="@(
-@"<div class=""flex flex-wrap gap-4"">
-    <Button OnClick=""@(() => showTopModal = true)"">Top Modal</Button>
-    <Button OnClick=""@(() => showCenterModal = true)"">Center Modal</Button>
-    <Button OnClick=""@(() => showBottomModal = true)"">Bottom Modal</Button>
-    
-    <Modal Show=""showTopModal"" ShowChanged=""(value) => showTopModal = value"" 
-           Title=""Top Modal"" Position=""ModalPosition.TopCenter"">
-        <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
-            This modal is positioned at the top center of the screen.
-        </p>
-        <FooterContent>
-            <Button OnClick=""@(() => showTopModal = false)"" class=""ml-auto"">Close</Button>
-        </FooterContent>
-    </Modal>
-    
-    <Modal Show=""showCenterModal"" ShowChanged=""(value) => showCenterModal = value"" 
-           Title=""Center Modal"" Position=""ModalPosition.Center"">
-        <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
-            This modal is positioned at the center of the screen (default).
-        </p>
-        <FooterContent>
-            <Button OnClick=""@(() => showCenterModal = false)"" class=""ml-auto"">Close</Button>
-        </FooterContent>
-    </Modal>
-    
-    <Modal Show=""showBottomModal"" ShowChanged=""(value) => showBottomModal = value"" 
-           Title=""Bottom Modal"" Position=""ModalPosition.BottomCenter"">
-        <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
-            This modal is positioned at the bottom center of the screen.
-        </p>
-        <FooterContent>
-            <Button OnClick=""@(() => showBottomModal = false)"" class=""ml-auto"">Close</Button>
-        </FooterContent>
-    </Modal>
-</div>
-
-@code {
-    private bool showTopModal = false;
-    private bool showCenterModal = false;
-    private bool showBottomModal = false;
-}")"
-            SupportedLanguages="@(new[] { "razor" })">
-            <PreviewContent>
-                <div class="flex flex-wrap gap-4">
-                    <Button OnClick="@(() => showTopModal = true)">Top Modal</Button>
-                    <Button OnClick="@(() => showCenterModal = true)">Center Modal</Button>
-                    <Button OnClick="@(() => showBottomModal = true)">Bottom Modal</Button>
-                    
-                    <Modal Show="showTopModal" ShowChanged="(value) => showTopModal = value" 
-                           Title="Top Modal" Position="ModalPosition.TopCenter">
-                        <ChildContent>
-                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                This modal is positioned at the top center of the screen.
-                            </p>
-                        </ChildContent>
-                        <FooterContent>
-                            <Button OnClick="@(() => showTopModal = false)" class="ml-auto">Close</Button>
-                        </FooterContent>
-                    </Modal>
-                    
-                    <Modal Show="showCenterModal" ShowChanged="(value) => showCenterModal = value" 
-                           Title="Center Modal" Position="ModalPosition.Center">
-                        <ChildContent>
-                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                This modal is positioned at the center of the screen (default).
-                            </p>
-                        </ChildContent>
-                        <FooterContent>
-                            <Button OnClick="@(() => showCenterModal = false)" class="ml-auto">Close</Button>
-                        </FooterContent>
-                    </Modal>
-                    
-                    <Modal Show="showBottomModal" ShowChanged="(value) => showBottomModal = value" 
-                           Title="Bottom Modal" Position="ModalPosition.BottomCenter">
-                        <ChildContent>
-                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                This modal is positioned at the bottom center of the screen.
-                            </p>
-                        </ChildContent>
-                        <FooterContent>
-                            <Button OnClick="@(() => showBottomModal = false)" class="ml-auto">Close</Button>
-                        </FooterContent>
-                    </Modal>
-                </div>
-            </PreviewContent>
-        </ComponentExample>
-
-        <ComponentExample 
-            Title="Non-Dismissible Modal"
-            Description="Create a modal that can only be closed by clicking a specific button, not by clicking outside or pressing Escape."
-            RazorCode="@(
-@"<div>
-    <Button OnClick=""@(() => showNonDismissibleModal = true)"" Color=""ButtonColor.Red"">Critical Action</Button>
-    
-    <Modal Show=""showNonDismissibleModal"" ShowChanged=""(value) => showNonDismissibleModal = value"" 
-           Title=""Confirm Action"" Dismissible=""false"">
-        <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
-            This is a non-dismissible modal. You must click one of the buttons below to close it.
-            Clicking outside the modal or pressing Escape will not close it.
-        </p>
-        <FooterContent>
-            <div class=""flex justify-end w-full"">
-                <Button OnClick=""@(() => showNonDismissibleModal = false)"" Color=""ButtonColor.Gray"" class=""mr-2"">Cancel</Button>
-                <Button OnClick=""@(() => showNonDismissibleModal = false)"" Color=""ButtonColor.Red"">Confirm</Button>
-            </div>
-        </FooterContent>
-    </Modal>
-</div>
-
-@code {
-    private bool showNonDismissibleModal = false;
-}")"
-            SupportedLanguages="@(new[] { "razor" })">
-            <PreviewContent>
-                <div>
-                    <Button OnClick="@(() => showNonDismissibleModal = true)" Color="ButtonColor.Red">Critical Action</Button>
-                    
-                    <Modal Show="showNonDismissibleModal" ShowChanged="(value) => showNonDismissibleModal = value" 
-                           Title="Confirm Action" Dismissible="false">
-                        <ChildContent>
-                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                This is a non-dismissible modal. You must click one of the buttons below to close it.
-                                Clicking outside the modal or pressing Escape will not close it.
-                            </p>
-                        </ChildContent>
-                        <FooterContent>
+                        </ModalBody>
+                        <ModalFooter>
                             <div class="flex justify-end w-full">
-                                <Button OnClick="@(() => showNonDismissibleModal = false)" Color="ButtonColor.Gray" class="mr-2">Cancel</Button>
-                                <Button OnClick="@(() => showNonDismissibleModal = false)" Color="ButtonColor.Red">Confirm</Button>
+                                <Button OnClick="@(() => showDefaultModal = false)" Color="ButtonColor.Gray" class="mr-2">Decline</Button>
+                                <Button OnClick="@(() => showDefaultModal = false)">Accept</Button>
                             </div>
-                        </FooterContent>
+                        </ModalFooter>
                     </Modal>
                 </div>
             </PreviewContent>
@@ -325,27 +83,32 @@
 @"<div>
     <Button OnClick=""@(() => showFormModal = true)"">Open Form Modal</Button>
     
-    <Modal Show=""showFormModal"" ShowChanged=""(value) => showFormModal = value"" Title=""Sign In"">
-        <div class=""space-y-4"">
-            <div>
-                <label for=""email"" class=""block mb-2 text-sm font-medium text-gray-900 dark:text-white"">Email</label>
-                <input type=""email"" id=""email"" class=""bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"" placeholder=""name@company.com"" required />
+    <Modal Show=""showFormModal"" ShowChanged=""(value) => showFormModal = value"">
+        <ModalHeader>
+            <h3>Sign In</h3>
+        </ModalHeader>
+        <ModalBody>
+            <div class=""space-y-4"">
+                <div>
+                    <label for=""email"" class=""block mb-2 text-sm font-medium text-gray-900 dark:text-white"">Email</label>
+                    <input type=""email"" id=""email"" class=""bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"" placeholder=""name@company.com"" required />
+                </div>
+                <div>
+                    <label for=""password"" class=""block mb-2 text-sm font-medium text-gray-900 dark:text-white"">Password</label>
+                    <input type=""password"" id=""password"" class=""bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"" required />
+                </div>
+                <div class=""flex items-center"">
+                    <input id=""remember"" type=""checkbox"" class=""w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"" />
+                    <label for=""remember"" class=""ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"">Remember me</label>
+                </div>
             </div>
-            <div>
-                <label for=""password"" class=""block mb-2 text-sm font-medium text-gray-900 dark:text-white"">Password</label>
-                <input type=""password"" id=""password"" class=""bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"" required />
-            </div>
-            <div class=""flex items-center"">
-                <input id=""remember"" type=""checkbox"" class=""w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"" />
-                <label for=""remember"" class=""ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"">Remember me</label>
-            </div>
-        </div>
-        <FooterContent>
+        </ModalBody>
+        <ModalFooter>
             <div class=""flex justify-end w-full"">
                 <Button OnClick=""@(() => showFormModal = false)"" Color=""ButtonColor.Gray"" class=""mr-2"">Cancel</Button>
                 <Button OnClick=""@(() => showFormModal = false)"">Sign In</Button>
             </div>
-        </FooterContent>
+        </ModalFooter>
     </Modal>
 </div>
 
@@ -357,8 +120,11 @@
                 <div>
                     <Button OnClick="@(() => showFormModal = true)">Open Form Modal</Button>
                     
-                    <Modal Show="showFormModal" ShowChanged="(value) => showFormModal = value" Title="Sign In">
-                        <ChildContent>
+                    <Modal Show="showFormModal" ShowChanged="(value) => showFormModal = value">
+                        <ModalHeader>
+                            <h3>Sign In</h3>
+                        </ModalHeader>
+                        <ModalBody>
                             <div class="space-y-4">
                                 <div>
                                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
@@ -373,80 +139,83 @@
                                     <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
                                 </div>
                             </div>
-                        </ChildContent>
-                        <FooterContent>
+                        </ModalBody>
+                        <ModalFooter>
                             <div class="flex justify-end w-full">
                                 <Button OnClick="@(() => showFormModal = false)" Color="ButtonColor.Gray" class="mr-2">Cancel</Button>
                                 <Button OnClick="@(() => showFormModal = false)">Sign In</Button>
                             </div>
-                        </FooterContent>
+                        </ModalFooter>
                     </Modal>
                 </div>
             </PreviewContent>
         </ComponentExample>
 
         <ComponentExample 
-            Title="Programmatic Modal"
-            Description="This example demonstrates how to use the ModalService to show modals programmatically from C# code."
+            Title="Non-Dismissible Modal"
+            Description="Create a modal that can only be closed by clicking a specific button, not by clicking outside or pressing Escape."
             RazorCode="@(
 @"<div>
-    <Button OnClick=""ShowProgrammaticModal"">Show Programmatic Modal</Button>
+    <Button OnClick=""@(() => showNonDismissibleModal = true)"" Color=""ButtonColor.Red"">Critical Action</Button>
+    
+    <Modal Show=""showNonDismissibleModal"" ShowChanged=""(value) => showNonDismissibleModal = value"" 
+           Dismissible=""false"">
+        <ModalHeader>
+            <h3>Confirm Action</h3>
+        </ModalHeader>
+        <ModalBody>
+            <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
+                This is a non-dismissible modal. You must click one of the buttons below to close it.
+                Clicking outside the modal or pressing Escape will not close it.
+            </p>
+        </ModalBody>
+        <ModalFooter>
+            <div class=""flex justify-end w-full"">
+                <Button OnClick=""@(() => showNonDismissibleModal = false)"" Color=""ButtonColor.Gray"" class=""mr-2"">Cancel</Button>
+                <Button OnClick=""@(() => showNonDismissibleModal = false)"" Color=""ButtonColor.Red"">Confirm</Button>
+            </div>
+        </ModalFooter>
+    </Modal>
 </div>
 
 @code {
-    [Inject] private IModalService ModalService { get; set; } = default!;
-    
-    private async Task ShowProgrammaticModal()
-    {
-        var options = new ModalOptions
-        {
-            Title = ""Programmatic Modal"",
-            Size = ModalSize.Large
-        };
-        
-        var result = await ModalService.ShowAsync<string>(
-            ""Programmatic Modal"",
-            builder =>
-            {
-                builder.AddContent(0, 
-                    @<div>
-                        <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
-                            This modal was created programmatically using the ModalService.
-                        </p>
-                        <div class=""flex justify-end mt-4"">
-                            <Button OnClick=""@(() => ModalService.Close(""""Success""""))"">Close with Result</Button>
-                        </div>
-                    </div>
-                );
-            },
-            options
-        );
-        
-        if (result.Confirmed && result.Data != null)
-        {
-            // Handle the result
-            Console.WriteLine($""Modal closed with result: {result.Data}"");
-        }
-    }
+    private bool showNonDismissibleModal = false;
 }")"
             SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
                 <div>
-                    <Button OnClick="ShowProgrammaticModal">Show Programmatic Modal</Button>
+                    <Button OnClick="@(() => showNonDismissibleModal = true)" Color="ButtonColor.Red">Critical Action</Button>
+                    
+                    <Modal Show="showNonDismissibleModal" ShowChanged="(value) => showNonDismissibleModal = value" 
+                           Dismissible="false">
+                        <ModalHeader>
+                            <h3>Confirm Action</h3>
+                        </ModalHeader>
+                        <ModalBody>
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                This is a non-dismissible modal. You must click one of the buttons below to close it.
+                                Clicking outside the modal or pressing Escape will not close it.
+                            </p>
+                        </ModalBody>
+                        <ModalFooter>
+                            <div class="flex justify-end w-full">
+                                <Button OnClick="@(() => showNonDismissibleModal = false)" Color="ButtonColor.Gray" class="mr-2">Cancel</Button>
+                                <Button OnClick="@(() => showNonDismissibleModal = false)" Color="ButtonColor.Red">Confirm</Button>
+                            </div>
+                        </ModalFooter>
+                    </Modal>
                 </div>
             </PreviewContent>
         </ComponentExample>
+
+        
+
+
     </div>
 </main>
 
 @code {
     private bool showDefaultModal = false;
-    private bool showSmallModal = false;
-    private bool showLargeModal = false;
-    private bool showExtraLargeModal = false;
-    private bool showTopModal = false;
-    private bool showCenterModal = false;
-    private bool showBottomModal = false;
     private bool showNonDismissibleModal = false;
     private bool showFormModal = false;
     
