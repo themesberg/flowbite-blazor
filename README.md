@@ -26,6 +26,11 @@
 
 **⚠️ Flowbite Blazor is currently in early development and APIs and packages are likely to change quite often.**
 
+# URLs
+
+- Peview `main` banch deployment: <https://flowbite-blazor.org/>
+- Preview `develop` branch deployment: <https://develop.flowbite-blazor-8s8.pages.dev/>
+
 ## Flowbite Assembly
 
 1. Icons
@@ -69,6 +74,3 @@
 - `llms-ctx.md` <https://flowbite-blazor.peakflames.org/llms-ctx.md> 🤖
     - Provide this URL to your AI-powered code assistant to give it knowledge about Flowbite Blazor.
 
-# URL
-
-<https://flowbite-blazor.org/>
