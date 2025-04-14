@@ -3,6 +3,8 @@
 ## 0.0.11-alpha
 
 - Fixed Select component data binding issue [#1]
+- Add initial implementation of Modal component
+- Add initial plubming for the Drawer and Toast components
 
 ## 0.0.10-alpha
 
