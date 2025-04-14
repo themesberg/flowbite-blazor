@@ -13,7 +13,7 @@
          aria-labelledby="@($"{Id}-title")">
         
         <div class="@GetModalClasses()" @onclick:stopPropagation>
-            <div class="relative flex max-h-[80dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700 mt-10">
+            <div class="relative flex max-h-[80dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700">
                 <CascadingValue Value="@_modalContext">
                     @if (!string.IsNullOrEmpty(Title) || FooterContent != null)
                     {

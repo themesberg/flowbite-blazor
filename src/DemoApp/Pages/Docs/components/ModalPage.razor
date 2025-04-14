@@ -1,4 +1,5 @@
 @page "/docs/components/modal"
+@using Flowbite.Components
 
 <PageTitle>Modal - Flowbite Blazor</PageTitle>
 
@@ -208,8 +209,102 @@
             </PreviewContent>
         </ComponentExample>
 
-        
+        <ComponentExample 
+            Title="Modal Positioning"
+            Description="Control the position of your modal on the screen by setting the Position parameter to one of the nine available positions."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <div class=""flex items-center gap-4"">
+        <div class=""w-64"">
+            <Select @bind-Value=""selectedPositionString"">
+                <option value=""Center"">Center (Default)</option>
+                <option value=""TopLeft"">Top Left</option>
+                <option value=""TopCenter"">Top Center</option>
+                <option value=""TopRight"">Top Right</option>
+                <option value=""CenterLeft"">Center Left</option>
+                <option value=""CenterRight"">Center Right</option>
+                <option value=""BottomLeft"">Bottom Left</option>
+                <option value=""BottomCenter"">Bottom Center</option>
+                <option value=""BottomRight"">Bottom Right</option>
+            </Select>
+        </div>
+        <Button OnClick=""@(() => showPositionedModal = true)"">Open Modal</Button>
+    </div>
+    
+    <Modal Show=""showPositionedModal"" 
+           ShowChanged=""(value) => showPositionedModal = value"" 
+           Position=""selectedPosition"">
+        <ModalHeader>
+            <h3>Positioned Modal</h3>
+        </ModalHeader>
+        <ModalBody>
+            <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
+                This modal is positioned at: <strong>@selectedPositionString</strong>
+            </p>
+            <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400 mt-2"">
+                You can change the position using the dropdown and open the modal again to see the effect.
+            </p>
+        </ModalBody>
+        <ModalFooter>
+            <div class=""flex justify-end w-full"">
+                <Button OnClick=""@(() => showPositionedModal = false)"">Close</Button>
+            </div>
+        </ModalFooter>
+    </Modal>
+</div>
 
+@code {
+    private bool showPositionedModal = false;
+    private string selectedPositionString = ""Center"";
+    
+    // Convert the string to ModalPosition enum
+    private ModalPosition selectedPosition => Enum.Parse<ModalPosition>(selectedPositionString);
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4">
+                <div class="w-64">
+                            <Select @bind-Value="selectedPositionString">
+                                <option value="Center">Center (Default)</option>
+                                <option value="TopLeft">Top Left</option>
+                                <option value="TopCenter">Top Center</option>
+                                <option value="TopRight">Top Right</option>
+                                <option value="CenterLeft">Center Left</option>
+                                <option value="CenterRight">Center Right</option>
+                                <option value="BottomLeft">Bottom Left</option>
+                                <option value="BottomCenter">Bottom Center</option>
+                                <option value="BottomRight">Bottom Right</option>
+                            </Select>
+                        </div>
+                        <Button OnClick="@(() => showPositionedModal = true)">Open Modal</Button>
+                    </div>
+                    
+                    <Modal Show="showPositionedModal" 
+                           ShowChanged="(value) => showPositionedModal = value" 
+                           Position="selectedPosition">
+                        <ModalHeader>
+                            <h3>Positioned Modal</h3>
+                        </ModalHeader>
+                        <ModalBody>
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                This modal is positioned at: <strong>@selectedPositionString</strong>
+                            </p>
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400 mt-2">
+                                You can change the position using the dropdown and open the modal again to see the effect.
+                            </p>
+                        </ModalBody>
+                        <ModalFooter>
+                            <div class="flex justify-end w-full">
+                                <Button OnClick="@(() => showPositionedModal = false)">Close</Button>
+                            </div>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        
 
     </div>
 </main>
@@ -218,6 +313,10 @@
     private bool showDefaultModal = false;
     private bool showNonDismissibleModal = false;
     private bool showFormModal = false;
+    private bool showPositionedModal = false;
+    private string selectedPositionString = "Center";
+    
+    private ModalPosition selectedPosition => Enum.Parse<ModalPosition>(selectedPositionString);
     
     [Inject] private IModalService ModalService { get; set; } = default!;
     

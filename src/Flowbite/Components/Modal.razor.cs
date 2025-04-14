@@ -155,7 +155,7 @@ public partial class Modal
     private string GetBackdropClasses()
     {
         return CombineClasses(
-            "fixed inset-0 z-50 h-screen overflow-y-auto overflow-x-hidden md:inset-0 md:h-full",
+            "p-12 fixed inset-0 z-50 h-screen md:inset-0 md:h-full",
             "flex bg-gray-900 bg-opacity-50 dark:bg-opacity-80",
             GetPositionClasses(),
             BackdropClass
@@ -169,7 +169,7 @@ public partial class Modal
     private string GetModalClasses()
     {
         return CombineClasses(
-            "relative h-full w-full p-4 md:h-auto",
+            "relative flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700",
             GetSizeClasses(),
             ModalClass
         );
