@@ -13,36 +13,34 @@
          aria-labelledby="@($"{Id}-title")">
         
         <div class="@GetModalClasses()" @onclick:stopPropagation>
-            <div class="relative flex max-h-[80dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700">
-                <CascadingValue Value="@_modalContext">
-                    @if (!string.IsNullOrEmpty(Title) || FooterContent != null)
+            <CascadingValue Value="@_modalContext">
+                @if (!string.IsNullOrEmpty(Title) || FooterContent != null)
+                {
+                    @* Legacy mode - automatically create header/body/footer *@
+                    @if (!string.IsNullOrEmpty(Title))
                     {
-                        @* Legacy mode - automatically create header/body/footer *@
-                        @if (!string.IsNullOrEmpty(Title))
-                        {
-                            <ModalHeader>
-                                <h3>@Title</h3>
-                            </ModalHeader>
-                        }
-                        
-                        <ModalBody>
-                            @ChildContent
-                        </ModalBody>
-                        
-                        @if (FooterContent != null)
-                        {
-                            <ModalFooter>
-                                @FooterContent
-                            </ModalFooter>
-                        }
+                        <ModalHeader>
+                            <h3>@Title</h3>
+                        </ModalHeader>
                     }
-                    else
-                    {
-                        @* New compound component mode *@
+                    
+                    <ModalBody>
                         @ChildContent
+                    </ModalBody>
+                    
+                    @if (FooterContent != null)
+                    {
+                        <ModalFooter>
+                            @FooterContent
+                        </ModalFooter>
                     }
-                </CascadingValue>
-            </div>
+                }
+                else
+                {
+                    @* New compound component mode *@
+                    @ChildContent
+                }
+            </CascadingValue>
         </div>
     </div>
 }

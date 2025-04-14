@@ -156,7 +156,7 @@ public partial class Modal
     {
         return CombineClasses(
             "p-12 fixed inset-0 z-50 h-screen md:inset-0 md:h-full",
-            "flex bg-gray-900 bg-opacity-50 dark:bg-opacity-80",
+            "flex bg-gray-900/50 dark:bg-gray-900/80",
             GetPositionClasses(),
             BackdropClass
         );
@@ -169,7 +169,7 @@ public partial class Modal
     private string GetModalClasses()
     {
         return CombineClasses(
-            "relative flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700",
+            "relative w-full flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700",
             GetSizeClasses(),
             ModalClass
         );

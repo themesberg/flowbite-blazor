@@ -12,8 +12,17 @@
             Title="Default Modal"
             Description="The modal component can be used to show any type of content such as text, form elements, and notifications to your website visitors by creating an off-canvas box on top of the main content area of your website."
             RazorCode="@(
-@"<div>
-    <Button OnClick=""@(() => showDefaultModal = true)"">Open Modal</Button>
+@"<div class=""space-y-4"">
+    <div class=""flex items-center gap-4"">
+        <Button OnClick=""@(() => showDefaultModal = true)"">Open Modal</Button>
+        
+        @if (termsAccepted != null)
+        {
+            <div class=""@GetChoiceAlertClass()"" role=""alert"">
+                <span class=""font-medium"">@(termsAccepted.Value ? ""Accepted"" : ""Declined"")</span> the Terms of Service
+            </div>
+        }
+    </div>
     
     <Modal Show=""showDefaultModal"" ShowChanged=""(value) => showDefaultModal = value"">
         <ModalHeader>
@@ -34,8 +43,8 @@
         </ModalBody>
         <ModalFooter>
             <div class=""flex justify-end w-full"">
-                <Button OnClick=""@(() => showDefaultModal = false)"" Color=""ButtonColor.Gray"" class=""mr-2"">Decline</Button>
-                <Button OnClick=""@(() => showDefaultModal = false)"">Accept</Button>
+                <Button OnClick=""@(() => HandleTermsChoice(false))"" Color=""ButtonColor.Gray"" class=""mr-2"">Decline</Button>
+                <Button OnClick=""@(() => HandleTermsChoice(true))"">Accept</Button>
             </div>
         </ModalFooter>
     </Modal>
@@ -43,11 +52,34 @@
 
 @code {
     private bool showDefaultModal = false;
+    private bool? termsAccepted = null;
+    
+    private void HandleTermsChoice(bool accepted)
+    {
+        termsAccepted = accepted;
+        showDefaultModal = false;
+    }
+    
+    private string GetChoiceAlertClass()
+    {
+        return termsAccepted == true
+            ? ""p-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400""
+            : ""p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"";
+    }
 }")"
             SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
-                <div>
-                    <Button OnClick="@(() => showDefaultModal = true)">Open Modal</Button>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4">
+                        <Button OnClick="@(() => showDefaultModal = true)">Open Modal</Button>
+                        
+                        @if (termsAccepted != null)
+                        {
+                            <div class="@GetChoiceAlertClass()" role="alert">
+                                <span class="font-medium">@(termsAccepted.Value ? "Accepted" : "Declined")</span> the Terms of Service
+                            </div>
+                        }
+                    </div>
                     
                     <Modal Show="showDefaultModal" ShowChanged="(value) => showDefaultModal = value">
                         <ModalHeader>
@@ -68,8 +100,8 @@
                         </ModalBody>
                         <ModalFooter>
                             <div class="flex justify-end w-full">
-                                <Button OnClick="@(() => showDefaultModal = false)" Color="ButtonColor.Gray" class="mr-2">Decline</Button>
-                                <Button OnClick="@(() => showDefaultModal = false)">Accept</Button>
+                                <Button OnClick="@(() => HandleTermsChoice(false))" Color="ButtonColor.Gray" class="mr-2">Decline</Button>
+                                <Button OnClick="@(() => HandleTermsChoice(true))">Accept</Button>
                             </div>
                         </ModalFooter>
                     </Modal>
@@ -304,8 +336,140 @@
             </PreviewContent>
         </ComponentExample>
 
-        
+        <ComponentExample 
+            Title="Modal Sizing"
+            Description="Control the size of your modal by setting the Size parameter to one of the available size options."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <div class=""flex items-center gap-4"">
+        <div class=""w-64"">
+            <Select @bind-Value=""selectedSizeString"">
+                <option value=""Default"">Default (2XL)</option>
+                <option value=""Small"">Small</option>
+                <option value=""Medium"">Medium</option>
+                <option value=""Large"">Large</option>
+                <option value=""ExtraLarge"">Extra Large (XL)</option>
+                <option value=""TwoExtraLarge"">2XL</option>
+                <option value=""ThreeExtraLarge"">3XL</option>
+                <option value=""FourExtraLarge"">4XL</option>
+                <option value=""FiveExtraLarge"">5XL</option>
+                <option value=""SixExtraLarge"">6XL</option>
+                <option value=""SevenExtraLarge"">7XL</option>
+            </Select>
+        </div>
+        <Button OnClick=""@(() => showSizedModal = true)"">Open Modal</Button>
+    </div>
+    
+    <Modal Show=""showSizedModal"" 
+           ShowChanged=""(value) => showSizedModal = value"" 
+           Size=""selectedSize"">
+        <ModalHeader>
+            <h3>Sized Modal</h3>
+        </ModalHeader>
+        <ModalBody>
+            <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
+                This modal has size: <strong>@selectedSizeString</strong>
+            </p>
+            <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400 mt-2"">
+                You can change the size using the dropdown and open the modal again to see the effect.
+            </p>
+            <div class=""mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg"">
+                <p class=""text-sm text-gray-500 dark:text-gray-400"">
+                    The modal size affects the maximum width of the modal. The available sizes are:
+                </p>
+                <ul class=""list-disc pl-5 mt-2 text-sm text-gray-500 dark:text-gray-400"">
+                    <li>Small: max-w-sm</li>
+                    <li>Medium: max-w-md</li>
+                    <li>Large: max-w-lg</li>
+                    <li>Extra Large: max-w-xl</li>
+                    <li>2XL: max-w-2xl (Default)</li>
+                    <li>3XL: max-w-3xl</li>
+                    <li>4XL: max-w-4xl</li>
+                    <li>5XL: max-w-5xl</li>
+                    <li>6XL: max-w-6xl</li>
+                    <li>7XL: max-w-7xl</li>
+                </ul>
+            </div>
+        </ModalBody>
+        <ModalFooter>
+            <div class=""flex justify-end w-full"">
+                <Button OnClick=""@(() => showSizedModal = false)"">Close</Button>
+            </div>
+        </ModalFooter>
+    </Modal>
+</div>
 
+@code {
+    private bool showSizedModal = false;
+    private string selectedSizeString = ""Default"";
+    
+    // Convert the string to ModalSize enum
+    private ModalSize selectedSize => Enum.Parse<ModalSize>(selectedSizeString);
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-64">
+                            <Select @bind-Value="selectedSizeString">
+                                <option value="Default">Default (2XL)</option>
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                                <option value="ExtraLarge">Extra Large (XL)</option>
+                                <option value="TwoExtraLarge">2XL</option>
+                                <option value="ThreeExtraLarge">3XL</option>
+                                <option value="FourExtraLarge">4XL</option>
+                                <option value="FiveExtraLarge">5XL</option>
+                                <option value="SixExtraLarge">6XL</option>
+                                <option value="SevenExtraLarge">7XL</option>
+                            </Select>
+                        </div>
+                        <Button OnClick="@(() => showSizedModal = true)">Open Modal</Button>
+                    </div>
+                    
+                    <Modal Show="showSizedModal" 
+                           ShowChanged="(value) => showSizedModal = value" 
+                           Size="selectedSize">
+                        <ModalHeader>
+                            <h3>Sized Modal</h3>
+                        </ModalHeader>
+                        <ModalBody>
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                This modal has size: <strong>@selectedSizeString</strong>
+                            </p>
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400 mt-2">
+                                You can change the size using the dropdown and open the modal again to see the effect.
+                            </p>
+                            <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    The modal size affects the maximum width of the modal. The available sizes are:
+                                </p>
+                                <ul class="list-disc pl-5 mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                    <li>Small: max-w-sm</li>
+                                    <li>Medium: max-w-md</li>
+                                    <li>Large: max-w-lg</li>
+                                    <li>Extra Large: max-w-xl</li>
+                                    <li>2XL: max-w-2xl (Default)</li>
+                                    <li>3XL: max-w-3xl</li>
+                                    <li>4XL: max-w-4xl</li>
+                                    <li>5XL: max-w-5xl</li>
+                                    <li>6XL: max-w-6xl</li>
+                                    <li>7XL: max-w-7xl</li>
+                                </ul>
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <div class="flex justify-end w-full">
+                                <Button OnClick="@(() => showSizedModal = false)">Close</Button>
+                            </div>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        
     </div>
 </main>
 
@@ -314,42 +478,25 @@
     private bool showNonDismissibleModal = false;
     private bool showFormModal = false;
     private bool showPositionedModal = false;
+    private bool showSizedModal = false;
     private string selectedPositionString = "Center";
+    private string selectedSizeString = "Default";
+    private bool? termsAccepted = null;
     
     private ModalPosition selectedPosition => Enum.Parse<ModalPosition>(selectedPositionString);
+    private ModalSize selectedSize => Enum.Parse<ModalSize>(selectedSizeString);
     
-    [Inject] private IModalService ModalService { get; set; } = default!;
-    
-    private async Task ShowProgrammaticModal()
+    private void HandleTermsChoice(bool accepted)
     {
-        var options = new ModalOptions
-        {
-            Title = "Programmatic Modal",
-            Size = ModalSize.Large
-        };
-        
-        var result = await ModalService.ShowAsync<string>(
-            "Programmatic Modal",
-            builder =>
-            {
-                builder.AddContent(0, 
-                    @<div>
-                        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                            This modal was created programmatically using the ModalService.
-                        </p>
-                        <div class="flex justify-end mt-4">
-                            <Button OnClick="@(() => ModalService.Close("Success"))">Close with Result</Button>
-                        </div>
-                    </div>
-                );
-            },
-            options
-        );
-        
-        if (result.Confirmed && result.Data != null)
-        {
-            // Handle the result
-            Console.WriteLine($"Modal closed with result: {result.Data}");
-        }
+        termsAccepted = accepted;
+        showDefaultModal = false;
     }
+    
+    private string GetChoiceAlertClass()
+    {
+        return termsAccepted == true
+            ? "p-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+            : "p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400";
+    }   
+    
 }
