@@ -1,4 +1,5 @@
 @inherits LayoutComponentBase
+@using Flowbite.Components
 
 <div class="bg-white text-gray-600 antialiased dark:bg-gray-900 dark:text-gray-400">
 <div class="w-full min-w-0 flex-auto">
@@ -16,6 +17,8 @@
     </div>
 </div>
 </div>
+
+<ModalHost />
 
 @code {
     private bool _isCollapsed = true;

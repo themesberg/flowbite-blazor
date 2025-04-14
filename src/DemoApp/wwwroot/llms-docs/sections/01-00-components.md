@@ -11,6 +11,7 @@ Flowbite Blazor provides the following set of UI components:
 - Button
 - Card
 - Dropdown
+- Modal Dialog
 - Navbar
 - QuickGrid
 - Spinner
@@ -18,5 +19,6 @@ Flowbite Blazor provides the following set of UI components:
 - Tabs
 - Tooltip
 - Table
+
 
 ### Components

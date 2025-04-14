@@ -32,20 +32,15 @@
    - 90 core icons
 
 1. Components
-   - Button
    - Alert
-   - Icons
-   - Card
-   - Tooltip
-   - Spinner
-   - Badge
    - Avatar
+   - Badge
    - Breadcrumb
-   - Sidebar
-   - Navbar
+   - Button
+   - Card
    - Dropdown
    - Form Components
-   - TextInport
+       - TextInput
        - TextArea
        - Select
        - Checkbox
@@ -53,6 +48,13 @@
        - FileInput
        - ToggeSwitch
        - RangeSlider
+   - Modal
+   - Icons
+   - Navbar
+   - QuizGrid
+   - Sidebar
+   - Spinner
+   - Tooltip
    - more coming soon...
 
 ## Other Assemblies
@@ -69,4 +71,4 @@
 
 # URL
 
-<https://flowbite-blazor.peakflames.org/>
+<https://flowbite-blazor.org/>
