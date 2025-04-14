@@ -155,7 +155,7 @@ public partial class Modal
     private string GetBackdropClasses()
     {
         return CombineClasses(
-            "p-12 fixed inset-0 z-50 h-screen md:inset-0 md:h-full",
+            "p-16 fixed inset-0 z-50 h-screen md:inset-0 md:h-full",
             "flex bg-gray-900/50 dark:bg-gray-900/80",
             GetPositionClasses(),
             BackdropClass
