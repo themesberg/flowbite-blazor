@@ -10,15 +10,24 @@ Flowbite Blazor provides the following set of UI components:
 - Breadcrumb
 - Button
 - Card
+- Drawer
 - Dropdown
-- Modal Dialog
+- Form Components
+   - TextInput
+   - TextArea
+   - Select
+   - Checkbox
+   - Radio
+   - FileInput
+   - ToggeSwitch
+   - RangeSlider
+- Modal
+- Icons
 - Navbar
-- QuickGrid
-- Spinner
+- QuizGrid
 - Sidebar
-- Tabs
+- Spinner
 - Tooltip
-- Table
 
 
 ### Components

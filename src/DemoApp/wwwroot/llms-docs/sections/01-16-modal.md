@@ -1,14 +1,6 @@
 
 #### Modal Dialog Examples
 
-__Setup:__
-
-Besure to add the <ModalHost/> component to your layout. Typically this is in the <MainLayout/> component and the last child.
-
-```razor
-<ModalHost/>
-```
-
 
 __Default Modal:__
 

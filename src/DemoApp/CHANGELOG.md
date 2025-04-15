@@ -4,6 +4,7 @@
 
 - Update example of Select data binding [#1]
 - Add Modal component examples and udpate llms-ctx.md
+- Add Drawer component examples and udpate llms-ctx.md
 
 ## 0.0.28-alpha
 

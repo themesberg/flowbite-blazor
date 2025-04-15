@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.5-alpha
+
+- Updated ChartLineDownIcon
+
 ## 0.0.4-alpha
 
 - Add ScrollTextIcon

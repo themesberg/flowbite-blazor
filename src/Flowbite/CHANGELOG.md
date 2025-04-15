@@ -4,7 +4,8 @@
 
 - Fixed Select component data binding issue [#1]
 - Add initial implementation of Modal component
-- Add initial plubming for the Drawer and Toast components
+- Add initial implemetation of Drawer component
+- Add `UserIcon` component
 
 ## 0.0.10-alpha
 
