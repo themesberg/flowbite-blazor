@@ -1,0 +1,12 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<div class="@GetHeaderClasses()" @onclick="HandleClick">
+    <h5 class="mb-4 inline-flex items-center text-base font-semibold text-gray-500 dark:text-gray-400" id="@($"{DrawerId}-title")">
+        @if (Icon != null)
+        {
+            <span class="me-2.5 h-4 w-4">@Icon</span>
+        }
+        @ChildContent
+    </h5>
+</div>

@@ -218,6 +218,25 @@ window.flowbiteBlazor.cleanup = {
 };
 
 /**
+ * Body scrolling management for off-canvas components
+ */
+window.flowbiteBlazor.bodyScrolling = {
+    /**
+     * Disables body scrolling
+     */
+    disableBodyScroll: function () {
+        document.body.style.overflow = 'hidden';
+    },
+    
+    /**
+     * Enables body scrolling
+     */
+    enableBodyScroll: function () {
+        document.body.style.overflow = '';
+    }
+};
+
+/**
  * Shorthand functions for common operations
  */
 window.flowbiteBlazor.trapFocus = function (elementId) {
@@ -226,6 +245,14 @@ window.flowbiteBlazor.trapFocus = function (elementId) {
 
 window.flowbiteBlazor.restoreFocus = function () {
     return window.flowbiteBlazor.focusManagement.restoreFocus();
+};
+
+window.flowbiteBlazor.disableBodyScroll = function () {
+    return window.flowbiteBlazor.bodyScrolling.disableBodyScroll();
+};
+
+window.flowbiteBlazor.enableBodyScroll = function () {
+    return window.flowbiteBlazor.bodyScrolling.enableBodyScroll();
 };
 
 window.flowbiteBlazor.initializeDrawer = function (elementId) {

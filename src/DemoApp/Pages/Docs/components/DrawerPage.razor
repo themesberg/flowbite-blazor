@@ -1,0 +1,73 @@
+@page "/docs/components/drawer"
+
+<PageTitle>Drawer - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Drawer Examples</h2>
+
+    <div class="space-y-8">
+        <ComponentExample 
+            Title="Default Drawer"
+            Description="Use this example to create a default drawer component that slides from the left side of the page."
+            RazorCode="@(@"<Button @onclick=""() => showDefaultDrawer = true"">Show drawer</Button>
+
+<Drawer Show=""@showDefaultDrawer"" OnClose=""() => showDefaultDrawer = false"">
+    <DrawerHeader>
+        Default Drawer
+    </DrawerHeader>
+    <DrawerItems>
+        <p class=""mb-6 text-sm text-gray-500 dark:text-gray-400"">
+            This is a default drawer that slides in from the left side of the page.
+        </p>
+        <div class=""grid grid-cols-2 gap-4"">
+            <Button Color=""ButtonColor.Gray"" @onclick=""() => showDefaultDrawer = false"">
+                Cancel
+            </Button>
+            <Button @onclick=""() => showDefaultDrawer = false"">
+                Accept
+            </Button>
+        </div>
+    </DrawerItems>
+</Drawer>
+
+@code {
+    private bool showDefaultDrawer = false;
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Button OnClick="() => showDefaultDrawer = true">Show drawer</Button>
+
+                <Drawer Show="@showDefaultDrawer" OnClose="() => showDefaultDrawer = false">
+                    <DrawerHeader>
+                        Default Drawer
+                    </DrawerHeader>
+                    <DrawerItems>
+                        <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                            This is a default drawer that slides in from the left side of the page.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <Button Color="ButtonColor.Gray" @onclick="() => showDefaultDrawer = false">
+                                Cancel
+                            </Button>
+                            <Button @onclick="() => showDefaultDrawer = false">
+                                Accept
+                            </Button>
+                        </div>
+                    </DrawerItems>
+                </Drawer>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>
+
+@code {
+    private bool showDefaultDrawer = false;
+    @* private bool showNavDrawer = false;
+    private bool showLeftDrawer = false;
+    private bool showRightDrawer = false;
+    private bool showTopDrawer = false;
+    private bool showBottomDrawer = false;
+    private bool showNoBackdropDrawer = false;
+    private bool showBodyScrollingDrawer = false;
+    private bool showEdgeDrawer = false; *@
+}
