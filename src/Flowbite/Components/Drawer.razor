@@ -13,25 +13,31 @@
          data-testid="@DataTestId">
         
         <CascadingValue Value="@_drawerContext">
-            @if (!string.IsNullOrEmpty(Title) || HeaderContent != null)
-            {
-                @* Legacy mode - automatically create header/items *@
-                <DrawerHeader>
-                    @(HeaderContent ?? (Title != null ? new RenderFragment(builder => 
-                    {
-                        builder.AddContent(0, Title);
-                    }) : null))
-                </DrawerHeader>
-                
-                <DrawerItems>
-                    @ChildContent
-                </DrawerItems>
-            }
-            else
-            {
-                @* New compound component mode *@
-                @ChildContent
-            }
+            <CascadingValue Value="@Edge" Name="EdgeMode">
+                <CascadingValue Value="@IsVisible" Name="IsVisible">
+                    <CascadingValue Value="@Position" Name="Position">
+                        @if (!string.IsNullOrEmpty(Title) || HeaderContent != null)
+                        {
+                            @* Legacy mode - automatically create header/items *@
+                            <DrawerHeader>
+                                @(HeaderContent ?? (Title != null ? new RenderFragment(builder => 
+                                {
+                                    builder.AddContent(0, Title);
+                                }) : null))
+                            </DrawerHeader>
+                            
+                            <DrawerItems>
+                                @ChildContent
+                            </DrawerItems>
+                        }
+                        else
+                        {
+                            @* New compound component mode *@
+                            @ChildContent
+                        }
+                    </CascadingValue>
+                </CascadingValue>
+            </CascadingValue>
         </CascadingValue>
         
         @if (Dismissible)

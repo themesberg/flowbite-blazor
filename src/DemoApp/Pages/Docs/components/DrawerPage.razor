@@ -356,8 +356,8 @@
             Description="Use this example to create a drawer that shows a small part of itself when closed."
             RazorCode="@(@"<Button OnClick=""() => showEdgeDrawer = !showEdgeDrawer"">Toggle edge drawer</Button>
 
-<Drawer Show=""@showEdgeDrawer"" OnClose=""() => showEdgeDrawer = false"" Edge=""true"" Position=""DrawerPosition.Right"">
-    <DrawerHeader ToggleOnClick=""true"">
+<Drawer Show=""@showEdgeDrawer"" OnClose=""() => showEdgeDrawer = false"" Edge=""true"" Position=""DrawerPosition.Bottom"">
+    <DrawerHeader ToggleOnClick=""true"" Icon=""@(new GearIcon())"">
         <span class=""self-center text-xl font-semibold whitespace-nowrap dark:text-white"">Edge Drawer</span>
     </DrawerHeader>
     <DrawerItems>
@@ -385,8 +385,8 @@
             <PreviewContent>
                 <Button OnClick="() => showEdgeDrawer = !showEdgeDrawer">Toggle edge drawer</Button>
 
-                <Drawer Show="@showEdgeDrawer" OnClose="() => showEdgeDrawer = false" Edge="true" Position="DrawerPosition.Right">
-                    <DrawerHeader ToggleOnClick="true">
+                <Drawer @bind-Show="showEdgeDrawer" OnClose="() => showEdgeDrawer = false" Edge="true" Position="DrawerPosition.Bottom">
+                    <DrawerHeader ToggleOnClick="true" Icon="@(new GearIcon())">
                         <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Edge Drawer</span>
                     </DrawerHeader>
                     <DrawerItems>

@@ -81,7 +81,7 @@ public partial class Drawer
     /// </summary>
     protected override void OnInitialized()
     {
-        _drawerContext = new DrawerContext(Id, Dismissible, CloseAsync);
+        _drawerContext = new DrawerContext(Id, Dismissible, CloseAsync, ToggleAsync);
         base.OnInitialized();
     }
     
@@ -91,7 +91,7 @@ public partial class Drawer
     protected override void OnParametersSet()
     {
         // Update the context if parameters change
-        _drawerContext = new DrawerContext(Id, Dismissible, CloseAsync);
+        _drawerContext = new DrawerContext(Id, Dismissible, CloseAsync, ToggleAsync);
         base.OnParametersSet();
     }
     
@@ -185,6 +185,27 @@ public partial class Drawer
     }
     
     /// <summary>
+    /// Toggles the drawer between open and closed states.
+    /// </summary>
+    private async Task ToggleAsync()
+    {       
+        // Toggle the internal IsVisible state directly
+        IsVisible = !IsVisible;
+        
+        // Also update the parent's binding
+        await ShowChanged.InvokeAsync(!Show);
+        
+        // If we're closing, invoke OnClose
+        if (!IsVisible)
+        {
+            await OnClose.InvokeAsync();
+        }
+        
+        // Force a UI update
+        await InvokeAsync(StateHasChanged);
+    }
+    
+    /// <summary>
     /// Gets the CSS classes for the drawer.
     /// </summary>
     /// <returns>The CSS classes for the drawer.</returns>
@@ -193,9 +214,8 @@ public partial class Drawer
         // p-16 fixed inset-0 z-50 h-screen md:inset-0 md:h-full flex bg-gray-900/50 dark:bg-gray-900/80 items-center justify-center
         var baseClasses = "fixed z-[70] overflow-y-auto bg-white p-4 transition-transform dark:bg-gray-800";
         var positionClasses = GetPositionClasses();
-        var edgeClass = Edge && !IsVisible ? "bottom-16" : "";
         
-        return CombineClasses(baseClasses, positionClasses, edgeClass, Class);
+        return CombineClasses(baseClasses, positionClasses, Class);
     }
     
     /// <summary>
@@ -204,21 +224,41 @@ public partial class Drawer
     /// <returns>The CSS classes for the drawer position.</returns>
     private string GetPositionClasses()
     {
-        return Position switch
+        if (IsVisible)
         {
-            DrawerPosition.Top when IsVisible => "left-0 right-0 top-0 w-full transform-none",
-            DrawerPosition.Top => "left-0 right-0 top-0 w-full -translate-y-full",
-            
-            DrawerPosition.Right when IsVisible => "right-0 top-0 h-screen w-80 transform-none",
-            DrawerPosition.Right => "right-0 top-0 h-screen w-80 translate-x-full",
-            
-            DrawerPosition.Bottom when IsVisible => "bottom-0 left-0 right-0 w-full transform-none",
-            DrawerPosition.Bottom => "bottom-0 left-0 right-0 w-full translate-y-full",
-            
-            DrawerPosition.Left when IsVisible => "left-0 top-0 h-screen w-80 transform-none",
-            DrawerPosition.Left => "left-0 top-0 h-screen w-80 -translate-x-full",
-            
-            _ => "left-0 top-0 h-screen w-80 -translate-x-full" // Default to Left
-        };
+            // When drawer is fully visible, use transform-none for all positions
+            return Position switch
+            {
+                DrawerPosition.Top => "left-0 right-0 top-0 w-full transform-none",
+                DrawerPosition.Right => "right-0 top-0 h-screen w-80 transform-none",
+                DrawerPosition.Bottom => "bottom-0 left-0 right-0 w-full transform-none",
+                DrawerPosition.Left => "left-0 top-0 h-screen w-80 transform-none",
+                _ => "left-0 top-0 h-screen w-80 transform-none" // Default to Left
+            };
+        }
+        else if (Edge)
+        {
+            // When in edge mode and not visible, show a small part of the drawer
+            return Position switch
+            {
+                DrawerPosition.Top => "left-0 right-0 top-0 w-full -translate-y-[calc(100%-3rem)]",
+                DrawerPosition.Right => "right-0 top-0 h-screen w-80 translate-x-[calc(100%-3rem)]",
+                DrawerPosition.Bottom => "bottom-0 left-0 right-0 w-full translate-y-[calc(100%-3rem)]",
+                DrawerPosition.Left => "left-0 top-0 h-screen w-80 -translate-x-[calc(100%-3rem)]",
+                _ => "left-0 top-0 h-screen w-80 -translate-x-[calc(100%-3rem)]" // Default to Left
+            };
+        }
+        else
+        {
+            // When not visible and not in edge mode, hide completely
+            return Position switch
+            {
+                DrawerPosition.Top => "left-0 right-0 top-0 w-full -translate-y-full",
+                DrawerPosition.Right => "right-0 top-0 h-screen w-80 translate-x-full",
+                DrawerPosition.Bottom => "bottom-0 left-0 right-0 w-full translate-y-full",
+                DrawerPosition.Left => "left-0 top-0 h-screen w-80 -translate-x-full",
+                _ => "left-0 top-0 h-screen w-80 -translate-x-full" // Default to Left
+            };
+        }
     }
 }

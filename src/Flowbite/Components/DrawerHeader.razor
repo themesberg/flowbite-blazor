@@ -5,8 +5,23 @@
     <h5 class="mb-4 inline-flex items-center text-base font-semibold text-gray-500 dark:text-gray-400" id="@($"{DrawerId}-title")">
         @if (Icon != null)
         {
-            <span class="me-2.5 h-4 w-4">@Icon</span>
+            <span class="me-2.5 h-6 w-6">
+                <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object>
+                    {
+                        { "class", "w-6 h-6 text-gray-500 dark:text-gray-400" },
+                        { "aria-hidden", true }
+                    })" />
+            </span>
         }
-        @ChildContent
+
+        @if (!EdgeMode)
+        {
+            @ChildContent
+        }
+        else if (IsVisible || Position is DrawerPosition.Top or DrawerPosition.Bottom)
+        {
+            @ChildContent
+        }
+        
     </h5>
 </div>

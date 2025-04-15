@@ -14,9 +14,11 @@ public partial class DrawerHeader
     [Parameter] public RenderFragment? ChildContent { get; set; }
     
     /// <summary>
-    /// Gets or sets the icon to display in the header.
+    /// Optional icon to display at the start of the alert.
+    /// The icon will inherit the alert's color scheme.
     /// </summary>
-    [Parameter] public RenderFragment? Icon { get; set; }
+    [Parameter]
+    public IconBase? Icon { get; set; }
     
     
     /// <summary>
@@ -46,11 +48,26 @@ public partial class DrawerHeader
     {
         if (ToggleOnClick && DrawerContext != null)
         {
-            await DrawerContext.CloseAsync();
+            await DrawerContext.ToggleAsync();
         }
         
         await OnClick.InvokeAsync();
     }
+    
+    /// <summary>
+    /// Gets or sets whether the drawer is in edge mode.
+    /// </summary>
+    [CascadingParameter(Name = "EdgeMode")] public bool EdgeMode { get; set; }
+    
+    /// <summary>
+    /// Gets or sets whether the drawer is visible.
+    /// </summary>
+    [CascadingParameter(Name = "IsVisible")] public bool IsVisible { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the drawer is visible.
+    /// </summary>
+    [CascadingParameter(Name = "Position")] public DrawerPosition Position { get; set; }
     
     /// <summary>
     /// Gets the CSS classes for the header.
@@ -58,6 +75,9 @@ public partial class DrawerHeader
     /// <returns>The CSS classes for the header.</returns>
     private string GetHeaderClasses()
     {
-        return CombineClasses(Class);
+        var edgeClasses = EdgeMode && !IsVisible
+            ? "absolute top-0 left-0 right-0 bottom-0 bg-gray-50 dark:bg-gray-800 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md p-2 pl-3 flex flex-col justify-between"
+            : "";
+        return CombineClasses(edgeClasses, Class);
     }
 }

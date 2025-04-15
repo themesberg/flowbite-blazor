@@ -22,6 +22,11 @@ public class DrawerContext
     /// Gets the function to close the drawer.
     /// </summary>
     public Func<Task> CloseAsync { get; }
+    
+    /// <summary>
+    /// Gets the function to toggle the drawer.
+    /// </summary>
+    public Func<Task> ToggleAsync { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DrawerContext"/> class.
@@ -29,10 +34,12 @@ public class DrawerContext
     /// <param name="id">The unique identifier for the drawer.</param>
     /// <param name="dismissible">Whether the drawer can be dismissed by clicking outside or pressing Escape.</param>
     /// <param name="closeAsync">The function to close the drawer.</param>
-    public DrawerContext(string id, bool dismissible, Func<Task> closeAsync)
+    /// <param name="toggleAsync">The function to toggle the drawer.</param>
+    public DrawerContext(string id, bool dismissible, Func<Task> closeAsync, Func<Task> toggleAsync)
     {
         Id = id;
         Dismissible = dismissible;
         CloseAsync = closeAsync;
+        ToggleAsync = toggleAsync;
     }
 }
