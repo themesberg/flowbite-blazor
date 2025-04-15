@@ -1,0 +1,10 @@
+@namespace Flowbite.Layout
+@using Flowbite.Components
+
+<div class="@PositionClasses">
+    @foreach (var toastPair in _activeToasts)
+    {
+        var toast = toastPair.Value;
+        <Toast ToastMessage="@toast" OnClose="@(() => HandleToastClose(toast.Id))" />
+    }
+</div>

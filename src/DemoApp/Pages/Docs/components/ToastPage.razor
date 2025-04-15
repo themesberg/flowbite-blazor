@@ -1,0 +1,108 @@
+@page "/docs/components/toast"
+@using Flowbite.Components
+@using Flowbite.Layout
+@using Flowbite.Services
+@inject IToastService ToastService
+
+<PageTitle>Toast - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Blazor Toast Component Examples</h2>
+    <p class="text-gray-600 dark:text-gray-400">Show alert messages to your users using the toast component. Get started with the examples below.</p>
+
+    <div class="space-y-8">
+
+        <!-- Default Toast Example -->
+        <ComponentExample 
+            Title="Default Toast"
+            Description="This is the default toast component. Use the IToastService to display toasts."
+            RazorCode="@(@"<Button OnClick=""@(() => ToastService.Show(""Hi there 👋!""))"">Show Default Toast</Button>
+")"
+            SupportedLanguages="@(new[] { "razor", "csharp" })">
+            <PreviewContent>
+                <Button OnClick="@(() => ToastService.Show("Hi there 👋!"))">Show Default Toast</Button>
+            </PreviewContent>
+
+        </ComponentExample>
+
+        <!-- Toast Types Example -->
+        <ComponentExample 
+            Title="Toast Types"
+            Description="Use the `type` parameter in the `Show` method to change the appearance based on the context (e.g., success, error, warning, info)."
+            RazorCode="@(@"<div class=""flex flex-wrap gap-2"">
+    <Button OnClick=""@(() => ToastService.Show(""Success."", type: ToastType.Success))"">Show Success Toast</Button>
+    <Button OnClick=""@(() => ToastService.Show(""Error!"", type: ToastType.Error))"">Show Error Toast</Button>
+    <Button OnClick=""@(() => ToastService.Show(""Warning"", type: ToastType.Warning))"">Show Warning Toast</Button>
+    <Button OnClick=""@(() => ToastService.Show(""Info"", type: ToastType.Info))"">Show Info Toast</Button>
+</div>
+
+")"
+            SupportedLanguages="@(new[] { "razor", "csharp" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-2">
+                    <Button OnClick="@(() => ToastService.Show("Item successfully created.", type: ToastType.Success))">Show Success Toast</Button>
+                    <Button OnClick="@(() => ToastService.Show("Something went wrong!", type: ToastType.Error))">Show Error Toast</Button>
+                    <Button OnClick="@(() => ToastService.Show("Warning: Low disk space.", type: ToastType.Warning))">Show Warning Toast</Button>
+                    <Button OnClick="@(() => ToastService.Show("New version available.", type: ToastType.Info))">Show Info Toast</Button>
+                </div>
+            </PreviewContent>
+            @* Removed CSharpCode block *@
+        </ComponentExample>
+
+        <!-- Toast with HTML Content -->
+        <ComponentExample
+            Title="Toast with HTML"
+            Description="You can include HTML markup within the toast message."
+            RazorCode="@(@"
+@* Razor Code *@
+<Button OnClick=""@ShowHtmlToast"">Show HTML Toast</Button>
+
+@* C# Code *@
+@code {
+    @inject IToastService ToastService
+
+    private void ShowHtmlToast()
+    {
+        // The service automatically handles HTML content safely
+        ToastService.Show(""User <strong>John Doe</strong> logged in. <a href=\""#\"" class=\""underline\"">View details</a>"");
+    }
+}
+")"
+            SupportedLanguages="@(new[] { "razor", "csharp" })">
+            <PreviewContent>
+                <Button OnClick="@ShowHtmlToast">Show HTML Toast</Button>
+            </PreviewContent>
+            @* Removed CSharpCode block *@
+        </ComponentExample>
+
+        <!-- Toast Positioning (via ToastHost) -->
+        <ComponentExample
+            Title="Toast Positioning"
+            Description="Positioning is controlled globally by the `Position` parameter on the `<ToastHost />` component, typically placed in your main layout file (`DocLayout.razor` in this app). Default is `TopRight`."
+            RazorCode="@(@"
+@* In your main layout file (e.g., src/DemoApp/Layout/DocLayout.razor) *@
+@* Set the desired position *@
+<ToastHost Position=""ToastPosition.BottomLeft"" /> 
+
+@* Example button to trigger a toast *@
+<Button OnClick=""@(() => ToastService.Show(""Toast appears based on Host position.""))"">Show Toast (Check Host Position)</Button>
+")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                @* Example buttons to demonstrate positioning *@
+                <div class="flex flex-wrap gap-2">
+                     <Button OnClick="@(() => ToastService.Show("Toast appears based on Host position."))">Show Toast (Check Host Position)</Button>
+                </div>
+                <p class=""mt-2 text-sm text-gray-500 dark:text-gray-400"">Note: To change the position, modify the <code>&lt;ToastHost /&gt;</code> in <code>src/DemoApp/Layout/DocLayout.razor</code> and restart the app.</p>
+            </PreviewContent>
+        </ComponentExample>
+
+    </div>
+</main>
+
+@code {
+    private void ShowHtmlToast()
+    {
+        ToastService.Show("User <strong>John Doe</strong> logged in. <a href=\"#\" class=\"underline\">View details</a>");
+    }
+}
