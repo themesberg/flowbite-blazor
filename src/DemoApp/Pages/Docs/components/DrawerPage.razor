@@ -9,7 +9,7 @@
         <ComponentExample 
             Title="Default Drawer"
             Description="Use this example to create a default drawer component that slides from the left side of the page."
-            RazorCode="@(@"<Button @onclick=""() => showDefaultDrawer = true"">Show drawer</Button>
+            RazorCode="@(@"<Button OnClick=""() => showDefaultDrawer = true"">Show drawer</Button>
 
 <Drawer Show=""@showDefaultDrawer"" OnClose=""() => showDefaultDrawer = false"">
     <DrawerHeader>
@@ -20,10 +20,10 @@
             This is a default drawer that slides in from the left side of the page.
         </p>
         <div class=""grid grid-cols-2 gap-4"">
-            <Button Color=""ButtonColor.Gray"" @onclick=""() => showDefaultDrawer = false"">
+            <Button Color=""ButtonColor.Gray"" OnClick=""() => showDefaultDrawer = false"">
                 Cancel
             </Button>
-            <Button @onclick=""() => showDefaultDrawer = false"">
+            <Button OnClick=""() => showDefaultDrawer = false"">
                 Accept
             </Button>
         </div>
@@ -46,12 +46,363 @@
                             This is a default drawer that slides in from the left side of the page.
                         </p>
                         <div class="grid grid-cols-2 gap-4">
-                            <Button Color="ButtonColor.Gray" @onclick="() => showDefaultDrawer = false">
+                            <Button Color="ButtonColor.Gray" OnClick="() => showDefaultDrawer = false">
                                 Cancel
                             </Button>
-                            <Button @onclick="() => showDefaultDrawer = false">
+                            <Button OnClick="() => showDefaultDrawer = false">
                                 Accept
                             </Button>
+                        </div>
+                    </DrawerItems>
+                </Drawer>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Navigation Drawer"
+            Description="Use this example to create a navigation drawer with links."
+            RazorCode="@(@"<Button OnClick=""() => showNavDrawer = true"">Show navigation drawer</Button>
+
+<Drawer Show=""@showNavDrawer"" OnClose=""() => showNavDrawer = false"">
+    <DrawerHeader>
+        <span class=""self-center text-xl font-semibold whitespace-nowrap dark:text-white"">Flowbite Blazor</span>
+    </DrawerHeader>
+    <DrawerItems>
+        <ul class=""space-y-2 font-medium"">
+            <li>
+                <a href=""#"" class=""flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"">
+                    <ChartPieIcon />
+                    <span class=""ms-3"">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href=""#"" class=""flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"">
+                    <GridIcon/>
+                    <span class=""flex-1 ms-3 whitespace-nowrap"">Components</span>
+                    <span class=""inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300"">Pro</span>
+                </a>
+            </li>
+            <li>
+                <a href=""#"" class=""flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"">
+                    <MailBoxIcon />
+                    <span class=""flex-1 ms-3 whitespace-nowrap"">Inbox</span>
+                    <span class=""inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300"">3</span>
+                </a>
+            </li>
+            <li>
+                <a href=""#"" class=""flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"">
+                    <UsersIcon />
+                    <span class=""flex-1 ms-3 whitespace-nowrap"">Users</span>
+                </a>
+            </li>
+            <li>
+                <a href=""#"" class=""flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"">
+                    <ShoppingBagIcon />
+                    <span class=""flex-1 ms-3 whitespace-nowrap"">Products</span>
+                </a>
+            </li>
+            <li>
+                <a href=""#"" class=""flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"">
+                    <ArrowLeftToBracketIcon />
+                    <span class=""flex-1 ms-3 whitespace-nowrap"">Sign Out</span>
+                </a>
+            </li>
+        </ul>
+    </DrawerItems>
+</Drawer>
+
+@code {
+    private bool showNavDrawer = false;
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Button OnClick="() => showNavDrawer = true">Show navigation drawer</Button>
+
+                <Drawer Show="@showNavDrawer" OnClose="() => showNavDrawer = false">
+                    <DrawerHeader>
+                        <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite Blazor</span>
+                    </DrawerHeader>
+                    <DrawerItems>
+                        <ul class="space-y-2 font-medium">
+                            <li>
+                                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <ChartPieIcon />
+                                    <span class="ms-3">Dashboard</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <GridIcon/>
+                                    <span class="flex-1 ms-3 whitespace-nowrap">Components</span>
+                                    <span class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Pro</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <MailBoxIcon />
+                                    <span class="flex-1 ms-3 whitespace-nowrap">Inbox</span>
+                                    <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <UsersIcon />
+                                    <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <ShoppingBagIcon />
+                                    <span class="flex-1 ms-3 whitespace-nowrap">Products</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <ArrowLeftToBracketIcon />
+                                    <span class="flex-1 ms-3 whitespace-nowrap">Sign Out</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </DrawerItems>
+                </Drawer>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Drawer Placement"
+            Description="Use these examples to create drawers that slide in from different sides of the page."
+            RazorCode="@(@"<div class=""flex flex-wrap gap-4"">
+    <Button OnClick=""() => showLeftDrawer = true"">Left drawer</Button>
+    <Button OnClick=""() => showRightDrawer = true"">Right drawer</Button>
+    <Button OnClick=""() => showTopDrawer = true"">Top drawer</Button>
+    <Button OnClick=""() => showBottomDrawer = true"">Bottom drawer</Button>
+</div>
+
+<Drawer Show=""@showLeftDrawer"" OnClose=""() => showLeftDrawer = false"" Position=""DrawerPosition.Left"">
+    <DrawerHeader>Left Drawer</DrawerHeader>
+    <DrawerItems>
+        <p class=""mb-6 text-sm text-gray-500 dark:text-gray-400"">
+            This drawer slides in from the left side of the page.
+        </p>
+        <Button OnClick=""() => showLeftDrawer = false"">Close</Button>
+    </DrawerItems>
+</Drawer>
+
+<Drawer Show=""@showRightDrawer"" OnClose=""() => showRightDrawer = false"" Position=""DrawerPosition.Right"">
+    <DrawerHeader>Right Drawer</DrawerHeader>
+    <DrawerItems>
+        <p class=""mb-6 text-sm text-gray-500 dark:text-gray-400"">
+            This drawer slides in from the right side of the page.
+        </p>
+        <Button OnClick=""() => showRightDrawer = false"">Close</Button>
+    </DrawerItems>
+</Drawer>
+
+<Drawer Show=""@showTopDrawer"" OnClose=""() => showTopDrawer = false"" Position=""DrawerPosition.Top"">
+    <DrawerHeader>Top Drawer</DrawerHeader>
+    <DrawerItems>
+        <p class=""mb-6 text-sm text-gray-500 dark:text-gray-400"">
+            This drawer slides in from the top of the page.
+        </p>
+        <Button OnClick=""() => showTopDrawer = false"">Close</Button>
+    </DrawerItems>
+</Drawer>
+
+<Drawer Show=""@showBottomDrawer"" OnClose=""() => showBottomDrawer = false"" Position=""DrawerPosition.Bottom"">
+    <DrawerHeader>Bottom Drawer</DrawerHeader>
+    <DrawerItems>
+        <p class=""mb-6 text-sm text-gray-500 dark:text-gray-400"">
+            This drawer slides in from the bottom of the page.
+        </p>
+        <Button OnClick=""() => showBottomDrawer = false"">Close</Button>
+    </DrawerItems>
+</Drawer>
+
+@code {
+    private bool showLeftDrawer = false;
+    private bool showRightDrawer = false;
+    private bool showTopDrawer = false;
+    private bool showBottomDrawer = false;
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-4">
+                    <Button OnClick="() => showLeftDrawer = true">Left drawer</Button>
+                    <Button OnClick="() => showRightDrawer = true">Right drawer</Button>
+                    <Button OnClick="() => showTopDrawer = true">Top drawer</Button>
+                    <Button OnClick="() => showBottomDrawer = true">Bottom drawer</Button>
+                </div>
+
+                <Drawer Show="@showLeftDrawer" OnClose="() => showLeftDrawer = false" Position="DrawerPosition.Left">
+                    <DrawerHeader>Left Drawer</DrawerHeader>
+                    <DrawerItems>
+                        <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                            This drawer slides in from the left side of the page.
+                        </p>
+                        <Button OnClick="() => showLeftDrawer = false">Close</Button>
+                    </DrawerItems>
+                </Drawer>
+
+                <Drawer Show="@showRightDrawer" OnClose="() => showRightDrawer = false" Position="DrawerPosition.Right">
+                    <DrawerHeader>Right Drawer</DrawerHeader>
+                    <DrawerItems>
+                        <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                            This drawer slides in from the right side of the page.
+                        </p>
+                        <Button OnClick="() => showRightDrawer = false">Close</Button>
+                    </DrawerItems>
+                </Drawer>
+
+                <Drawer Show="@showTopDrawer" OnClose="() => showTopDrawer = false" Position="DrawerPosition.Top">
+                    <DrawerHeader>Top Drawer</DrawerHeader>
+                    <DrawerItems>
+                        <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                            This drawer slides in from the top of the page.
+                        </p>
+                        <Button OnClick="() => showTopDrawer = false">Close</Button>
+                    </DrawerItems>
+                </Drawer>
+
+                <Drawer Show="@showBottomDrawer" OnClose="() => showBottomDrawer = false" Position="DrawerPosition.Bottom">
+                    <DrawerHeader>Bottom Drawer</DrawerHeader>
+                    <DrawerItems>
+                        <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                            This drawer slides in from the bottom of the page.
+                        </p>
+                        <Button OnClick="() => showBottomDrawer = false">Close</Button>
+                    </DrawerItems>
+                </Drawer>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="No Backdrop"
+            Description="Use this example to create a drawer without a backdrop overlay."
+            RazorCode="@(@"<Button OnClick=""() => showNoBackdropDrawer = true"">Show drawer without backdrop</Button>
+
+<Drawer Show=""@showNoBackdropDrawer"" OnClose=""() => showNoBackdropDrawer = false"" Backdrop=""false"">
+    <DrawerHeader>
+        No Backdrop Drawer
+    </DrawerHeader>
+    <DrawerItems>
+        <p class=""mb-6 text-sm text-gray-500 dark:text-gray-400"">
+            This drawer does not have a backdrop overlay, allowing users to interact with the page behind it.
+        </p>
+        <Button OnClick=""() => showNoBackdropDrawer = false"">Close</Button>
+    </DrawerItems>
+</Drawer>
+
+@code {
+    private bool showNoBackdropDrawer = false;
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Button OnClick="() => showNoBackdropDrawer = true">Show drawer without backdrop</Button>
+
+                <Drawer Show="@showNoBackdropDrawer" OnClose="() => showNoBackdropDrawer = false" Backdrop="false">
+                    <DrawerHeader>
+                        No Backdrop Drawer
+                    </DrawerHeader>
+                    <DrawerItems>
+                        <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                            This drawer does not have a backdrop overlay, allowing users to interact with the page behind it.
+                        </p>
+                        <Button OnClick="() => showNoBackdropDrawer = false">Close</Button>
+                    </DrawerItems>
+                </Drawer>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Body Scrolling"
+            Description="Use this example to create a drawer that allows the body content to scroll while the drawer is open."
+            RazorCode="@(@"<Button OnClick=""() => showBodyScrollingDrawer = true"">Show drawer with body scrolling</Button>
+
+<Drawer Show=""@showBodyScrollingDrawer"" OnClose=""() => showBodyScrollingDrawer = false"" BodyScrolling=""true"">
+    <DrawerHeader>
+        Body Scrolling Drawer
+    </DrawerHeader>
+    <DrawerItems>
+        <p class=""mb-6 text-sm text-gray-500 dark:text-gray-400"">
+            This drawer allows the body content to scroll while the drawer is open.
+        </p>
+        <Button OnClick=""() => showBodyScrollingDrawer = false"">Close</Button>
+    </DrawerItems>
+</Drawer>
+
+@code {
+    private bool showBodyScrollingDrawer = false;
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Button OnClick="() => showBodyScrollingDrawer = true">Show drawer with body scrolling</Button>
+
+                <Drawer Show="@showBodyScrollingDrawer" OnClose="() => showBodyScrollingDrawer = false" BodyScrolling="true">
+                    <DrawerHeader>
+                        Body Scrolling Drawer
+                    </DrawerHeader>
+                    <DrawerItems>
+                        <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                            This drawer allows the body content to scroll while the drawer is open.
+                        </p>
+                        <Button OnClick="() => showBodyScrollingDrawer = false">Close</Button>
+                    </DrawerItems>
+                </Drawer>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Edge Drawer"
+            Description="Use this example to create a drawer that shows a small part of itself when closed."
+            RazorCode="@(@"<Button OnClick=""() => showEdgeDrawer = !showEdgeDrawer"">Toggle edge drawer</Button>
+
+<Drawer Show=""@showEdgeDrawer"" OnClose=""() => showEdgeDrawer = false"" Edge=""true"" Position=""DrawerPosition.Right"">
+    <DrawerHeader ToggleOnClick=""true"">
+        <span class=""self-center text-xl font-semibold whitespace-nowrap dark:text-white"">Edge Drawer</span>
+    </DrawerHeader>
+    <DrawerItems>
+        <p class=""mb-6 text-sm text-gray-500 dark:text-gray-400"">
+            This drawer shows a small part of itself when closed. Click the header to toggle it.
+        </p>
+        <div class=""space-y-4"">
+            <div class=""p-4 bg-gray-100 rounded-lg dark:bg-gray-700"">
+                <p class=""text-sm text-gray-500 dark:text-gray-400"">Content item 1</p>
+            </div>
+            <div class=""p-4 bg-gray-100 rounded-lg dark:bg-gray-700"">
+                <p class=""text-sm text-gray-500 dark:text-gray-400"">Content item 2</p>
+            </div>
+            <div class=""p-4 bg-gray-100 rounded-lg dark:bg-gray-700"">
+                <p class=""text-sm text-gray-500 dark:text-gray-400"">Content item 3</p>
+            </div>
+        </div>
+    </DrawerItems>
+</Drawer>
+
+@code {
+    private bool showEdgeDrawer = false;
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Button OnClick="() => showEdgeDrawer = !showEdgeDrawer">Toggle edge drawer</Button>
+
+                <Drawer Show="@showEdgeDrawer" OnClose="() => showEdgeDrawer = false" Edge="true" Position="DrawerPosition.Right">
+                    <DrawerHeader ToggleOnClick="true">
+                        <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Edge Drawer</span>
+                    </DrawerHeader>
+                    <DrawerItems>
+                        <p class="mb-6 text-sm text-gray-500 dark:text-gray-400">
+                            This drawer shows a small part of itself when closed. Click the header to toggle it.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-gray-100 rounded-lg dark:bg-gray-700">
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Content item 1</p>
+                            </div>
+                            <div class="p-4 bg-gray-100 rounded-lg dark:bg-gray-700">
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Content item 2</p>
+                            </div>
+                            <div class="p-4 bg-gray-100 rounded-lg dark:bg-gray-700">
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Content item 3</p>
+                            </div>
                         </div>
                     </DrawerItems>
                 </Drawer>
@@ -62,12 +413,12 @@
 
 @code {
     private bool showDefaultDrawer = false;
-    @* private bool showNavDrawer = false;
+    private bool showNavDrawer = false;
     private bool showLeftDrawer = false;
     private bool showRightDrawer = false;
     private bool showTopDrawer = false;
     private bool showBottomDrawer = false;
     private bool showNoBackdropDrawer = false;
     private bool showBodyScrollingDrawer = false;
-    private bool showEdgeDrawer = false; *@
+    private bool showEdgeDrawer = false;
 }
