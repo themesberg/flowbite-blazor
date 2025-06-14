@@ -39,14 +39,16 @@ public class ToastService : IToastService
     /// <param name="message">The message to display.</param>
     /// <param name="type">The type of toast.</param>
     /// <param name="duration">The duration in milliseconds (0 for no auto-hide).</param>
+    /// <param name="hostId">The ID of the host to display the toast on.</param>
     /// <returns>The ID of the toast.</returns>
-    public string Show(string message, ToastType type = ToastType.Default, int duration = 3000)
+    public string Show(string message, ToastType type = ToastType.Default, int duration = 3000, string? hostId = null)
     {
         var toast = new ToastMessage
         {
             Message = message,
             Type = type,
-            Duration = duration
+            Duration = duration,
+            HostId = hostId
         };
         
         _activeToasts[toast.Id] = toast;
@@ -62,15 +64,17 @@ public class ToastService : IToastService
     /// <param name="message">The message to display.</param>
     /// <param name="type">The type of toast.</param>
     /// <param name="duration">The duration in milliseconds (0 for no auto-hide).</param>
+    /// <param name="hostId">The ID of the host to display the toast on.</param>
     /// <returns>The ID of the toast.</returns>
-    public string Show(string title, string message, ToastType type = ToastType.Default, int duration = 3000)
+    public string Show(string title, string message, ToastType type = ToastType.Default, int duration = 3000, string? hostId = null)
     {
         var toast = new ToastMessage
         {
             Title = title,
             Message = message,
             Type = type,
-            Duration = duration
+            Duration = duration,
+            HostId = hostId
         };
         
         _activeToasts[toast.Id] = toast;
@@ -84,10 +88,11 @@ public class ToastService : IToastService
     /// </summary>
     /// <param name="message">The message to display.</param>
     /// <param name="duration">The duration in milliseconds (0 for no auto-hide).</param>
+    /// <param name="hostId">The ID of the host to display the toast on.</param>
     /// <returns>The ID of the toast.</returns>
-    public string ShowSuccess(string message, int duration = 3000)
+    public string ShowSuccess(string message, int duration = 3000, string? hostId = null)
     {
-        return Show(message, ToastType.Success, duration);
+        return Show(message, ToastType.Success, duration, hostId);
     }
     
     /// <summary>
@@ -95,10 +100,11 @@ public class ToastService : IToastService
     /// </summary>
     /// <param name="message">The message to display.</param>
     /// <param name="duration">The duration in milliseconds (0 for no auto-hide).</param>
+    /// <param name="hostId">The ID of the host to display the toast on.</param>
     /// <returns>The ID of the toast.</returns>
-    public string ShowError(string message, int duration = 3000)
+    public string ShowError(string message, int duration = 3000, string? hostId = null)
     {
-        return Show(message, ToastType.Error, duration);
+        return Show(message, ToastType.Error, duration, hostId);
     }
     
     /// <summary>
@@ -106,10 +112,11 @@ public class ToastService : IToastService
     /// </summary>
     /// <param name="message">The message to display.</param>
     /// <param name="duration">The duration in milliseconds (0 for no auto-hide).</param>
+    /// <param name="hostId">The ID of the host to display the toast on.</param>
     /// <returns>The ID of the toast.</returns>
-    public string ShowWarning(string message, int duration = 3000)
+    public string ShowWarning(string message, int duration = 3000, string? hostId = null)
     {
-        return Show(message, ToastType.Warning, duration);
+        return Show(message, ToastType.Warning, duration, hostId);
     }
     
     /// <summary>
@@ -117,10 +124,11 @@ public class ToastService : IToastService
     /// </summary>
     /// <param name="message">The message to display.</param>
     /// <param name="duration">The duration in milliseconds (0 for no auto-hide).</param>
+    /// <param name="hostId">The ID of the host to display the toast on.</param>
     /// <returns>The ID of the toast.</returns>
-    public string ShowInfo(string message, int duration = 3000)
+    public string ShowInfo(string message, int duration = 3000, string? hostId = null)
     {
-        return Show(message, ToastType.Info, duration);
+        return Show(message, ToastType.Info, duration, hostId);
     }
     
     /// <summary>

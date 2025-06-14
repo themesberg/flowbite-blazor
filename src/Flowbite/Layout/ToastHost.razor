@@ -2,9 +2,8 @@
 @using Flowbite.Components
 
 <div class="@PositionClasses">
-    @foreach (var toastPair in _activeToasts)
+    @foreach (var toast in _activeToasts)
     {
-        var toast = toastPair.Value;
-        <Toast ToastMessage="@toast" OnClose="@(() => HandleToastClose(toast.Id))" />
+        <Toast @key="toast.Id" ToastMessage="@toast" OnClose="@(() => HandleToastClose(toast.Id))" />
     }
 </div>

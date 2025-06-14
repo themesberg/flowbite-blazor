@@ -15,12 +15,12 @@
 - QuickGrid
 
 - Drawer
+- Toast
 
 ## In Progress
-- Toast (Initial implementation complete, needs minor fixes)
+- Accordion
 
 ## To Do
-- Accordion
 - Carousel
 - Datepicker
 - Footer

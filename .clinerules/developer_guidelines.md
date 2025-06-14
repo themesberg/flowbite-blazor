@@ -44,6 +44,16 @@ This project involves converting the Flowbite React component library to ASP.NET
     - Do not use external icon libraries such as Font Awesome.
     - If a suitable icon does not exist, a new one must be created in one of the internal libraries.
 
+8. **List Rendering**:
+    - When rendering a list of components using a `@foreach` loop, always use the `@key` directive to provide a unique identifier for each item. This is crucial for Blazor's diffing algorithm to correctly track, update, and remove elements, preventing potential rendering bugs.
+    - Example:
+      ```razor
+      @foreach (var item in MyItems)
+      {
+          <MyComponent @key="item.Id" Data="@item" />
+      }
+      ```
+
 
 ### Migrating Flowbite React Components to Blazor
 
@@ -107,3 +117,10 @@ When building the DemoApp project, execute this command:
 ```powershell
 cd C:\Users/tschavey\projects\peakflames\flowbite-blazor\src\DemoApp"; dotnet build
 ```
+
+
+## Problem-Solving Strategy
+
+1. **Analyze and Hypothesize:** When encountering a bug or an unexpected behavior, I will first analyze the available information (code, logs, user feedback) to form a clear hypothesis about the root cause.
+2. **Propose and Verify:** I will propose a specific, targeted fix based on my hypothesis.
+3. **Stop and Ask:** If my initial hypothesis or fix is incorrect, I will stop. I will not attempt a second, different fix based on a new assumption. Instead, I will present my findings to the user and ask for clarification or more information. This prevents wasting time on incorrect paths and ensures I am aligned with the user's understanding of the problem.

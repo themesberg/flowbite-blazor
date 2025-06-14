@@ -22,7 +22,13 @@ public partial class ToastHost : IDisposable
     /// </summary>
     [Parameter] public ToastPosition Position { get; set; } = ToastPosition.TopRight;
 
-    private readonly Dictionary<string, ToastMessage> _activeToasts = new();
+    /// <summary>
+    /// The unique identifier for this toast host. Toasts can be targeted to a specific host.
+    /// If null, this host will be the default and will display any toasts without a specific HostId.
+    /// </summary>
+    [Parameter] public string? HostId { get; set; }
+
+    private readonly List<ToastMessage> _activeToasts = new();
     private string PositionClasses => GetPositionClasses();
 
     protected override void OnInitialized()
@@ -33,20 +39,25 @@ public partial class ToastHost : IDisposable
 
     private void HandleToastAdded(ToastMessage toast)
     {
-        InvokeAsync(() =>
+        // Only add the toast if it's targeted to this host
+        if (toast.HostId == HostId)
         {
-            _activeToasts[toast.Id] = toast;
-            StateHasChanged();
-        });
+            InvokeAsync(() =>
+            {
+                _activeToasts.Add(toast);
+                StateHasChanged();
+            });
+        }
     }
 
     private void HandleToastRemoved(string toastId)
     {
         InvokeAsync(() =>
         {
-            if (_activeToasts.ContainsKey(toastId))
+            var toastToRemove = _activeToasts.FirstOrDefault(t => t.Id == toastId);
+            if (toastToRemove != null)
             {
-                _activeToasts.Remove(toastId);
+                _activeToasts.Remove(toastToRemove);
                 StateHasChanged();
             }
         });

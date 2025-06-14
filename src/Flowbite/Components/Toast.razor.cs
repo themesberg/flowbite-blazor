@@ -93,7 +93,10 @@ public partial class Toast : ComponentBase, IDisposable
             default:
                 _iconComponentType = null; // No icon for default
                 _iconColorClass = null;
-                // Use default text/bg/border/close
+                _textColorClass = "text-gray-900 dark:text-white";
+                _bgColorClass = "bg-gray-100 dark:bg-gray-700";
+                _borderColorClass = "border-gray-200 dark:border-gray-600";
+                _closeButtonClass = "ms-auto -mx-1.5 -my-1.5 bg-gray-100 text-gray-500 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-200 inline-flex items-center justify-center h-8 w-8 dark:text-gray-400 dark:hover:text-white dark:bg-gray-700 dark:hover:bg-gray-600";
                 break;
         }
     }

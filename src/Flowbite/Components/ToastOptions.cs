@@ -79,4 +79,10 @@ public class ToastMessage
     /// Gets or sets the custom content for the toast.
     /// </summary>
     public RenderFragment? CustomContent { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the ID of the host to display the toast on.
+    /// If null, the default host will be used.
+    /// </summary>
+    public string? HostId { get; set; }
 }
