@@ -188,7 +188,8 @@
         <div class=""mb-2 block"">
             <Label For=""countries"" Value=""Select your country"" />
         </div>
-        <Select Id=""countries"">
+        @* For two-way binding, use the @bind-Value attribute *@
+        <Select Id=""countries"" @bind-Value=""_selectedCountry"">
             <option value="""">Choose a country</option>
             <option value=""US"">United States</option>
             <option value=""CA"">Canada</option>

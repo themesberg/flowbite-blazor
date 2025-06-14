@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.11-alpha
+
+- Fixed Select component data binding issue [#1]
+- Add initial implementation of Modal component
+- Add initial implemetation of Drawer component
+- Add initial implementation of Toast component
+- Add `UserIcon` component
+
 ## 0.0.10-alpha
 
 - Fixed Dropdown onclick event handling

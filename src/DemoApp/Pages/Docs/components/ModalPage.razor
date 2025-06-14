@@ -1,0 +1,502 @@
+@page "/docs/components/modal"
+@using Flowbite.Components
+
+<PageTitle>Modal - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Modal Examples</h2>
+
+    <div class="space-y-8">
+        
+        <ComponentExample 
+            Title="Default Modal"
+            Description="The modal component can be used to show any type of content such as text, form elements, and notifications to your website visitors by creating an off-canvas box on top of the main content area of your website."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <div class=""flex items-center gap-4"">
+        <Button OnClick=""@(() => showDefaultModal = true)"">Open Modal</Button>
+        
+        @if (termsAccepted != null)
+        {
+            <div class=""@GetChoiceAlertClass()"" role=""alert"">
+                <span class=""font-medium"">@(termsAccepted.Value ? ""Accepted"" : ""Declined"")</span> the Terms of Service
+            </div>
+        }
+    </div>
+    
+    <Modal Show=""showDefaultModal"" ShowChanged=""(value) => showDefaultModal = value"">
+        <ModalHeader>
+            <h3>Terms of Service</h3>
+        </ModalHeader>
+        <ModalBody>
+            <div class=""space-y-6"">
+                <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
+                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens,
+                    companies around the world are updating their terms of service agreements to comply.
+                </p>
+                <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
+                    The European Union's General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant
+                    to ensure a common set of data rights in the European Union. It requires organizations to notify users as
+                    soon as possible of high-risk data breaches that could personally affect them.
+                </p>
+            </div>
+        </ModalBody>
+        <ModalFooter>
+            <div class=""flex justify-end w-full"">
+                <Button OnClick=""@(() => HandleTermsChoice(false))"" Color=""ButtonColor.Gray"" class=""mr-2"">Decline</Button>
+                <Button OnClick=""@(() => HandleTermsChoice(true))"">Accept</Button>
+            </div>
+        </ModalFooter>
+    </Modal>
+</div>
+
+@code {
+    private bool showDefaultModal = false;
+    private bool? termsAccepted = null;
+    
+    private void HandleTermsChoice(bool accepted)
+    {
+        termsAccepted = accepted;
+        showDefaultModal = false;
+    }
+    
+    private string GetChoiceAlertClass()
+    {
+        return termsAccepted == true
+            ? ""p-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400""
+            : ""p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"";
+    }
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4">
+                        <Button OnClick="@(() => showDefaultModal = true)">Open Modal</Button>
+                        
+                        @if (termsAccepted != null)
+                        {
+                            <div class="@GetChoiceAlertClass()" role="alert">
+                                <span class="font-medium">@(termsAccepted.Value ? "Accepted" : "Declined")</span> the Terms of Service
+                            </div>
+                        }
+                    </div>
+                    
+                    <Modal Show="showDefaultModal" ShowChanged="(value) => showDefaultModal = value">
+                        <ModalHeader>
+                            <h3>Terms of Service</h3>
+                        </ModalHeader>
+                        <ModalBody>
+                            <div class="space-y-6">
+                                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens,
+                                    companies around the world are updating their terms of service agreements to comply.
+                                </p>
+                                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                    The European Union's General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant
+                                    to ensure a common set of data rights in the European Union. It requires organizations to notify users as
+                                    soon as possible of high-risk data breaches that could personally affect them.
+                                </p>
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <div class="flex justify-end w-full">
+                                <Button OnClick="@(() => HandleTermsChoice(false))" Color="ButtonColor.Gray" class="mr-2">Decline</Button>
+                                <Button OnClick="@(() => HandleTermsChoice(true))">Accept</Button>
+                            </div>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Form in Modal"
+            Description="Modals are perfect for containing forms that require user input. This example shows a simple login form inside a modal."
+            RazorCode="@(
+@"<div>
+    <Button OnClick=""@(() => showFormModal = true)"">Open Form Modal</Button>
+    
+    <Modal Show=""showFormModal"" ShowChanged=""(value) => showFormModal = value"">
+        <ModalHeader>
+            <h3>Sign In</h3>
+        </ModalHeader>
+        <ModalBody>
+            <div class=""space-y-4"">
+                <div>
+                    <label for=""email"" class=""block mb-2 text-sm font-medium text-gray-900 dark:text-white"">Email</label>
+                    <input type=""email"" id=""email"" class=""bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"" placeholder=""name@company.com"" required />
+                </div>
+                <div>
+                    <label for=""password"" class=""block mb-2 text-sm font-medium text-gray-900 dark:text-white"">Password</label>
+                    <input type=""password"" id=""password"" class=""bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"" required />
+                </div>
+                <div class=""flex items-center"">
+                    <input id=""remember"" type=""checkbox"" class=""w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"" />
+                    <label for=""remember"" class=""ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"">Remember me</label>
+                </div>
+            </div>
+        </ModalBody>
+        <ModalFooter>
+            <div class=""flex justify-end w-full"">
+                <Button OnClick=""@(() => showFormModal = false)"" Color=""ButtonColor.Gray"" class=""mr-2"">Cancel</Button>
+                <Button OnClick=""@(() => showFormModal = false)"">Sign In</Button>
+            </div>
+        </ModalFooter>
+    </Modal>
+</div>
+
+@code {
+    private bool showFormModal = false;
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div>
+                    <Button OnClick="@(() => showFormModal = true)">Open Form Modal</Button>
+                    
+                    <Modal Show="showFormModal" ShowChanged="(value) => showFormModal = value">
+                        <ModalHeader>
+                            <h3>Sign In</h3>
+                        </ModalHeader>
+                        <ModalBody>
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                    <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required />
+                                </div>
+                                <div>
+                                    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                                    <input type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="remember" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                    <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
+                                </div>
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <div class="flex justify-end w-full">
+                                <Button OnClick="@(() => showFormModal = false)" Color="ButtonColor.Gray" class="mr-2">Cancel</Button>
+                                <Button OnClick="@(() => showFormModal = false)">Sign In</Button>
+                            </div>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Non-Dismissible Modal"
+            Description="Create a modal that can only be closed by clicking a specific button, not by clicking outside or pressing Escape."
+            RazorCode="@(
+@"<div>
+    <Button OnClick=""@(() => showNonDismissibleModal = true)"" Color=""ButtonColor.Red"">Critical Action</Button>
+    
+    <Modal Show=""showNonDismissibleModal"" ShowChanged=""(value) => showNonDismissibleModal = value"" 
+           Dismissible=""false"">
+        <ModalHeader>
+            <h3>Confirm Action</h3>
+        </ModalHeader>
+        <ModalBody>
+            <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
+                This is a non-dismissible modal. You must click one of the buttons below to close it.
+                Clicking outside the modal or pressing Escape will not close it.
+            </p>
+        </ModalBody>
+        <ModalFooter>
+            <div class=""flex justify-end w-full"">
+                <Button OnClick=""@(() => showNonDismissibleModal = false)"" Color=""ButtonColor.Gray"" class=""mr-2"">Cancel</Button>
+                <Button OnClick=""@(() => showNonDismissibleModal = false)"" Color=""ButtonColor.Red"">Confirm</Button>
+            </div>
+        </ModalFooter>
+    </Modal>
+</div>
+
+@code {
+    private bool showNonDismissibleModal = false;
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div>
+                    <Button OnClick="@(() => showNonDismissibleModal = true)" Color="ButtonColor.Red">Critical Action</Button>
+                    
+                    <Modal Show="showNonDismissibleModal" ShowChanged="(value) => showNonDismissibleModal = value" 
+                           Dismissible="false">
+                        <ModalHeader>
+                            <h3>Confirm Action</h3>
+                        </ModalHeader>
+                        <ModalBody>
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                This is a non-dismissible modal. You must click one of the buttons below to close it.
+                                Clicking outside the modal or pressing Escape will not close it.
+                            </p>
+                        </ModalBody>
+                        <ModalFooter>
+                            <div class="flex justify-end w-full">
+                                <Button OnClick="@(() => showNonDismissibleModal = false)" Color="ButtonColor.Gray" class="mr-2">Cancel</Button>
+                                <Button OnClick="@(() => showNonDismissibleModal = false)" Color="ButtonColor.Red">Confirm</Button>
+                            </div>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Modal Positioning"
+            Description="Control the position of your modal on the screen by setting the Position parameter to one of the nine available positions."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <div class=""flex items-center gap-4"">
+        <div class=""w-64"">
+            <Select @bind-Value=""selectedPositionString"">
+                <option value=""Center"">Center (Default)</option>
+                <option value=""TopLeft"">Top Left</option>
+                <option value=""TopCenter"">Top Center</option>
+                <option value=""TopRight"">Top Right</option>
+                <option value=""CenterLeft"">Center Left</option>
+                <option value=""CenterRight"">Center Right</option>
+                <option value=""BottomLeft"">Bottom Left</option>
+                <option value=""BottomCenter"">Bottom Center</option>
+                <option value=""BottomRight"">Bottom Right</option>
+            </Select>
+        </div>
+        <Button OnClick=""@(() => showPositionedModal = true)"">Open Modal</Button>
+    </div>
+    
+    <Modal Show=""showPositionedModal"" 
+           ShowChanged=""(value) => showPositionedModal = value"" 
+           Position=""selectedPosition"">
+        <ModalHeader>
+            <h3>Positioned Modal</h3>
+        </ModalHeader>
+        <ModalBody>
+            <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
+                This modal is positioned at: <strong>@selectedPositionString</strong>
+            </p>
+            <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400 mt-2"">
+                You can change the position using the dropdown and open the modal again to see the effect.
+            </p>
+        </ModalBody>
+        <ModalFooter>
+            <div class=""flex justify-end w-full"">
+                <Button OnClick=""@(() => showPositionedModal = false)"">Close</Button>
+            </div>
+        </ModalFooter>
+    </Modal>
+</div>
+
+@code {
+    private bool showPositionedModal = false;
+    private string selectedPositionString = ""Center"";
+    
+    // Convert the string to ModalPosition enum
+    private ModalPosition selectedPosition => Enum.Parse<ModalPosition>(selectedPositionString);
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4">
+                <div class="w-64">
+                            <Select @bind-Value="selectedPositionString">
+                                <option value="Center">Center (Default)</option>
+                                <option value="TopLeft">Top Left</option>
+                                <option value="TopCenter">Top Center</option>
+                                <option value="TopRight">Top Right</option>
+                                <option value="CenterLeft">Center Left</option>
+                                <option value="CenterRight">Center Right</option>
+                                <option value="BottomLeft">Bottom Left</option>
+                                <option value="BottomCenter">Bottom Center</option>
+                                <option value="BottomRight">Bottom Right</option>
+                            </Select>
+                        </div>
+                        <Button OnClick="@(() => showPositionedModal = true)">Open Modal</Button>
+                    </div>
+                    
+                    <Modal Show="showPositionedModal" 
+                           ShowChanged="(value) => showPositionedModal = value" 
+                           Position="selectedPosition">
+                        <ModalHeader>
+                            <h3>Positioned Modal</h3>
+                        </ModalHeader>
+                        <ModalBody>
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                This modal is positioned at: <strong>@selectedPositionString</strong>
+                            </p>
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400 mt-2">
+                                You can change the position using the dropdown and open the modal again to see the effect.
+                            </p>
+                        </ModalBody>
+                        <ModalFooter>
+                            <div class="flex justify-end w-full">
+                                <Button OnClick="@(() => showPositionedModal = false)">Close</Button>
+                            </div>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Modal Sizing"
+            Description="Control the size of your modal by setting the Size parameter to one of the available size options."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <div class=""flex items-center gap-4"">
+        <div class=""w-64"">
+            <Select @bind-Value=""selectedSizeString"">
+                <option value=""Default"">Default (2XL)</option>
+                <option value=""Small"">Small</option>
+                <option value=""Medium"">Medium</option>
+                <option value=""Large"">Large</option>
+                <option value=""ExtraLarge"">Extra Large (XL)</option>
+                <option value=""TwoExtraLarge"">2XL</option>
+                <option value=""ThreeExtraLarge"">3XL</option>
+                <option value=""FourExtraLarge"">4XL</option>
+                <option value=""FiveExtraLarge"">5XL</option>
+                <option value=""SixExtraLarge"">6XL</option>
+                <option value=""SevenExtraLarge"">7XL</option>
+            </Select>
+        </div>
+        <Button OnClick=""@(() => showSizedModal = true)"">Open Modal</Button>
+    </div>
+    
+    <Modal Show=""showSizedModal"" 
+           ShowChanged=""(value) => showSizedModal = value"" 
+           Size=""selectedSize"">
+        <ModalHeader>
+            <h3>Sized Modal</h3>
+        </ModalHeader>
+        <ModalBody>
+            <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400"">
+                This modal has size: <strong>@selectedSizeString</strong>
+            </p>
+            <p class=""text-base leading-relaxed text-gray-500 dark:text-gray-400 mt-2"">
+                You can change the size using the dropdown and open the modal again to see the effect.
+            </p>
+            <div class=""mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg"">
+                <p class=""text-sm text-gray-500 dark:text-gray-400"">
+                    The modal size affects the maximum width of the modal. The available sizes are:
+                </p>
+                <ul class=""list-disc pl-5 mt-2 text-sm text-gray-500 dark:text-gray-400"">
+                    <li>Small: max-w-sm</li>
+                    <li>Medium: max-w-md</li>
+                    <li>Large: max-w-lg</li>
+                    <li>Extra Large: max-w-xl</li>
+                    <li>2XL: max-w-2xl (Default)</li>
+                    <li>3XL: max-w-3xl</li>
+                    <li>4XL: max-w-4xl</li>
+                    <li>5XL: max-w-5xl</li>
+                    <li>6XL: max-w-6xl</li>
+                    <li>7XL: max-w-7xl</li>
+                </ul>
+            </div>
+        </ModalBody>
+        <ModalFooter>
+            <div class=""flex justify-end w-full"">
+                <Button OnClick=""@(() => showSizedModal = false)"">Close</Button>
+            </div>
+        </ModalFooter>
+    </Modal>
+</div>
+
+@code {
+    private bool showSizedModal = false;
+    private string selectedSizeString = ""Default"";
+    
+    // Convert the string to ModalSize enum
+    private ModalSize selectedSize => Enum.Parse<ModalSize>(selectedSizeString);
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-64">
+                            <Select @bind-Value="selectedSizeString">
+                                <option value="Default">Default (2XL)</option>
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                                <option value="ExtraLarge">Extra Large (XL)</option>
+                                <option value="TwoExtraLarge">2XL</option>
+                                <option value="ThreeExtraLarge">3XL</option>
+                                <option value="FourExtraLarge">4XL</option>
+                                <option value="FiveExtraLarge">5XL</option>
+                                <option value="SixExtraLarge">6XL</option>
+                                <option value="SevenExtraLarge">7XL</option>
+                            </Select>
+                        </div>
+                        <Button OnClick="@(() => showSizedModal = true)">Open Modal</Button>
+                    </div>
+                    
+                    <Modal Show="showSizedModal" 
+                           ShowChanged="(value) => showSizedModal = value" 
+                           Size="selectedSize">
+                        <ModalHeader>
+                            <h3>Sized Modal</h3>
+                        </ModalHeader>
+                        <ModalBody>
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                This modal has size: <strong>@selectedSizeString</strong>
+                            </p>
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400 mt-2">
+                                You can change the size using the dropdown and open the modal again to see the effect.
+                            </p>
+                            <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    The modal size affects the maximum width of the modal. The available sizes are:
+                                </p>
+                                <ul class="list-disc pl-5 mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                    <li>Small: max-w-sm</li>
+                                    <li>Medium: max-w-md</li>
+                                    <li>Large: max-w-lg</li>
+                                    <li>Extra Large: max-w-xl</li>
+                                    <li>2XL: max-w-2xl (Default)</li>
+                                    <li>3XL: max-w-3xl</li>
+                                    <li>4XL: max-w-4xl</li>
+                                    <li>5XL: max-w-5xl</li>
+                                    <li>6XL: max-w-6xl</li>
+                                    <li>7XL: max-w-7xl</li>
+                                </ul>
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
+                            <div class="flex justify-end w-full">
+                                <Button OnClick="@(() => showSizedModal = false)">Close</Button>
+                            </div>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        
+    </div>
+</main>
+
+@code {
+    private bool showDefaultModal = false;
+    private bool showNonDismissibleModal = false;
+    private bool showFormModal = false;
+    private bool showPositionedModal = false;
+    private bool showSizedModal = false;
+    private string selectedPositionString = "Center";
+    private string selectedSizeString = "Default";
+    private bool? termsAccepted = null;
+    
+    private ModalPosition selectedPosition => Enum.Parse<ModalPosition>(selectedPositionString);
+    private ModalSize selectedSize => Enum.Parse<ModalSize>(selectedSizeString);
+    
+    private void HandleTermsChoice(bool accepted)
+    {
+        termsAccepted = accepted;
+        showDefaultModal = false;
+    }
+    
+    private string GetChoiceAlertClass()
+    {
+        return termsAccepted == true
+            ? "p-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+            : "p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400";
+    }   
+    
+}

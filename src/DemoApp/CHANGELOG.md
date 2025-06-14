@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.30-alpha
+
+- Update example of Select data binding [#1]
+- Add Modal component examples and udpate llms-ctx.md
+- Add Drawer component examples and udpate llms-ctx.md
+- Add Toast component examples and update llms-ctx.md
+
 ## 0.0.29-alpha
 
 - Fix reference to Flowbite.ExtendedIcons on the Extended Icons page
