@@ -506,6 +506,4 @@ tailwindcss*.*
 dotnet/
 dotnet-install.sh
 
-# AI Assistants
-cline_docs/
-.clinerules*
+

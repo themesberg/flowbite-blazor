@@ -5,10 +5,10 @@
 <div @ref="_toastElement" id="@($"toast-{ToastMessage.Id}")" class="@GetToastClasses()" role="alert">
     <div class="flex items-center">
         @* Optional Icon based on Type *@
-        @if (!string.IsNullOrEmpty(_iconClass))
+        @if (_iconComponentType is not null)
         {
             <div class="@GetIconContainerClasses()">
-                <i class="@_iconClass"></i> <!-- Assuming Font Awesome -->
+                <DynamicComponent Type="@_iconComponentType" />
                 <span class="sr-only">@($"{ToastMessage.Type} icon")</span>
             </div>
         }

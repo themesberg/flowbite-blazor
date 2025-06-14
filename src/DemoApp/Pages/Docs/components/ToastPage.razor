@@ -40,10 +40,10 @@
             SupportedLanguages="@(new[] { "razor", "csharp" })">
             <PreviewContent>
                 <div class="flex flex-wrap gap-2">
-                    <Button OnClick="@(() => ToastService.Show("Item successfully created.", type: ToastType.Success))">Show Success Toast</Button>
-                    <Button OnClick="@(() => ToastService.Show("Something went wrong!", type: ToastType.Error))">Show Error Toast</Button>
-                    <Button OnClick="@(() => ToastService.Show("Warning: Low disk space.", type: ToastType.Warning))">Show Warning Toast</Button>
-                    <Button OnClick="@(() => ToastService.Show("New version available.", type: ToastType.Info))">Show Info Toast</Button>
+                    <Button OnClick="@(() => ToastService.ShowSuccess("Item successfully created."))">Show Success Toast</Button>
+                    <Button OnClick="@(() => ToastService.ShowError("Something went wrong!"))">Show Error Toast</Button>
+                    <Button OnClick="@(() => ToastService.ShowWarning("Warning: Low disk space."))">Show Warning Toast</Button>
+                    <Button OnClick="@(() => ToastService.ShowInfo("New version available."))">Show Info Toast</Button>
                 </div>
             </PreviewContent>
             @* Removed CSharpCode block *@

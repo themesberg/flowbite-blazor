@@ -34,7 +34,7 @@ public partial class Toast : ComponentBase, IAsyncDisposable
     private ElementReference _toastElement;
     private System.Timers.Timer? _timer; // Explicitly qualify Timer
     private bool _isVisible = true; // Controls visibility for fade-out animation
-    private string? _iconClass;
+    private Type? _iconComponentType;
     private string? _iconColorClass;
     private string? _textColorClass;
     private string? _bgColorClass;
@@ -70,12 +70,12 @@ public partial class Toast : ComponentBase, IAsyncDisposable
         switch (type)
         {
             case ToastType.Info:
-                _iconClass = "fa-solid fa-circle-info"; // Assuming Font Awesome
+                _iconComponentType = typeof(Icons.InfoCircleIcon);
                 _iconColorClass = "text-blue-500 dark:text-blue-400";
                 // Use default text/bg/border/close
                 break;
             case ToastType.Success:
-                _iconClass = "fa-solid fa-check";
+                _iconComponentType = typeof(Icons.CheckCircleIcon);
                 _iconColorClass = "text-green-500 dark:text-green-400";
                 _textColorClass = "text-green-500 dark:text-green-400";
                 _bgColorClass = "bg-green-100 dark:bg-green-800";
@@ -83,7 +83,7 @@ public partial class Toast : ComponentBase, IAsyncDisposable
                 _closeButtonClass = "ms-auto -mx-1.5 -my-1.5 bg-green-100 text-green-500 hover:text-green-900 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:text-green-400 dark:hover:text-white dark:bg-green-800 dark:hover:bg-green-700";
                 break;
             case ToastType.Warning:
-                _iconClass = "fa-solid fa-triangle-exclamation";
+                _iconComponentType = typeof(Icons.ExclamationTriangleIcon);
                 _iconColorClass = "text-yellow-500 dark:text-yellow-400";
                 _textColorClass = "text-yellow-500 dark:text-yellow-400";
                 _bgColorClass = "bg-yellow-100 dark:bg-yellow-800";
@@ -91,7 +91,7 @@ public partial class Toast : ComponentBase, IAsyncDisposable
                 _closeButtonClass = "ms-auto -mx-1.5 -my-1.5 bg-yellow-100 text-yellow-500 hover:text-yellow-900 rounded-lg focus:ring-2 focus:ring-yellow-400 p-1.5 hover:bg-yellow-200 inline-flex items-center justify-center h-8 w-8 dark:text-yellow-400 dark:hover:text-white dark:bg-yellow-800 dark:hover:bg-yellow-700";
                 break;
             case ToastType.Error:
-                _iconClass = "fa-solid fa-xmark";
+                _iconComponentType = typeof(Icons.CloseCircleSolidIcon);
                 _iconColorClass = "text-red-500 dark:text-red-400";
                 _textColorClass = "text-red-500 dark:text-red-400";
                 _bgColorClass = "bg-red-100 dark:bg-red-800";
@@ -100,7 +100,7 @@ public partial class Toast : ComponentBase, IAsyncDisposable
                 break;
             case ToastType.Default:
             default:
-                _iconClass = null; // No icon for default
+                _iconComponentType = null; // No icon for default
                 _iconColorClass = null;
                 // Use default text/bg/border/close
                 break;
