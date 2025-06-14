@@ -10,7 +10,7 @@ namespace Flowbite.Components;
 /// <summary>
 /// Represents a single toast notification component.
 /// </summary>
-public partial class Toast : ComponentBase, IAsyncDisposable
+public partial class Toast : ComponentBase, IDisposable
 {
     [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
 
@@ -47,15 +47,6 @@ public partial class Toast : ComponentBase, IAsyncDisposable
         if (ToastMessage.Duration > 0)
         {
             StartTimer(ToastMessage.Duration);
-        }
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            // Optional: Add JS interop if needed for complex animations or interactions
-            // await JSRuntime.InvokeVoidAsync("flowbiteBlazor.initToast", _toastElement);
         }
     }
 
@@ -166,12 +157,10 @@ public partial class Toast : ComponentBase, IAsyncDisposable
         return sb.ToString();
     }
 
-    public async ValueTask DisposeAsync()
+    public void Dispose()
     {
         _timer?.Stop();
         _timer?.Dispose();
-        // Optional: Add JS cleanup if needed
-        // await JSRuntime.InvokeVoidAsync("flowbiteBlazor.disposeToast", _toastElement);
         GC.SuppressFinalize(this);
     }
 }
