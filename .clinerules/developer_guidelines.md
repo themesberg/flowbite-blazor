@@ -63,7 +63,8 @@ This project involves converting the Flowbite React component library to ASP.NET
 4. The deme pages shall be located at `src/DemoApp/Pages/Docs/components/{{COMPONENT_NAME}}Page.razor`
 5. Update the DemoAppSidebar.razor component to have the link to the component demo page.
 6. Use exiting Flowbite Blazor Components if needing components in examples. See LLMS Context Document file id = `llms-ctx` for list of components and and user-focused documentation.
-7. The demo page are implemented following this Razor template:
+7. Create a corresponding documentation file in `src/DemoApp/wwwroot/llms-docs/sections/` and update the `Build-LlmsContext.ps1` script.
+8. The demo page are implemented following this Razor template:
 
     ```razor
     @page "/docs/components/{{COMPONENT_NAME}}"
@@ -107,8 +108,8 @@ This project involves converting the Flowbite React component library to ASP.NET
     }
     ```
 
-9. For established practices refer to the Button and Tooltip components, for example practice the project prefesr using c# Enumerations
-10. Prefer the user to manually run the app to view the website to confirm the implementation is satisfactory
+10. For established practices refer to the Button and Tooltip components, for example practice the project prefesr using c# Enumerations
+11. Prefer the user to manually run the app to view the website to confirm the implementation is satisfactory
 
 ### Building the DemoApp project
 
