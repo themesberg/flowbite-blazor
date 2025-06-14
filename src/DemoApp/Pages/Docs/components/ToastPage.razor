@@ -1,0 +1,130 @@
+@page "/docs/components/toast"
+@using Flowbite.Components
+@using Flowbite.Layout
+@using Flowbite.Services
+@inject IToastService ToastService
+
+<PageTitle>Toast - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Blazor Toast Component Examples</h2>
+    <p class="text-gray-600 dark:text-gray-400">Show alert messages to your users using the toast component. Get started with the examples below.</p>
+
+    <div class="space-y-8">
+
+        <!-- Default Toast Example -->
+        <ComponentExample 
+            Title="Default Toast"
+            Description="This is the default toast component. Use the IToastService to display toasts."
+            RazorCode="@(@"<Button OnClick=""@(() => ToastService.Show(""Hi there 👋!""))"">Show Default Toast</Button>
+")"
+            SupportedLanguages="@(new[] { "razor", "csharp" })">
+            <PreviewContent>
+                <Button OnClick="@(() => ToastService.Show("Hi there 👋!"))">Show Default Toast</Button>
+            </PreviewContent>
+
+        </ComponentExample>
+
+        <!-- Toast Types Example -->
+        <ComponentExample 
+            Title="Toast Types"
+            Description="Use the `type` parameter in the `Show` method to change the appearance based on the context (e.g., success, error, warning, info)."
+            RazorCode="@(@"<div class=""flex flex-wrap gap-2"">
+    <Button OnClick=""@(() => ToastService.ShowSuccess(""Item successfully created.""))"">Show Success Toast</Button>
+    <Button OnClick=""@(() => ToastService.Show(""Error!"", type: ToastType.Error))"">Show Error Toast</Button>
+    <Button OnClick=""@(() => ToastService.Show(""Warning"", type: ToastType.Warning))"">Show Warning Toast</Button>
+    <Button OnClick=""@(() => ToastService.Show(""Info"", type: ToastType.Info))"">Show Info Toast</Button>
+</div>
+
+")"
+            SupportedLanguages="@(new[] { "razor", "csharp" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-2">
+                    <Button OnClick="@(() => ToastService.ShowSuccess("Item successfully created."))">Show Success Toast</Button>
+                    <Button OnClick="@(() => ToastService.ShowError("Something went wrong!"))">Show Error Toast</Button>
+                    <Button OnClick="@(() => ToastService.ShowWarning("Warning: Low disk space."))">Show Warning Toast</Button>
+                    <Button OnClick="@(() => ToastService.ShowInfo("New version available."))">Show Info Toast</Button>
+                </div>
+            </PreviewContent>
+            @* Removed CSharpCode block *@
+        </ComponentExample>
+
+        <!-- Toast with HTML Content -->
+        <ComponentExample
+            Title="Toast with HTML"
+            Description="You can include HTML markup within the toast message."
+            RazorCode="@(@"<Button OnClick=""@ShowHtmlToast"">Show HTML Toast</Button>
+
+@code {
+    private void ShowHtmlToast()
+    {
+        ToastService.Show(""User <strong>John Doe</strong> logged in. <a href=\""#\"" class=\""underline\"">View details</a>"");
+    }
+}")"
+            SupportedLanguages="@(new[] { "razor", "csharp" })">
+            <PreviewContent>
+                <Button OnClick="@ShowHtmlToast">Show HTML Toast</Button>
+            </PreviewContent>
+        </ComponentExample>
+
+        <!-- Toast Positioning -->
+        <ComponentExample
+            Title="Toast Positioning"
+            Description="Use the `Position` parameter on the `<ToastHost />` component to control where toasts appear on the screen. The example below includes a dedicated host to demonstrate the effect."
+            RazorCode="@(@"<div class=""relative"">
+    <ToastHost Position=""@currentPosition"" />
+</div>
+
+<div class=""flex flex-wrap gap-2"">
+    <Button OnClick=""@(() => SetPosition(ToastPosition.TopLeft))"">Top Left</Button>
+    <Button OnClick=""@(() => SetPosition(ToastPosition.TopCenter))"">Top Center</Button>
+    <Button OnClick=""@(() => SetPosition(ToastPosition.TopRight))"">Top Right</Button>
+    <Button OnClick=""@(() => SetPosition(ToastPosition.BottomLeft))"">Bottom Left</Button>
+    <Button OnClick=""@(() => SetPosition(ToastPosition.BottomCenter))"">Bottom Center</Button>
+    <Button OnClick=""@(() => SetPosition(ToastPosition.BottomRight))"">Bottom Right</Button>
+</div>
+
+@code {
+    private ToastPosition currentPosition = ToastPosition.TopRight;
+
+    private void SetPosition(ToastPosition newPosition)
+    {
+        currentPosition = newPosition;
+        ToastService.Show($""Position set to {newPosition}"");
+    }
+}
+")"
+            SupportedLanguages="@(new[] { "razor", "csharp" })">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-2">
+                    <Button OnClick="@(() => SetPosition(ToastPosition.TopLeft))" Color="Button.ButtonColor.Primary">Top Left</Button>
+                    <Button OnClick="@(() => SetPosition(ToastPosition.TopCenter))" Color="Button.ButtonColor.Primary">Top Center</Button>
+                    <Button OnClick="@(() => SetPosition(ToastPosition.TopRight))" Color="Button.ButtonColor.Primary">Top Right</Button>
+                    <Button OnClick="@(() => SetPosition(ToastPosition.BottomLeft))" Color="Button.ButtonColor.Primary">Bottom Left</Button>
+                    <Button OnClick="@(() => SetPosition(ToastPosition.BottomCenter))" Color="Button.ButtonColor.Primary">Bottom Center</Button>
+                    <Button OnClick="@(() => SetPosition(ToastPosition.BottomRight))" Color="Button.ButtonColor.Primary">Bottom Right</Button>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+    </div>
+</main>
+
+<!-- This dedicated host is for the positioning demo only. -->
+<!-- In a real app, you would have one global ToastHost in your main layout. -->
+<ToastHost Position="@currentPosition" HostId="position-demo" />
+
+@code {
+    private ToastPosition currentPosition = ToastPosition.TopRight;
+
+    private void ShowHtmlToast()
+    {
+        ToastService.Show("User <strong>John Doe</strong> logged in. <a href=\"#\" class=\"underline\">View details</a>");
+    }
+
+    private void SetPosition(ToastPosition newPosition)
+    {
+        currentPosition = newPosition;
+        ToastService.Show($"Position set to {newPosition}", hostId: "position-demo");
+    }
+}

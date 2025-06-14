@@ -25,8 +25,9 @@ public interface IToastService
     /// <param name="message">The message to display.</param>
     /// <param name="type">The type of toast.</param>
     /// <param name="duration">The duration in milliseconds (0 for no auto-hide).</param>
+    /// <param name="hostId">The ID of the host to display the toast on.</param>
     /// <returns>The ID of the toast.</returns>
-    string Show(string message, ToastType type = ToastType.Default, int duration = 3000);
+    string Show(string message, ToastType type = ToastType.Default, int duration = 3000, string? hostId = null);
     
     /// <summary>
     /// Shows a toast notification with a title.
@@ -35,40 +36,45 @@ public interface IToastService
     /// <param name="message">The message to display.</param>
     /// <param name="type">The type of toast.</param>
     /// <param name="duration">The duration in milliseconds (0 for no auto-hide).</param>
+    /// <param name="hostId">The ID of the host to display the toast on.</param>
     /// <returns>The ID of the toast.</returns>
-    string Show(string title, string message, ToastType type = ToastType.Default, int duration = 3000);
+    string Show(string title, string message, ToastType type = ToastType.Default, int duration = 3000, string? hostId = null);
     
     /// <summary>
     /// Shows a success toast notification.
     /// </summary>
     /// <param name="message">The message to display.</param>
     /// <param name="duration">The duration in milliseconds (0 for no auto-hide).</param>
+    /// <param name="hostId">The ID of the host to display the toast on.</param>
     /// <returns>The ID of the toast.</returns>
-    string ShowSuccess(string message, int duration = 3000);
+    string ShowSuccess(string message, int duration = 3000, string? hostId = null);
     
     /// <summary>
     /// Shows an error toast notification.
     /// </summary>
     /// <param name="message">The message to display.</param>
     /// <param name="duration">The duration in milliseconds (0 for no auto-hide).</param>
+    /// <param name="hostId">The ID of the host to display the toast on.</param>
     /// <returns>The ID of the toast.</returns>
-    string ShowError(string message, int duration = 3000);
+    string ShowError(string message, int duration = 3000, string? hostId = null);
     
     /// <summary>
     /// Shows a warning toast notification.
     /// </summary>
     /// <param name="message">The message to display.</param>
     /// <param name="duration">The duration in milliseconds (0 for no auto-hide).</param>
+    /// <param name="hostId">The ID of the host to display the toast on.</param>
     /// <returns>The ID of the toast.</returns>
-    string ShowWarning(string message, int duration = 3000);
+    string ShowWarning(string message, int duration = 3000, string? hostId = null);
     
     /// <summary>
     /// Shows an info toast notification.
     /// </summary>
     /// <param name="message">The message to display.</param>
     /// <param name="duration">The duration in milliseconds (0 for no auto-hide).</param>
+    /// <param name="hostId">The ID of the host to display the toast on.</param>
     /// <returns>The ID of the toast.</returns>
-    string ShowInfo(string message, int duration = 3000);
+    string ShowInfo(string message, int duration = 3000, string? hostId = null);
     
     /// <summary>
     /// Shows a toast notification with custom content.
