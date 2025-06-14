@@ -57,9 +57,10 @@
    - Modal
    - Icons
    - Navbar
-   - QuizGrid
+   - QuickGrid
    - Sidebar
    - Spinner
+   - Toast
    - Tooltip
    - more coming soon...
 
@@ -74,4 +75,3 @@
 
 - `llms-ctx.md` <https://flowbite-blazor.peakflames.org/llms-ctx.md> 🤖
     - Provide this URL to your AI-powered code assistant to give it knowledge about Flowbite Blazor.
-
