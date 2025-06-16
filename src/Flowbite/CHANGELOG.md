@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.12-alpha
+
+- TBD
+
 ## 0.0.11-alpha
 
 - Fixed Select component data binding issue [#1]
