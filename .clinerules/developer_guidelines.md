@@ -1,4 +1,4 @@
-# Flowbite Blazor Component Library
+# Flowbite Blazor Component Library Cline Rules
 
 This project involves converting the Flowbite React component library to ASP.NET Blazor 8.0. The project plan is at file path `{{project_plan_file}}`
 
