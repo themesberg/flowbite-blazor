@@ -99,14 +99,11 @@ Types: fix, feat, docs, style, refactor, test, chore
 **Actions:**
 1. Build the DemoApp project: 
    ```powershell
-   cd "C:\Users\tschavey\projects\themesberg\flowbite-blazor\src\DemoApp"
+   cd "src/DemoApp"
    dotnet build
    ```
 2. Resolve any build errors
-3. Run the application locally:
-   ```powershell
-   dotnet run
-   ```
+3. Run the application locally (have the user perform this manually):
 4. Perform initial smoke testing
 
 ### 6. Runtime Verification
