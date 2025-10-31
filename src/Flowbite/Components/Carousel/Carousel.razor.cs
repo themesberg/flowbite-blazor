@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Components;
+using Flowbite.Base;
 using System.Timers;
 
-namespace Flowbite.Components;
+namespace Flowbite.Components.Carousel;
 
 /// <summary>
 /// A carousel component for displaying a collection of slides with navigation controls and indicators.
@@ -56,18 +57,14 @@ public partial class Carousel : IDisposable
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
-    /// <inheritdoc />
     protected override void OnInitialized()
     {
-        base.OnInitialized();
         _currentIndex = Index;
         InitializeCarouselState();
     }
 
-    /// <inheritdoc />
     protected override void OnParametersSet()
     {
-        base.OnParametersSet();
         
         // Sync external Index parameter changes
         if (_currentIndex != Index)
@@ -177,10 +174,11 @@ public partial class Carousel : IDisposable
         }
     }
 
-    /// <inheritdoc />
-    protected override string DefaultClass => "grid overflow-hidden relative rounded-lg h-56 sm:h-64 xl:h-80 2xl:h-96";
+    private string GetCarouselClasses()
+    {
+        return CombineClasses("grid overflow-hidden relative rounded-lg h-56 sm:h-64 xl:h-80 2xl:h-96");
+    }
 
-    /// <inheritdoc />
     public void Dispose()
     {
         if (_autoAdvanceTimer != null)
