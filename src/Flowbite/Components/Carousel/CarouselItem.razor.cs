@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Components;
+using Flowbite.Base;
 
-namespace Flowbite.Components;
+namespace Flowbite.Components.Carousel;
 
 /// <summary>
 /// Represents an individual slide within a carousel component.
 /// </summary>
-public partial class CarouselItem : IDisposable
+public partial class CarouselItem : FlowbiteComponentBase, IDisposable
 {
     private int _slideIndex = -1;
     private bool _isRegistered;
@@ -70,9 +71,6 @@ public partial class CarouselItem : IDisposable
             _isRegistered = true;
         }
     }
-
-    /// <inheritdoc />
-    protected override string DefaultClass => "duration-700 ease-in-out";
 
     private string GetStyle()
     {

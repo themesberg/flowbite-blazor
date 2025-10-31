@@ -1,8 +1,6 @@
-@using Flowbite.Base
-@inherits FlowbiteComponentBase
-@implements IDisposable
+@inherits Flowbite.Base.FlowbiteComponentBase
 
-<div class="@CombineClasses()" style="@GetStyle()" @attributes="AdditionalAttributes">
+<div class="@CombineClasses("duration-700 ease-in-out")" style="@GetStyle()" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrEmpty(ImageSrc))
     {
         <img src="@ImageSrc" alt="@ImageAlt" title="@ImageTitle" class="@GetImageClass()" />
