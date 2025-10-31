@@ -125,6 +125,8 @@ Guide the migration of a Flowbite Svelte component to Flowbite Blazor by analyzi
    - Present summary of phases and major tasks
    - Ask if they want to proceed with implementation
 
+6. Use the `new_task` to continue the implementation in a new task. Be sure to re-reed this workflow file and pick where were left off
+
 ## 4. Git Branch Management and Setup
 
 ### 4.1 Verify Current Branch and Create Feature Branch
