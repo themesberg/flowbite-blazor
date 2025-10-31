@@ -13,6 +13,9 @@ public partial class Carousel : IDisposable
     private CarouselState _carouselState = null!;
     private int _currentIndex;
     private int _slideCount;
+    private int _nextSlideIndex;
+    private int _lastReceivedIndex;
+    private bool _hasProcessedInitialParameters;
 
     /// <summary>
     /// Gets or sets the current slide index (zero-based). Supports two-way binding.
@@ -28,10 +31,10 @@ public partial class Carousel : IDisposable
 
     /// <summary>
     /// Gets or sets the interval in milliseconds for automatic slide advancement.
-    /// Set to null to disable auto-advance. Default is null.
+    /// Set to null to disable auto-advance. Default is 5000ms.
     /// </summary>
     [Parameter]
-    public int? AutoAdvanceInterval { get; set; }
+    public int? AutoAdvanceInterval { get; set; } = 5000;
 
     /// <summary>
     /// Gets or sets the transition duration in milliseconds. Default is 1000ms.
@@ -59,32 +62,51 @@ public partial class Carousel : IDisposable
 
     protected override void OnInitialized()
     {
-        _currentIndex = Index;
-        InitializeCarouselState();
+        _currentIndex = ClampIndex(Index);
+        _lastReceivedIndex = Index;
     }
 
     protected override void OnParametersSet()
     {
-        
-        // Sync external Index parameter changes
-        if (_currentIndex != Index)
+        int parameterIndex = Index;
+        bool shouldClamp = false;
+
+        if (!_hasProcessedInitialParameters)
         {
-            _currentIndex = Index;
-            InitializeCarouselState();
+            _hasProcessedInitialParameters = true;
+            _currentIndex = parameterIndex;
+            _lastReceivedIndex = parameterIndex;
+            shouldClamp = true;
+        }
+        else if (parameterIndex != _lastReceivedIndex)
+        {
+            _currentIndex = parameterIndex;
+            _lastReceivedIndex = parameterIndex;
+            shouldClamp = true;
+        }
+        else if (_currentIndex < 0 || (_slideCount > 0 && _currentIndex >= _slideCount))
+        {
+            shouldClamp = true;
         }
 
-        // Setup or update auto-advance timer
+        InitializeCarouselState(ensureIndexInRange: shouldClamp);
+
         ConfigureAutoAdvance();
     }
 
     /// <summary>
-    /// Registers a slide with the carousel.
+    /// Registers a slide with the carousel and returns its assigned index.
     /// </summary>
-    internal void RegisterSlide()
+    /// <returns>The assigned index for the slide.</returns>
+    internal int RegisterSlide()
     {
+        int assignedIndex = _nextSlideIndex;
+        _nextSlideIndex++;
         _slideCount++;
-        InitializeCarouselState();
+        InitializeCarouselState(ensureIndexInRange: true);
+        ConfigureAutoAdvance();
         StateHasChanged();
+        return assignedIndex;
     }
 
     /// <summary>
@@ -92,17 +114,35 @@ public partial class Carousel : IDisposable
     /// </summary>
     internal void UnregisterSlide()
     {
-        _slideCount--;
-        if (_currentIndex >= _slideCount && _slideCount > 0)
+        if (_slideCount > 0)
         {
-            _currentIndex = _slideCount - 1;
+            _slideCount--;
         }
-        InitializeCarouselState();
+
+        if (_slideCount <= 0)
+        {
+            _slideCount = 0;
+            if (_currentIndex != 0)
+            {
+                _currentIndex = 0;
+            }
+            _nextSlideIndex = 0;
+        }
+
+        InitializeCarouselState(ensureIndexInRange: true);
+        ConfigureAutoAdvance();
         StateHasChanged();
     }
 
-    private void InitializeCarouselState()
+    private void InitializeCarouselState(bool ensureIndexInRange = false)
     {
+        int previousIndex = _currentIndex;
+
+        if (ensureIndexInRange)
+        {
+            _currentIndex = ClampIndex(_currentIndex);
+        }
+
         _carouselState = new CarouselState(
             currentIndex: _currentIndex,
             totalSlides: _slideCount,
@@ -110,6 +150,11 @@ public partial class Carousel : IDisposable
             nextSlide: NextSlide,
             previousSlide: PreviousSlide
         );
+
+        if (ensureIndexInRange && previousIndex != _currentIndex)
+        {
+            NotifyIndexChanged();
+        }
     }
 
     private void ConfigureAutoAdvance()
@@ -118,12 +163,31 @@ public partial class Carousel : IDisposable
         _autoAdvanceTimer?.Dispose();
         _autoAdvanceTimer = null;
 
-        if (AutoAdvanceInterval.HasValue && AutoAdvanceInterval.Value > 0)
+        if (AutoAdvanceInterval.HasValue && AutoAdvanceInterval.Value > 0 && _slideCount > 1)
         {
             _autoAdvanceTimer = new System.Timers.Timer(AutoAdvanceInterval.Value);
             _autoAdvanceTimer.Elapsed += OnAutoAdvanceTimerElapsed;
             _autoAdvanceTimer.AutoReset = true;
             _autoAdvanceTimer.Start();
+        }
+    }
+
+    /// <summary>
+    /// Pauses the auto-advance timer temporarily.
+    /// </summary>
+    internal void PauseAutoAdvance()
+    {
+        _autoAdvanceTimer?.Stop();
+    }
+
+    /// <summary>
+    /// Resumes the auto-advance timer.
+    /// </summary>
+    internal void ResumeAutoAdvance()
+    {
+        if (AutoAdvanceInterval.HasValue && AutoAdvanceInterval.Value > 0 && _slideCount > 1)
+        {
+            _autoAdvanceTimer?.Start();
         }
     }
 
@@ -145,9 +209,7 @@ public partial class Carousel : IDisposable
 
         _currentIndex = index;
         InitializeCarouselState();
-        
-        _ = IndexChanged.InvokeAsync(_currentIndex);
-        _ = OnSlideChanged.InvokeAsync(_currentIndex);
+        NotifyIndexChanged();
         
         StateHasChanged();
     }
@@ -177,6 +239,32 @@ public partial class Carousel : IDisposable
     private string GetCarouselClasses()
     {
         return CombineClasses("grid overflow-hidden relative rounded-lg h-56 sm:h-64 xl:h-80 2xl:h-96");
+    }
+
+    private int ClampIndex(int value)
+    {
+        if (_slideCount <= 0)
+        {
+            return Math.Max(0, value);
+        }
+
+        if (value < 0)
+        {
+            return 0;
+        }
+
+        if (value >= _slideCount)
+        {
+            return _slideCount - 1;
+        }
+
+        return value;
+    }
+
+    private void NotifyIndexChanged()
+    {
+        _ = IndexChanged.InvokeAsync(_currentIndex);
+        _ = OnSlideChanged.InvokeAsync(_currentIndex);
     }
 
     public void Dispose()

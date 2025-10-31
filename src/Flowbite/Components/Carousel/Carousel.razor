@@ -1,7 +1,12 @@
 @inherits FlowbiteComponentBase
 
-<CascadingValue Value="@_carouselState">
-    <div class="@GetCarouselClasses()" @attributes="AdditionalAttributes">
-        @ChildContent
-    </div>
+<CascadingValue Value="this" IsFixed="true">
+    <CascadingValue Value="@_carouselState">
+        <div class="@GetCarouselClasses()"
+             @onmouseenter="PauseAutoAdvance"
+             @onmouseleave="ResumeAutoAdvance"
+             @attributes="AdditionalAttributes">
+            @ChildContent
+        </div>
+    </CascadingValue>
 </CascadingValue>

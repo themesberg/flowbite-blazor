@@ -9,28 +9,32 @@
                 class="@GetPreviousButtonClass()"
                 @onclick="HandlePreviousClick"
                 aria-label="Previous slide">
-            @if (PreviousContent != null)
-            {
-                @PreviousContent
-            }
-            else
-            {
-                <ChevronLeftIcon Class="w-4 h-4 rtl:rotate-180" />
-            }
+            <span class="@GetControlIconWrapperClass()">
+                @if (PreviousContent != null)
+                {
+                    @PreviousContent
+                }
+                else
+                {
+                    <ChevronLeftIcon Class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" />
+                }
+            </span>
         </button>
 
         <button type="button"
                 class="@GetNextButtonClass()"
                 @onclick="HandleNextClick"
                 aria-label="Next slide">
-            @if (NextContent != null)
-            {
-                @NextContent
-            }
-            else
-            {
-                <ChevronRightIcon Class="w-4 h-4 rtl:rotate-180" />
-            }
+            <span class="@GetControlIconWrapperClass()">
+                @if (NextContent != null)
+                {
+                    @NextContent
+                }
+                else
+                {
+                    <ChevronRightIcon Class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" />
+                }
+            </span>
         </button>
     }
 </CascadingValue>

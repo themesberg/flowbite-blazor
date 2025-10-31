@@ -8,7 +8,7 @@ namespace Flowbite.Components.Carousel;
 /// </summary>
 public partial class CarouselItem : FlowbiteComponentBase, IDisposable
 {
-    private int _slideIndex = -1;
+    private int _assignedIndex = -1;
     private bool _isRegistered;
 
     /// <summary>
@@ -67,20 +67,19 @@ public partial class CarouselItem : FlowbiteComponentBase, IDisposable
         
         if (ParentCarousel != null && !_isRegistered)
         {
-            ParentCarousel.RegisterSlide();
+            _assignedIndex = ParentCarousel.RegisterSlide();
             _isRegistered = true;
         }
     }
 
-    private string GetStyle()
+    private string GetSlideClasses()
     {
-        bool isActive = CarouselState?.CurrentIndex == GetSlideIndex();
+        bool isActive = _assignedIndex >= 0 && CarouselState?.CurrentIndex == _assignedIndex;
         
-        string display = isActive ? "grid-area: 1/1;" : "grid-area: 1/1; visibility: hidden;";
-        string transition = $"transition-opacity {ParentCarousel?.TransitionDuration ?? 1000}ms ease-in-out;";
-        string opacity = isActive ? "opacity: 1;" : "opacity: 0;";
+        string baseClasses = "absolute inset-0 transition-opacity duration-700 ease-in-out";
+        string visibilityClass = isActive ? "opacity-100 z-10" : "opacity-0 pointer-events-none";
         
-        return $"{display} {transition} {opacity}";
+        return CombineClasses($"{baseClasses} {visibilityClass}");
     }
 
     private string GetImageClass()
@@ -96,17 +95,6 @@ public partial class CarouselItem : FlowbiteComponentBase, IDisposable
         };
 
         return $"block w-full h-full {fitClass}";
-    }
-
-    private int GetSlideIndex()
-    {
-        // The slide index is determined by registration order
-        // This is a simplified approach; in production, you might need a more robust system
-        if (_slideIndex == -1)
-        {
-            _slideIndex = CarouselState?.CurrentIndex ?? 0;
-        }
-        return _slideIndex;
     }
 
     /// <inheritdoc />
