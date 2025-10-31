@@ -284,3 +284,4 @@ git checkout -b fix/issue-123-description
 - **Preview Deployments:**
   - Main: https://flowbite-blazor.org/
   - Develop: https://develop.flowbite-blazor-8s8.pages.dev/
+- The `src\Flowbite\wwwroot\flowbite.min.css` is the crucial CSS file that is actually used at runtime. When updating .html, .razor, or .cs the flowbite.min.css file is updated when running the project is rebuild. It is CRUCIAL that the flowbite.min.css be commited to git
