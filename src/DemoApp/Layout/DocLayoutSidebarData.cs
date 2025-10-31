@@ -38,6 +38,7 @@ public static class DocLayoutSidebarData
                 new() { Title = "Breadcrumb", Href = "/docs/components/breadcrumb" },
                 new() { Title = "Button", Href = "/docs/components/button" },
                 new() { Title = "Card", Href = "/docs/components/card" },
+                new() { Title = "Carousel", Href = "/docs/components/carousel", IsNew = true },
                 new() { Title = "Dropdown", Href = "/docs/components/dropdown" },
                 new() { Title = "Drawer", Href = "/docs/components/drawer" },
                 new() { Title = "Form Validation", Href = "/docs/components/form-validation"},
