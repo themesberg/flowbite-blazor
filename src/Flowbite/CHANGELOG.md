@@ -3,6 +3,12 @@
 ## 0.0.12-alpha
 
 - Add initial implementation of Toolbar component
+- Add Typography components:
+  - Heading component with gradient support, custom sizes, weights, and colors
+  - Paragraph component with comprehensive text styling options
+  - Span component for inline text styling
+- Add TypographyEnums with shared typography enumerations (TextSize, FontWeight, LineHeight, TextAlign, LetterSpacing, Whitespace, GradientColor)
+
 
 ## 0.0.11-alpha
 

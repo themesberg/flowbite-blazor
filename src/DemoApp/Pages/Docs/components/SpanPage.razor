@@ -1,0 +1,206 @@
+@page "/docs/components/span"
+@using Flowbite.Components.Typography
+
+<PageTitle>Span - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Span Examples</h2>
+
+    <div class="space-y-8">
+        <ComponentExample
+            Title="Default Span"
+            Description="Use the Span component for inline text styling within larger text blocks. Spans are perfect for highlighting or styling portions of text."
+            RazorCode="@(
+@"<p class=""text-base text-gray-700 dark:text-gray-400"">
+    This is regular text with <Span Weight=""FontWeight.Bold"">bold styling</Span> inline.
+</p>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <p class="text-base text-gray-700 dark:text-gray-400">
+                    This is regular text with <Span Weight="FontWeight.Bold">bold styling</Span> inline.
+                </p>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Text Sizes"
+            Description="Control the size of span text using the Size parameter. This is useful for inline emphasis or de-emphasis."
+            RazorCode="@(
+@"<p class=""text-base text-gray-700 dark:text-gray-400"">
+    Regular text with <Span Size=""TextSize.SM"">smaller</Span> and <Span Size=""TextSize.XL"">larger</Span> inline text.
+</p>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <p class="text-base text-gray-700 dark:text-gray-400">
+                    Regular text with <Span Size="TextSize.SM">smaller</Span> and <Span Size="TextSize.XL">larger</Span> inline text.
+                </p>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Font Weights"
+            Description="Emphasize specific words or phrases by adjusting font weight within a paragraph."
+            RazorCode="@(
+@"<p class=""text-base text-gray-700 dark:text-gray-400"">
+    This paragraph contains <Span Weight=""FontWeight.Light"">light</Span>,
+    <Span Weight=""FontWeight.Normal"">normal</Span>,
+    <Span Weight=""FontWeight.SemiBold"">semi-bold</Span>, and
+    <Span Weight=""FontWeight.Bold"">bold</Span> text.
+</p>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <p class="text-base text-gray-700 dark:text-gray-400">
+                    This paragraph contains <Span Weight="FontWeight.Light">light</Span>,
+                    <Span Weight="FontWeight.Normal">normal</Span>,
+                    <Span Weight="FontWeight.SemiBold">semi-bold</Span>, and
+                    <Span Weight="FontWeight.Bold">bold</Span> text.
+                </p>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Text Decorations"
+            Description="Apply text decorations like italic, underline, and line-through to inline text."
+            RazorCode="@(
+@"<div class=""space-y-2"">
+    <p class=""text-base text-gray-700 dark:text-gray-400"">
+        This text is <Span Italic=""true"">italicized</Span> for emphasis.
+    </p>
+    <p class=""text-base text-gray-700 dark:text-gray-400"">
+        This text is <Span Underline=""true"">underlined</Span> for emphasis.
+    </p>
+    <p class=""text-base text-gray-700 dark:text-gray-400"">
+        This text is <Span LineThrough=""true"">crossed out</Span> to show deletion.
+    </p>
+    <p class=""text-base text-gray-700 dark:text-gray-400"">
+        This combines <Span Italic=""true"" Underline=""true"">italic and underline</Span>.
+    </p>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-2">
+                    <p class="text-base text-gray-700 dark:text-gray-400">
+                        This text is <Span Italic="true">italicized</Span> for emphasis.
+                    </p>
+                    <p class="text-base text-gray-700 dark:text-gray-400">
+                        This text is <Span Underline="true">underlined</Span> for emphasis.
+                    </p>
+                    <p class="text-base text-gray-700 dark:text-gray-400">
+                        This text is <Span LineThrough="true">crossed out</Span> to show deletion.
+                    </p>
+                    <p class="text-base text-gray-700 dark:text-gray-400">
+                        This combines <Span Italic="true" Underline="true">italic and underline</Span>.
+                    </p>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Text Transform"
+            Description="Transform inline text to uppercase, lowercase, or capitalize each word."
+            RazorCode="@(
+@"<div class=""space-y-2"">
+    <p class=""text-base text-gray-700 dark:text-gray-400"">
+        This text is <Span Uppercase=""true"">uppercase</Span>.
+    </p>
+    <p class=""text-base text-gray-700 dark:text-gray-400"">
+        This text is <Span Lowercase=""true"">LOWERCASE</Span>.
+    </p>
+    <p class=""text-base text-gray-700 dark:text-gray-400"">
+        This text is <Span Capitalize=""true"">capitalized each word</Span>.
+    </p>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-2">
+                    <p class="text-base text-gray-700 dark:text-gray-400">
+                        This text is <Span Uppercase="true">uppercase</Span>.
+                    </p>
+                    <p class="text-base text-gray-700 dark:text-gray-400">
+                        This text is <Span Lowercase="true">LOWERCASE</Span>.
+                    </p>
+                    <p class="text-base text-gray-700 dark:text-gray-400">
+                        This text is <Span Capitalize="true">capitalized each word</Span>.
+                    </p>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Custom Colors"
+            Description="Use custom Tailwind CSS color classes to style inline text with specific colors."
+            RazorCode="@(
+@"<p class=""text-base text-gray-700 dark:text-gray-400"">
+    This paragraph has
+    <Span CustomColor=""text-blue-600 dark:text-blue-400"">blue</Span>,
+    <Span CustomColor=""text-green-600 dark:text-green-400"">green</Span>,
+    <Span CustomColor=""text-red-600 dark:text-red-400"">red</Span>, and
+    <Span CustomColor=""text-purple-600 dark:text-purple-400"">purple</Span>
+    colored text.
+</p>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <p class="text-base text-gray-700 dark:text-gray-400">
+                    This paragraph has
+                    <Span CustomColor="text-blue-600 dark:text-blue-400">blue</Span>,
+                    <Span CustomColor="text-green-600 dark:text-green-400">green</Span>,
+                    <Span CustomColor="text-red-600 dark:text-red-400">red</Span>, and
+                    <Span CustomColor="text-purple-600 dark:text-purple-400">purple</Span>
+                    colored text.
+                </p>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Gradient Text"
+            Description="Apply vibrant gradient effects to inline text for modern, eye-catching emphasis."
+            RazorCode="@(
+@"<div class=""space-y-2"">
+    <p class=""text-xl text-gray-700 dark:text-gray-400"">
+        This has a <Span Gradient=""GradientColor.PurpleToBlue"" Size=""TextSize.XXL"" Weight=""FontWeight.Bold"">gradient effect</Span> inline.
+    </p>
+    <p class=""text-xl text-gray-700 dark:text-gray-400"">
+        Create <Span Gradient=""GradientColor.GreenToBlue"" Weight=""FontWeight.Bold"">colorful</Span> text highlights.
+    </p>
+    <p class=""text-xl text-gray-700 dark:text-gray-400"">
+        Make text <Span Gradient=""GradientColor.RedToYellow"" Weight=""FontWeight.Bold"">stand out</Span> dramatically.
+    </p>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-2">
+                    <p class="text-xl text-gray-700 dark:text-gray-400">
+                        This has a <Span Gradient="GradientColor.PurpleToBlue" Size="TextSize.XXL" Weight="FontWeight.Bold">gradient effect</Span> inline.
+                    </p>
+                    <p class="text-xl text-gray-700 dark:text-gray-400">
+                        Create <Span Gradient="GradientColor.GreenToBlue" Weight="FontWeight.Bold">colorful</Span> text highlights.
+                    </p>
+                    <p class="text-xl text-gray-700 dark:text-gray-400">
+                        Make text <Span Gradient="GradientColor.RedToYellow" Weight="FontWeight.Bold">stand out</Span> dramatically.
+                    </p>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Combined Styling"
+            Description="Combine multiple parameters to create unique inline text styles that match your design requirements."
+            RazorCode="@(
+@"<p class=""text-lg text-gray-700 dark:text-gray-400"">
+    The product is currently
+    <Span CustomColor=""text-red-600"" Weight=""FontWeight.Bold"" LineThrough=""true"">$99.99</Span>
+    <Span CustomColor=""text-green-600"" Size=""TextSize.XL"" Weight=""FontWeight.Bold"">$79.99</Span>
+    on sale now!
+</p>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <p class="text-lg text-gray-700 dark:text-gray-400">
+                    The product is currently
+                    <Span CustomColor="text-red-600" Weight="FontWeight.Bold" LineThrough="true">$99.99</Span>
+                    <Span CustomColor="text-green-600" Size="TextSize.XL" Weight="FontWeight.Bold">$79.99</Span>
+                    on sale now!
+                </p>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>
