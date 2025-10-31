@@ -2,13 +2,24 @@
 
 ## 0.0.12-alpha
 
+- Add Carousel component with support for:
+    - Image and custom content slides
+    - Navigation controls (previous/next buttons)
+    - Slide indicators with customizable position
+    - Auto-advance functionality with configurable interval
+    - Multiple image fit options (Cover, Contain, Fill, ScaleDown, None)
+    - Two-way data binding with @bind-Index
+    - Smooth transitions with configurable duration
+    - OnSlideChanged event callback
+- Add CarouselEnums (CarouselImageFit, CarouselIndicatorPosition)
+- Add CarouselImage model class
+- Add CarouselState for cascading state management
 - Add initial implementation of Toolbar component
 - Add Typography components:
-  - Heading component with gradient support, custom sizes, weights, and colors
-  - Paragraph component with comprehensive text styling options
-  - Span component for inline text styling
+    - Heading component with gradient support, custom sizes, weights, and colors
+    - Paragraph component with comprehensive text styling options
+    - Span component for inline text styling
 - Add TypographyEnums with shared typography enumerations (TextSize, FontWeight, LineHeight, TextAlign, LetterSpacing, Whitespace, GradientColor)
-
 
 ## 0.0.11-alpha
 

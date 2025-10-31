@@ -1,0 +1,12 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<div class="@GetSlideClasses()" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(ImageSrc))
+    {
+        <img src="@ImageSrc" alt="@ImageAlt" title="@ImageTitle" class="@GetImageClass()" />
+    }
+    else if (ChildContent != null)
+    {
+        @ChildContent
+    }
+</div>

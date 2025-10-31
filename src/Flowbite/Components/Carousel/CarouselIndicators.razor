@@ -1,0 +1,17 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+@if (State != null && State.TotalSlides > 1)
+{
+    <div class="@GetIndicatorContainerClass()">
+        @for (int i = 0; i < State.TotalSlides; i++)
+        {
+            int index = i; // Capture for closure
+            <button type="button"
+                    class="@GetIndicatorButtonClass(index)"
+                    aria-current="@(index == State.CurrentIndex ? "true" : "false")"
+                    aria-label="@($"Slide {index + 1}")"
+                    @onclick="@(() => HandleIndicatorClick(index))">
+            </button>
+        }
+    </div>
+}
