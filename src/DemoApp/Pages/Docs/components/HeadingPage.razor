@@ -1,0 +1,162 @@
+@page "/docs/components/heading"
+@using Flowbite.Components.Typography
+
+<PageTitle>Heading - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Heading Examples</h2>
+
+    <div class="space-y-8">
+        <ComponentExample
+            Title="Default Headings"
+            Description="Use semantic HTML heading tags (H1-H6) to create a clear document hierarchy. Each heading level has predefined font sizes and weights."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <Heading Tag=""HeadingTag.H1"">Heading 1</Heading>
+    <Heading Tag=""HeadingTag.H2"">Heading 2</Heading>
+    <Heading Tag=""HeadingTag.H3"">Heading 3</Heading>
+    <Heading Tag=""HeadingTag.H4"">Heading 4</Heading>
+    <Heading Tag=""HeadingTag.H5"">Heading 5</Heading>
+    <Heading Tag=""HeadingTag.H6"">Heading 6</Heading>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Heading Tag="HeadingTag.H1">Heading 1</Heading>
+                    <Heading Tag="HeadingTag.H2">Heading 2</Heading>
+                    <Heading Tag="HeadingTag.H3">Heading 3</Heading>
+                    <Heading Tag="HeadingTag.H4">Heading 4</Heading>
+                    <Heading Tag="HeadingTag.H5">Heading 5</Heading>
+                    <Heading Tag="HeadingTag.H6">Heading 6</Heading>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Custom Sizes"
+            Description="Override the default tag-based sizing with custom text sizes. This allows you to maintain semantic HTML while controlling visual hierarchy."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <Heading Tag=""HeadingTag.H2"" Size=""TextSize.XXXXXXXXXL"">Extra Large H2</Heading>
+    <Heading Tag=""HeadingTag.H1"" Size=""TextSize.XXL"">Small H1</Heading>
+    <Heading Tag=""HeadingTag.H3"" Size=""TextSize.XXXXXL"">Custom H3</Heading>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Heading Tag="HeadingTag.H2" Size="TextSize.XXXXXXXXXL">Extra Large H2</Heading>
+                    <Heading Tag="HeadingTag.H1" Size="TextSize.XXL">Small H1</Heading>
+                    <Heading Tag="HeadingTag.H3" Size="TextSize.XXXXXL">Custom H3</Heading>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Custom Weights"
+            Description="Adjust font weight independently from the heading tag. Use lighter weights for subtle headings or heavier weights for emphasis."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <Heading Tag=""HeadingTag.H2"" Weight=""FontWeight.Light"">Light Heading</Heading>
+    <Heading Tag=""HeadingTag.H2"" Weight=""FontWeight.Normal"">Normal Heading</Heading>
+    <Heading Tag=""HeadingTag.H2"" Weight=""FontWeight.Medium"">Medium Heading</Heading>
+    <Heading Tag=""HeadingTag.H2"" Weight=""FontWeight.SemiBold"">Semi-Bold Heading</Heading>
+    <Heading Tag=""HeadingTag.H2"" Weight=""FontWeight.Bold"">Bold Heading</Heading>
+    <Heading Tag=""HeadingTag.H2"" Weight=""FontWeight.ExtraBold"">Extra Bold Heading</Heading>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Heading Tag="HeadingTag.H2" Weight="FontWeight.Light">Light Heading</Heading>
+                    <Heading Tag="HeadingTag.H2" Weight="FontWeight.Normal">Normal Heading</Heading>
+                    <Heading Tag="HeadingTag.H2" Weight="FontWeight.Medium">Medium Heading</Heading>
+                    <Heading Tag="HeadingTag.H2" Weight="FontWeight.SemiBold">Semi-Bold Heading</Heading>
+                    <Heading Tag="HeadingTag.H2" Weight="FontWeight.Bold">Bold Heading</Heading>
+                    <Heading Tag="HeadingTag.H2" Weight="FontWeight.ExtraBold">Extra Bold Heading</Heading>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Gradient Headings"
+            Description="Apply vibrant gradient effects to headings for modern, eye-catching designs. Choose from six predefined gradient color combinations."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <Heading Tag=""HeadingTag.H2"" Gradient=""GradientColor.PurpleToBlue"">Purple to Blue Gradient</Heading>
+    <Heading Tag=""HeadingTag.H2"" Gradient=""GradientColor.CyanToBlue"">Cyan to Blue Gradient</Heading>
+    <Heading Tag=""HeadingTag.H2"" Gradient=""GradientColor.GreenToBlue"">Green to Blue Gradient</Heading>
+    <Heading Tag=""HeadingTag.H2"" Gradient=""GradientColor.PurpleToPink"">Purple to Pink Gradient</Heading>
+    <Heading Tag=""HeadingTag.H2"" Gradient=""GradientColor.RedToYellow"">Red to Yellow Gradient</Heading>
+    <Heading Tag=""HeadingTag.H2"" Gradient=""GradientColor.TealToLime"">Teal to Lime Gradient</Heading>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Heading Tag="HeadingTag.H2" Gradient="GradientColor.PurpleToBlue">Purple to Blue Gradient</Heading>
+                    <Heading Tag="HeadingTag.H2" Gradient="GradientColor.CyanToBlue">Cyan to Blue Gradient</Heading>
+                    <Heading Tag="HeadingTag.H2" Gradient="GradientColor.GreenToBlue">Green to Blue Gradient</Heading>
+                    <Heading Tag="HeadingTag.H2" Gradient="GradientColor.PurpleToPink">Purple to Pink Gradient</Heading>
+                    <Heading Tag="HeadingTag.H2" Gradient="GradientColor.RedToYellow">Red to Yellow Gradient</Heading>
+                    <Heading Tag="HeadingTag.H2" Gradient="GradientColor.TealToLime">Teal to Lime Gradient</Heading>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Custom Colors"
+            Description="Use custom Tailwind CSS color classes to style headings with specific colors. This overrides the default gray color scheme."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <Heading Tag=""HeadingTag.H2"" CustomColor=""text-blue-600 dark:text-blue-400"">Blue Heading</Heading>
+    <Heading Tag=""HeadingTag.H2"" CustomColor=""text-green-600 dark:text-green-400"">Green Heading</Heading>
+    <Heading Tag=""HeadingTag.H2"" CustomColor=""text-red-600 dark:text-red-400"">Red Heading</Heading>
+    <Heading Tag=""HeadingTag.H2"" CustomColor=""text-purple-600 dark:text-purple-400"">Purple Heading</Heading>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Heading Tag="HeadingTag.H2" CustomColor="text-blue-600 dark:text-blue-400">Blue Heading</Heading>
+                    <Heading Tag="HeadingTag.H2" CustomColor="text-green-600 dark:text-green-400">Green Heading</Heading>
+                    <Heading Tag="HeadingTag.H2" CustomColor="text-red-600 dark:text-red-400">Red Heading</Heading>
+                    <Heading Tag="HeadingTag.H2" CustomColor="text-purple-600 dark:text-purple-400">Purple Heading</Heading>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Combined Styling"
+            Description="Combine multiple parameters to create unique heading styles that match your design requirements."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <Heading Tag=""HeadingTag.H1""
+             Size=""TextSize.XXXXXXL""
+             Weight=""FontWeight.Black""
+             Gradient=""GradientColor.PurpleToBlue"">
+        Large Gradient Title
+    </Heading>
+    <Heading Tag=""HeadingTag.H3""
+             Size=""TextSize.XXXXL""
+             Weight=""FontWeight.Light""
+             CustomColor=""text-gray-600 dark:text-gray-300"">
+        Subtle Subheading
+    </Heading>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Heading Tag="HeadingTag.H1"
+                             Size="TextSize.XXXXXXL"
+                             Weight="FontWeight.Black"
+                             Gradient="GradientColor.PurpleToBlue">
+                        Large Gradient Title
+                    </Heading>
+                    <Heading Tag="HeadingTag.H3"
+                             Size="TextSize.XXXXL"
+                             Weight="FontWeight.Light"
+                             CustomColor="text-gray-600 dark:text-gray-300">
+                        Subtle Subheading
+                    </Heading>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>

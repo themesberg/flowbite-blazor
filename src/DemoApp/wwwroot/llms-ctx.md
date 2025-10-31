@@ -1524,6 +1524,329 @@ public enum ToastPosition
 
 
 
+#### Toolbar Examples
+
+The Toolbar component provides a flexible container for grouping actions, buttons, inputs, and other controls with consistent spacing and layout. It supports left-aligned content and optional right-aligned content.
+
+**Toolbar Parameters:**
+- `ChildContent`: Main content area (left side of toolbar)
+- `End`: Optional content for the right side of the toolbar
+- `Embedded`: When true, removes background and border styling for embedded use (default: false)
+
+**ToolbarButton Colors:**
+- ToolbarButtonColor.Gray
+- ToolbarButtonColor.Dark
+
+**ToolbarButton Sizes:**
+- ToolbarButtonSize.ExtraSmall
+- ToolbarButtonSize.Small
+- ToolbarButtonSize.Medium
+- ToolbarButtonSize.Large
+
+```razor
+<!-- Default toolbar with styled background -->
+<Toolbar>
+    <ChildContent>
+        <Button Size="ButtonSize.Small">Action 1</Button>
+        <Button Size="ButtonSize.Small">Action 2</Button>
+        <Button Size="ButtonSize.Small">Action 3</Button>
+    </ChildContent>
+</Toolbar>
+
+<!-- Embedded toolbar (transparent background) -->
+<Toolbar Embedded="true">
+    <ChildContent>
+        <TextInput Placeholder="Search..." Class="w-64" />
+        <Button Size="ButtonSize.Small" Class="ml-2">Search</Button>
+    </ChildContent>
+</Toolbar>
+
+<!-- Toolbar with end content -->
+<Toolbar Embedded="true">
+    <ChildContent>
+        <TextInput Placeholder="Search for users..." Class="w-80" />
+    </ChildContent>
+    <End>
+        <Button Size="ButtonSize.Small">
+            <PlusIcon Size="IconSize.Small" Class="mr-2" />
+            Add User
+        </Button>
+    </End>
+</Toolbar>
+
+<!-- Toolbar with icon buttons -->
+<Toolbar Embedded="true">
+    <ChildContent>
+        <div class="flex items-center space-x-1">
+            <ToolbarButton AriaLabel="Settings">
+                <CogIcon Size="IconSize.Large" />
+            </ToolbarButton>
+            <ToolbarButton AriaLabel="Delete">
+                <TrashBinIcon Size="IconSize.Large" />
+            </ToolbarButton>
+            <ToolbarButton AriaLabel="Notifications">
+                <BellIcon Size="IconSize.Large" />
+            </ToolbarButton>
+        </div>
+    </ChildContent>
+</Toolbar>
+
+<!-- ToolbarButton with different sizes -->
+<div class="flex items-center space-x-2">
+    <ToolbarButton Size="ToolbarButtonSize.ExtraSmall" AriaLabel="Extra small">
+        <CogIcon Size="IconSize.Small" />
+    </ToolbarButton>
+    <ToolbarButton Size="ToolbarButtonSize.Small" AriaLabel="Small">
+        <CogIcon Size="IconSize.Small" />
+    </ToolbarButton>
+    <ToolbarButton Size="ToolbarButtonSize.Medium" AriaLabel="Medium">
+        <CogIcon Size="IconSize.Medium" />
+    </ToolbarButton>
+    <ToolbarButton Size="ToolbarButtonSize.Large" AriaLabel="Large">
+        <CogIcon Size="IconSize.Large" />
+    </ToolbarButton>
+</div>
+
+<!-- Complete CRUD table toolbar -->
+<Toolbar Embedded="true" Class="w-full py-4">
+    <ChildContent>
+        <TextInput Placeholder="Search for users..." Class="me-4 w-80 border xl:w-96" />
+        
+        <div class="border-l border-gray-100 pl-2 dark:border-gray-700 flex items-center space-x-1">
+            <ToolbarButton AriaLabel="Settings">
+                <CogIcon Size="IconSize.Large" />
+            </ToolbarButton>
+            <ToolbarButton AriaLabel="Delete">
+                <TrashBinIcon Size="IconSize.Large" />
+            </ToolbarButton>
+            <ToolbarButton AriaLabel="More options">
+                <DotsVerticalIcon Size="IconSize.Large" />
+            </ToolbarButton>
+        </div>
+    </ChildContent>
+    <End>
+        <div class="flex items-center space-x-2">
+            <Button Size="ButtonSize.Small" Class="gap-2 px-3 whitespace-nowrap">
+                <PlusIcon Size="IconSize.Small" />
+                Add user
+            </Button>
+            <Button Size="ButtonSize.Small" 
+                    Style="ButtonStyle.Outline" 
+                    Class="gap-2 px-3">
+                <DownloadIcon Size="IconSize.Medium" />
+                Export
+            </Button>
+        </div>
+    </End>
+</Toolbar>
+
+
+
+
+#### Heading Examples
+
+The Heading component renders semantic HTML headings (h1-h6) with consistent styling.
+
+**Available heading tags:**
+- HeadingTag.H1 (default) - text-5xl, font-extrabold
+- HeadingTag.H2 - text-4xl, font-bold
+- HeadingTag.H3 - text-3xl, font-bold
+- HeadingTag.H4 - text-2xl, font-bold
+- HeadingTag.H5 - text-xl, font-bold
+- HeadingTag.H6 - text-lg, font-bold
+
+**Optional parameters:**
+- `Size` (TextSize?) - Override default tag-based sizing
+- `Weight` (FontWeight?) - Override default weight
+- `Gradient` (GradientColor) - Apply gradient text effect
+- `CustomColor` (string?) - Custom Tailwind color classes
+
+**Default colors:**
+- Light mode: text-gray-900
+- Dark mode: text-white
+
+```razor
+<!-- Basic headings -->
+<Heading Tag="HeadingTag.H1">Page Title</Heading>
+<Heading Tag="HeadingTag.H2">Section Heading</Heading>
+<Heading Tag="HeadingTag.H3">Subsection Heading</Heading>
+
+<!-- Custom size (semantic HTML with visual control) -->
+<Heading Tag="HeadingTag.H2" Size="TextSize.XXXXXXXXXL">
+    Extra Large H2
+</Heading>
+
+<!-- Custom weight -->
+<Heading Tag="HeadingTag.H2" Weight="FontWeight.Light">
+    Light Heading
+</Heading>
+
+<!-- Gradient heading -->
+<Heading Tag="HeadingTag.H1" Gradient="GradientColor.PurpleToBlue">
+    Gradient Title
+</Heading>
+
+<!-- Custom color -->
+<Heading Tag="HeadingTag.H2" CustomColor="text-blue-600 dark:text-blue-400">
+    Blue Heading
+</Heading>
+
+<!-- Combined styling -->
+<Heading Tag="HeadingTag.H1"
+         Size="TextSize.XXXXXXL"
+         Weight="FontWeight.Black"
+         Gradient="GradientColor.PurpleToBlue">
+    Large Gradient Title
+</Heading>
+```
+
+
+
+
+#### Paragraph Examples
+
+The Paragraph component renders paragraph text with flexible styling options.
+
+**Parameters:**
+- `Size` (TextSize) - Text size (default: Base)
+- `Weight` (FontWeight?) - Font weight
+- `Leading` (LineHeight?) - Line height spacing
+- `Align` (TextAlign?) - Text alignment
+- `Tracking` (LetterSpacing?) - Letter spacing
+- `Space` (Whitespace?) - Whitespace handling
+- `Gradient` (GradientColor) - Gradient text effect
+- `CustomColor` (string?) - Custom color classes
+- `FirstLetterUpper` (bool) - Drop cap styling
+- `Opacity` (int?) - Opacity level (0-100)
+- `Italic` (bool) - Italic styling
+- `Underline` (bool) - Underline decoration
+
+**Default colors:**
+- Light mode: text-gray-700
+- Dark mode: text-gray-400
+
+```razor
+<!-- Basic paragraph -->
+<Paragraph>
+    This is a paragraph with default styling.
+</Paragraph>
+
+<!-- Custom size and weight -->
+<Paragraph Size="TextSize.LG" Weight="FontWeight.Medium">
+    Larger, medium weight paragraph text.
+</Paragraph>
+
+<!-- Text alignment -->
+<Paragraph Align="TextAlign.Center">
+    Center-aligned paragraph text.
+</Paragraph>
+
+<!-- Line height (leading) -->
+<Paragraph Leading="LineHeight.Relaxed">
+    Paragraph with relaxed line spacing for improved readability.
+</Paragraph>
+
+<!-- Italic and underline -->
+<Paragraph Italic="true">
+    Italic paragraph text for emphasis.
+</Paragraph>
+
+<!-- First letter uppercase (drop cap) -->
+<Paragraph FirstLetterUpper="true" Size="TextSize.LG" Leading="LineHeight.Relaxed">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+</Paragraph>
+
+<!-- Gradient paragraph -->
+<Paragraph Gradient="GradientColor.PurpleToBlue"
+           Size="TextSize.XL"
+           Weight="FontWeight.Bold">
+    Gradient paragraph text
+</Paragraph>
+
+<!-- Custom color -->
+<Paragraph CustomColor="text-blue-600 dark:text-blue-400">
+    Custom colored paragraph text.
+</Paragraph>
+
+<!-- Letter spacing -->
+<Paragraph Tracking="LetterSpacing.Wide">
+    Paragraph with wider letter spacing.
+</Paragraph>
+```
+
+
+
+
+#### Span Examples
+
+The Span component provides inline text styling within larger text blocks.
+
+**Parameters:**
+- `Size` (TextSize) - Text size (default: Base)
+- `Weight` (FontWeight?) - Font weight
+- `Gradient` (GradientColor) - Gradient text effect
+- `CustomColor` (string?) - Custom color classes
+- `Italic` (bool) - Italic styling
+- `Underline` (bool) - Underline decoration
+- `LineThrough` (bool) - Strikethrough decoration
+- `Uppercase` (bool) - Transform to uppercase
+- `Lowercase` (bool) - Transform to lowercase
+- `Capitalize` (bool) - Capitalize each word
+
+**Default behavior:**
+- No default color (inherits from parent)
+- Use `CustomColor` to apply specific colors
+
+```razor
+<!-- Inline emphasis -->
+<p class="text-base text-gray-700 dark:text-gray-400">
+    This is regular text with <Span Weight="FontWeight.Bold">bold text</Span> inline.
+</p>
+
+<!-- Size variations -->
+<p class="text-base text-gray-700 dark:text-gray-400">
+    Regular text with <Span Size="TextSize.SM">smaller</Span> and
+    <Span Size="TextSize.XL">larger</Span> inline text.
+</p>
+
+<!-- Text decorations -->
+<p class="text-base text-gray-700 dark:text-gray-400">
+    Text with <Span Italic="true">italic</Span>,
+    <Span Underline="true">underline</Span>, and
+    <Span LineThrough="true">strikethrough</Span>.
+</p>
+
+<!-- Text transform -->
+<p class="text-base text-gray-700 dark:text-gray-400">
+    Transform to <Span Uppercase="true">uppercase</Span>,
+    <Span Lowercase="true">LOWERCASE</Span>, or
+    <Span Capitalize="true">capitalize words</Span>.
+</p>
+
+<!-- Custom colors -->
+<p class="text-base text-gray-700 dark:text-gray-400">
+    Inline colors:
+    <Span CustomColor="text-blue-600">blue</Span>,
+    <Span CustomColor="text-green-600">green</Span>,
+    <Span CustomColor="text-red-600">red</Span>.
+</p>
+
+<!-- Gradient text -->
+<p class="text-xl text-gray-700 dark:text-gray-400">
+    Create <Span Gradient="GradientColor.PurpleToBlue"
+                  Size="TextSize.XXL"
+                  Weight="FontWeight.Bold">gradient highlights</Span> inline.
+</p>
+
+<!-- Combined styling for pricing -->
+<p class="text-lg text-gray-700 dark:text-gray-400">
+    Was <Span CustomColor="text-red-600" Weight="FontWeight.Bold" LineThrough="true">$99.99</Span>
+    now <Span CustomColor="text-green-600" Size="TextSize.XL" Weight="FontWeight.Bold">$79.99</Span>!
+</p>
+```
+
+
+
 
 </doc>
 

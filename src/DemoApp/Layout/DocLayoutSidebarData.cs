@@ -52,8 +52,16 @@ public static class DocLayoutSidebarData
                 new() { Title = "Toast", Href = "/docs/components/toast", IsNew = true }, // Add Toast link here
                 new() { Title = "Toolbar", Href = "/docs/components/toolbar", IsNew = true },
                 new() { Title = "Tooltip", Href = "/docs/components/tooltip" },
-                
-                // new() { Title = "Forms", Href = "/docs/components/form", IsNew = true },
+            }
+        },
+        new DocLayoutSidebarSection
+        {
+            Title = "Typography",
+            Items = new List<DocLayoutSidebarItem>
+            {
+                new() { Title = "Heading", Href = "/docs/components/heading", IsNew = true },
+                new() { Title = "Paragraph", Href = "/docs/components/paragraph", IsNew = true },
+                new() { Title = "Span", Href = "/docs/components/span", IsNew = true },
             }
         }
     };
