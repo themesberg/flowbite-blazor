@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 
 Write-Host "Using dotnet verison $(dotnet --version)"
 Write-Host "Create NuGet packages in .\nuget-local directory..."

@@ -1,3 +1,5 @@
+#!/usr/bin/env pwsh
+
 # Get NuGet API Key from environment variable
 $apiKey = $env:NUGET_API_KEY
 
