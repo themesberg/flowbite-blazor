@@ -154,22 +154,22 @@ public partial class Carousel : IDisposable
 
     private void NextSlide()
     {
-        int nextIndex = (_currentIndex + 1) % _slideCount;
         if (_slideCount > 0)
         {
+            int nextIndex = (_currentIndex + 1) % _slideCount;
             GoToSlide(nextIndex);
         }
     }
 
     private void PreviousSlide()
     {
-        int previousIndex = _currentIndex - 1;
-        if (previousIndex < 0)
-        {
-            previousIndex = _slideCount - 1;
-        }
         if (_slideCount > 0)
         {
+            int previousIndex = _currentIndex - 1;
+            if (previousIndex < 0)
+            {
+                previousIndex = _slideCount - 1;
+            }
             GoToSlide(previousIndex);
         }
     }
