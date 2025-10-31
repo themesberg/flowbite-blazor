@@ -4,7 +4,7 @@ This project involves converting the Flowbite React component library to ASP.NET
 
 ## File Paths
 
-- **Project Root:** `C:/Users/tschavey/projects/peakflames/flowbite-blazor`
+- **Project Root:** `WORKSPACE_DIR`
 - **Docs Directory:** `{{project_root_dir}}/docs`
 - **Project Plan:** `{{docs_dir}}/project-plan.md`
 - **Flowbite Blazor Library (csproj):** `{{project_root_dir}}/src/Flowbite`
@@ -116,7 +116,7 @@ This project involves converting the Flowbite React component library to ASP.NET
 When building the DemoApp project, execute this command:
 
 ```powershell
-cd C:\Users/tschavey\projects\peakflames\flowbite-blazor\src\DemoApp"; dotnet build
+cd {$WORKSPACE_DIR}\src\DemoApp; dotnet build
 ```
 
 
