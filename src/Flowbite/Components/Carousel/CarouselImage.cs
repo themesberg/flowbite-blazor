@@ -1,4 +1,4 @@
-namespace Flowbite.Components;
+namespace Flowbite.Components.Carousel;
 
 /// <summary>
 /// Represents an image in a carousel with its source, alternative text, and optional title.

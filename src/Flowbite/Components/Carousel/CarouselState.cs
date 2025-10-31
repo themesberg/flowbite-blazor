@@ -1,4 +1,4 @@
-namespace Flowbite.Components;
+namespace Flowbite.Components.Carousel;
 
 /// <summary>
 /// Represents the shared state for a carousel component and its child components.

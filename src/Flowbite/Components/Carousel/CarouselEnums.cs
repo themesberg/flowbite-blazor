@@ -1,4 +1,4 @@
-namespace Flowbite.Components;
+namespace Flowbite.Components.Carousel;
 
 /// <summary>
 /// Defines how carousel images should be fitted within their container.
