@@ -1,0 +1,8 @@
+@using Flowbite.Base
+@inherits FlowbiteComponentBase
+
+<CascadingValue Value="@_carouselState">
+    <div class="@CombineClasses()" @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+</CascadingValue>
