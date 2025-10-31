@@ -54,6 +54,6 @@ public partial class Toolbar
 
     private string GetContentClasses()
     {
-        return "flex flex-wrap items-center";
+        return "flex flex-wrap items-center space-x-1";
     }
 }
