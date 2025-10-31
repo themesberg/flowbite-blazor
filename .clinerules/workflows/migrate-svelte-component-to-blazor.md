@@ -125,9 +125,63 @@ Guide the migration of a Flowbite Svelte component to Flowbite Blazor by analyzi
    - Present summary of phases and major tasks
    - Ask if they want to proceed with implementation
 
-## 4. Implement Foundation Components
+## 4. Git Branch Management and Setup
 
-### 4.1 Create Directory Structure
+### 4.1 Verify Current Branch and Create Feature Branch
+
+1. Use the `execute_command` tool to check current Git branch:
+   ```bash
+   git branch --show-current
+   ```
+
+2. If on `main` or `develop` branch, create a feature branch:
+   - Use the `execute_command` tool to create and checkout feature branch:
+   ```bash
+   git checkout -b feature/migrate-{component-name}-component
+   ```
+   - Branch naming convention: `feature/migrate-{component-name}-component`
+   - Example: `feature/migrate-accordion-component`
+   - **Do not request approval** - proceed automatically if in autonomous mode
+
+3. If already on a feature branch, verify it's appropriate:
+   - Check branch name matches the component being migrated
+   - If not, ask user if they want to create a new feature branch or continue on current branch
+
+4. Document the feature branch name for reference throughout the workflow.
+
+### 4.2 Commit Strategy
+
+**Important Git Guidelines:**
+- **Commit incrementally** after each major step or logical unit of work
+- **Never push** to remote repository unless explicitly approved by user
+- Commits should be atomic and have clear, descriptive messages
+- Push will only occur at the end of workflow with user approval (see Section 9)
+
+**Commit Message Format:**
+```
+feat({component-name}): [brief description]
+
+- Detailed change 1
+- Detailed change 2
+```
+
+**Example commit messages:**
+- `feat(accordion): create component directory structure`
+- `feat(accordion): add AccordionEnums with Size and Color enums`
+- `feat(accordion): implement Accordion.razor component`
+- `feat(accordion): add demo page with examples`
+
+**When to commit:**
+- After creating directory structure
+- After creating enum files
+- After implementing each component file
+- After creating demo pages
+- After adding documentation
+- After verification adjustments
+
+## 5. Implement Foundation Components
+
+### 5.1 Create Directory Structure
 
 1. Use the `execute_command` tool to create component directory if needed:
    ```powershell
@@ -140,7 +194,14 @@ Guide the migration of a Flowbite Svelte component to Flowbite Blazor by analyzi
    Move-Item -Path "src/Flowbite/Components/{OldFile}.razor" -Destination "src/Flowbite/Components/{ComponentName}/"
    ```
 
-### 4.2 Create Enumeration Definitions
+3. Commit directory structure changes:
+   - Use `execute_command` to stage and commit:
+   ```bash
+   git add src/Flowbite/Components/{ComponentName}
+   git commit -m "feat({component-name}): create component directory structure"
+   ```
+
+### 5.2 Create Enumeration Definitions
 
 1. Determine enum organization strategy based on C# conventions:
    - **Option A - Component-specific enum (single enum):**
@@ -187,7 +248,14 @@ Guide the migration of a Flowbite Svelte component to Flowbite Blazor by analyzi
 4. Verify enums compile:
    - Use `execute_command` to build: `dotnet build src/Flowbite/Flowbite.csproj`
 
-### 4.3 Create Helper Class (Optional)
+5. Commit enum files:
+   - Use `execute_command` to stage and commit:
+   ```bash
+   git add src/Flowbite/Components/
+   git commit -m "feat({component-name}): add enumeration definitions"
+   ```
+
+### 5.3 Create Helper Class (Optional)
 
 1. Determine if a separate helper class is needed:
    - **Use helper class if:** Component has complex CSS logic or multiple enum-to-class mappings
@@ -224,7 +292,14 @@ Guide the migration of a Flowbite Svelte component to Flowbite Blazor by analyzi
 3. Verify helper class compiles:
    - Use `execute_command` to build: `dotnet build src/Flowbite/Flowbite.csproj`
 
-### 4.4 Implement Main Component
+4. Commit helper class (if created):
+   - Use `execute_command` to stage and commit:
+   ```bash
+   git add src/Flowbite/Components/{ComponentName}Helper.cs
+   git commit -m "feat({component-name}): add helper class for CSS generation"
+   ```
+
+### 5.4 Implement Main Component
 
 1. Use the `write_to_file` tool to create component Razor file:
    - Path: `src/Flowbite/Components/{ComponentName}/{ComponentName}.razor`
@@ -255,7 +330,14 @@ Guide the migration of a Flowbite Svelte component to Flowbite Blazor by analyzi
    - Use `execute_command` to build: `dotnet build src/Flowbite/Flowbite.csproj`
    - Fix any compilation errors before proceeding
 
-## 5. Create Demo Pages
+5. Commit component files:
+   - Use `execute_command` to stage and commit:
+   ```bash
+   git add src/Flowbite/Components/{ComponentName}/
+   git commit -m "feat({component-name}): implement main component with parameters and styling"
+   ```
+
+## 6. Create Demo Pages
 
 ### 5.1 Setup Demo Structure
 
@@ -292,7 +374,14 @@ Guide the migration of a Flowbite Svelte component to Flowbite Blazor by analyzi
 4. Verify demo page compiles:
    - Use `execute_command` to build: `dotnet build src/DemoApp/DemoApp.csproj`
 
-### 5.3 Update Navigation
+5. Commit demo page:
+   - Use `execute_command` to stage and commit:
+   ```bash
+   git add src/DemoApp/Pages/Docs/components/{category}/{ComponentName}Page.razor
+   git commit -m "feat({component-name}): add demo page with examples"
+   ```
+
+### 6.3 Update Navigation
 
 1. Use the `read_file` tool to read the sidebar component:
    - Path: `src/DemoApp/Layout/DemoAppSidebar.razor`
@@ -306,7 +395,14 @@ Guide the migration of a Flowbite Svelte component to Flowbite Blazor by analyzi
    - Use `execute_command` to build and run: `dotnet run --project src/DemoApp/DemoApp.csproj`
    - Note the local URL for testing
 
-## 6. Create Documentation
+4. Commit navigation changes:
+   - Use `execute_command` to stage and commit:
+   ```bash
+   git add src/DemoApp/Layout/DemoAppSidebar.razor
+   git commit -m "feat({component-name}): add navigation link to sidebar"
+   ```
+
+## 7. Create Documentation
 
 ### 6.1 Create LLMS Documentation
 
@@ -337,7 +433,16 @@ Guide the migration of a Flowbite Svelte component to Flowbite Blazor by analyzi
    - Use `read_file` to check `src/DemoApp/wwwroot/llms-ctx.md`
    - Confirm new component documentation is included
 
-## 7. Verification with Playwright MCP
+5. Commit documentation:
+   - Use `execute_command` to stage and commit:
+   ```bash
+   git add src/DemoApp/wwwroot/llms-docs/sections/{component-name}.md
+   git add src/DemoApp/Build-LlmsContext.ps1
+   git add src/DemoApp/wwwroot/llms-ctx.md
+   git commit -m "feat({component-name}): add component documentation"
+   ```
+
+## 8. Verification with Playwright MCP
 
 ### 7.1 Setup Verification Environment
 
@@ -415,7 +520,15 @@ Guide the migration of a Flowbite Svelte component to Flowbite Blazor by analyzi
    - Document final state in verification summary
    - Mark all examples as verified
 
-## 8. Final Review and Testing
+4. Commit verification adjustments:
+   - Use `execute_command` to stage and commit any component refinements:
+   ```bash
+   git add src/Flowbite/Components/{ComponentName}/
+   git add verification/
+   git commit -m "feat({component-name}): refine component based on visual verification"
+   ```
+
+## 9. Final Review and Testing
 
 ### 8.1 Code Quality Review
 
@@ -466,7 +579,16 @@ Guide the migration of a Flowbite Svelte component to Flowbite Blazor by analyzi
    - Add component to list if appropriate
    - Use `replace_in_file` to update
 
-## 9. Completion
+3. Commit documentation updates:
+   - Use `execute_command` to stage and commit:
+   ```bash
+   git add src/Flowbite/CHANGELOG.md
+   git add src/DemoApp/CHANGELOG.md
+   git add README.md
+   git commit -m "docs({component-name}): update project documentation and changelogs"
+   ```
+
+## 10. Completion and Push Approval
 
 1. Create final summary document:
    - Use `write_to_file` to create `docs/feature/{component-name}/completion-summary.md`
@@ -478,12 +600,34 @@ Guide the migration of a Flowbite Svelte component to Flowbite Blazor by analyzi
      * Verification results summary
      * Links to demo page and documentation
 
-2. Use the `attempt_completion` tool to present results:
+2. Review all commits made:
+   - Use `execute_command` to view commit history:
+   ```bash
+   git log --oneline feature/migrate-{component-name}-component ^develop
+   ```
+   - Verify all commits are present and properly formatted
+
+3. Use the `ask_followup_question` tool to request push approval:
+   - Present summary of all commits
+   - Ask: "All changes have been committed to the feature branch. Would you like to push these changes to the remote repository?"
+   - Options: ["Yes, push to remote", "No, keep local only"]
+   - **Important:** Only push if user explicitly approves
+
+4. If user approves push:
+   - Use `execute_command` to push feature branch:
+   ```bash
+   git push -u origin feature/migrate-{component-name}-component
+   ```
+   - Confirm push was successful
+
+5. Use the `attempt_completion` tool to present final results:
    - Summarize what was accomplished
    - List all files created/modified
+   - Show feature branch name
+   - Indicate if changes were pushed to remote
    - Provide demo page URL
    - Note verification results
-   - Mention any follow-up work needed
+   - Mention any follow-up work needed (e.g., create pull request)
    - Include command to run demo: `dotnet run --project src/DemoApp/DemoApp.csproj`
 
 </detailed_sequence_steps>
