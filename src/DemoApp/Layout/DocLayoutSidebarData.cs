@@ -39,17 +39,17 @@ public static class DocLayoutSidebarData
                 new() { Title = "Button", Href = "/docs/components/button" },
                 new() { Title = "Card", Href = "/docs/components/card" },
                 new() { Title = "Dropdown", Href = "/docs/components/dropdown" },
-                new() { Title = "Drawer", Href = "/docs/components/drawer", IsNew = true },
+                new() { Title = "Drawer", Href = "/docs/components/drawer" },
                 new() { Title = "Form Validation", Href = "/docs/components/form-validation"},
                 new() { Title = "Forms", Href = "/docs/components/forms" },
-                new() { Title = "Modal", Href = "/docs/components/modal", IsNew = true },
+                new() { Title = "Modal", Href = "/docs/components/modal" },
                 new() { Title = "Navbar", Href = "/docs/components/navbar" },
                 new() { Title = "QuickGrid", Href = "/docs/components/quickgrid" },
                 new() { Title = "Sidebar", Href = "/docs/components/sidebar" },
                 new() { Title = "Spinner", Href = "/docs/components/spinner" },
                 new() { Title = "Table", Href = "/docs/components/table"},
                 new() { Title = "Tabs", Href = "/docs/components/tabs" },
-                new() { Title = "Toast", Href = "/docs/components/toast", IsNew = true }, // Add Toast link here
+                new() { Title = "Toast", Href = "/docs/components/toast" }, // Add Toast link here
                 new() { Title = "Toolbar", Href = "/docs/components/toolbar", IsNew = true },
                 new() { Title = "Tooltip", Href = "/docs/components/tooltip" },
             }
