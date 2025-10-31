@@ -1,0 +1,257 @@
+@page "/docs/components/carousel"
+
+<PageTitle>Carousel - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Carousel Examples</h2>
+
+    <div class="space-y-8">
+        <ComponentExample 
+            Title="Default Carousel"
+            Description="Use this example to create a basic carousel with image slides. The carousel automatically cycles through slides and includes navigation controls and indicators."
+            RazorCode="@(@"
+<Carousel>
+    <CarouselItem ImageSrc=""/images/carousel-1.svg"" ImageAlt=""Slide 1"" />
+    <CarouselItem ImageSrc=""/images/carousel-2.svg"" ImageAlt=""Slide 2"" />
+    <CarouselItem ImageSrc=""/images/carousel-3.svg"" ImageAlt=""Slide 3"" />
+    <CarouselItem ImageSrc=""/images/carousel-4.svg"" ImageAlt=""Slide 4"" />
+    <CarouselItem ImageSrc=""/images/carousel-5.svg"" ImageAlt=""Slide 5"" />
+    <CarouselControls />
+    <CarouselIndicators />
+</Carousel>
+")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Carousel>
+                    <CarouselItem ImageSrc="/images/carousel-1.svg" ImageAlt="Slide 1" />
+                    <CarouselItem ImageSrc="/images/carousel-2.svg" ImageAlt="Slide 2" />
+                    <CarouselItem ImageSrc="/images/carousel-3.svg" ImageAlt="Slide 3" />
+                    <CarouselItem ImageSrc="/images/carousel-4.svg" ImageAlt="Slide 4" />
+                    <CarouselItem ImageSrc="/images/carousel-5.svg" ImageAlt="Slide 5" />
+                    <CarouselControls />
+                    <CarouselIndicators />
+                </Carousel>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Auto-Advance Carousel"
+            Description="Add automatic slide advancement by setting the AutoAdvanceInterval parameter. The carousel will automatically move to the next slide after the specified interval (in milliseconds)."
+            RazorCode="@(@"
+<Carousel AutoAdvanceInterval=""3000"">
+    <CarouselItem ImageSrc=""/images/carousel-1.svg"" ImageAlt=""Slide 1"" />
+    <CarouselItem ImageSrc=""/images/carousel-2.svg"" ImageAlt=""Slide 2"" />
+    <CarouselItem ImageSrc=""/images/carousel-3.svg"" ImageAlt=""Slide 3"" />
+    <CarouselControls />
+    <CarouselIndicators />
+</Carousel>
+")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Carousel AutoAdvanceInterval="3000">
+                    <CarouselItem ImageSrc="/images/carousel-1.svg" ImageAlt="Slide 1" />
+                    <CarouselItem ImageSrc="/images/carousel-2.svg" ImageAlt="Slide 2" />
+                    <CarouselItem ImageSrc="/images/carousel-3.svg" ImageAlt="Slide 3" />
+                    <CarouselControls />
+                    <CarouselIndicators />
+                </Carousel>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Custom Content Slides"
+            Description="Create slides with custom HTML content instead of just images. You can include any combination of text, images, buttons, and other components."
+            RazorCode="@(@"
+<Carousel>
+    <CarouselItem>
+        <div class=""flex items-center justify-center h-full bg-gradient-to-r from-purple-500 to-pink-500 text-white"">
+            <div class=""text-center"">
+                <h3 class=""text-3xl font-bold mb-2"">Welcome</h3>
+                <p class=""text-xl"">First Slide</p>
+            </div>
+        </div>
+    </CarouselItem>
+    <CarouselItem>
+        <div class=""flex items-center justify-center h-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white"">
+            <div class=""text-center"">
+                <h3 class=""text-3xl font-bold mb-2"">Explore</h3>
+                <p class=""text-xl"">Second Slide</p>
+            </div>
+        </div>
+    </CarouselItem>
+    <CarouselItem>
+        <div class=""flex items-center justify-center h-full bg-gradient-to-r from-green-500 to-teal-500 text-white"">
+            <div class=""text-center"">
+                <h3 class=""text-3xl font-bold mb-2"">Discover</h3>
+                <p class=""text-xl"">Third Slide</p>
+            </div>
+        </div>
+    </CarouselItem>
+    <CarouselControls />
+    <CarouselIndicators />
+</Carousel>
+")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Carousel>
+                    <CarouselItem>
+                        <div class="flex items-center justify-center h-full bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                            <div class="text-center">
+                                <h3 class="text-3xl font-bold mb-2">Welcome</h3>
+                                <p class="text-xl">First Slide</p>
+                            </div>
+                        </div>
+                    </CarouselItem>
+                    <CarouselItem>
+                        <div class="flex items-center justify-center h-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white">
+                            <div class="text-center">
+                                <h3 class="text-3xl font-bold mb-2">Explore</h3>
+                                <p class="text-xl">Second Slide</p>
+                            </div>
+                        </div>
+                    </CarouselItem>
+                    <CarouselItem>
+                        <div class="flex items-center justify-center h-full bg-gradient-to-r from-green-500 to-teal-500 text-white">
+                            <div class="text-center">
+                                <h3 class="text-3xl font-bold mb-2">Discover</h3>
+                                <p class="text-xl">Third Slide</p>
+                            </div>
+                        </div>
+                    </CarouselItem>
+                    <CarouselControls />
+                    <CarouselIndicators />
+                </Carousel>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Indicator Position"
+            Description="Control the position of slide indicators using the Position parameter. Choose between top and bottom placement."
+            RazorCode="@(@"
+<Carousel>
+    <CarouselItem ImageSrc=""/images/carousel-1.svg"" ImageAlt=""Slide 1"" />
+    <CarouselItem ImageSrc=""/images/carousel-2.svg"" ImageAlt=""Slide 2"" />
+    <CarouselItem ImageSrc=""/images/carousel-3.svg"" ImageAlt=""Slide 3"" />
+    <CarouselControls />
+    <CarouselIndicators Position=""CarouselIndicatorPosition.Top"" />
+</Carousel>
+")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Carousel>
+                    <CarouselItem ImageSrc="/images/carousel-1.svg" ImageAlt="Slide 1" />
+                    <CarouselItem ImageSrc="/images/carousel-2.svg" ImageAlt="Slide 2" />
+                    <CarouselItem ImageSrc="/images/carousel-3.svg" ImageAlt="Slide 3" />
+                    <CarouselControls />
+                    <CarouselIndicators Position="CarouselIndicatorPosition.Top" />
+                </Carousel>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Image Fit Options"
+            Description="Control how images fit within their containers using the ImageFit parameter. Options include Cover (default), Contain, Fill, ScaleDown, and None."
+            RazorCode="@(@"
+<Carousel>
+    <CarouselItem ImageSrc=""/images/carousel-1.svg"" 
+                  ImageAlt=""Cover (default)"" 
+                  ImageFit=""CarouselImageFit.Cover"" />
+    <CarouselItem ImageSrc=""/images/carousel-2.svg"" 
+                  ImageAlt=""Contain"" 
+                  ImageFit=""CarouselImageFit.Contain"" />
+    <CarouselItem ImageSrc=""/images/carousel-3.svg"" 
+                  ImageAlt=""Fill"" 
+                  ImageFit=""CarouselImageFit.Fill"" />
+    <CarouselControls />
+    <CarouselIndicators />
+</Carousel>
+")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Carousel>
+                    <CarouselItem ImageSrc="/images/carousel-1.svg" 
+                                  ImageAlt="Cover (default)" 
+                                  ImageFit="CarouselImageFit.Cover" />
+                    <CarouselItem ImageSrc="/images/carousel-2.svg" 
+                                  ImageAlt="Contain" 
+                                  ImageFit="CarouselImageFit.Contain" />
+                    <CarouselItem ImageSrc="/images/carousel-3.svg" 
+                                  ImageAlt="Fill" 
+                                  ImageFit="CarouselImageFit.Fill" />
+                    <CarouselControls />
+                    <CarouselIndicators />
+                </Carousel>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Without Controls"
+            Description="Create a carousel without navigation controls, showing only the indicators. Useful for automatic slideshows or when you want a minimal interface."
+            RazorCode="@(@"
+<Carousel AutoAdvanceInterval=""2500"">
+    <CarouselItem ImageSrc=""/images/carousel-1.svg"" ImageAlt=""Slide 1"" />
+    <CarouselItem ImageSrc=""/images/carousel-2.svg"" ImageAlt=""Slide 2"" />
+    <CarouselItem ImageSrc=""/images/carousel-3.svg"" ImageAlt=""Slide 3"" />
+    <CarouselIndicators />
+</Carousel>
+")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Carousel AutoAdvanceInterval="2500">
+                    <CarouselItem ImageSrc="/images/carousel-1.svg" ImageAlt="Slide 1" />
+                    <CarouselItem ImageSrc="/images/carousel-2.svg" ImageAlt="Slide 2" />
+                    <CarouselItem ImageSrc="/images/carousel-3.svg" ImageAlt="Slide 3" />
+                    <CarouselIndicators />
+                </Carousel>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Controlled Carousel"
+            Description="Control the carousel programmatically using two-way binding with @bind-Index. This allows you to synchronize the carousel with external controls or state."
+            RazorCode="@(@"
+<div class=""space-y-4"">
+    <Carousel @bind-Index=""_currentSlide"">
+        <CarouselItem ImageSrc=""/images/carousel-1.svg"" ImageAlt=""Slide 1"" />
+        <CarouselItem ImageSrc=""/images/carousel-2.svg"" ImageAlt=""Slide 2"" />
+        <CarouselItem ImageSrc=""/images/carousel-3.svg"" ImageAlt=""Slide 3"" />
+        <CarouselControls />
+        <CarouselIndicators />
+    </Carousel>
+    <div class=""flex gap-2 justify-center"">
+        <Button Size=""ButtonSize.Small"" OnClick=""@(() => _currentSlide = 0)"">Go to Slide 1</Button>
+        <Button Size=""ButtonSize.Small"" OnClick=""@(() => _currentSlide = 1)"">Go to Slide 2</Button>
+        <Button Size=""ButtonSize.Small"" OnClick=""@(() => _currentSlide = 2)"">Go to Slide 3</Button>
+    </div>
+    <p class=""text-center"">Current slide: @(_currentSlide + 1)</p>
+</div>
+
+@code {
+    private int _currentSlide = 0;
+}
+")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Carousel @bind-Index="_currentSlide">
+                        <CarouselItem ImageSrc="/images/carousel-1.svg" ImageAlt="Slide 1" />
+                        <CarouselItem ImageSrc="/images/carousel-2.svg" ImageAlt="Slide 2" />
+                        <CarouselItem ImageSrc="/images/carousel-3.svg" ImageAlt="Slide 3" />
+                        <CarouselControls />
+                        <CarouselIndicators />
+                    </Carousel>
+                    <div class="flex gap-2 justify-center">
+                        <Button Size="ButtonSize.Small" OnClick="@(() => _currentSlide = 0)">Go to Slide 1</Button>
+                        <Button Size="ButtonSize.Small" OnClick="@(() => _currentSlide = 1)">Go to Slide 2</Button>
+                        <Button Size="ButtonSize.Small" OnClick="@(() => _currentSlide = 2)">Go to Slide 3</Button>
+                    </div>
+                    <p class="text-center">Current slide: @(_currentSlide + 1)</p>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>
+
+@code {
+    private int _currentSlide = 0;
+}
