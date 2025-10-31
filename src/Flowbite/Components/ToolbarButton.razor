@@ -1,0 +1,9 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<button type="button"
+        class="@GetButtonClasses()"
+        @onclick="HandleClick"
+        aria-label="@AriaLabel"
+        @attributes="AdditionalAttributes">
+    @ChildContent
+</button>

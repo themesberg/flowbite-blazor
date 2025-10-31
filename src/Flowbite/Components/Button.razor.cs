@@ -121,6 +121,7 @@ public partial class Button
         var classes = new List<string>
         {
             "focus:outline-none",
+            "focus-within:outline-hidden",
             "inline-flex",
             "items-center",
             "justify-center",
@@ -133,7 +134,7 @@ public partial class Button
         // Size classes
         classes.AddRange(Size switch
         {
-            ButtonSize.Small => new[] { "text-xs", "px-3", "py-2" },
+            ButtonSize.Small => new[] { "text-sm", "px-4", "py-2" },
             ButtonSize.Medium => new[] { "text-sm", "px-5", "py-2.5" },
             ButtonSize.Large => new[] { "text-base", "px-6", "py-3" },
             _ => new[] { "text-sm", "px-5", "py-2.5" }

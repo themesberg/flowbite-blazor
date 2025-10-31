@@ -32,7 +32,7 @@ public abstract class IconBase : FlowbiteComponentBase
     {
         get
         {
-            return CombineClasses(Class is not null ? Class : "w-6 h-6 text-gray-800 dark:text-white");
+            return CombineClasses(Class is not null ? Class : "w-6 h-6 text-current");
         }
     }
 }

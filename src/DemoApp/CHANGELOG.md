@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.31-alpha
+
+- Add Carousel component examples and update llms-ctx.md
+- Add carousel documentation (01-23-carousel.md)
+- Update sidebar navigation with Carousel component
+- Add Toolbar component examples and udpate llms-ctx.md
+- Add Typography component section with demo pages:
+    - Heading component examples (6 comprehensive examples)
+    - Paragraph component examples (9 comprehensive examples)
+    - Span component examples (8 comprehensive examples)
+- Add Typography LLMS documentation (heading.md, paragraph.md, span.md)
+- Update llms-ctx.md with Typography component documentation
+- Update sidebar navigation with Typography section
+
 ## 0.0.30-alpha
 
 - Update example of Select data binding [#1]

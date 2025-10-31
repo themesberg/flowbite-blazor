@@ -1,0 +1,40 @@
+@using Flowbite.Base
+@using Flowbite.Icons
+@inherits FlowbiteComponentBase
+
+<CascadingValue Value="@CarouselState" IsFixed="true">
+    @if (CarouselState != null && CarouselState.TotalSlides > 1)
+    {
+        <button type="button"
+                class="@GetPreviousButtonClass()"
+                @onclick="HandlePreviousClick"
+                aria-label="Previous slide">
+            <span class="@GetControlIconWrapperClass()">
+                @if (PreviousContent != null)
+                {
+                    @PreviousContent
+                }
+                else
+                {
+                    <ChevronLeftIcon Class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" />
+                }
+            </span>
+        </button>
+
+        <button type="button"
+                class="@GetNextButtonClass()"
+                @onclick="HandleNextClick"
+                aria-label="Next slide">
+            <span class="@GetControlIconWrapperClass()">
+                @if (NextContent != null)
+                {
+                    @NextContent
+                }
+                else
+                {
+                    <ChevronRightIcon Class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" />
+                }
+            </span>
+        </button>
+    }
+</CascadingValue>

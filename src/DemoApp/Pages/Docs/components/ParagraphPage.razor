@@ -1,0 +1,251 @@
+@page "/docs/components/paragraph"
+@using Flowbite.Components.Typography
+
+<PageTitle>Paragraph - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Paragraph Examples</h2>
+
+    <div class="space-y-8">
+        <ComponentExample
+            Title="Default Paragraph"
+            Description="Use the Paragraph component to render text content with consistent styling. The default paragraph uses base text size and gray color scheme."
+            RazorCode="@(
+@"<Paragraph>
+    The Paragraph component provides a flexible way to display text content with
+    consistent styling across your application. It supports various text sizes,
+    weights, alignments, and color options.
+</Paragraph>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Paragraph>
+                    The Paragraph component provides a flexible way to display text content with
+                    consistent styling across your application. It supports various text sizes,
+                    weights, alignments, and color options.
+                </Paragraph>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Text Sizes"
+            Description="Control the size of your paragraph text using the Size parameter. Choose from extra small (XS) to extra large (9XL) sizes."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <Paragraph Size=""TextSize.XS"">Extra small paragraph text (text-xs)</Paragraph>
+    <Paragraph Size=""TextSize.SM"">Small paragraph text (text-sm)</Paragraph>
+    <Paragraph Size=""TextSize.Base"">Base paragraph text (text-base)</Paragraph>
+    <Paragraph Size=""TextSize.LG"">Large paragraph text (text-lg)</Paragraph>
+    <Paragraph Size=""TextSize.XL"">Extra large paragraph text (text-xl)</Paragraph>
+    <Paragraph Size=""TextSize.XXL"">2XL paragraph text (text-2xl)</Paragraph>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Paragraph Size="TextSize.XS">Extra small paragraph text (text-xs)</Paragraph>
+                    <Paragraph Size="TextSize.SM">Small paragraph text (text-sm)</Paragraph>
+                    <Paragraph Size="TextSize.Base">Base paragraph text (text-base)</Paragraph>
+                    <Paragraph Size="TextSize.LG">Large paragraph text (text-lg)</Paragraph>
+                    <Paragraph Size="TextSize.XL">Extra large paragraph text (text-xl)</Paragraph>
+                    <Paragraph Size="TextSize.XXL">2XL paragraph text (text-2xl)</Paragraph>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Font Weights"
+            Description="Adjust the font weight of paragraph text to create visual hierarchy or emphasis. Available weights range from thin to black."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <Paragraph Weight=""FontWeight.Light"">Light paragraph text</Paragraph>
+    <Paragraph Weight=""FontWeight.Normal"">Normal paragraph text</Paragraph>
+    <Paragraph Weight=""FontWeight.Medium"">Medium paragraph text</Paragraph>
+    <Paragraph Weight=""FontWeight.SemiBold"">Semi-bold paragraph text</Paragraph>
+    <Paragraph Weight=""FontWeight.Bold"">Bold paragraph text</Paragraph>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Paragraph Weight="FontWeight.Light">Light paragraph text</Paragraph>
+                    <Paragraph Weight="FontWeight.Normal">Normal paragraph text</Paragraph>
+                    <Paragraph Weight="FontWeight.Medium">Medium paragraph text</Paragraph>
+                    <Paragraph Weight="FontWeight.SemiBold">Semi-bold paragraph text</Paragraph>
+                    <Paragraph Weight="FontWeight.Bold">Bold paragraph text</Paragraph>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Text Alignment"
+            Description="Control paragraph text alignment using the Align parameter. Supports left, center, right, and justified alignment."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <Paragraph Align=""TextAlign.Left"">
+        Left-aligned paragraph text. This is the default alignment for most text content.
+    </Paragraph>
+    <Paragraph Align=""TextAlign.Center"">
+        Center-aligned paragraph text. Useful for emphasis or decorative content.
+    </Paragraph>
+    <Paragraph Align=""TextAlign.Right"">
+        Right-aligned paragraph text. Often used for quotes or specific design layouts.
+    </Paragraph>
+    <Paragraph Align=""TextAlign.Justify"">
+        Justified paragraph text. The text is spread evenly between the left and right edges.
+    </Paragraph>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Paragraph Align="TextAlign.Left">
+                        Left-aligned paragraph text. This is the default alignment for most text content.
+                    </Paragraph>
+                    <Paragraph Align="TextAlign.Center">
+                        Center-aligned paragraph text. Useful for emphasis or decorative content.
+                    </Paragraph>
+                    <Paragraph Align="TextAlign.Right">
+                        Right-aligned paragraph text. Often used for quotes or specific design layouts.
+                    </Paragraph>
+                    <Paragraph Align="TextAlign.Justify">
+                        Justified paragraph text. The text is spread evenly between the left and right edges.
+                    </Paragraph>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Line Height (Leading)"
+            Description="Adjust the spacing between lines of text using the Leading parameter to improve readability."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <Paragraph Leading=""LineHeight.Tight"">
+        Tight line height paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </Paragraph>
+    <Paragraph Leading=""LineHeight.Normal"">
+        Normal line height paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </Paragraph>
+    <Paragraph Leading=""LineHeight.Relaxed"">
+        Relaxed line height paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </Paragraph>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Paragraph Leading="LineHeight.Tight">
+                        Tight line height paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </Paragraph>
+                    <Paragraph Leading="LineHeight.Normal">
+                        Normal line height paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </Paragraph>
+                    <Paragraph Leading="LineHeight.Relaxed">
+                        Relaxed line height paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </Paragraph>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Italic and Underline"
+            Description="Add text decorations like italic and underline to emphasize or style paragraph content."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <Paragraph Italic=""true"">This paragraph uses italic styling for emphasis.</Paragraph>
+    <Paragraph Underline=""true"">This paragraph has underlined text.</Paragraph>
+    <Paragraph Italic=""true"" Underline=""true"">This paragraph combines italic and underline.</Paragraph>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Paragraph Italic="true">This paragraph uses italic styling for emphasis.</Paragraph>
+                    <Paragraph Underline="true">This paragraph has underlined text.</Paragraph>
+                    <Paragraph Italic="true" Underline="true">This paragraph combines italic and underline.</Paragraph>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="First Letter Styling"
+            Description="Create drop cap effects by styling the first letter of a paragraph with larger, bolder text."
+            RazorCode="@(
+@"<Paragraph FirstLetterUpper=""true"" Size=""TextSize.LG"" Leading=""LineHeight.Relaxed"">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+</Paragraph>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Paragraph FirstLetterUpper="true" Size="TextSize.LG" Leading="LineHeight.Relaxed">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </Paragraph>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Gradient Paragraphs"
+            Description="Apply gradient color effects to paragraph text for modern, eye-catching designs."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <Paragraph Gradient=""GradientColor.PurpleToBlue"" Size=""TextSize.XL"" Weight=""FontWeight.Bold"">
+        Purple to blue gradient paragraph text
+    </Paragraph>
+    <Paragraph Gradient=""GradientColor.GreenToBlue"" Size=""TextSize.XL"" Weight=""FontWeight.Bold"">
+        Green to blue gradient paragraph text
+    </Paragraph>
+    <Paragraph Gradient=""GradientColor.RedToYellow"" Size=""TextSize.XL"" Weight=""FontWeight.Bold"">
+        Red to yellow gradient paragraph text
+    </Paragraph>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Paragraph Gradient="GradientColor.PurpleToBlue" Size="TextSize.XL" Weight="FontWeight.Bold">
+                        Purple to blue gradient paragraph text
+                    </Paragraph>
+                    <Paragraph Gradient="GradientColor.GreenToBlue" Size="TextSize.XL" Weight="FontWeight.Bold">
+                        Green to blue gradient paragraph text
+                    </Paragraph>
+                    <Paragraph Gradient="GradientColor.RedToYellow" Size="TextSize.XL" Weight="FontWeight.Bold">
+                        Red to yellow gradient paragraph text
+                    </Paragraph>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Custom Colors"
+            Description="Use custom Tailwind CSS color classes to style paragraphs with specific colors."
+            RazorCode="@(
+@"<div class=""space-y-4"">
+    <Paragraph CustomColor=""text-blue-600 dark:text-blue-400"">
+        Blue colored paragraph text
+    </Paragraph>
+    <Paragraph CustomColor=""text-green-600 dark:text-green-400"">
+        Green colored paragraph text
+    </Paragraph>
+    <Paragraph CustomColor=""text-red-600 dark:text-red-400"">
+        Red colored paragraph text
+    </Paragraph>
+</div>")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Paragraph CustomColor="text-blue-600 dark:text-blue-400">
+                        Blue colored paragraph text
+                    </Paragraph>
+                    <Paragraph CustomColor="text-green-600 dark:text-green-400">
+                        Green colored paragraph text
+                    </Paragraph>
+                    <Paragraph CustomColor="text-red-600 dark:text-red-400">
+                        Red colored paragraph text
+                    </Paragraph>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>
