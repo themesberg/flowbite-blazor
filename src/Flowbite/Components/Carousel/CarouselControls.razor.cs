@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Components;
+using Flowbite.Base;
 
-namespace Flowbite.Components;
+namespace Flowbite.Components.Carousel;
 
 /// <summary>
 /// Navigation controls for a carousel component, providing previous and next buttons.
 /// </summary>
-public partial class CarouselControls
+public partial class CarouselControls : FlowbiteComponentBase
 {
     /// <summary>
     /// Gets or sets the cascaded carousel state.
@@ -46,7 +47,4 @@ public partial class CarouselControls
     {
         return "absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none";
     }
-
-    /// <inheritdoc />
-    protected override string DefaultClass => string.Empty;
 }

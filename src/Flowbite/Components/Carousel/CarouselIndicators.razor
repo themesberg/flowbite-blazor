@@ -1,15 +1,14 @@
-@using Flowbite.Base
-@inherits FlowbiteComponentBase
+@inherits Flowbite.Base.FlowbiteComponentBase
 
-@if (CarouselState != null && CarouselState.TotalSlides > 1)
+@if (State != null && State.TotalSlides > 1)
 {
-    <div class="@CombineClasses()">
-        @for (int i = 0; i < CarouselState.TotalSlides; i++)
+    <div class="@GetIndicatorContainerClass()">
+        @for (int i = 0; i < State.TotalSlides; i++)
         {
             int index = i; // Capture for closure
             <button type="button"
                     class="@GetIndicatorButtonClass(index)"
-                    aria-current="@(index == CarouselState.CurrentIndex ? "true" : "false")"
+                    aria-current="@(index == State.CurrentIndex ? "true" : "false")"
                     aria-label="@($"Slide {index + 1}")"
                     @onclick="@(() => HandleIndicatorClick(index))">
             </button>
