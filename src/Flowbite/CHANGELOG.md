@@ -2,7 +2,7 @@
 
 ## 0.0.12-alpha
 
-- TBD
+- Add initial implementation of Toolbar component
 
 ## 0.0.11-alpha
 

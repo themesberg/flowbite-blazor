@@ -50,6 +50,7 @@ public static class DocLayoutSidebarData
                 new() { Title = "Table", Href = "/docs/components/table"},
                 new() { Title = "Tabs", Href = "/docs/components/tabs" },
                 new() { Title = "Toast", Href = "/docs/components/toast", IsNew = true }, // Add Toast link here
+                new() { Title = "Toolbar", Href = "/docs/components/toolbar", IsNew = true },
                 new() { Title = "Tooltip", Href = "/docs/components/tooltip" },
                 
                 // new() { Title = "Forms", Href = "/docs/components/form", IsNew = true },

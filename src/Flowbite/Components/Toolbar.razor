@@ -1,0 +1,11 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<div class="@GetToolbarClasses()" @attributes="AdditionalAttributes">
+    <div class="@GetContentClasses()">
+        @ChildContent
+    </div>
+    @if (End != null)
+    {
+        @End
+    }
+</div>

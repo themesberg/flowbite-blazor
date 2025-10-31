@@ -2,7 +2,7 @@
 
 ## 0.0.31-alpha
 
-- TBD
+- Add Toolbar component examples and udpate llms-ctx.md
 
 ## 0.0.30-alpha
 
