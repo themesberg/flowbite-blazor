@@ -12,7 +12,7 @@
         <ComponentExample Title="Card with CTA Button"
                           Description="Add a call-to-action button inside the card to encourage user interaction. This example shows how to combine the Card and Button components for an effective CTA layout."
                           RazorCode=@(@"
-<Card class=""max-w-sm"">
+<Card class=""p-4 sm:p-6 md:p-8"">
     <h5 class=""text-2xl font-bold tracking-tight text-gray-900 dark:text-white"">
         Noteworthy technology acquisitions 2021
     </h5>
@@ -32,7 +32,7 @@
 </Card>")
                           SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
-                <Card class="max-w-sm">
+                <Card class="p-4 sm:p-6 md:p-8">
                     <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                         Noteworthy technology acquisitions 2021
                     </h5>
@@ -59,24 +59,28 @@
 <Card class=""max-w-sm""
     ImgSrc=""https://flowbite-react.com/images/blog/image-1.jpg""
     ImgAlt=""Meaningful alt text for an image that is not purely decorative"">
-    <h5 class=""text-2xl font-bold tracking-tight text-gray-900 dark:text-white"">
-        Noteworthy technology acquisitions 2021
-    </h5>
-    <p class=""font-normal text-gray-700 dark:text-gray-400"">
-        Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
-    </p>
+    <div class=""p-4"">
+        <h5 class=""mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"">
+            Noteworthy technology acquisitions 2021
+        </h5>
+        <p class=""mb-3 leading-tight font-normal text-gray-700 dark:text-gray-400"">
+            Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+        </p>
+    </div>
 </Card>")
                           SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
                 <Card class="max-w-sm"
                     ImgSrc="https://flowbite-react.com/images/blog/image-1.jpg"
                     ImgAlt="Meaningful alt text for an image that is not purely decorative">
-                    <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        Noteworthy technology acquisitions 2021
-                    </h5>
-                    <p class="font-normal text-gray-700 dark:text-gray-400">
-                        Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
-                    </p>
+                    <div class="p-4">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            Noteworthy technology acquisitions 2021
+                        </h5>
+                        <p class="mb-3 leading-tight font-normal text-gray-700 dark:text-gray-400">
+                            Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+                        </p>
+                    </div>
                 </Card>
             </PreviewContent>
         </ComponentExample>
@@ -97,17 +101,21 @@
 </Card>")
                           SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
-                <Card class="max-w-sm"
-                    ImgSrc="https://flowbite-react.com/images/blog/image-1.jpg"
-                    ImgAlt="Meaningful alt text for an image that is not purely decorative"
-                    Horizontal="true">
-                    <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        Noteworthy technology acquisitions 2021
-                    </h5>
-                    <p class="font-normal text-gray-700 dark:text-gray-400">
-                        Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
-                    </p>
-                </Card>
+                <div class="m-6">
+                    <Card 
+                        ImgSrc="https://flowbite-react.com/images/blog/image-1.jpg"
+                        ImgAlt="Meaningful alt text for an image that is not purely decorative"
+                        Horizontal="true">
+                        <div class="p-4 w-full">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                Noteworthy technology acquisitions 2021
+                            </h5>
+                            <p class="mb-3 leading-tight font-normal text-gray-700 dark:text-gray-400">
+                                Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+                            </p>
+                        </div>
+                    </Card>
+                </div>
             </PreviewContent>
         </ComponentExample>
 

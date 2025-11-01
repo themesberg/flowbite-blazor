@@ -52,7 +52,7 @@ public partial class Card
             var classes = new List<string>
             {
                 BaseClasses,
-                Horizontal ? "flex-col md:max-w-xl md:flex-row" : "flex-col",
+                Horizontal ? "flex-col md:flex-row" : "flex-col",
             };
 
             if (!string.IsNullOrEmpty(Href))
@@ -65,6 +65,6 @@ public partial class Card
     }
 
     private string GetImageClasses() => Horizontal
-        ? "h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+        ? "h-96 w-full object-cover md:h-auto md:w-48 md:rounded-l-lg"
         : "w-full rounded-t-lg object-cover";
 }
