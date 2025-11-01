@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <Version>0.0.31-alpha</Version>
+    <Version>0.0.32-alpha</Version>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -32,13 +32,34 @@
   </Target>
 
   <!-- Tailwind CSS Build Targets -->
-  <Target Name="Tailwind" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
-    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --minify --postcss" />
+ 
+  <Target Name="TailwindBuild" BeforeTargets="Build" Condition="'$(OS)'=='Windows_NT'">
+    <Error Condition="!Exists('..\..\tools\tailwindcss.exe')" Text="Tailwind executable not found at ..\..\tools\tailwindcss.exe" />
+    <Exec 
+      Command="..\..\tools\tailwindcss.exe -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --minify --postcss" 
+      ConsoleToMSBuild="true"
+      StandardOutputImportance="high"
+      StandardErrorImportance="high"
+      IgnoreExitCode="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="TailwindOutput" />
+      <Output TaskParameter="ExitCode" PropertyName="TailwindExitCode" />
+    </Exec>
+    <Error Condition="'$(TailwindExitCode)' != '0'" Text="Tailwind command failed with exit code $(TailwindExitCode). Output: $(TailwindOutput)" />
   </Target>
 
-<!--  <Target Name="TailwindWatch" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">-->
-<!--    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css &#45;&#45;watch &#45;&#45;postcss" />-->
-<!--  </Target>-->
+  <Target Name="TailwindBuild" BeforeTargets="Build" Condition="'$(OS)'!='Windows_NT'">
+    <Error Condition="!Exists('../../tools/tailwindcss')" Text="Tailwind executable not found at ../../tools/tailwindcss" />
+    <Exec 
+      Command="../../tools/tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --minify --postcss" 
+      ConsoleToMSBuild="true"
+      StandardOutputImportance="high"
+      StandardErrorImportance="high"
+      IgnoreExitCode="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="TailwindOutput" />
+      <Output TaskParameter="ExitCode" PropertyName="TailwindExitCode" />
+    </Exec>
+    <Error Condition="'$(TailwindExitCode)' != '0'" Text="Tailwind command failed with exit code $(TailwindExitCode). Output: $(TailwindOutput)" />
+  </Target>
 
   <Target Name="DisableTailwindOnPublish" BeforeTargets="Publish">
     <PropertyGroup>
