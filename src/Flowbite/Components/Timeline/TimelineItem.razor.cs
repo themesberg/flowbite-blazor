@@ -141,7 +141,7 @@ public partial class TimelineItem : FlowbiteComponentBase
 
     private string GetTimeBaseClasses() => Order switch
     {
-        TimelineOrder.Vertical => "mb-1 pl-4 text-sm font-normal leading-none text-gray-400 dark:text-gray-500",
+        TimelineOrder.Vertical => "mb-1 pl-6 text-sm font-normal leading-none text-gray-400 dark:text-gray-500",
         TimelineOrder.Horizontal => "mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500",
         TimelineOrder.Activity => "mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500",
         _ => "mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
@@ -149,16 +149,16 @@ public partial class TimelineItem : FlowbiteComponentBase
 
     private string GetTitleBaseClasses() => Order switch
     {
-        TimelineOrder.Vertical => "flex ml-4 items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white",
-        TimelineOrder.Horizontal => "text-lg font-semibold text-gray-900 dark:text-white",
+        TimelineOrder.Vertical => "flex ml-6 items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white",
+        TimelineOrder.Horizontal => "mt-3 text-lg font-semibold text-gray-900 dark:text-white",
         TimelineOrder.Activity => "text-lg font-semibold text-gray-900 dark:text-white",
         _ => "text-lg font-semibold text-gray-900 dark:text-white"
     };
 
     private string GetConnectorBaseClasses() => Order switch
-    {
-        TimelineOrder.Vertical => "absolute top-7 -left-1.5 w-px h-full bg-gray-200 dark:bg-gray-700",
-        TimelineOrder.Activity => "absolute top-7 -left-4 w-px h-full bg-gray-200 dark:bg-gray-700",
+    {                              
+        TimelineOrder.Vertical => "absolute top-7 -left-1.5 w-0.5 h-full bg-gray-200 dark:bg-gray-700",
+        TimelineOrder.Activity => "absolute top-7 -left-4 w-0.5 h-full bg-gray-200 dark:bg-gray-700",
         _ => string.Empty
     };
 
