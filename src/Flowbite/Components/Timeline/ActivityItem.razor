@@ -1,0 +1,28 @@
+@namespace Flowbite.Components
+@inherits FlowbiteComponentBase
+
+@if (Activities is not null)
+{
+    @foreach (var activity in Activities!)
+    {
+        <li class="@ListItemClasses" @attributes="AdditionalAttributes">
+            <span class="@AvatarWrapperClasses">
+                @if (!string.IsNullOrWhiteSpace(activity.ImageSource))
+                {
+                    <img class="@AvatarClasses" src="@activity.ImageSource" alt="@activity.ImageAlt">
+                }
+            </span>
+            <div class="@CardClasses">
+                <div class="@HeaderClasses">
+                    <time class="@TimeClasses">@activity.Date</time>
+                    <div class="@TitleClasses">@((MarkupString)(activity.Title ?? string.Empty))</div>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(activity.Text))
+                {
+                    <div class="@TextClasses">@((MarkupString)activity.Text)</div>
+                }
+            </div>
+        </li>
+    }
+}
