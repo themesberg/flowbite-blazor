@@ -1,0 +1,536 @@
+@page "/docs/components/timeline"
+@using Flowbite.Base
+@using Flowbite.Components
+@using Flowbite.Icons
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Timeline - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-6xl">
+    <h2>Timeline Examples</h2>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+        Explore the timeline components for building activity feeds, release notes, and chronological progress views with vertical, horizontal, grouped, and activity log variations.
+    </p>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Default Timeline"
+                          Description="Display a basic chronological list with inline dates."
+                          RazorCode=@(@"
+<Timeline>
+    <TimelineItem Title=""Application UI code in Tailwind CSS"" Date=""February 2022"">
+        <ChildContent>
+            <p class=""mb-4 text-base font-normal text-gray-500 dark:text-gray-400"">
+                Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and E-commerce pages.
+            </p>
+            <Button Color=""Button.ButtonColor.Light"">
+                Learn more
+                <ArrowRightIcon Class=""ms-2 h-5 w-5"" />
+            </Button>
+        </ChildContent>
+    </TimelineItem>
+    <TimelineItem Title=""Application UI code in Tailwind CSS"" Date=""March 2022"">
+        <ChildContent>
+            <p class=""text-base font-normal text-gray-500 dark:text-gray-400"">
+                All of the pages and components are first designed in Figma to maintain parity between design and implementation.
+            </p>
+        </ChildContent>
+    </TimelineItem>
+    <TimelineItem Title=""Application UI code in Tailwind CSS"" Date=""April 2022"">
+        <ChildContent>
+            <p class=""text-base font-normal text-gray-500 dark:text-gray-400"">
+                Get started with dozens of web components and interactive elements built on top of Tailwind CSS.
+            </p>
+        </ChildContent>
+    </TimelineItem>
+</Timeline>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Timeline>
+                    <TimelineItem Title="Application UI code in Tailwind CSS" Date="February 2022">
+                        <ChildContent>
+                            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
+                                Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and E-commerce pages.
+                            </p>
+                            <Button Color="Button.ButtonColor.Light">
+                                Learn more
+                                <ArrowRightIcon Class="ms-2 h-5 w-5" />
+                            </Button>
+                        </ChildContent>
+                    </TimelineItem>
+                    <TimelineItem Title="Application UI code in Tailwind CSS" Date="March 2022">
+                        <ChildContent>
+                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                                All of the pages and components are first designed in Figma to maintain parity between design and implementation.
+                            </p>
+                        </ChildContent>
+                    </TimelineItem>
+                    <TimelineItem Title="Application UI code in Tailwind CSS" Date="April 2022">
+                        <ChildContent>
+                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                                Get started with dozens of web components and interactive elements built on top of Tailwind CSS.
+                            </p>
+                        </ChildContent>
+                    </TimelineItem>
+                </Timeline>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Vertical Timeline"
+                          Description="Use the vertical variant to highlight milestones with icons."
+                          RazorCode=@(@"
+<Timeline Order=""TimelineOrder.Vertical"">
+    <TimelineItem Title=""Flowbite Application UI v2.0.0"" Date=""Released on January 13th, 2022"">
+        <OrientationContent>
+            <span class=""absolute -left-4 flex h-6 w-6 items-center justify-center rounded-full ring-8 ring-white dark:ring-gray-900 bg-primary-200 dark:bg-primary-900"">
+                <CalendarMonthIcon Class=""h-4 w-4 text-primary-600 dark:text-primary-400"" />
+            </span>
+        </OrientationContent>
+        <ChildContent>
+            <p class=""mb-4 pl-4 text-base font-normal text-gray-500 dark:text-gray-400"">
+                Get access to over 20+ pages including dashboards, kanban boards, calendars, and marketing layouts.
+            </p>
+        </ChildContent>
+    </TimelineItem>
+    <TimelineItem Title=""Flowbite Figma v1.3.0"" Date=""Released on December 7th, 2021"">
+        <OrientationContent>
+            <span class=""absolute -left-4 flex h-6 w-6 items-center justify-center rounded-full ring-8 ring-white dark:ring-gray-900 bg-primary-200 dark:bg-primary-900"">
+                <CalendarMonthIcon Class=""h-4 w-4 text-primary-600 dark:text-primary-400"" />
+            </span>
+        </OrientationContent>
+        <ChildContent>
+            <p class=""pl-4 text-base font-normal text-gray-500 dark:text-gray-400"">
+                Maintain parity between design and implementation by starting from our Figma resources.
+            </p>
+        </ChildContent>
+    </TimelineItem>
+</Timeline>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Timeline Order="TimelineOrder.Vertical">
+                    <TimelineItem Title="Flowbite Application UI v2.0.0" Date="Released on January 13th, 2022">
+                        <OrientationContent>
+                            <span class="absolute -left-4 flex h-6 w-6 items-center justify-center rounded-full ring-8 ring-white dark:ring-gray-900 bg-primary-200 dark:bg-primary-900">
+                                <CalendarMonthIcon Class="h-4 w-4 text-primary-600 dark:text-primary-400" />
+                            </span>
+                        </OrientationContent>
+                        <ChildContent>
+                            <p class="mb-4 pl-4 text-base font-normal text-gray-500 dark:text-gray-400">
+                                Get access to over 20+ pages including dashboards, kanban boards, calendars, and marketing layouts.
+                            </p>
+                        </ChildContent>
+                    </TimelineItem>
+                    <TimelineItem Title="Flowbite Figma v1.3.0" Date="Released on December 7th, 2021">
+                        <OrientationContent>
+                            <span class="absolute -left-4 flex h-6 w-6 items-center justify-center rounded-full ring-8 ring-white dark:ring-gray-900 bg-primary-200 dark:bg-primary-900">
+                                <CalendarMonthIcon Class="h-4 w-4 text-primary-600 dark:text-primary-400" />
+                            </span>
+                        </OrientationContent>
+                        <ChildContent>
+                            <p class="pl-4 text-base font-normal text-gray-500 dark:text-gray-400">
+                                Maintain parity between design and implementation by starting from our Figma resources.
+                            </p>
+                        </ChildContent>
+                    </TimelineItem>
+                </Timeline>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Horizontal Timeline"
+                          Description="Represent chronological steps with a horizontal layout."
+                          RazorCode=@(@"
+<Timeline Order=""TimelineOrder.Horizontal"">
+    <TimelineItem Title=""Flowbite Library v1.0.0"" Date=""Released on December 2nd, 2021"">
+        <OrientationContent>
+            <div class=""flex items-center"">
+                <div class=""z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ring-0 ring-white sm:ring-8 dark:ring-gray-900 bg-primary-200 dark:bg-primary-900"">
+                    <CalendarMonthIcon Class=""h-4 w-4 text-primary-600 dark:text-primary-400"" />
+                </div>
+                <div class=""hidden h-0.5 w-full bg-gray-200 sm:flex dark:bg-gray-700""></div>
+            </div>
+        </OrientationContent>
+        <ChildContent>
+            <p class=""text-base font-normal text-gray-500 dark:text-gray-400"">
+                Get started with dozens of web components and interactive elements.
+            </p>
+        </ChildContent>
+    </TimelineItem>
+</Timeline>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Timeline Order="TimelineOrder.Horizontal">
+                    <TimelineItem Title="Flowbite Library v1.0.0" Date="Released on December 2nd, 2021">
+                        <OrientationContent>
+                            <div class="flex items-center">
+                                <div class="z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ring-0 ring-white sm:ring-8 dark:ring-gray-900 bg-primary-200 dark:bg-primary-900">
+                                    <CalendarMonthIcon Class="h-4 w-4 text-primary-600 dark:text-primary-400" />
+                                </div>
+                                <div class="hidden h-0.5 w-full bg-gray-200 sm:flex dark:bg-gray-700"></div>
+                            </div>
+                        </OrientationContent>
+                        <ChildContent>
+                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                                Get started with dozens of web components and interactive elements.
+                            </p>
+                        </ChildContent>
+                    </TimelineItem>
+                    <TimelineItem Title="Flowbite Library v1.2.0" Date="Released on December 23rd, 2021">
+                        <OrientationContent>
+                            <div class="flex items-center">
+                                <div class="z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ring-0 ring-white sm:ring-8 dark:ring-gray-900 bg-primary-200 dark:bg-primary-900">
+                                    <CalendarMonthIcon Class="h-4 w-4 text-primary-600 dark:text-primary-400" />
+                                </div>
+                                <div class="hidden h-0.5 w-full bg-gray-200 sm:flex dark:bg-gray-700"></div>
+                            </div>
+                        </OrientationContent>
+                        <ChildContent>
+                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                                Continue iterating on new components and accessibility improvements.
+                            </p>
+                        </ChildContent>
+                    </TimelineItem>
+                    <TimelineItem Title="Flowbite Library v1.3.0" Date="Released on January 5th, 2022" IsLast="true">
+                        <OrientationContent>
+                            <div class="flex items-center">
+                                <div class="z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ring-0 ring-white sm:ring-8 dark:ring-gray-900 bg-primary-200 dark:bg-primary-900">
+                                    <CalendarMonthIcon Class="h-4 w-4 text-primary-600 dark:text-primary-400" />
+                                </div>
+                            </div>
+                        </OrientationContent>
+                        <ChildContent>
+                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                                Ship new templates designed for dashboard and marketing use cases.
+                            </p>
+                        </ChildContent>
+                    </TimelineItem>
+                </Timeline>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Timeline Item Colors"
+                          Description="Bind color variants to the item state and show formatted dates."
+                          RazorCode=@(@"
+<Timeline Order=""TimelineOrder.Vertical"">
+@for (var i = 0; i < Appointments.Count; i++)
+{
+    var appointment = Appointments[i];
+    var visual = GetStatusVisual(appointment.Status);
+    <TimelineItem Title=""@appointment.Title""
+                  Date=""@appointment.Date.ToString(""o"")""
+                  Color=""@visual.Color""
+                  IsLast=""@ (i == Appointments.Count - 1)""
+                  DateFormat=""TimelineDateFormat.FullDate""
+                  DatePrefix=""Scheduled for"">
+        <OrientationContent>
+            <span class=""absolute -left-4 flex h-6 w-6 items-center justify-center rounded-full ring-8 ring-white dark:ring-gray-900 @visual.OrientationClass"">
+                @visual.IconFragment
+            </span>
+        </OrientationContent>
+        <ChildContent>
+            <div class=""pl-6"">
+                <p class=""mb-2 text-base font-normal text-gray-500 dark:text-gray-400"">@appointment.Description</p>
+                <span class=""inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium @visual.BadgeClass"">
+                    @visual.DisplayStatus
+                </span>
+            </div>
+        </ChildContent>
+    </TimelineItem>
+}
+</Timeline>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Timeline Order="TimelineOrder.Vertical">
+                    @for (var i = 0; i < Appointments.Count; i++)
+                    {
+                        var appointment = Appointments[i];
+                        var visual = GetStatusVisual(appointment.Status);
+                        <TimelineItem Title="@appointment.Title"
+                                      Date="@appointment.Date.ToString("o")"
+                                      Color="@visual.Color"
+                                      IsLast="@(i == Appointments.Count - 1)"
+                                      DateFormat="TimelineDateFormat.FullDate"
+                                      DatePrefix="Scheduled for">
+                            <OrientationContent>
+                                <span class="absolute -left-4 flex h-6 w-6 items-center justify-center rounded-full ring-8 ring-white dark:ring-gray-900 @visual.OrientationClass">
+                                    @visual.IconFragment
+                                </span>
+                            </OrientationContent>
+                            <ChildContent>
+                                <div class="pl-6">
+                                    <p class="mb-2 text-base font-normal text-gray-500 dark:text-gray-400">@appointment.Description</p>
+                                    <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium @visual.BadgeClass">
+                                        @visual.DisplayStatus
+                                    </span>
+                                </div>
+                            </ChildContent>
+                        </TimelineItem>
+                    }
+                </Timeline>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Horizontal Releases with Status"
+                          Description="Show custom orientation content and badges in a horizontal timeline."
+                          RazorCode=@(@"
+<Timeline Order=""TimelineOrder.Horizontal"">
+@for (var i = 0; i < Releases.Count; i++)
+{
+    var release = Releases[i];
+    var visual = GetStatusVisual(release.Status);
+    <TimelineItem Title=""@release.Title""
+                  Date=""@release.Date""
+                  Color=""@visual.Color""
+                  IsLast=""@ (i == Releases.Count - 1)""
+                  DatePrefix=""Released on"">
+        <OrientationContent>
+            <div class=""flex items-center"">
+                <div class=""z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ring-0 ring-white sm:ring-8 dark:ring-gray-900 @visual.OrientationClass"">
+                    @visual.IconFragment
+                </div>
+                @if (i != Releases.Count - 1)
+                {
+                    <div class=""hidden h-0.5 w-full sm:flex @visual.ConnectorClass""></div>
+                }
+            </div>
+        </OrientationContent>
+        <ChildContent>
+            <p class=""text-base font-normal text-gray-500 dark:text-gray-400"">
+                @release.Description
+            </p>
+            <span class=""mt-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium @visual.BadgeClass"">
+                @visual.DisplayStatus
+            </span>
+        </ChildContent>
+    </TimelineItem>
+}
+</Timeline>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Timeline Order="TimelineOrder.Horizontal">
+                    @for (var i = 0; i < Releases.Count; i++)
+                    {
+                        var release = Releases[i];
+                        var visual = GetStatusVisual(release.Status);
+                        <TimelineItem Title="@release.Title"
+                                      Date="@release.Date"
+                                      Color="@visual.Color"
+                                      IsLast="@(i == Releases.Count - 1)"
+                                      DatePrefix="Released on">
+                            <OrientationContent>
+                                <div class="flex items-center">
+                                    <div class="z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ring-0 ring-white sm:ring-8 dark:ring-gray-900 @visual.OrientationClass">
+                                        @visual.IconFragment
+                                    </div>
+                                    @if (i != Releases.Count - 1)
+                                    {
+                                        <div class="hidden h-0.5 w-full sm:flex @visual.ConnectorClass"></div>
+                                    }
+                                </div>
+                            </OrientationContent>
+                            <ChildContent>
+                                <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                                    @release.Description
+                                </p>
+                                <span class="mt-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium @visual.BadgeClass">
+                                    @visual.DisplayStatus
+                                </span>
+                            </ChildContent>
+                        </TimelineItem>
+                    }
+                </Timeline>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Activity Log"
+                          Description="Use the Activity components to render an activity feed with avatars."
+                          RazorCode=@(@"
+<Activity>
+    <ActivityItem Activities=""ActivityItems"" />
+</Activity>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Activity>
+                    <ActivityItem Activities="ActivityItems" />
+                </Activity>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Grouped Timeline"
+                          Description="Group related entries under a shared date heading."
+                          RazorCode=@(@"
+<Group Date=""January 13th, 2022"">
+    <GroupItem Timelines=""GroupedTimelines"" />
+</Group>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Group Date="January 13th, 2022">
+                    <GroupItem Timelines="GroupedTimelines" />
+                </Group>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>
+
+@code {
+    private static readonly List<TimelineAppointment> Appointments =
+    [
+        new("Team Meeting", DateTime.UtcNow.AddDays(-3).Date.AddHours(14), "completed", "Weekly team sync and project updates."),
+        new("Client Presentation", DateTime.UtcNow.Date.AddHours(10), "in-progress", "Present Q3 results to stakeholders."),
+        new("Product Demo", DateTime.UtcNow.AddDays(3).Date.AddHours(15).AddMinutes(30), "upcoming", "Demo new features to potential customers."),
+        new("Code Review", DateTime.UtcNow.AddDays(5).Date.AddHours(15).AddMinutes(30), "upcoming", "Review pull requests and discuss architecture.")
+    ];
+
+    private static readonly List<TimelineRelease> Releases =
+    [
+        new("Flowbite Library v1.0.0", "Released on December 2nd, 2021", "completed", "Get started with dozens of web components and interactive elements."),
+        new("Flowbite Library v1.2.0", "Released on December 23rd, 2021", "completed", "Added new components and improved accessibility."),
+        new("Flowbite Library v2.0.0", "Coming Q1 2025", "upcoming", "Major overhaul with new design system and features.")
+    ];
+
+    private static readonly List<ActivityTimelineItem> ActivityItems =
+    [
+        new ActivityTimelineItem
+        {
+            Title = """Bonnie moved <a href="/" class="font-semibold text-primary-600 dark:text-primary-500 hover:underline">Jese Leos</a> to <span class="bg-gray-100 text-gray-800 text-xs font-normal me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-600 dark:text-gray-300">Funny Group</span>""",
+            Date = "Just now",
+            ImageSource = "/images/people/profile-picture-2.jpg",
+            ImageAlt = "Bonnie Green avatar"
+        },
+        new ActivityTimelineItem
+        {
+            Title = "We do not serve their kind here! What? Your droids.",
+            Date = "2 hours ago",
+            ImageSource = "/images/people/profile-picture-4.jpg",
+            ImageAlt = "Cantina staff avatar",
+            Text = "The approach will not be easy. You are required to maneuver straight down this trench and skim the surface to this point."
+        },
+        new ActivityTimelineItem
+        {
+            Title = "They will have to wait outside. We do not want them here.",
+            Date = "1 day ago",
+            ImageSource = "/images/people/profile-picture-3.jpg",
+            ImageAlt = "Stormtrooper avatar"
+        }
+    ];
+
+    private static readonly List<GroupTimelineItem> GroupedTimelines =
+    [
+        new GroupTimelineItem
+        {
+            Title = """<span class="font-medium text-gray-900 dark:text-white">Jese Leos</span> likes <span class="font-medium text-gray-900 dark:text-white">Bonnie Green's</span> post in <span class="font-medium text-gray-900 dark:text-white">How to start with Flowbite library</span>""",
+            ImageSource = "/images/people/profile-picture-1.jpg",
+            ImageAlt = "Jese Leos avatar",
+            Href = "/",
+            IsPrivate = true,
+            Comment = "\"I wanted to share a webinar zeroheight.\""
+        },
+        new GroupTimelineItem
+        {
+            Title = """<span class="font-medium text-gray-900 dark:text-white">Bonnie Green</span> reacted to <span class="font-medium text-gray-900 dark:text-white">Thomas Lean's</span> comment""",
+            ImageSource = "/images/people/profile-picture-2.jpg",
+            ImageAlt = "Bonnie Green avatar",
+            Href = "/",
+            IsPrivate = false,
+            Comment = "\"Excited to share the design handoff kit later today!\""
+        }
+    ];
+
+    private StatusVisual GetStatusVisual(string status)
+    {
+        return status.ToLowerInvariant() switch
+        {
+            "completed" => new StatusVisual(
+                TimelineColor.Green,
+                "bg-green-200 dark:bg-green-900",
+                "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
+                "bg-green-200 dark:bg-green-700",
+                builder =>
+                {
+                    builder.OpenComponent<CheckCircleIcon>(0);
+                    builder.AddAttribute(1, nameof(IconBase.Class), "h-4 w-4 text-green-600 dark:text-green-400");
+                    builder.CloseComponent();
+                },
+                "Completed"),
+            "in-progress" => new StatusVisual(
+                TimelineColor.Orange,
+                "bg-orange-200 dark:bg-orange-900",
+                "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300",
+                "bg-orange-200 dark:bg-orange-700",
+                builder =>
+                {
+                    builder.OpenComponent<ClockIcon>(0);
+                    builder.AddAttribute(1, nameof(IconBase.Class), "h-4 w-4 text-orange-600 dark:text-orange-400");
+                    builder.CloseComponent();
+                },
+                "In progress"),
+            "upcoming" => new StatusVisual(
+                TimelineColor.Blue,
+                "bg-blue-200 dark:bg-blue-900",
+                "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
+                "bg-blue-200 dark:bg-blue-700",
+                builder =>
+                {
+                    builder.OpenComponent<CalendarMonthIcon>(0);
+                    builder.AddAttribute(1, nameof(IconBase.Class), "h-4 w-4 text-blue-600 dark:text-blue-400");
+                    builder.CloseComponent();
+                },
+                "Upcoming"),
+            "cancelled" => new StatusVisual(
+                TimelineColor.Red,
+                "bg-red-200 dark:bg-red-900",
+                "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
+                "bg-red-200 dark:bg-red-700",
+                builder =>
+                {
+                    builder.OpenComponent<CloseCircleSolidIcon>(0);
+                    builder.AddAttribute(1, nameof(IconBase.Class), "h-4 w-4 text-red-600 dark:text-red-400");
+                    builder.CloseComponent();
+                },
+                "Cancelled"),
+            _ => new StatusVisual(
+                TimelineColor.Gray,
+                "bg-gray-200 dark:bg-gray-900",
+                "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300",
+                "bg-gray-200 dark:bg-gray-700",
+                builder =>
+                {
+                    builder.OpenComponent<CalendarMonthIcon>(0);
+                    builder.AddAttribute(1, nameof(IconBase.Class), "h-4 w-4 text-gray-600 dark:text-gray-400");
+                    builder.CloseComponent();
+                },
+                "Scheduled")
+        };
+    }
+
+    private sealed record TimelineAppointment(string Title, DateTime Date, string Status, string Description)
+    {
+        public string Title { get; } = Title;
+        public DateTime Date { get; } = Date;
+        public string Status { get; } = Status;
+        public string Description { get; } = Description;
+        public string DisplayStatus => char.ToUpper(Status[0]) + Status[1..].Replace("-", " ");
+    }
+
+    private sealed record TimelineRelease(string Title, string Date, string Status, string Description)
+    {
+        public string Title { get; } = Title;
+        public string Date { get; } = Date;
+        public string Status { get; } = Status;
+        public string Description { get; } = Description;
+    }
+
+    private sealed record StatusVisual(
+        TimelineColor Color,
+        string OrientationClass,
+        string BadgeClass,
+        string ConnectorClass,
+        RenderFragment IconFragment,
+        string DisplayStatus)
+    {
+        public RenderFragment IconFragment { get; } = IconFragment;
+        public string OrientationClass { get; } = OrientationClass;
+        public string BadgeClass { get; } = BadgeClass;
+        public string ConnectorClass { get; } = ConnectorClass;
+        public TimelineColor Color { get; } = Color;
+        public string DisplayStatus { get; } = DisplayStatus;
+    }
+}
