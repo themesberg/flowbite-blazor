@@ -1,0 +1,15 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+@if (Context.IsOpen)
+{
+    <div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
+        @if (!string.IsNullOrEmpty(Text))
+        {
+            <p class="text-sm text-gray-700 dark:text-gray-200">@Text</p>
+        }
+        else
+        {
+            @ChildContent
+        }
+    </div>
+}

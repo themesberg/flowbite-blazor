@@ -1,0 +1,38 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Text))
+    {
+        @foreach (var line in Text.Split('\n'))
+        {
+            <p class="text-sm text-gray-900 dark:text-gray-100">@line</p>
+        }
+    }
+    else
+    {
+        @ChildContent
+    }
+</div>
+
+@code {
+    private string BaseClasses =>
+        "grid gap-3 text-sm leading-6 text-gray-900 dark:text-gray-100 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0";
+
+    /// <summary>
+    /// Optional plain text content rendered as paragraphs.
+    /// </summary>
+    [Parameter]
+    public string? Text { get; set; }
+
+    /// <summary>
+    /// Child content for advanced layouts such as lists or custom markup.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Additional attributes applied to the container element.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

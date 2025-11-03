@@ -1,0 +1,23 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<button type="submit"
+        class="@CombineClasses(GetButtonClasses())"
+        disabled="@Disabled"
+        @attributes="AdditionalAttributes">
+    <span class="flex items-center gap-2">
+        @switch (Status)
+        {
+            case PromptSubmissionStatus.Submitting:
+            case PromptSubmissionStatus.Streaming:
+                <Loader Size="16" class="text-white" />
+                break;
+            case PromptSubmissionStatus.Error:
+                <ExclamationTriangleIcon class="h-4 w-4" aria-hidden="true" />
+                break;
+            default:
+                <ArrowUpIcon class="h-4 w-4" aria-hidden="true" />
+                break;
+        }
+        <span>@GetLabel()</span>
+    </span>
+</button>

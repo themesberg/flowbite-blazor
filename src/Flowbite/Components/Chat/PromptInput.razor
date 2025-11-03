@@ -1,0 +1,20 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<CascadingValue Value="_context" IsFixed="false">
+    <div class="@CombineClasses(ContainerClasses, _isDragActive ? DragActiveClasses : null)"
+         @ondragenter="HandleDragEnter"
+         @ondragover="HandleDragOver"
+         @ondragover:preventDefault="GlobalDrop"
+         @ondragleave="HandleDragLeave"
+         @ondrop="HandleDrop"
+         @ondrop:preventDefault="GlobalDrop"
+         @attributes="AdditionalAttributes">
+        <form class="flex flex-col gap-4" @onsubmit="HandleSubmitAsync" @onsubmit:preventDefault>
+            @ChildContent
+        </form>
+        <InputFile @ref="_fileInput"
+                   OnChange="HandleFileChangedAsync"
+                   class="hidden"
+                   multiple="@AllowMultipleFiles" />
+    </div>
+</CascadingValue>

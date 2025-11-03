@@ -1,0 +1,475 @@
+@page "/docs/components/chatbot"
+@using Flowbite.Components
+@using Flowbite.Components.Chat
+@using Flowbite.Icons
+@using Microsoft.AspNetCore.Components.Web
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Chatbot - Flowbite Blazor</PageTitle>
+
+<main class="space-y-6 p-6 max-w-5xl">
+    <section class="space-y-3">
+        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white">Chatbot</h2>
+        <p class="text-lg text-gray-600 dark:text-gray-300">
+            Compose conversational UIs with Flowbite's chat building blocks: conversations, message bubbles, reasoning drawers,
+            citations, and a prompt toolbar that mirrors the AI Elements experience.
+        </p>
+    </section>
+
+    <ComponentExample Title="AI chat experience"
+                      Description="Wrap streamed messages inside Conversation, then wire PromptInput to collect text, attachments, and model settings."
+                      RazorCode=@(@"
+<Conversation Class=""h-[420px] overflow-hidden rounded-3xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900"">
+    <ConversationContent>
+        @foreach (var message in messages)
+        {
+            <ChatMessage From=""message.Role"">
+                <ChatMessageContent>
+                    <ChatResponse Text=""@message.Text"" />
+                </ChatMessageContent>
+            </ChatMessage>
+        }
+    </ConversationContent>
+    <ConversationScrollButton />
+</Conversation>
+
+<PromptInput OnSubmit=""HandleSubmitAsync"">
+    <PromptInputHeader>
+        <PromptInputAttachments>
+            <ChildContent Context=""file"">
+                <PromptInputAttachment Data=""file"" />
+            </ChildContent>
+        </PromptInputAttachments>
+    </PromptInputHeader>
+    <PromptInputBody>
+        <PromptInputTextarea Placeholder=""Ask Flowbite about AI chat patterns..."" />
+    </PromptInputBody>
+    <PromptInputFooter>
+        <PromptInputTools>
+            <PromptInputActionMenu>
+                <PromptInputActionMenuTrigger />
+                <PromptInputActionMenuContent>
+                    <PromptInputActionAddAttachments />
+                </PromptInputActionMenuContent>
+            </PromptInputActionMenu>
+            <PromptInputButton Variant=""PromptInputButtonVariant.Ghost"">
+                <span>Search</span>
+            </PromptInputButton>
+            <PromptInputModelSelect Value=""selectedModel"">
+                <PromptInputModelSelectTrigger>
+                    <PromptInputModelSelectValue />
+                </PromptInputModelSelectTrigger>
+                <PromptInputModelSelectContent>
+                    <PromptInputModelSelectItem Value=""model.Value"" Label=""model.Name"" />
+                </PromptInputModelSelectContent>
+            </PromptInputModelSelect>
+        </PromptInputTools>
+        <PromptInputSubmit />
+    </PromptInputFooter>
+</PromptInput>
+")
+                      SupportedLanguages="@(new[] { "razor" })">
+        <PreviewContent>
+            <div class="flex flex-col gap-6">
+                <Conversation Class="h-[420px] overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
+                    <ConversationContent Class="p-0">
+                        @foreach (var message in _messages)
+                        {
+                            @RenderMessage(message)
+                        }
+
+                        @if (_status is PromptSubmissionStatus.Submitting or PromptSubmissionStatus.Streaming)
+                        {
+                            <div class="flex items-center gap-2 px-6 pb-6 text-sm text-gray-500 dark:text-gray-400">
+                                <Loader />
+                                <span>Generating response…</span>
+                            </div>
+                        }
+                    </ConversationContent>
+                    <ConversationScrollButton />
+                </Conversation>
+
+                <PromptInput OnSubmit="HandleSubmitAsync"
+                             Text="@_inputText"
+                             TextChanged="HandlePromptTextChanged"
+                             GlobalDrop="true"
+                             Multiple="true"
+                             Class="rounded-3xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
+                    <PromptInputHeader>
+                        <PromptInputAttachments>
+                            <ChildContent Context="attachment">
+                                <PromptInputAttachment Data="attachment" />
+                            </ChildContent>
+                        </PromptInputAttachments>
+                    </PromptInputHeader>
+                    <PromptInputBody>
+                        <PromptInputTextarea Placeholder="Ask Flowbite for AI chat guidance…" OnChanged="HandlePromptTextChanged" Rows="4" />
+                    </PromptInputBody>
+                    <PromptInputFooter>
+                        <PromptInputTools>
+                            <PromptInputActionMenu>
+                                <PromptInputActionMenuTrigger />
+                                <PromptInputActionMenuContent>
+                                    <PromptInputActionAddAttachments />
+                                </PromptInputActionMenuContent>
+                            </PromptInputActionMenu>
+                            <PromptInputButton Variant="PromptInputButtonVariant.Ghost"
+                                               Active="@_webSearch"
+                                               OnClick="ToggleWebSearch">
+                                <GlobeIcon class="h-4 w-4" aria-hidden="true" />
+                                <span>@(_webSearch ? "Search on" : "Search")</span>
+                            </PromptInputButton>
+                            <PromptInputModelSelect Value="@_selectedModel"
+                                                    ValueChanged="HandleModelChanged">
+                                <PromptInputModelSelectTrigger>
+                                    <PromptInputModelSelectValue Placeholder="Select model" />
+                                    <ChevronDownIcon class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                </PromptInputModelSelectTrigger>
+                                <PromptInputModelSelectContent>
+                                    @foreach (var model in _models)
+                                    {
+                                        <PromptInputModelSelectItem Value="@model.Value" Label="@model.Name" />
+                                    }
+                                </PromptInputModelSelectContent>
+                            </PromptInputModelSelect>
+                        </PromptInputTools>
+                        <PromptInputSubmit Status="@_status"
+                                           Disabled="ShouldDisableSubmit()" />
+                    </PromptInputFooter>
+                </PromptInput>
+            </div>
+        </PreviewContent>
+    </ComponentExample>
+</main>
+
+@code {
+    private readonly List<ChatModelOption> _models =
+    [
+        new("openai/gpt-4o", "GPT 4o"),
+        new("deepseek/deepseek-r1", "Deepseek R1"),
+        new("anthropic/claude-3.5", "Claude 3.5")
+    ];
+
+    private readonly Queue<ChatDemoTemplate> _assistantTemplates = new();
+    private readonly List<ChatDemoTemplate> _templateCatalog = new();
+
+    private readonly List<ChatDemoEntry> _messages = new();
+    private PromptSubmissionStatus _status = PromptSubmissionStatus.Idle;
+    private string _inputText = string.Empty;
+    private string _selectedModel = "openai/gpt-4o";
+    private bool _webSearch;
+
+    protected override void OnInitialized()
+    {
+        _messages.Add(ChatDemoEntry.Assistant(
+            "Hi there! I'm your Flowbite AI assistant. Ask about building chat interfaces and I'll walk you through the pieces.",
+            reasoning: "Engage the user with a friendly greeting and invite a question about chat UI.",
+            durationSeconds: 1,
+            sources: new[]
+            {
+                new ChatDemoSource("Flowbite Chat Components", "https://flowbite.com/ai/"),
+            }));
+
+        _templateCatalog.AddRange(new[]
+        {
+            new ChatDemoTemplate(
+                Text: "Here’s a quick recipe for a Flowbite-powered chat:\n\n1. Wrap your thread in <Conversation> and stream messages inside <ConversationContent>.\n2. Render each message with <Message> + <MessageContent>. Assistant responses can layer on <Reasoning> and <Sources>.\n3. Capture input with <PromptInput>, wire up the toolbar, and feed the submitted text straight into your LLM handler.\n\nOnce you have that skeleton, sprinkle in status indicators—<Loader> when you're waiting on the model—and wire the <ChatActions> surface for copy/regenerate behaviors.",
+                Reasoning: "Break the chat experience into three composable areas: message history, assistant enrichments (reasoning + sources), and the prompt surface.",
+                DurationSeconds: 2,
+                Sources: new[]
+                {
+                    new ChatDemoSource("Prompt input design", "https://flowbite.com/ai/prompt-input"),
+                    new ChatDemoSource("Conversation pattern", "https://flowbite.com/ai/conversation"),
+                }),
+            new ChatDemoTemplate(
+                Text: "Because you're running {modelName} {searchMode}, remember to surface that choice in your UI. The model select pair (<PromptInputModelSelectTrigger> + <PromptInputModelSelectContent>) makes it easy to keep options discoverable without crowding the toolbar.\n\nIf you flip web search on, reflect that in your assistant’s reply metadata—users love seeing how the answer was curated.",
+                Reasoning: "Highlight the relationship between system configuration (model + search) and the resulting assistant experience.",
+                DurationSeconds: 1,
+                Sources: new[]
+                {
+                    new ChatDemoSource("Model switching UX", "https://flowbite.com/ai/model-picker")
+                }),
+            new ChatDemoTemplate(
+                Text: "To fake streaming in demos, push the user message immediately, set PromptSubmissionStatus.Submitting, then queue assistant chunks with Task.Delay to emulate tokens. You can even toggle <Reasoning> while streaming to mirror spec output.",
+                Reasoning: "Simulate the UX of streaming messages without needing a live backend.",
+                DurationSeconds: 3,
+                Sources: Array.Empty<ChatDemoSource>())
+        });
+
+        foreach (var template in _templateCatalog)
+        {
+            _assistantTemplates.Enqueue(template);
+        }
+    }
+
+    private async Task HandleSubmitAsync(PromptInputMessage prompt)
+    {
+        var text = prompt.Text?.Trim() ?? string.Empty;
+        var attachments = prompt.Files.Select(file => file.Name).ToList();
+
+        if (string.IsNullOrWhiteSpace(text) && attachments.Count == 0)
+        {
+            return;
+        }
+
+        _messages.Add(ChatDemoEntry.User(
+            text.Length == 0 ? "Sent files for review." : text,
+            attachments));
+
+        _status = PromptSubmissionStatus.Submitting;
+        await InvokeAsync(StateHasChanged);
+
+        await Task.Delay(600);
+        _status = PromptSubmissionStatus.Streaming;
+        await InvokeAsync(StateHasChanged);
+
+        await Task.Delay(500);
+        AddAssistantMessage();
+
+        _inputText = string.Empty;
+        _status = PromptSubmissionStatus.Idle;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private RenderFragment RenderMessage(ChatDemoEntry message) => builder =>
+    {
+        var seq = 0;
+        builder.SetKey(message.Id);
+        builder.OpenComponent<ChatMessage>(seq++);
+        builder.AddAttribute(seq++, nameof(ChatMessage.From), message.Role);
+        builder.AddAttribute(seq++, nameof(ChatMessage.Class), "px-6");
+        builder.AddAttribute(seq++, nameof(ChatMessage.ChildContent), (RenderFragment)(childBuilder =>
+        {
+            var childSeq = 0;
+            childBuilder.OpenElement(childSeq++, "div");
+            childBuilder.AddAttribute(childSeq++, "class", "flex flex-col gap-3");
+
+            childBuilder.OpenComponent<ChatMessageContent>(childSeq++);
+            childBuilder.AddAttribute(childSeq++, nameof(ChatMessageContent.Variant), message.Role == ChatMessageRole.User ? ChatMessageVariant.Contained : ChatMessageVariant.Flat);
+            childBuilder.AddAttribute(childSeq++, nameof(ChatMessageContent.ChildContent), (RenderFragment)(contentBuilder =>
+            {
+                var contentSeq = 0;
+                contentBuilder.OpenComponent<ChatResponse>(contentSeq++);
+                if (message.Attachments?.Count > 0)
+                {
+                    contentBuilder.AddAttribute(contentSeq++, nameof(ChatResponse.ChildContent), (RenderFragment)(responseBuilder =>
+                    {
+                        var responseSeq = 0;
+                        responseBuilder.OpenElement(responseSeq++, "p");
+                        responseBuilder.AddAttribute(responseSeq++, "class", "text-sm text-gray-900 dark:text-gray-100");
+                        responseBuilder.AddContent(responseSeq++, message.Text);
+                        responseBuilder.CloseElement();
+
+                        responseBuilder.OpenElement(responseSeq++, "ul");
+                        responseBuilder.AddAttribute(responseSeq++, "class", "list-disc space-y-1 pl-5 text-xs text-gray-600 dark:text-gray-300");
+                        foreach (var attachment in message.Attachments ?? Array.Empty<string>())
+                        {
+                            responseBuilder.OpenElement(responseSeq++, "li");
+                            responseBuilder.AddContent(responseSeq++, attachment);
+                            responseBuilder.CloseElement();
+                        }
+                        responseBuilder.CloseElement();
+                    }));
+                }
+                else
+                {
+                    contentBuilder.AddAttribute(contentSeq++, nameof(ChatResponse.Text), message.Text);
+                }
+                contentBuilder.CloseComponent();
+
+                if (!string.IsNullOrEmpty(message.Reasoning))
+                {
+                    contentBuilder.OpenComponent<Reasoning>(contentSeq++);
+                    contentBuilder.AddAttribute(contentSeq++, nameof(Reasoning.IsStreaming), message.IsStreaming);
+                    contentBuilder.AddAttribute(contentSeq++, nameof(Reasoning.DurationSeconds), message.DurationSeconds);
+                    contentBuilder.AddAttribute(contentSeq++, nameof(Reasoning.ChildContent), (RenderFragment)(reasoningBuilder =>
+                    {
+                        var reasoningSeq = 0;
+                        reasoningBuilder.OpenComponent<ReasoningTrigger>(reasoningSeq++);
+                        reasoningBuilder.CloseComponent();
+                        reasoningBuilder.OpenComponent<ReasoningContent>(reasoningSeq++);
+                        reasoningBuilder.AddAttribute(reasoningSeq++, nameof(ReasoningContent.Text), message.Reasoning);
+                        reasoningBuilder.CloseComponent();
+                    }));
+                    contentBuilder.CloseComponent();
+                }
+
+                if (message.Sources?.Count > 0)
+                {
+                    contentBuilder.OpenComponent<Sources>(contentSeq++);
+                    contentBuilder.AddAttribute(contentSeq++, nameof(Sources.Count), message.Sources.Count);
+                    contentBuilder.AddAttribute(contentSeq++, nameof(Sources.ChildContent), (RenderFragment)(sourcesBuilder =>
+                    {
+                        var sourcesSeq = 0;
+                        sourcesBuilder.OpenComponent<SourcesTrigger>(sourcesSeq++);
+                        sourcesBuilder.CloseComponent();
+                        sourcesBuilder.OpenComponent<SourcesContent>(sourcesSeq++);
+                        sourcesBuilder.AddAttribute(sourcesSeq++, nameof(SourcesContent.ChildContent), (RenderFragment)(sourceItemsBuilder =>
+                        {
+                            var sourceSeq = 0;
+                            foreach (var source in message.Sources)
+                            {
+                                sourceItemsBuilder.OpenComponent<Source>(sourceSeq++);
+                                sourceItemsBuilder.AddAttribute(sourceSeq++, nameof(Source.Href), source.Href);
+                                sourceItemsBuilder.AddAttribute(sourceSeq++, nameof(Source.ChildContent), (RenderFragment)(linkBuilder => linkBuilder.AddContent(0, source.Title)));
+                                sourceItemsBuilder.CloseComponent();
+                            }
+                        }));
+                        sourcesBuilder.CloseComponent();
+                    }));
+                    contentBuilder.CloseComponent();
+                }
+            }));
+            childBuilder.CloseComponent();
+
+            if (message.Role == ChatMessageRole.Assistant)
+            {
+                childBuilder.OpenComponent<ChatActions>(childSeq++);
+                childBuilder.AddAttribute(childSeq++, nameof(ChatActions.Class), "justify-end");
+                childBuilder.AddAttribute(childSeq++, nameof(ChatActions.ChildContent), (RenderFragment)(actionsBuilder =>
+                {
+                    var actionSeq = 0;
+                    actionsBuilder.OpenComponent<ChatAction>(actionSeq++);
+                    actionsBuilder.AddAttribute(actionSeq++, nameof(ChatAction.Tooltip), "Regenerate");
+                    actionsBuilder.AddAttribute(actionSeq++, nameof(ChatAction.OnClick), EventCallback.Factory.Create(this, () => RegenerateAsync(message)));
+                    actionsBuilder.AddAttribute(actionSeq++, nameof(ChatAction.ChildContent), (RenderFragment)(iconBuilder =>
+                    {
+                        iconBuilder.OpenComponent<RefreshIcon>(0);
+                        iconBuilder.AddAttribute(1, "class", "h-4 w-4");
+                        iconBuilder.AddAttribute(2, "aria-hidden", true);
+                        iconBuilder.CloseComponent();
+                    }));
+                    actionsBuilder.CloseComponent();
+
+                    actionsBuilder.OpenComponent<ChatAction>(actionSeq++);
+                    actionsBuilder.AddAttribute(actionSeq++, nameof(ChatAction.Tooltip), "Copy response");
+                    actionsBuilder.AddAttribute(actionSeq++, nameof(ChatAction.OnClick), EventCallback.Factory.Create(this, () => CopyAsync(message.Text)));
+                    actionsBuilder.AddAttribute(actionSeq++, nameof(ChatAction.ChildContent), (RenderFragment)(iconBuilder =>
+                    {
+                        iconBuilder.OpenComponent<FileCopyIcon>(0);
+                        iconBuilder.AddAttribute(1, "class", "h-4 w-4");
+                        iconBuilder.AddAttribute(2, "aria-hidden", true);
+                        iconBuilder.CloseComponent();
+                    }));
+                    actionsBuilder.CloseComponent();
+                }));
+                childBuilder.CloseComponent();
+            }
+
+            childBuilder.CloseElement();
+        }));
+        builder.CloseComponent();
+    };
+
+    private void AddAssistantMessage()
+    {
+        if (_assistantTemplates.Count == 0)
+        {
+            foreach (var cachedTemplate in _templateCatalog)
+            {
+                _assistantTemplates.Enqueue(cachedTemplate);
+            }
+        }
+
+        var selectedTemplate = _assistantTemplates.Dequeue();
+        _assistantTemplates.Enqueue(selectedTemplate);
+
+        var modelName = _models.First(m => m.Value == _selectedModel).Name;
+        var searchMode = _webSearch ? "(web search enabled)" : "(model only)";
+
+        var text = selectedTemplate.Text
+            .Replace("{modelName}", modelName, StringComparison.Ordinal)
+            .Replace("{searchMode}", searchMode, StringComparison.Ordinal);
+        var reasoning = selectedTemplate.Reasoning?
+            .Replace("{modelName}", modelName, StringComparison.Ordinal)
+            .Replace("{searchMode}", searchMode, StringComparison.Ordinal);
+
+        _messages.Add(ChatDemoEntry.Assistant(
+            text,
+            reasoning,
+            selectedTemplate.DurationSeconds,
+            selectedTemplate.Sources));
+    }
+
+    private Task HandlePromptTextChanged(string value)
+    {
+        _inputText = value;
+        return Task.CompletedTask;
+    }
+
+    private Task ToggleWebSearch()
+    {
+        _webSearch = !_webSearch;
+        return Task.CompletedTask;
+    }
+
+    private Task HandleModelChanged(string? value)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            _selectedModel = value;
+        }
+        return Task.CompletedTask;
+    }
+
+    private bool ShouldDisableSubmit() =>
+        _status is PromptSubmissionStatus.Submitting or PromptSubmissionStatus.Streaming
+        || (string.IsNullOrWhiteSpace(_inputText) && _status is PromptSubmissionStatus.Idle);
+
+    private async Task RegenerateAsync(ChatDemoEntry message)
+    {
+        _status = PromptSubmissionStatus.Streaming;
+        await InvokeAsync(StateHasChanged);
+
+        await Task.Delay(500);
+
+        if (_messages.LastOrDefault() == message)
+        {
+            _messages.RemoveAt(_messages.Count - 1);
+            AddAssistantMessage();
+        }
+
+        _status = PromptSubmissionStatus.Idle;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task CopyAsync(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return;
+        }
+
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", value);
+        }
+        catch
+        {
+            // clipboard may not be available in all contexts; swallow for demo purposes
+        }
+    }
+
+    private sealed record ChatModelOption(string Value, string Name);
+
+    private sealed record ChatDemoSource(string Title, string Href);
+
+    private sealed record ChatDemoTemplate(string Text, string? Reasoning, int? DurationSeconds, IReadOnlyList<ChatDemoSource> Sources);
+
+    private sealed record ChatDemoEntry(
+        Guid Id,
+        ChatMessageRole Role,
+        string Text,
+        bool IsStreaming = false,
+        int? DurationSeconds = null,
+        string? Reasoning = null,
+        IReadOnlyList<ChatDemoSource>? Sources = null,
+        IReadOnlyList<string>? Attachments = null)
+    {
+        public static ChatDemoEntry User(string text, IReadOnlyList<string> attachments) =>
+            new(Guid.NewGuid(), ChatMessageRole.User, text, Attachments: attachments);
+
+        public static ChatDemoEntry Assistant(string text, string? reasoning, int? durationSeconds, IReadOnlyList<ChatDemoSource>? sources) =>
+            new(Guid.NewGuid(), ChatMessageRole.Assistant, text, false, durationSeconds, reasoning, sources);
+    }
+}

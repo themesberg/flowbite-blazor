@@ -1,0 +1,10 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+@if (SourcesContext.IsOpen)
+{
+    <div id="@SourcesContext.ContentId"
+         class="@CombineClasses(BaseClasses)"
+         @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+}

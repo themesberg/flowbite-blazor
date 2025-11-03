@@ -1,0 +1,15 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<button type="@Type"
+        class="@CombineClasses(GetButtonClasses())"
+        disabled="@Disabled"
+        @onclick="HandleClickAsync"
+        @attributes="AdditionalAttributes">
+    @if (Icon is not null)
+    {
+        <span class="mr-2 inline-flex h-4 w-4 items-center justify-center" aria-hidden="true">
+            <DynamicComponent Type="Icon" />
+        </span>
+    }
+    @ChildContent
+</button>
