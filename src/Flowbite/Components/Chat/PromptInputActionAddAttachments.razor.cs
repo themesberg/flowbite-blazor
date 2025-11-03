@@ -13,8 +13,8 @@ public partial class PromptInputActionAddAttachments : Flowbite.Base.FlowbiteCom
     [CascadingParameter] private PromptInputActionMenuContext MenuContext { get; set; } = default!;
 
     private string BaseClasses =>
-        "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-100 " +
-        "focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-gray-200 dark:hover:bg-gray-700";
+        "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-100/80 " +
+        "focus:outline-none focus:ring-2 focus:ring-primary-400/60 dark:text-gray-200 dark:hover:bg-slate-900/60";
 
     private async Task HandleClickAsync()
     {

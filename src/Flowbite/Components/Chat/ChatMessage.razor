@@ -2,6 +2,22 @@
 
 <CascadingValue Value="From">
     <div class="@GetContainerClasses()" @attributes="AdditionalAttributes">
-        @ChildContent
+        @if (ShouldRenderAvatar && From == ChatMessageRole.Assistant)
+        {
+            <div class="flex shrink-0 justify-center">
+                @RenderAvatar()
+            </div>
+        }
+
+        <div class="flex max-w-[min(80%,32rem)] flex-col gap-2">
+            @ChildContent
+        </div>
+
+        @if (ShouldRenderAvatar && From != ChatMessageRole.Assistant)
+        {
+            <div class="flex shrink-0 justify-center">
+                @RenderAvatar()
+            </div>
+        }
     </div>
 </CascadingValue>

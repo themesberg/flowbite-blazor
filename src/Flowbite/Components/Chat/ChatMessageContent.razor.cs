@@ -38,7 +38,7 @@ public partial class ChatMessageContent : Flowbite.Base.FlowbiteComponentBase
                 builder.Append(Role switch
                 {
                     ChatMessageRole.User => " rounded-2xl bg-gray-100 px-4 py-3 text-gray-900 shadow-sm dark:bg-gray-700 dark:text-white",
-                    ChatMessageRole.Assistant => " text-gray-900 dark:text-gray-100",
+                    ChatMessageRole.Assistant => " rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900 shadow-sm dark:border-gray-700 dark:bg-gray-800/60 dark:text-gray-100",
                     ChatMessageRole.System => " rounded-md bg-amber-100 px-4 py-2 text-amber-900 shadow-sm dark:bg-amber-900/30 dark:text-amber-200",
                     _ => string.Empty
                 });

@@ -62,13 +62,14 @@ public partial class PromptInputButton : Flowbite.Base.FlowbiteComponentBase
     {
         var baseClasses = Variant switch
         {
-            PromptInputButtonVariant.Default => "inline-flex items-center rounded-full bg-primary-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500",
-            _ => "inline-flex items-center rounded-full border border-transparent px-3 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+            PromptInputButtonVariant.Default => "inline-flex h-11 items-center gap-2 rounded-full bg-primary-600 px-4 text-sm font-medium text-white shadow-lg transition hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-400/70 dark:bg-primary-500 dark:hover:bg-primary-400",
+            _ => "inline-flex h-10 items-center gap-2 rounded-full border border-gray-200/80 bg-white/95 px-3 text-sm font-medium text-gray-600 transition-colors " +
+                 "hover:border-gray-300 hover:bg-white focus:outline-none focus:ring-2 focus:ring-primary-400/60 dark:border-white/10 dark:bg-slate-950/50 dark:text-gray-200 dark:hover:text-white"
         };
 
         if (Active)
         {
-            baseClasses += " bg-gray-900 text-white hover:bg-gray-900 dark:bg-gray-100 dark:text-gray-900";
+            baseClasses += " border-transparent bg-primary-600 text-white shadow-lg hover:bg-primary-500 dark:bg-primary-500 dark:hover:bg-primary-400";
         }
 
         if (Disabled)

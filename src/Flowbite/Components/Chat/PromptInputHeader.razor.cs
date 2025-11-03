@@ -20,5 +20,5 @@ public partial class PromptInputHeader : Flowbite.Base.FlowbiteComponentBase
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
-    private string BaseClasses => "flex flex-col gap-2";
+    private string BaseClasses => "flex flex-col gap-2 overflow-hidden px-1";
 }

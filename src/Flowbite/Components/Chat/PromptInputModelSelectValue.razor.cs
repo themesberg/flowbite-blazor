@@ -25,7 +25,7 @@ public partial class PromptInputModelSelectValue : Flowbite.Base.FlowbiteCompone
 
     private string DisplayText => ModelContext.DisplayLabel ?? Placeholder;
 
-    private string BaseClasses => "text-sm font-medium";
+    private string BaseClasses => "text-sm font-medium text-gray-600 dark:text-gray-200";
 
     protected override void OnInitialized()
     {

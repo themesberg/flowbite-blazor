@@ -2,6 +2,7 @@
 @using Flowbite.Components
 @using Flowbite.Components.Chat
 @using Flowbite.Icons
+@using Flowbite.Icons.Extended
 @using Microsoft.AspNetCore.Components.Web
 @inject IJSRuntime JSRuntime
 
@@ -23,7 +24,9 @@
     <ConversationContent>
         @foreach (var message in messages)
         {
-            <ChatMessage From=""message.Role"">
+            <ChatMessage @key=""message.Id""
+                         From=""message.Role""
+                         AvatarInitials=""@(message.Role == ChatMessageRole.Assistant ? ""AI"" : ""You"")"">
                 <ChatMessageContent>
                     <ChatResponse Text=""@message.Text"" />
                 </ChatMessageContent>
@@ -42,29 +45,37 @@
         </PromptInputAttachments>
     </PromptInputHeader>
     <PromptInputBody>
-        <PromptInputTextarea Placeholder=""Ask Flowbite about AI chat patterns..."" />
+        <PromptInputTextarea Placeholder=""Ask the assistant..."" />
     </PromptInputBody>
     <PromptInputFooter>
         <PromptInputTools>
             <PromptInputActionMenu>
-                <PromptInputActionMenuTrigger />
+                <PromptInputActionMenuTrigger>
+                    <PlusIcon class=""h-4 w-4"" />
+                </PromptInputActionMenuTrigger>
                 <PromptInputActionMenuContent>
                     <PromptInputActionAddAttachments />
                 </PromptInputActionMenuContent>
             </PromptInputActionMenu>
             <PromptInputButton Variant=""PromptInputButtonVariant.Ghost"">
+                <MicrophoneIcon class=""h-4 w-4"" />
+            </PromptInputButton>
+            <PromptInputButton Variant=""PromptInputButtonVariant.Ghost"">
+                <GlobeIcon class=""h-4 w-4"" />
                 <span>Search</span>
             </PromptInputButton>
-            <PromptInputModelSelect Value=""selectedModel"">
+            <PromptInputModelSelect Value=""openai/gpt-4o"">
                 <PromptInputModelSelectTrigger>
                     <PromptInputModelSelectValue />
                 </PromptInputModelSelectTrigger>
                 <PromptInputModelSelectContent>
-                    <PromptInputModelSelectItem Value=""model.Value"" Label=""model.Name"" />
+                    <PromptInputModelSelectItem Value=""openai/gpt-4o"" Label=""GPT 4o"" />
                 </PromptInputModelSelectContent>
             </PromptInputModelSelect>
         </PromptInputTools>
-        <PromptInputSubmit />
+        <PromptInputSubmit>
+            <PaperPlaneIcon class=""h-4 w-4"" />
+        </PromptInputSubmit>
     </PromptInputFooter>
 </PromptInput>
 ")
@@ -75,7 +86,58 @@
                     <ConversationContent Class="p-0">
                         @foreach (var message in _messages)
                         {
-                            @RenderMessage(message)
+                            <ChatMessage @key="message.Id"
+                                         From="message.Role"
+                                         AvatarInitials="@(message.Role == ChatMessageRole.Assistant ? "AI" : "You")"
+                                         Class="px-6">
+                                <ChatMessageContent Variant="@(message.Role == ChatMessageRole.User ? ChatMessageVariant.Contained : ChatMessageVariant.Flat)">
+                                    <ChatResponse Text="@message.Text">
+                                        @if (message.Attachments?.Count > 0)
+                                        {
+                                            <ul class="list-disc space-y-1 pl-5 text-xs text-gray-600 dark:text-gray-300">
+                                                @foreach (var fileName in message.Attachments)
+                                                {
+                                                    <li>@fileName</li>
+                                                }
+                                            </ul>
+                                        }
+                                    </ChatResponse>
+
+                                    @if (!string.IsNullOrEmpty(message.Reasoning))
+                                    {
+                                        <Reasoning IsStreaming="message.IsStreaming"
+                                                   DurationSeconds="message.DurationSeconds">
+                                            <ReasoningTrigger />
+                                            <ReasoningContent Text="@message.Reasoning" />
+                                        </Reasoning>
+                                    }
+
+                                    @if (message.Sources?.Count > 0)
+                                    {
+                                    <Sources Count="message.Sources.Count">
+                                        <SourcesTrigger />
+                                        <SourcesContent>
+                                            @foreach (var source in message.Sources)
+                                            {
+                                                <ChatSource Href="@source.Href">@source.Title</ChatSource>
+                                            }
+                                        </SourcesContent>
+                                    </Sources>
+                                    }
+                                </ChatMessageContent>
+
+                                @if (message.Role == ChatMessageRole.Assistant)
+                                {
+                                    <ChatActions Class="justify-end">
+                                        <ChatAction Tooltip="Regenerate" OnClick="@(() => RegenerateAsync(message))">
+                                            <RefreshIcon class="h-4 w-4" aria-hidden="true" />
+                                        </ChatAction>
+                                        <ChatAction Tooltip="Copy response" OnClick="@(() => CopyAsync(message.Text))">
+                                            <FileCopyIcon class="h-4 w-4" aria-hidden="true" />
+                                        </ChatAction>
+                                    </ChatActions>
+                                }
+                            </ChatMessage>
                         }
 
                         @if (_status is PromptSubmissionStatus.Submitting or PromptSubmissionStatus.Streaming)
@@ -94,7 +156,7 @@
                              TextChanged="HandlePromptTextChanged"
                              GlobalDrop="true"
                              Multiple="true"
-                             Class="rounded-3xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
+                             Class="rounded-[26px] border border-gray-200/80 bg-white/95 shadow-[0_26px_60px_-28px_rgba(15,23,42,0.45)] backdrop-blur-sm dark:border-white/10 dark:bg-slate-950/70 dark:shadow-[0_32px_70px_-40px_rgba(15,23,42,0.9)]">
                     <PromptInputHeader>
                         <PromptInputAttachments>
                             <ChildContent Context="attachment">
@@ -103,16 +165,23 @@
                         </PromptInputAttachments>
                     </PromptInputHeader>
                     <PromptInputBody>
-                        <PromptInputTextarea Placeholder="Ask Flowbite for AI chat guidance…" OnChanged="HandlePromptTextChanged" Rows="4" />
+                        <PromptInputTextarea Placeholder="Ask the assistant..." OnChanged="HandlePromptTextChanged" Rows="4" />
                     </PromptInputBody>
                     <PromptInputFooter>
                         <PromptInputTools>
                             <PromptInputActionMenu>
-                                <PromptInputActionMenuTrigger />
+                                <PromptInputActionMenuTrigger>
+                                    <PlusIcon class="h-4 w-4" aria-hidden="true" />
+                                </PromptInputActionMenuTrigger>
                                 <PromptInputActionMenuContent>
                                     <PromptInputActionAddAttachments />
                                 </PromptInputActionMenuContent>
                             </PromptInputActionMenu>
+                            <PromptInputButton Variant="PromptInputButtonVariant.Ghost"
+                                               Active="@_micEnabled"
+                                               OnClick="ToggleMicrophone">
+                                <MicrophoneIcon class="h-4 w-4" aria-hidden="true" />
+                            </PromptInputButton>
                             <PromptInputButton Variant="PromptInputButtonVariant.Ghost"
                                                Active="@_webSearch"
                                                OnClick="ToggleWebSearch">
@@ -134,7 +203,13 @@
                             </PromptInputModelSelect>
                         </PromptInputTools>
                         <PromptInputSubmit Status="@_status"
-                                           Disabled="ShouldDisableSubmit()" />
+                                           Disabled="ShouldDisableSubmit()"
+                                           Label=""
+                                           SubmittingLabel=""
+                                           StreamingLabel=""
+                                           ErrorLabel="">
+                            <PaperPlaneIcon class="h-4 w-4" aria-hidden="true" />
+                        </PromptInputSubmit>
                     </PromptInputFooter>
                 </PromptInput>
             </div>
@@ -158,9 +233,14 @@
     private string _inputText = string.Empty;
     private string _selectedModel = "openai/gpt-4o";
     private bool _webSearch;
+    private bool _micEnabled;
 
     protected override void OnInitialized()
     {
+        _messages.Add(ChatDemoEntry.User(
+            "Can you explain how React hooks work effectively?",
+            Array.Empty<string>()));
+
         _messages.Add(ChatDemoEntry.Assistant(
             "Hi there! I'm your Flowbite AI assistant. Ask about building chat interfaces and I'll walk you through the pieces.",
             reasoning: "Engage the user with a friendly greeting and invite a question about chat UI.",
@@ -231,136 +311,6 @@
         await InvokeAsync(StateHasChanged);
     }
 
-    private RenderFragment RenderMessage(ChatDemoEntry message) => builder =>
-    {
-        var seq = 0;
-        builder.SetKey(message.Id);
-        builder.OpenComponent<ChatMessage>(seq++);
-        builder.AddAttribute(seq++, nameof(ChatMessage.From), message.Role);
-        builder.AddAttribute(seq++, nameof(ChatMessage.Class), "px-6");
-        builder.AddAttribute(seq++, nameof(ChatMessage.ChildContent), (RenderFragment)(childBuilder =>
-        {
-            var childSeq = 0;
-            childBuilder.OpenElement(childSeq++, "div");
-            childBuilder.AddAttribute(childSeq++, "class", "flex flex-col gap-3");
-
-            childBuilder.OpenComponent<ChatMessageContent>(childSeq++);
-            childBuilder.AddAttribute(childSeq++, nameof(ChatMessageContent.Variant), message.Role == ChatMessageRole.User ? ChatMessageVariant.Contained : ChatMessageVariant.Flat);
-            childBuilder.AddAttribute(childSeq++, nameof(ChatMessageContent.ChildContent), (RenderFragment)(contentBuilder =>
-            {
-                var contentSeq = 0;
-                contentBuilder.OpenComponent<ChatResponse>(contentSeq++);
-                if (message.Attachments?.Count > 0)
-                {
-                    contentBuilder.AddAttribute(contentSeq++, nameof(ChatResponse.ChildContent), (RenderFragment)(responseBuilder =>
-                    {
-                        var responseSeq = 0;
-                        responseBuilder.OpenElement(responseSeq++, "p");
-                        responseBuilder.AddAttribute(responseSeq++, "class", "text-sm text-gray-900 dark:text-gray-100");
-                        responseBuilder.AddContent(responseSeq++, message.Text);
-                        responseBuilder.CloseElement();
-
-                        responseBuilder.OpenElement(responseSeq++, "ul");
-                        responseBuilder.AddAttribute(responseSeq++, "class", "list-disc space-y-1 pl-5 text-xs text-gray-600 dark:text-gray-300");
-                        foreach (var attachment in message.Attachments ?? Array.Empty<string>())
-                        {
-                            responseBuilder.OpenElement(responseSeq++, "li");
-                            responseBuilder.AddContent(responseSeq++, attachment);
-                            responseBuilder.CloseElement();
-                        }
-                        responseBuilder.CloseElement();
-                    }));
-                }
-                else
-                {
-                    contentBuilder.AddAttribute(contentSeq++, nameof(ChatResponse.Text), message.Text);
-                }
-                contentBuilder.CloseComponent();
-
-                if (!string.IsNullOrEmpty(message.Reasoning))
-                {
-                    contentBuilder.OpenComponent<Reasoning>(contentSeq++);
-                    contentBuilder.AddAttribute(contentSeq++, nameof(Reasoning.IsStreaming), message.IsStreaming);
-                    contentBuilder.AddAttribute(contentSeq++, nameof(Reasoning.DurationSeconds), message.DurationSeconds);
-                    contentBuilder.AddAttribute(contentSeq++, nameof(Reasoning.ChildContent), (RenderFragment)(reasoningBuilder =>
-                    {
-                        var reasoningSeq = 0;
-                        reasoningBuilder.OpenComponent<ReasoningTrigger>(reasoningSeq++);
-                        reasoningBuilder.CloseComponent();
-                        reasoningBuilder.OpenComponent<ReasoningContent>(reasoningSeq++);
-                        reasoningBuilder.AddAttribute(reasoningSeq++, nameof(ReasoningContent.Text), message.Reasoning);
-                        reasoningBuilder.CloseComponent();
-                    }));
-                    contentBuilder.CloseComponent();
-                }
-
-                if (message.Sources?.Count > 0)
-                {
-                    contentBuilder.OpenComponent<Sources>(contentSeq++);
-                    contentBuilder.AddAttribute(contentSeq++, nameof(Sources.Count), message.Sources.Count);
-                    contentBuilder.AddAttribute(contentSeq++, nameof(Sources.ChildContent), (RenderFragment)(sourcesBuilder =>
-                    {
-                        var sourcesSeq = 0;
-                        sourcesBuilder.OpenComponent<SourcesTrigger>(sourcesSeq++);
-                        sourcesBuilder.CloseComponent();
-                        sourcesBuilder.OpenComponent<SourcesContent>(sourcesSeq++);
-                        sourcesBuilder.AddAttribute(sourcesSeq++, nameof(SourcesContent.ChildContent), (RenderFragment)(sourceItemsBuilder =>
-                        {
-                            var sourceSeq = 0;
-                            foreach (var source in message.Sources)
-                            {
-                                sourceItemsBuilder.OpenComponent<Source>(sourceSeq++);
-                                sourceItemsBuilder.AddAttribute(sourceSeq++, nameof(Source.Href), source.Href);
-                                sourceItemsBuilder.AddAttribute(sourceSeq++, nameof(Source.ChildContent), (RenderFragment)(linkBuilder => linkBuilder.AddContent(0, source.Title)));
-                                sourceItemsBuilder.CloseComponent();
-                            }
-                        }));
-                        sourcesBuilder.CloseComponent();
-                    }));
-                    contentBuilder.CloseComponent();
-                }
-            }));
-            childBuilder.CloseComponent();
-
-            if (message.Role == ChatMessageRole.Assistant)
-            {
-                childBuilder.OpenComponent<ChatActions>(childSeq++);
-                childBuilder.AddAttribute(childSeq++, nameof(ChatActions.Class), "justify-end");
-                childBuilder.AddAttribute(childSeq++, nameof(ChatActions.ChildContent), (RenderFragment)(actionsBuilder =>
-                {
-                    var actionSeq = 0;
-                    actionsBuilder.OpenComponent<ChatAction>(actionSeq++);
-                    actionsBuilder.AddAttribute(actionSeq++, nameof(ChatAction.Tooltip), "Regenerate");
-                    actionsBuilder.AddAttribute(actionSeq++, nameof(ChatAction.OnClick), EventCallback.Factory.Create(this, () => RegenerateAsync(message)));
-                    actionsBuilder.AddAttribute(actionSeq++, nameof(ChatAction.ChildContent), (RenderFragment)(iconBuilder =>
-                    {
-                        iconBuilder.OpenComponent<RefreshIcon>(0);
-                        iconBuilder.AddAttribute(1, "class", "h-4 w-4");
-                        iconBuilder.AddAttribute(2, "aria-hidden", true);
-                        iconBuilder.CloseComponent();
-                    }));
-                    actionsBuilder.CloseComponent();
-
-                    actionsBuilder.OpenComponent<ChatAction>(actionSeq++);
-                    actionsBuilder.AddAttribute(actionSeq++, nameof(ChatAction.Tooltip), "Copy response");
-                    actionsBuilder.AddAttribute(actionSeq++, nameof(ChatAction.OnClick), EventCallback.Factory.Create(this, () => CopyAsync(message.Text)));
-                    actionsBuilder.AddAttribute(actionSeq++, nameof(ChatAction.ChildContent), (RenderFragment)(iconBuilder =>
-                    {
-                        iconBuilder.OpenComponent<FileCopyIcon>(0);
-                        iconBuilder.AddAttribute(1, "class", "h-4 w-4");
-                        iconBuilder.AddAttribute(2, "aria-hidden", true);
-                        iconBuilder.CloseComponent();
-                    }));
-                    actionsBuilder.CloseComponent();
-                }));
-                childBuilder.CloseComponent();
-            }
-
-            childBuilder.CloseElement();
-        }));
-        builder.CloseComponent();
-    };
-
     private void AddAssistantMessage()
     {
         if (_assistantTemplates.Count == 0)
@@ -400,6 +350,12 @@
     private Task ToggleWebSearch()
     {
         _webSearch = !_webSearch;
+        return Task.CompletedTask;
+    }
+
+    private Task ToggleMicrophone()
+    {
+        _micEnabled = !_micEnabled;
         return Task.CompletedTask;
     }
 

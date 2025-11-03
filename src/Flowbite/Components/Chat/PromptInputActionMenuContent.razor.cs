@@ -23,6 +23,5 @@ public partial class PromptInputActionMenuContent : Flowbite.Base.FlowbiteCompon
     [CascadingParameter] private PromptInputActionMenuContext MenuContext { get; set; } = default!;
 
     private string BaseClasses =>
-        "absolute left-0 top-full z-30 mt-2 w-40 rounded-xl border border-gray-200 bg-white p-2 shadow-lg " +
-        "dark:border-gray-700 dark:bg-gray-800";
+        "absolute left-0 top-full z-30 mt-2 w-44 rounded-2xl border border-gray-200/80 bg-white/98 p-2 shadow-[0_24px_45px_-28px_rgba(15,23,42,0.55)] dark:border-white/10 dark:bg-slate-950/90";
 }

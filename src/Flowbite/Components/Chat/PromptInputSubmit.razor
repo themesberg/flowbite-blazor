@@ -15,9 +15,19 @@
                 <ExclamationTriangleIcon class="h-4 w-4" aria-hidden="true" />
                 break;
             default:
-                <ArrowUpIcon class="h-4 w-4" aria-hidden="true" />
+                if (ChildContent is not null)
+                {
+                    @ChildContent
+                }
+                else
+                {
+                    <ArrowUpIcon class="h-4 w-4" aria-hidden="true" />
+                }
                 break;
         }
-        <span>@GetLabel()</span>
+        @if (!string.IsNullOrEmpty(GetLabel()))
+        {
+            <span>@GetLabel()</span>
+        }
     </span>
 </button>

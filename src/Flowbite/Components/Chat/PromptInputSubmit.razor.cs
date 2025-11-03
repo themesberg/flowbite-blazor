@@ -50,6 +50,12 @@ public partial class PromptInputSubmit : Flowbite.Base.FlowbiteComponentBase
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
+    /// <summary>
+    /// Optional custom content rendered when the submission status is idle.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
     private string GetLabel() => Status switch
     {
         PromptSubmissionStatus.Submitting => SubmittingLabel,
@@ -61,12 +67,12 @@ public partial class PromptInputSubmit : Flowbite.Base.FlowbiteComponentBase
     private string GetButtonClasses()
     {
         var classes =
-            "inline-flex w-full items-center justify-center rounded-full bg-primary-600 px-4 py-2 text-sm font-semibold " +
-            "text-white shadow-sm transition focus:outline-none focus:ring-2 focus:ring-primary-500 sm:w-auto";
+            "inline-flex h-11 min-w-[56px] items-center justify-center rounded-full bg-primary-600 px-5 text-sm font-semibold text-white " +
+            "shadow-[0_18px_30px_-18px_rgba(37,99,235,0.85)] transition focus:outline-none focus:ring-2 focus:ring-primary-400/60 sm:w-auto";
 
         if (Disabled || Status is PromptSubmissionStatus.Submitting or PromptSubmissionStatus.Streaming)
         {
-            classes += " opacity-70";
+            classes += " cursor-not-allowed opacity-70";
         }
 
         return classes;

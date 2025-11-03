@@ -24,8 +24,8 @@ public partial class PromptInputAttachment : Flowbite.Base.FlowbiteComponentBase
     [CascadingParameter] private PromptInputContext Context { get; set; } = default!;
 
     private string BaseClasses =>
-        "inline-flex min-w-0 items-center gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2 shadow-sm " +
-        "dark:border-gray-700 dark:bg-gray-800";
+        "inline-flex min-w-0 items-center gap-2 rounded-full border border-gray-200/80 bg-white/90 px-3 py-1.5 text-sm text-gray-700 shadow-sm transition " +
+        "hover:border-gray-300 dark:border-white/10 dark:bg-slate-950/60 dark:text-gray-200";
 
     private string FormatSize(long bytes)
     {

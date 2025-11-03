@@ -20,5 +20,5 @@ public partial class PromptInputFooter : Flowbite.Base.FlowbiteComponentBase
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
-    private string BaseClasses => "flex flex-col gap-3 md:flex-row md:items-center md:justify-between";
+    private string BaseClasses => "flex flex-col gap-3 px-1 md:flex-row md:items-center md:justify-between";
 }

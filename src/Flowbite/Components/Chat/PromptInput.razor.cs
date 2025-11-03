@@ -13,11 +13,11 @@ namespace Flowbite.Components.Chat;
 public partial class PromptInput : Flowbite.Base.FlowbiteComponentBase, IAsyncDisposable
 {
     private readonly string ContainerClasses =
-        "relative flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm " +
-        "dark:border-gray-700 dark:bg-gray-900";
+        "relative flex w-full flex-col gap-3 rounded-[26px] border border-gray-200/80 bg-white/95 px-5 py-4 shadow-[0_18px_40px_-24px_rgba(15,23,42,0.35)] " +
+        "dark:border-white/10 dark:bg-slate-950/70 dark:shadow-[0_24px_50px_-30px_rgba(15,23,42,0.9)]";
 
     private readonly string DragActiveClasses =
-        "ring-2 ring-primary-500 ring-offset-2 dark:ring-offset-gray-900";
+        "ring-2 ring-primary-500/70 ring-offset-2 ring-offset-white dark:ring-offset-slate-950";
 
     private PromptInputContext _context = default!;
     private InputFile? _fileInput;

@@ -39,11 +39,11 @@ public partial class PromptInputModelSelectItem : Flowbite.Base.FlowbiteComponen
     {
         var isActive = string.Equals(ModelContext.Value, Value, StringComparison.Ordinal);
         var baseClasses =
-            "flex w-full items-center gap-2 px-3 py-2 text-sm text-left transition hover:bg-gray-100 " +
-            "dark:hover:bg-gray-700";
+            "flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-left transition-colors hover:bg-gray-100/80 " +
+            "dark:hover:bg-slate-900/70";
         return isActive
-            ? baseClasses + " bg-gray-100 font-medium dark:bg-gray-700 dark:text-white"
-            : baseClasses + " text-gray-700 dark:text-gray-200";
+            ? baseClasses + " bg-gray-100 font-semibold text-gray-900 dark:bg-slate-900/80 dark:text-white"
+            : baseClasses + " text-gray-600 dark:text-gray-200";
     }
 
     protected override void OnInitialized()

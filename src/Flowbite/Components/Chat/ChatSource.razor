@@ -13,3 +13,16 @@
     </svg>
     <span>@ChildContent</span>
 </a>
+
+@code {
+    private string BaseClasses => "inline-flex items-center gap-2 text-primary-600 hover:underline dark:text-primary-300";
+
+    [Parameter, EditorRequired]
+    public string Href { get; set; } = string.Empty;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

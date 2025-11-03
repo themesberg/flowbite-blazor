@@ -3,6 +3,14 @@
 <button type="button"
         class="@CombineClasses(BaseClasses)"
         @onclick="HandleClickAsync"
-        aria-label="Open action menu">
-    <DotsHorizontalIcon class="h-4 w-4" aria-hidden="true" />
+        aria-label="Open action menu"
+        @attributes="AdditionalAttributes">
+    @if (ChildContent is not null)
+    {
+        @ChildContent
+    }
+    else
+    {
+        <PlusIcon class="h-4 w-4" aria-hidden="true" />
+    }
 </button>
