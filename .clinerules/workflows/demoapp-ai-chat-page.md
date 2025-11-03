@@ -17,10 +17,10 @@
 ## 2. References & Inputs
 | Topic | Source |
 | --- | --- |
-| Vercel AI template inspiration | `docs/feature/chat/vercel-ai-template-chat-example.png` |
-| Tutorial guidance | `docs/feature/chat/ai-elements-nextjs-example-chatbot.mdx` |
-| Existing Flowbite chat demo | `src/DemoApp/Pages/Docs/components/ChatbotPage.razor` |
-| Flowbite chat components | `src/Flowbite/Components/Chat` |
+| Vercel AI template inspiration | `/home/tschavey/themesberg/flowbite-blazor/docs/feature/chat/vercel-ai-template-chat-example.png` |
+| Tutorial guidance | `/home/tschavey/themesberg/flowbite-blazor/docs/feature/chat/ai-elements-nextjs-example-chatbot.mdx` |
+| Existing Flowbite chat demo | `/home/tschavey/themesberg/flowbite-blazor/src/DemoApp/Pages/Docs/components/ChatbotPage.razor` |
+| Flowbite chat components | `/home/tschavey/themesberg/flowbite-blazor/src/Flowbite/Components/Chat` |
 | LlmTornado Getting Started | `/home/tschavey/github/LlmTornado/src/LlmTornado.Docs/website/docs/getting-started.md` |
 | LlmTornado Chat Basics | `/home/tschavey/github/LlmTornado/src/LlmTornado.Docs/website/docs/1. LlmTornado/Chat/1. basics.md` |
 | LlmTornado Provider Models | `/home/tschavey/github/LlmTornado/src/LlmTornado.Docs/website/docs/1. LlmTornado/Chat/5. models.md` |
@@ -30,7 +30,7 @@
 ## 3. Architecture Decisions
 
 ### 3.1 Page Placement & Structure
-- Create `ChatAiPage.razor` under `src/DemoApp/Pages/Docs/ai/` (match existing docs routing pattern).
+- Create `ChatAiPage.razor` under `/home/tschavey/themesberg/flowbite-blazor/src/DemoApp/Pages/Docs/ai/` (match existing docs routing pattern).
 - Follow Flowbite’s component split: `.razor` for markup, `.razor.cs` partial for logic/state.
 - Mirror the layout of `ChatbotPage.razor` but replace mock data with live state driven by LlmTornado.
 
@@ -44,12 +44,12 @@
 - API key field should use a password input (masked) with optional reveal toggle. Never log the key.
 
 ### 3.3 Service Layer
-- Implement `IAiChatService` in `src/DemoApp/Services/`:
+- Implement `IAiChatService` in `/home/tschavey/themesberg/flowbite-blazor/src/DemoApp/Services/`:
   - Accept provider enum, api key, conversation history, and user flags (web search, attachments metadata).
   - Instantiate/configure `TornadoApi` with `ProviderAuthentication` per submission or cached per session.
   - Call `CreateConversation` / `CreateChatCompletion` to fetch results.
   - Normalize assistant output into DTO containing text, reasoning (if available), sources, and attachment echoes.
-- Add dependency injection registration in `Program.cs`.
+- Add dependency injection registration in `/home/tschavey/themesberg/flowbite-blazor/src/DemoApp/Program.cs`.
 
 ### 3.4 Component Behavior
 - Maintain conversation state in the page component: list of messages (user + assistant), attachments, streaming status.
@@ -67,9 +67,9 @@
 - Ensure dark mode responsive styles.
 
 ### 3.6 Documentation & Navigation
-- Add entry under `DocLayoutSidebarData.cs` grouping (e.g., “AI Chat” under AI or Components).
-- Document workflow in LLMS sections under `src/DemoApp/wwwroot/llms-docs/sections/`.
-- Update AI docs generator if needed (`Build-LlmsContext.ps1`).
+- Add entry under `/home/tschavey/themesberg/flowbite-blazor/src/DemoApp/Layout/DocLayoutSidebarData.cs` grouping (e.g., “AI Chat” under AI or Components).
+- Document workflow in LLMS sections under `/home/tschavey/themesberg/flowbite-blazor/src/DemoApp/wwwroot/llms-docs/sections/`.
+- Update AI docs generator if needed (`/home/tschavey/themesberg/flowbite-blazor/src/DemoApp/Build-LlmsContext.ps1`).
 
 ---
 
@@ -79,7 +79,7 @@
 1. Scaffold new page and partial class.
 2. Define message DTOs (role, text, reasoning, sources, attachments).
 3. Introduce provider enum/config mapping.
-4. **Verification:** Perform a Playwright MCP capture for Phase A setup and store screenshots/logs in `docs/feature/chat/tmp/verification/phase-a/`.
+4. **Verification:** Perform a Playwright MCP capture for Phase A setup and store screenshots/logs in `/home/tschavey/themesberg/flowbite-blazor/docs/feature/chat/tmp/verification/phase-a/`.
 
 ### Phase B – UI Assembly
 1. Build conversation stream with `Conversation` + `ChatMessage` + `ChatResponse`.
@@ -87,7 +87,7 @@
 3. Configure `PromptInput` with attachments, web search toggle, microphone stub.
 4. Add provider dropdown (`PromptInputModelSelect`) limited to the four providers.
 5. Add masked API key input (Flowbite `TextInput` or custom slot), plus validation feedback.
-6. **Verification:** Capture the assembled UI via Playwright MCP and archive outputs in `docs/feature/chat/tmp/verification/phase-b/`.
+6. **Verification:** Capture the assembled UI via Playwright MCP and archive outputs in `/home/tschavey/themesberg/flowbite-blazor/docs/feature/chat/tmp/verification/phase-b/`.
 
 ### Phase C – LlmTornado Integration
 1. Add LlmTornado NuGet package references to DemoApp if not already present.
@@ -95,14 +95,14 @@
 3. Wire DI and inject into page.
 4. Implement submit handler: translate conversation history to `ChatRequest`, include provider-specific model, pass API key.
 5. Handle streaming (preferred) or fallback to full response.
-6. **Verification:** Run Playwright MCP against the wired backend flow and place logs/screenshots in `docs/feature/chat/tmp/verification/phase-c/`.
+6. **Verification:** Run Playwright MCP against the wired backend flow and place logs/screenshots in `/home/tschavey/themesberg/flowbite-blazor/docs/feature/chat/tmp/verification/phase-c/`.
 
 ### Phase D – Documentation & System Updates
-1. Finish this workflow doc (`docs/dev_notes/workflows/demoapp-ai-chat-page.md`).
+1. Finish this workflow doc (`/home/tschavey/themesberg/flowbite-blazor/.clinerules/workflows/demoapp-ai-chat-page.md`).
 2. Create AI docs section snippet describing usage and key entry requirements.
 3. Update sidebar navigation.
 4. Run `Build-LlmsContext.ps1` if doc context requires regeneration.
-5. **Verification:** Record Playwright MCP evidence of documentation/navigation updates under `docs/feature/chat/tmp/verification/phase-d/`.
+5. **Verification:** Record Playwright MCP evidence of documentation/navigation updates under `/home/tschavey/themesberg/flowbite-blazor/docs/feature/chat/tmp/verification/phase-d/`.
 
 ### Phase E – Testing & Verification
 1. `dotnet build` (Debug/Release) to ensure solution compiles.
@@ -113,7 +113,7 @@
    - Capture screenshot demonstrating dropdown and key input.
    - Document result (screenshot + log snippet).
 4. Record findings in project notes.
-5. **Verification:** Consolidate final Playwright MCP artifacts for Phase E into `docs/feature/chat/tmp/verification/phase-e/`.
+5. **Verification:** Consolidate final Playwright MCP artifacts for Phase E into `/home/tschavey/themesberg/flowbite-blazor/docs/feature/chat/tmp/verification/phase-e/`.
 
 ---
 
@@ -129,13 +129,13 @@
 ---
 
 ## 6. Deliverables Checklist
-- [ ] `ChatAiPage.razor` & `ChatAiPage.razor.cs` with Flowbite chat UI wired to state.
+- [ ] `/home/tschavey/themesberg/flowbite-blazor/src/DemoApp/Pages/Docs/ai/ChatAiPage.razor` & `/home/tschavey/themesberg/flowbite-blazor/src/DemoApp/Pages/Docs/ai/ChatAiPage.razor.cs` with Flowbite chat UI wired to state.
 - [ ] Provider dropdown limited to OpenAI, Anthropic, Google, OpenRouter.
 - [ ] Masked API key input with validation and optional reveal.
-- [ ] `IAiChatService` leveraging LlmTornado with provider-aware configuration.
+- [ ] `/home/tschavey/themesberg/flowbite-blazor/src/DemoApp/Services/IAiChatService` leveraging LlmTornado with provider-aware configuration.
 - [ ] Navigation update and LLMS documentation snippet.
 - [ ] Playwright MCP verification artifact (screenshot/log).
-- [ ] `docs/dev_notes/workflows/demoapp-ai-chat-page.md` (this document) committed with implementation notes.
+- [ ] `/home/tschavey/themesberg/flowbite-blazor/.clinerules/workflows/demoapp-ai-chat-page.md` (this document) committed with implementation notes.
 
 ---
 
