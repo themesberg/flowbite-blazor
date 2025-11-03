@@ -21,7 +21,7 @@
                       Description="Wrap streamed messages inside Conversation, then wire PromptInput to collect text, attachments, and model settings."
                       RazorCode=@(@"
 <Conversation Class=""h-[420px] overflow-hidden rounded-3xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900"">
-    <ConversationContent>
+    <ConversationContent AutoScrollBehavior=""ConversationAutoScrollBehavior.StickToBottom"">
         @foreach (var message in messages)
         {
             <ChatMessage @key=""message.Id""
@@ -83,7 +83,8 @@
         <PreviewContent>
             <div class="flex flex-col gap-6">
                 <Conversation Class="h-[420px] overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-900">
-                    <ConversationContent Class="p-0">
+                    <ConversationContent Class="p-0"
+                                          AutoScrollBehavior="ConversationAutoScrollBehavior.StickToBottom">
                         @foreach (var message in _messages)
                         {
                             <ChatMessage @key="message.Id"

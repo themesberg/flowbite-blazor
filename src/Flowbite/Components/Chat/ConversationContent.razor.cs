@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 
 namespace Flowbite.Components.Chat;
@@ -28,11 +30,25 @@ public partial class ConversationContent : Flowbite.Base.FlowbiteComponentBase
     [Parameter]
     public bool AutoScroll { get; set; } = true;
 
+    /// <summary>
+    /// Determines how automatic scrolling behaves when new content is rendered.
+    /// </summary>
+    [Parameter]
+    public ConversationAutoScrollBehavior AutoScrollBehavior { get; set; } = ConversationAutoScrollBehavior.Always;
+
     [CascadingParameter] private ConversationContext ConversationContext { get; set; } = default!;
 
     private string BaseClasses =>
         "relative flex-1 overflow-y-auto rounded-2xl border border-gray-200 bg-white p-6 shadow-sm " +
         "dark:border-gray-700 dark:bg-gray-900";
+
+    private string? RoleAttribute => HasAdditionalAttribute("role") ? null : "log";
+
+    private string? AriaLiveAttribute => HasAdditionalAttribute("aria-live") ? null : "polite";
+
+    private string? AriaRelevantAttribute => HasAdditionalAttribute("aria-relevant") ? null : "additions text";
+
+    private string? AriaAtomicAttribute => HasAdditionalAttribute("aria-atomic") ? null : "false";
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -42,9 +58,33 @@ public partial class ConversationContent : Flowbite.Base.FlowbiteComponentBase
             _contentRegistered = true;
         }
 
-        if (AutoScroll && ConversationContext.ScrollToBottom is not null)
+        if (!AutoScroll || ConversationContext.ScrollToBottom is null)
+        {
+            return;
+        }
+
+        if (AutoScrollBehavior == ConversationAutoScrollBehavior.Always ||
+            (AutoScrollBehavior == ConversationAutoScrollBehavior.StickToBottom && ConversationContext.IsAtBottom))
         {
             await ConversationContext.ScrollToBottom.Invoke();
         }
+    }
+
+    private bool HasAdditionalAttribute(string attributeName)
+    {
+        if (AdditionalAttributes is null || AdditionalAttributes.Count == 0)
+        {
+            return false;
+        }
+
+        foreach (var key in AdditionalAttributes.Keys)
+        {
+            if (string.Equals(key, attributeName, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

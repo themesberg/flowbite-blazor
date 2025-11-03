@@ -1,5 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
@@ -19,11 +24,17 @@ public partial class PromptInput : Flowbite.Base.FlowbiteComponentBase, IAsyncDi
     private readonly string DragActiveClasses =
         "ring-2 ring-primary-500/70 ring-offset-2 ring-offset-white dark:ring-offset-slate-950";
 
+    private ElementReference _container;
     private PromptInputContext _context = default!;
     private InputFile? _fileInput;
     private IJSObjectReference? _module;
+    private DotNetObjectReference<PromptInput>? _dotNetReference;
     private bool _isDragActive;
     private bool _suppressContextTextCallback;
+    private Action? _attachmentsChangedHandler;
+    private Action? _textChangedHandler;
+    private readonly HashSet<string> _attachmentIds = new();
+    private readonly Dictionary<string, IAsyncDisposable> _attachmentResources = new();
 
     [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
 
@@ -79,10 +90,18 @@ public partial class PromptInput : Flowbite.Base.FlowbiteComponentBase, IAsyncDi
 
     protected override void OnInitialized()
     {
-        _context = new PromptInputContext(OpenFilePickerAsync, SubmitAsync, Multiple);
+        _context = new PromptInputContext(OpenFilePickerAsync, SubmitAsync, Multiple, CreateAttachment);
         _context.SetText(Text ?? string.Empty);
-        _context.AttachmentsChanged += HandleContextAttachmentsChanged;
-        _context.TextChanged += HandleContextTextChanged;
+        _textChangedHandler = () => _ = HandleContextTextChangedAsync();
+        _attachmentsChangedHandler = () => _ = HandleContextAttachmentsChangedAsync();
+        if (_textChangedHandler is not null)
+        {
+            _context.TextChanged += _textChangedHandler;
+        }
+        if (_attachmentsChangedHandler is not null)
+        {
+            _context.AttachmentsChanged += _attachmentsChangedHandler;
+        }
     }
 
     protected override void OnParametersSet()
@@ -95,6 +114,38 @@ public partial class PromptInput : Flowbite.Base.FlowbiteComponentBase, IAsyncDi
             _suppressContextTextCallback = true;
             _context.SetText(desiredText);
             _suppressContextTextCallback = false;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await EnsureModuleAsync().ConfigureAwait(false);
+        if (_module is null)
+        {
+            return;
+        }
+
+        if (firstRender)
+        {
+            _dotNetReference = DotNetObjectReference.Create(this);
+            await _module.InvokeVoidAsync(
+                "registerPromptInput",
+                _container,
+                _dotNetReference,
+                new PromptInputRegistrationOptions
+                {
+                    GlobalDrop = GlobalDrop
+                });
+        }
+        else
+        {
+            await _module.InvokeVoidAsync(
+                "updatePromptInputOptions",
+                _container,
+                new PromptInputRegistrationOptions
+                {
+                    GlobalDrop = GlobalDrop
+                });
         }
     }
 
@@ -149,6 +200,11 @@ public partial class PromptInput : Flowbite.Base.FlowbiteComponentBase, IAsyncDi
         _context.SetText(string.Empty);
     }
 
+    private PromptAttachment CreateAttachment(IBrowserFile file) =>
+        file is IAsyncDisposable disposable
+            ? new PromptAttachment(file, disposable)
+            : new PromptAttachment(file);
+
     private async Task OpenFilePickerAsync()
     {
         if (_fileInput is null)
@@ -170,7 +226,7 @@ public partial class PromptInput : Flowbite.Base.FlowbiteComponentBase, IAsyncDi
             "./_content/Flowbite/js/promptInput.js");
     }
 
-    private async void HandleContextTextChanged()
+    private async Task HandleContextTextChangedAsync()
     {
         if (_suppressContextTextCallback)
         {
@@ -183,66 +239,245 @@ public partial class PromptInput : Flowbite.Base.FlowbiteComponentBase, IAsyncDi
         }
     }
 
-    private async void HandleContextAttachmentsChanged()
+    private async Task HandleContextAttachmentsChangedAsync()
     {
+        foreach (var attachment in _context.Attachments)
+        {
+            if (_attachmentIds.Add(attachment.Id) && attachment.DisposableResource is IAsyncDisposable disposable)
+            {
+                _attachmentResources[attachment.Id] = disposable;
+            }
+        }
+
+        var removedIds = _attachmentIds
+            .Where(id => _context.Attachments.All(attachment => attachment.Id != id))
+            .ToList();
+
+        foreach (var removedId in removedIds)
+        {
+            _attachmentIds.Remove(removedId);
+            if (_attachmentResources.Remove(removedId, out var disposable))
+            {
+                await disposable.DisposeAsync().ConfigureAwait(false);
+            }
+        }
+
         if (AttachmentsChanged.HasDelegate)
         {
             var snapshot = _context.Attachments.ToList().AsReadOnly();
             await InvokeAsync(() => AttachmentsChanged.InvokeAsync(snapshot));
         }
-        StateHasChanged();
+
+        await InvokeAsync(StateHasChanged);
     }
 
-    private void HandleDragEnter(DragEventArgs args)
+    [JSInvokable]
+    public void SetDragState(bool isActive)
     {
-        if (!GlobalDrop)
+        if (_isDragActive == isActive)
         {
             return;
         }
 
-        _isDragActive = true;
-        StateHasChanged();
+        _isDragActive = isActive;
+        _ = InvokeAsync(StateHasChanged);
     }
 
-    private void HandleDragLeave(DragEventArgs args)
+    [JSInvokable]
+    public async Task ReceiveFiles(PromptInputJsFileDescriptor[] descriptors)
     {
-        if (!GlobalDrop)
+        if (descriptors is null || descriptors.Length == 0)
         {
             return;
         }
 
-        _isDragActive = false;
-        StateHasChanged();
-    }
+        var files = new List<IBrowserFile>(descriptors.Length);
 
-    private void HandleDragOver(DragEventArgs args)
-    {
-        if (!GlobalDrop)
+        for (var i = 0; i < descriptors.Length; i++)
+        {
+            var descriptor = descriptors[i];
+
+            if (!AllowMultipleFiles && _context.Attachments.Count + files.Count >= 1)
+            {
+                if (descriptor.Stream is not null)
+                {
+                    await descriptor.Stream.DisposeAsync().ConfigureAwait(false);
+                }
+
+                for (var j = i + 1; j < descriptors.Length; j++)
+                {
+                    if (descriptors[j].Stream is not null)
+                    {
+                        await descriptors[j].Stream.DisposeAsync().ConfigureAwait(false);
+                    }
+                }
+
+                break;
+            }
+
+            if (descriptor.Size <= 0 || descriptor.Stream is null)
+            {
+                if (descriptor.Stream is not null)
+                {
+                    await descriptor.Stream.DisposeAsync().ConfigureAwait(false);
+                }
+
+                continue;
+            }
+
+            files.Add(new JsStreamBrowserFile(
+                descriptor.Name,
+                descriptor.Size,
+                descriptor.ContentType,
+                descriptor.LastModified,
+                descriptor.Stream));
+        }
+
+        if (files.Count == 0)
         {
             return;
         }
-        _isDragActive = true;
+
+        if (!AllowMultipleFiles)
+        {
+            _context.ClearAttachments();
+        }
+
+        _context.AddFiles(files);
     }
 
-    private void HandleDrop(DragEventArgs args)
+    private async Task DisposeAttachmentResourcesAsync()
     {
-        if (!GlobalDrop)
+        if (_attachmentResources.Count == 0)
         {
             return;
         }
-        _isDragActive = false;
-        StateHasChanged();
+
+        var disposables = _attachmentResources.Values.ToList();
+        _attachmentResources.Clear();
+        _attachmentIds.Clear();
+
+        foreach (var disposable in disposables)
+        {
+            await disposable.DisposeAsync().ConfigureAwait(false);
+        }
     }
 
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
-        _context.AttachmentsChanged -= HandleContextAttachmentsChanged;
-        _context.TextChanged -= HandleContextTextChanged;
+        if (_attachmentsChangedHandler is not null)
+        {
+            _context.AttachmentsChanged -= _attachmentsChangedHandler;
+        }
+
+        if (_textChangedHandler is not null)
+        {
+            _context.TextChanged -= _textChangedHandler;
+        }
+
+        await DisposeAttachmentResourcesAsync().ConfigureAwait(false);
 
         if (_module is not null)
         {
+            try
+            {
+                await _module.InvokeVoidAsync("unregisterPromptInput", _container);
+            }
+            catch (JSDisconnectedException)
+            {
+                // Ignore if JS runtime is no longer available.
+            }
+
             await _module.DisposeAsync();
+        }
+
+        _dotNetReference?.Dispose();
+    }
+
+    private sealed class PromptInputRegistrationOptions
+    {
+        [JsonPropertyName("globalDrop")]
+        public bool GlobalDrop { get; init; }
+    }
+
+    public sealed class PromptInputJsFileDescriptor
+    {
+        [JsonPropertyName("name")]
+        public string Name { get; init; } = string.Empty;
+
+        [JsonPropertyName("size")]
+        public long Size { get; init; }
+
+        [JsonPropertyName("contentType")]
+        public string ContentType { get; init; } = string.Empty;
+
+        [JsonPropertyName("lastModified")]
+        public long LastModified { get; init; }
+
+        [JsonPropertyName("stream")]
+        public IJSStreamReference Stream { get; init; } = default!;
+    }
+
+    private sealed class JsStreamBrowserFile : IBrowserFile, IAsyncDisposable
+    {
+        private readonly IJSStreamReference _streamReference;
+        private readonly DateTimeOffset _lastModified;
+
+        public JsStreamBrowserFile(
+            string name,
+            long size,
+            string contentType,
+            long lastModified,
+            IJSStreamReference streamReference)
+        {
+            Name = name;
+            Size = size;
+            ContentType = string.IsNullOrWhiteSpace(contentType) ? "application/octet-stream" : contentType;
+            _streamReference = streamReference;
+            _lastModified = NormalizeTimestamp(lastModified);
+        }
+
+        public string Name { get; }
+
+        public DateTimeOffset LastModified => _lastModified;
+
+        public long Size { get; }
+
+        public string ContentType { get; }
+
+        public string? RelativePath => null;
+
+        public Stream OpenReadStream(long maxAllowedSize = 512000, CancellationToken cancellationToken = default)
+        {
+            if (Size > maxAllowedSize)
+            {
+                throw new IOException($"Supplied file with size {Size} bytes exceeds the maximum of {maxAllowedSize} bytes.");
+            }
+
+            return _streamReference.OpenReadStreamAsync(maxAllowedSize, cancellationToken)
+                .AsTask()
+                .GetAwaiter()
+                .GetResult();
+        }
+
+        public ValueTask DisposeAsync() => _streamReference.DisposeAsync();
+
+        private static DateTimeOffset NormalizeTimestamp(long timestamp)
+        {
+            try
+            {
+                if (timestamp <= 0)
+                {
+                    return DateTimeOffset.UtcNow;
+                }
+
+                return DateTimeOffset.FromUnixTimeMilliseconds(timestamp);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return DateTimeOffset.UtcNow;
+            }
         }
     }
 }

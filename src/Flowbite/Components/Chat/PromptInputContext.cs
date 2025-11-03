@@ -11,11 +11,18 @@ internal sealed class PromptInputContext
 {
     private string _text = string.Empty;
 
-    public PromptInputContext(Func<Task> triggerFilePicker, Func<Task> submitAsync, bool multiple)
+    private readonly Func<IBrowserFile, PromptAttachment> _attachmentFactory;
+
+    public PromptInputContext(
+        Func<Task> triggerFilePicker,
+        Func<Task> submitAsync,
+        bool multiple,
+        Func<IBrowserFile, PromptAttachment> attachmentFactory)
     {
         TriggerFilePickerAsync = triggerFilePicker;
         SubmitAsync = submitAsync;
         Multiple = multiple;
+        _attachmentFactory = attachmentFactory;
     }
 
     /// <summary>
@@ -89,7 +96,7 @@ internal sealed class PromptInputContext
                 break;
             }
 
-            Attachments.Add(new PromptAttachment(file));
+            Attachments.Add(_attachmentFactory(file));
             updated = true;
         }
 

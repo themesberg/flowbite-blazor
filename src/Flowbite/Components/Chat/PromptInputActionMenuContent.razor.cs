@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 namespace Flowbite.Components.Chat;
 
 /// <summary>
-/// Dropdown content for the prompt input action menu.
+/// Registers menu content for the prompt action menu overlay.
 /// </summary>
 public partial class PromptInputActionMenuContent : Flowbite.Base.FlowbiteComponentBase
 {
@@ -20,8 +20,10 @@ public partial class PromptInputActionMenuContent : Flowbite.Base.FlowbiteCompon
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
-    [CascadingParameter] private PromptInputActionMenuContext MenuContext { get; set; } = default!;
+    [CascadingParameter] private PromptInputActionMenu Owner { get; set; } = default!;
 
-    private string BaseClasses =>
-        "absolute left-0 top-full z-30 mt-2 w-44 rounded-2xl border border-gray-200/80 bg-white/98 p-2 shadow-[0_24px_45px_-28px_rgba(15,23,42,0.55)] dark:border-white/10 dark:bg-slate-950/90";
+    protected override void OnParametersSet()
+    {
+        Owner.RegisterMenu(ChildContent, AdditionalAttributes);
+    }
 }

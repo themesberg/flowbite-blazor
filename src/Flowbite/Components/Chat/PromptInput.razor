@@ -2,12 +2,7 @@
 
 <CascadingValue Value="_context" IsFixed="false">
     <div class="@CombineClasses(ContainerClasses, _isDragActive ? DragActiveClasses : null)"
-         @ondragenter="HandleDragEnter"
-         @ondragover="HandleDragOver"
-         @ondragover:preventDefault="GlobalDrop"
-         @ondragleave="HandleDragLeave"
-         @ondrop="HandleDrop"
-         @ondrop:preventDefault="GlobalDrop"
+         @ref="_container"
          @attributes="AdditionalAttributes">
         <form class="flex flex-col gap-4" @onsubmit="HandleSubmitAsync" @onsubmit:preventDefault>
             @ChildContent

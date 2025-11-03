@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace Flowbite.Components.Chat;
 
@@ -7,6 +8,7 @@ namespace Flowbite.Components.Chat;
 /// </summary>
 internal sealed class PromptInputActionMenuContext
 {
+    private Func<Task>? _closeAsync;
     private bool _isOpen;
 
     public event System.Action? OpenChanged;
@@ -14,33 +16,34 @@ internal sealed class PromptInputActionMenuContext
     /// <summary>
     /// Indicates whether the menu is open.
     /// </summary>
-    public bool IsOpen
-    {
-        get => _isOpen;
-        private set
-        {
-            if (_isOpen == value)
-            {
-                return;
-            }
+    public bool IsOpen => _isOpen;
 
-            _isOpen = value;
-            OpenChanged?.Invoke();
-        }
+    /// <summary>
+    /// Registers callbacks used to manage the underlying overlay.
+    /// </summary>
+    /// <param name="closeAsync">Delegate that closes the menu.</param>
+    public void Configure(Func<Task> closeAsync)
+    {
+        _closeAsync = closeAsync;
     }
 
     /// <summary>
-    /// Toggles the menu open state.
+    /// Updates the tracked open state and notifies listeners.
     /// </summary>
-    public void Toggle() => IsOpen = !IsOpen;
+    /// <param name="value">True when the menu is open.</param>
+    public void UpdateIsOpen(bool value)
+    {
+        if (_isOpen == value)
+        {
+            return;
+        }
+
+        _isOpen = value;
+        OpenChanged?.Invoke();
+    }
 
     /// <summary>
-    /// Opens the menu.
+    /// Attempts to close the menu.
     /// </summary>
-    public void Open() => IsOpen = true;
-
-    /// <summary>
-    /// Closes the menu.
-    /// </summary>
-    public void Close() => IsOpen = false;
+    public Task CloseAsync() => _closeAsync?.Invoke() ?? Task.CompletedTask;
 }

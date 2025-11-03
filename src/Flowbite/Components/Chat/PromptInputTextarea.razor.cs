@@ -1,7 +1,9 @@
 using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Flowbite.Components.Chat;
 
@@ -49,6 +51,45 @@ public partial class PromptInputTextarea : Flowbite.Base.FlowbiteComponentBase, 
         Context.TextChanged += HandleContextTextChanged;
     }
 
+    private Task HandleKeyDownAsync(KeyboardEventArgs args)
+    {
+        if (args.Key is null)
+        {
+            return Task.CompletedTask;
+        }
+
+        if (string.Equals(args.Key, "Enter", StringComparison.Ordinal) &&
+            !args.ShiftKey &&
+            !args.AltKey &&
+            !args.CtrlKey &&
+            !args.MetaKey)
+        {
+            if (!string.IsNullOrWhiteSpace(Context.Text) || Context.Attachments.Count > 0)
+            {
+                return SubmitFromKeyboardAsync();
+            }
+
+            if (_value.Length > 0)
+            {
+                _value = string.Empty;
+                Context.SetText(string.Empty);
+                return InvokeAsync(StateHasChanged);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        if (string.Equals(args.Key, "Backspace", StringComparison.Ordinal) &&
+            string.IsNullOrEmpty(Context.Text) &&
+            Context.Attachments.Count > 0)
+        {
+            var lastAttachment = Context.Attachments[^1];
+            Context.RemoveAttachment(lastAttachment.Id);
+        }
+
+        return Task.CompletedTask;
+    }
+
     private async Task HandleInputAsync(ChangeEventArgs args)
     {
         var next = args.Value?.ToString() ?? string.Empty;
@@ -69,6 +110,13 @@ public partial class PromptInputTextarea : Flowbite.Base.FlowbiteComponentBase, 
             _value = next;
             InvokeAsync(StateHasChanged);
         }
+    }
+
+    private async Task SubmitFromKeyboardAsync()
+    {
+        await Context.SubmitAsync();
+        _value = Context.Text;
+        await InvokeAsync(StateHasChanged);
     }
 
     /// <inheritdoc />

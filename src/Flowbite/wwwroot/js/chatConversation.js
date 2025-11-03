@@ -28,6 +28,8 @@ export function registerConversation(element, dotNetReference) {
   const listener = () => handleScroll(element, dotNetReference);
   element.addEventListener('scroll', listener, { passive: true });
   registry.set(element, { listener, dotNetReference, atBottom: true });
+  // Capture the initial scroll position after the current frame to ensure measurements are up to date.
+  requestAnimationFrame(() => listener());
 }
 
 export function unregisterConversation(element) {

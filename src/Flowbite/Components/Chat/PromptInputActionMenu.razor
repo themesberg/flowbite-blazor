@@ -1,7 +1,27 @@
 @inherits Flowbite.Base.FlowbiteComponentBase
 
-<CascadingValue Value="_context" IsFixed="false">
-    <div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
-        @ChildContent
-    </div>
+<CascadingValue Value="this">
+    <CascadingValue Value="_context" IsFixed="false">
+        <div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
+            <Dropdown @ref="_dropdown"
+                      Inline="true"
+                      CustomTrigger="@(BuildTriggerFragment())"
+                      Placement="DropdownPlacement.BottomStart"
+                      DismissOnClick="false"
+                      MenuClass="z-[70]"
+                      IsOpenChanged="HandleDropdownStateChanged">
+                @if (_contentFragment is not null)
+                {
+                    <div class="@GetMenuClasses()"
+                         role="menu"
+                         aria-orientation="vertical"
+                         tabindex="-1"
+                         @attributes="_contentAttributes">
+                        @_contentFragment
+                    </div>
+                }
+            </Dropdown>
+            @ChildContent
+        </div>
+    </CascadingValue>
 </CascadingValue>

@@ -1,5 +1,11 @@
 @inherits Flowbite.Base.FlowbiteComponentBase
 
-<div class="@CombineClasses(BaseClasses)" @ref="_contentElement" @attributes="AdditionalAttributes">
+<div class="@CombineClasses(BaseClasses)"
+     @ref="_contentElement"
+     role="@RoleAttribute"
+     aria-live="@AriaLiveAttribute"
+     aria-relevant="@AriaRelevantAttribute"
+     aria-atomic="@AriaAtomicAttribute"
+     @attributes="AdditionalAttributes">
     @ChildContent
 </div>
