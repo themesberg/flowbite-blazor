@@ -1,15 +1,23 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 
 namespace Flowbite.Components.Chat;
 
 /// <summary>
 /// Provides a lightweight custom select experience for choosing models.
 /// </summary>
-public partial class PromptInputModelSelect : Flowbite.Base.FlowbiteComponentBase, IDisposable
+public partial class PromptInputModelSelect : Flowbite.Base.FlowbiteComponentBase, IDisposable, IAsyncDisposable
 {
     private readonly PromptInputModelSelectContext _context;
+    private ElementReference _elementRef;
+    private DotNetObjectReference<PromptInputModelSelect>? _dotNetRef;
+    private IJSObjectReference? _jsModule;
+
+    [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
 
     public PromptInputModelSelect()
     {
@@ -57,9 +65,44 @@ public partial class PromptInputModelSelect : Flowbite.Base.FlowbiteComponentBas
 
     private void HandleStateChanged() => InvokeAsync(StateHasChanged);
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _dotNetRef = DotNetObjectReference.Create(this);
+            _jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Flowbite/js/promptInputModelSelect.js");
+            await _jsModule.InvokeVoidAsync("initialize", _elementRef, _dotNetRef);
+        }
+
+        if (_context.IsOpen && _jsModule != null)
+        {
+            await _jsModule.InvokeVoidAsync("setupClickOutside", _elementRef, _dotNetRef);
+        }
+    }
+
+    [JSInvokable]
+    public void OnClickOutside()
+    {
+        _context.Close();
+    }
+
     /// <inheritdoc />
     public void Dispose()
     {
         _context.StateChanged -= HandleStateChanged;
+    }
+
+    /// <inheritdoc />
+    public async ValueTask DisposeAsync()
+    {
+        _context.StateChanged -= HandleStateChanged;
+
+        if (_jsModule != null)
+        {
+            await _jsModule.InvokeVoidAsync("dispose");
+            await _jsModule.DisposeAsync();
+        }
+
+        _dotNetRef?.Dispose();
     }
 }

@@ -1,7 +1,7 @@
 @inherits Flowbite.Base.FlowbiteComponentBase
 
 <CascadingValue Value="_context" IsFixed="false">
-    <div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
+    <div @ref="_elementRef" class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
         @ChildContent
     </div>
 </CascadingValue>
