@@ -29,6 +29,16 @@ public class AiChatService : IAiChatService
         Console.WriteLine($"[AiChatService] API Key present: {!string.IsNullOrEmpty(apiKey)}");
         Console.WriteLine($"[AiChatService] API Key length: {apiKey?.Length ?? 0}");
 
+        if (string.IsNullOrEmpty(apiKey))
+        {
+            throw new ArgumentNullException(nameof(apiKey), "API key is required.");
+        }
+
+        if (string.IsNullOrEmpty(userMessage))
+        {
+            throw new ArgumentNullException(nameof(userMessage), "User message is required.");
+        }
+
         var stopwatch = Stopwatch.StartNew();
 
         try
@@ -68,16 +78,19 @@ public class AiChatService : IAiChatService
 
             // Add conversation history
             Console.WriteLine($"[AiChatService] Adding {conversationHistory?.Count ?? 0} history messages");
-            foreach (var msg in conversationHistory)
+            if (conversationHistory != null)
             {
-                var role = msg.Role.ToLowerInvariant() switch
+                foreach (var msg in conversationHistory)
                 {
-                    "user" => ChatMessageRoles.User,
-                    "assistant" => ChatMessageRoles.Assistant,
-                    "system" => ChatMessageRoles.System,
-                    _ => ChatMessageRoles.User
-                };
-                messages.Add(new ChatMessage(role, msg.Content));
+                    var role = msg.Role.ToLowerInvariant() switch
+                    {
+                        "user" => ChatMessageRoles.User,
+                        "assistant" => ChatMessageRoles.Assistant,
+                        "system" => ChatMessageRoles.System,
+                        _ => ChatMessageRoles.User
+                    };
+                    messages.Add(new ChatMessage(role, msg.Content ?? string.Empty));
+                }
             }
 
             // Add current user message

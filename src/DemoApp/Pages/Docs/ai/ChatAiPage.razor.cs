@@ -180,7 +180,7 @@ public partial class ChatAiPage : ComponentBase
                 var assistantMessage = new ChatAiMessage(
                     Id: Guid.NewGuid(),
                     Role: ChatMessageRole.Assistant,
-                    Text: response.Content,
+                    Text: response.Content ?? string.Empty,
                     Reasoning: response.Reasoning,
                     DurationSeconds: response.DurationMilliseconds.HasValue 
                         ? (int)(response.DurationMilliseconds.Value / 1000) 
