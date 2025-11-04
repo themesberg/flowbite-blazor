@@ -36,14 +36,12 @@ if [ "$INSTALL_DOTNET" = true ]; then
     echo "Using .NET version: $($DOTNET_PATH --version)"
 fi
 
-# mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-linux-x64  && chmod +x tailwindcss-linux-x64 && mv tailwindcss-linux-x64 tailwindcss && cd ..
-
 # Downlaod the Tailwincss CLI tool if not already present
 if [ ! -f "./tools/tailwindcss" ]; then
     echo "Downloading Tailwind CSS CLI tool..."
     mkdir -p ./tools
     cd ./tools
-    curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-linux-x64
+    curl -sSL https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-linux-x64
     chmod +x tailwindcss-linux-x64
     mv tailwindcss-linux-x64 ./tools/tailwindcss
 else
