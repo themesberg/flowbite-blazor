@@ -23,6 +23,6 @@ public partial class PromptInputModelSelectContent : Flowbite.Base.FlowbiteCompo
     [CascadingParameter] private PromptInputModelSelectContext ModelContext { get; set; } = default!;
 
     private string BaseClasses =>
-        "absolute left-0 top-full z-[70] mt-2 w-52 rounded-2xl border border-gray-200/80 bg-white/98 p-2 shadow-[0_24px_45px_-24px_rgba(15,23,42,0.45)] " +
+        "absolute left-0 bottom-full mb-2 z-[70] mt-2 w-52 rounded-2xl border border-gray-200/80 bg-white/98 p-2 shadow-[0_24px_45px_-24px_rgba(15,23,42,0.45)] " +
         "backdrop-blur-sm dark:border-white/10 dark:bg-slate-950/90";
 }
