@@ -24,7 +24,7 @@ public partial class PromptInputTextarea : Flowbite.Base.FlowbiteComponentBase, 
     /// Number of visible text rows.
     /// </summary>
     [Parameter]
-    public int Rows { get; set; } = 3;
+    public int Rows { get; set; } = 0;
 
     /// <summary>
     /// Additional attributes applied to the textarea element.

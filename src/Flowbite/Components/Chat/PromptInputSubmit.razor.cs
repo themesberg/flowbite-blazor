@@ -67,12 +67,13 @@ public partial class PromptInputSubmit : Flowbite.Base.FlowbiteComponentBase
     private string GetButtonClasses()
     {
         var classes =
-            "inline-flex h-11 min-w-[56px] items-center justify-center rounded-full bg-primary-600 px-5 text-sm font-semibold text-white " +
-            "shadow-[0_18px_30px_-18px_rgba(37,99,235,0.85)] transition focus:outline-none focus:ring-2 focus:ring-primary-400/60 sm:w-auto";
+            "h-10 w-10 items-center gap-2 rounded-full bg-primary-600 text-sm font-medium text-white shadow-lg " +
+            "transition hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-400/70 " +
+            "dark:bg-primary-500 dark:hover:bg-primary-400";
 
         if (Disabled || Status is PromptSubmissionStatus.Submitting or PromptSubmissionStatus.Streaming)
         {
-            classes += " cursor-not-allowed opacity-70";
+            classes += " cursor-not-allowed opacity-60";
         }
 
         return classes;

@@ -4,30 +4,34 @@
         class="@CombineClasses(GetButtonClasses())"
         disabled="@Disabled"
         @attributes="AdditionalAttributes">
-    <span class="flex items-center gap-2">
-        @switch (Status)
-        {
-            case PromptSubmissionStatus.Submitting:
-            case PromptSubmissionStatus.Streaming:
+    @switch (Status)
+    {
+        case PromptSubmissionStatus.Submitting:
+        case PromptSubmissionStatus.Streaming:
+            <span class="inline-flex items-center justify-center" aria-hidden="true">
                 <Loader Size="16" class="text-white" />
-                break;
-            case PromptSubmissionStatus.Error:
-                <ExclamationTriangleIcon class="h-4 w-4" aria-hidden="true" />
-                break;
-            default:
-                if (ChildContent is not null)
-                {
-                    @ChildContent
-                }
-                else
-                {
-                    <ArrowUpIcon class="h-4 w-4" aria-hidden="true" />
-                }
-                break;
-        }
-        @if (!string.IsNullOrEmpty(GetLabel()))
-        {
-            <span>@GetLabel()</span>
-        }
-    </span>
+            </span>
+            break;
+        case PromptSubmissionStatus.Error:
+            <span class="inline-flex items-center justify-center" aria-hidden="true">
+                <ExclamationTriangleIcon class="h-5 w-5" />
+            </span>
+            break;
+        default:
+            if (ChildContent is not null)
+            {
+                @ChildContent
+            }
+            else
+            {
+                <span class="inline-flex items-center justify-center" aria-hidden="true">
+                    <ArrowUpIcon class="h-5 w-5" />
+                </span>
+            }
+            break;
+    }
+    @if (!string.IsNullOrEmpty(GetLabel()))
+    {
+        <span>@GetLabel()</span>
+    }
 </button>

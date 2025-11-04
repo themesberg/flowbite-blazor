@@ -1744,10 +1744,6 @@ input[type="range"]::-ms-fill-lower {
   min-width: 180px;
 }
 
-.min-w-\[56px\] {
-  min-width: 56px;
-}
-
 .min-w-max {
   min-width: -moz-max-content;
   min-width: max-content;
@@ -3378,10 +3374,6 @@ input[type="range"]::-ms-fill-lower {
   opacity: 0.6;
 }
 
-.opacity-70 {
-  opacity: 0.7;
-}
-
 .opacity-75 {
   opacity: 0.75;
 }
@@ -3389,12 +3381,6 @@ input[type="range"]::-ms-fill-lower {
 .shadow {
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.shadow-\[0_18px_30px_-18px_rgba\(37\2c 99\2c 235\2c 0\.85\)\] {
-  --tw-shadow: 0 18px 30px -18px rgba(37,99,235,0.85);
-  --tw-shadow-colored: 0 18px 30px -18px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
@@ -5618,10 +5604,6 @@ pre[class^='language-diff-'] > code {
 
   .sm\:h-7 {
     height: 1.75rem;
-  }
-
-  .sm\:w-auto {
-    width: auto;
   }
 
   .sm\:px-4 {
