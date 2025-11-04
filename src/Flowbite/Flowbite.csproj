@@ -55,7 +55,7 @@
 
   <!-- Tailwind CSS Build Targets -->
 
-  <Target Name="TailwindBuild" BeforeTargets="Build" Condition="'$(OS)'=='Windows_NT' and '$(DisableTailwind)' != 'true'">
+  <Target Name="TailwindBuild" BeforeTargets="Build" Condition="'$(OS)'=='Windows_NT' and '$(DisableTailwind)' != 'true' and '$(Configuration)' != 'Release'">
     <Error Condition="!Exists('..\..\tools\tailwindcss.exe')" Text="Tailwind executable not found at ..\..\tools\tailwindcss.exe" />
     <Exec 
       Command="..\..\tools\tailwindcss.exe -i ./wwwroot/flowbite.css -o ./wwwroot/flowbite.min.css --postcss" 
@@ -69,7 +69,7 @@
     <Error Condition="'$(TailwindExitCode)' != '0'" Text="Tailwind command failed with exit code $(TailwindExitCode). Output: $(TailwindOutput)" />
   </Target>
 
-  <Target Name="TailwindBuild" BeforeTargets="Build" Condition="'$(OS)' != 'Windows_NT' and '$(DisableTailwind)' != 'true'">
+  <Target Name="TailwindBuild" BeforeTargets="Build" Condition="'$(OS)' != 'Windows_NT' and '$(DisableTailwind)' != 'true' and '$(Configuration)' != 'Release'">
     <Error Condition="!Exists('../../tools/tailwindcss')" Text="Tailwind executable not found at ../../tools/tailwindcss" />
     <Exec 
       Command="../../tools/tailwindcss -i ./wwwroot/flowbite.css -o ./wwwroot/flowbite.min.css --postcss" 
