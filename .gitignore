@@ -509,4 +509,4 @@ dotnet-install.sh
 
 .playwright-mcp/
 verification/
-tools/tailwindcss
+
