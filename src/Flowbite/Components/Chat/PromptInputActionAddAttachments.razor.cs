@@ -19,6 +19,6 @@ public partial class PromptInputActionAddAttachments : Flowbite.Base.FlowbiteCom
     private async Task HandleClickAsync()
     {
         await PromptContext.TriggerFilePickerAsync();
-        await MenuContext.CloseAsync();
+        MenuContext.Close();
     }
 }
