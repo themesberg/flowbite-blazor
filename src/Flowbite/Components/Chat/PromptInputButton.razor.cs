@@ -69,7 +69,7 @@ public partial class PromptInputButton : Flowbite.Base.FlowbiteComponentBase
 
         if (Active)
         {
-            baseClasses += " border-transparent bg-primary-600 text-white shadow-lg hover:bg-primary-500 dark:bg-primary-500 dark:hover:bg-primary-400";
+            baseClasses += " border-transparent bg-primary-600 text-white shadow-lg hover:bg-primary-500 dark:bg-primary-600 dark:hover:bg-primary-400";
         }
 
         if (Disabled)
