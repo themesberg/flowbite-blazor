@@ -7,7 +7,7 @@ namespace Flowbite.Components.Chat;
 /// </summary>
 public partial class ChatMessage : Flowbite.Base.FlowbiteComponentBase
 {
-    private string BaseClasses => "group flex w-full items-end gap-3 py-4 px-1";
+    private string BaseClasses => "max-w-4xl group flex w-full items-end gap-3 py-4 px-1";
 
     /// <summary>
     /// Specifies the author role for the message.
@@ -50,6 +50,19 @@ public partial class ChatMessage : Flowbite.Base.FlowbiteComponentBase
         };
 
         return CombineClasses(BaseClasses, variantClasses);
+    }
+
+    private string GetSubcontainerClasses()
+    {
+        var variantClasses = From switch
+        {
+            ChatMessageRole.User => "justify-end items-center",
+            ChatMessageRole.Assistant => "justify-start items-start",
+            ChatMessageRole.System => "justify-start items-start",
+            _ => string.Empty,
+        };
+
+        return $"flex w-full gap-2 md:gap-3 {variantClasses}";
     }
 
     private bool ShouldRenderAvatar =>

@@ -39,8 +39,7 @@ public partial class ConversationContent : Flowbite.Base.FlowbiteComponentBase
     [CascadingParameter] private ConversationContext ConversationContext { get; set; } = default!;
 
     private string BaseClasses =>
-        "relative flex-1 overflow-y-auto rounded-2xl border border-gray-200 bg-white p-6 shadow-sm " +
-        "dark:border-gray-700 dark:bg-gray-900";
+        "relative flex-1 overflow-y-auto bg-white dark:bg-gray-900";
 
     private string? RoleAttribute => HasAdditionalAttribute("role") ? null : "log";
 

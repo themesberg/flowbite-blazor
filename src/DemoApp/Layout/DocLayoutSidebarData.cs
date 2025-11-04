@@ -66,6 +66,14 @@ public static class DocLayoutSidebarData
                 new() { Title = "Paragraph", Href = "/docs/components/paragraph", IsNew = true },
                 new() { Title = "Span", Href = "/docs/components/span", IsNew = true },
             }
+        },
+        new DocLayoutSidebarSection
+        {
+            Title = "AI",
+            Items = new List<DocLayoutSidebarItem>
+            {
+                new() { Title = "AI Chat", Href = "/docs/ai/chat", IsNew = true },
+            }
         }
     };
 }

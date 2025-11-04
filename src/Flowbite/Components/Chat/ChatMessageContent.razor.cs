@@ -30,14 +30,14 @@ public partial class ChatMessageContent : Flowbite.Base.FlowbiteComponentBase
 
     private string GetContentClasses()
     {
-        var builder = new StringBuilder("flex max-w-[80%] flex-col gap-2 text-sm transition");
+        var builder = new StringBuilder("flex flex-col gap-2 text-sm transition");
 
         switch (Variant)
         {
             case ChatMessageVariant.Flat:
                 builder.Append(Role switch
                 {
-                    ChatMessageRole.User => " rounded-2xl bg-gray-100 px-4 py-3 text-gray-900 shadow-sm dark:bg-gray-700 dark:text-white",
+                    ChatMessageRole.User => " rounded-2xl bg-gray-100 px-4 py-3 text-white shadow-sm dark:bg-gray-700 dark:text-white",
                     ChatMessageRole.Assistant => " rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900 shadow-sm dark:border-gray-700 dark:bg-gray-800/60 dark:text-gray-100",
                     ChatMessageRole.System => " rounded-md bg-amber-100 px-4 py-2 text-amber-900 shadow-sm dark:bg-amber-900/30 dark:text-amber-200",
                     _ => string.Empty

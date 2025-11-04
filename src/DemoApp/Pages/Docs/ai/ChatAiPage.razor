@@ -1,0 +1,182 @@
+@page "/docs/ai/chat"
+@layout DocLayoutStacked
+@using Flowbite.Components
+@using Flowbite.Components.Chat
+@using Flowbite.Icons
+@using Flowbite.Icons.Extended
+
+<PageTitle>AI Chat - Flowbite Blazor</PageTitle>
+
+<main class="h-full space-y-6">
+
+    <div class="h-full relative flex-1 touch-pan-y will-change-scroll mx-auto flex min-w-0 flex-col gap-4 md:gap-6">
+        <section class="flex flex-col max-w-4xl mx-auto space-y-3">
+            <h2 class="text-3xl font-semibold text-gray-900 dark:text-white">AI Chat Playground</h2>
+            <p class="text-lg text-gray-600 dark:text-gray-300">
+                Connect to your preferred AI provider, supply a secure API key, and explore Flowbite chat primitives backed by LlmTornado.
+            </p>
+        </section>
+
+        @* <div class="h-[85dvh] h-[86dvh] h-[87dvh] h-[88dvh] h-[89dvh]" *@
+
+        <div class="h-full flex flex-col justify-between gap-6">
+            <Conversation Class="overflow-hidden bg-white dark:bg-gray-900">
+                <ConversationContent AutoScrollBehavior="ConversationAutoScrollBehavior.StickToBottom" Class="px-0">
+                    @foreach (var message in Messages)
+                    {
+                        <ChatMessage @key="message.Id"
+                                    From="message.Role"
+                                    AvatarInitials="@(message.Role == ChatMessageRole.Assistant ? "AI" : "You")"
+                                    Class="">
+                            <ChatMessageContent Variant="@(message.Role == ChatMessageRole.User ? ChatMessageVariant.Contained : ChatMessageVariant.Flat)">
+                                <ChatResponse Text="@message.Text">
+                                    @if (message.Attachments?.Count > 0)
+                                    {
+                                        <ul class="mt-2 list-disc space-y-1 pl-5 text-xs text-gray-600 dark:text-gray-300">
+                                            @foreach (var attachment in message.Attachments)
+                                            {
+                                                <li>@attachment</li>
+                                            }
+                                        </ul>
+                                    }
+                                </ChatResponse>
+
+                                @if (message.Reasoning is not null)
+                                {
+                                    <Reasoning IsStreaming="message.IsStreaming"
+                                            DurationSeconds="message.DurationSeconds">
+                                        <ReasoningTrigger />
+                                        <ReasoningContent Text="@message.Reasoning" />
+                                    </Reasoning>
+                                }
+
+                                @if (message.Sources?.Count > 0)
+                                {
+                                    <Sources Count="message.Sources.Count">
+                                        <SourcesTrigger />
+                                        <SourcesContent>
+                                            @foreach (var source in message.Sources)
+                                            {
+                                                <ChatSource Href="@source.Href">@source.Title</ChatSource>
+                                            }
+                                        </SourcesContent>
+                                    </Sources>
+                                }
+                            </ChatMessageContent>
+
+                            @if (message.Role == ChatMessageRole.Assistant)
+                            {
+                                <ChatActions Class="justify-end">
+                                    <ChatAction Tooltip="Copy" OnClick="@(() => CopyAsync(message.Text))">
+                                        <FileCopyIcon class="h-4 w-4" aria-hidden="true" />
+                                    </ChatAction>
+                                </ChatActions>
+                            }
+                        </ChatMessage>
+                    }
+
+                    @if (IsBusy)
+                    {
+                        <div class="flex items-center gap-2 px-6 pb-6 text-sm text-gray-500 dark:text-gray-400">
+                            <Loader />
+                            <span>@BusyLabel</span>
+                        </div>
+                    }
+                </ConversationContent>
+
+                <ConversationScrollButton />
+            </Conversation>
+
+            @* rounded-xl border border-gray-200/80 bg-white/95 shadow-[0_26px_60px_-28px_rgba(15,23,42,0.45)] backdrop-blur-sm dark:border-white/10 dark:bg-slate-950/70 dark:shadow-[0_32px_70px_-40px_rgba(15,23,42,0.9)] *@
+
+            <PromptInput OnSubmit="HandleSubmitAsync"
+                        Text="@(InputText ?? string.Empty)"
+                        TextChanged="HandlePromptTextChanged"
+                        GlobalDrop="true"
+                        Multiple="true"
+                        Class="">
+                <PromptInputHeader>
+                    <PromptInputAttachments>
+                        <ChildContent Context="attachment">
+                            <PromptInputAttachment Data="attachment" />
+                        </ChildContent>
+                    </PromptInputAttachments>
+                </PromptInputHeader>
+                <PromptInputBody>
+                    <PromptInputTextarea Placeholder="Send a message..." Rows="4" />
+                </PromptInputBody>
+                <PromptInputFooter>
+                    <PromptInputTools>
+                        <PromptInputActionMenu>
+                            <PromptInputActionMenuTrigger>
+                                <PlusIcon class="h-4 w-4" aria-hidden="true" />
+                            </PromptInputActionMenuTrigger>
+                            <PromptInputActionMenuContent>
+                                <PromptInputActionAddAttachments />
+                            </PromptInputActionMenuContent>
+                        </PromptInputActionMenu>
+
+                        <PromptInputButton Variant="PromptInputButtonVariant.Ghost"
+                                        Active="@WebSearchEnabled"
+                                        OnClick="ToggleWebSearchAsync">
+                            <GlobeIcon class="h-4 w-4" aria-hidden="true" />
+                            <span>@(WebSearchEnabled ? "Search on" : "Search")</span>
+                        </PromptInputButton>
+
+                        <PromptInputButton Variant="PromptInputButtonVariant.Ghost"
+                                        Active="@MicrophoneEnabled"
+                                        OnClick="ToggleMicrophoneAsync">
+                            <MicrophoneIcon class="h-4 w-4" aria-hidden="true" />
+                        </PromptInputButton>
+
+                        <PromptInputModelSelect Value="@SelectedProviderKey"
+                                                ValueChanged="HandleProviderChangedAsync">
+                            <PromptInputModelSelectTrigger>
+                                <PromptInputModelSelectValue Placeholder="Select provider" />
+                                <ChevronDownIcon class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                            </PromptInputModelSelectTrigger>
+                            <PromptInputModelSelectContent>
+                                @foreach (var provider in Providers)
+                                {
+                                    <PromptInputModelSelectItem Value="@provider.Key" Label="@provider.DisplayName" />
+                                }
+                            </PromptInputModelSelectContent>
+                        </PromptInputModelSelect>
+                    </PromptInputTools>
+
+                    <div class="flex flex-1 flex-col max-w-sm">
+                        <div class="flex items-center gap-2 rounded-xl ">
+                            <input @bind="ApiKey"
+                                @bind:event="oninput"
+                                class="w-full bg-transparent text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none border dark:border-gray-800 border-gray-200 dark:text-gray-100"
+                                placeholder="Paste provider API key"
+                                type="@ApiKeyInputType"
+                                autocomplete="off"
+                                spellcheck="false" />
+                            <button type="button"
+                                    class="text-xs font-medium text-primary-600 transition hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
+                                    @onclick="ToggleApiKeyVisibility">
+                                @(ShowApiKey ? "Hide" : "Reveal")
+                            </button>
+                        </div>
+
+
+                        @if (!string.IsNullOrEmpty(ApiKeyValidationMessage))
+                        {
+                            <span class="text-xs text-red-500 dark:text-red-400">@ApiKeyValidationMessage</span>
+                        }
+                    </div>
+
+                    <PromptInputSubmit Status="@SubmissionStatus"
+                                    Disabled="IsSubmitDisabled"
+                                    Label=""
+                                    SubmittingLabel=""
+                                    StreamingLabel=""
+                                    ErrorLabel="">
+                        <PaperPlaneIcon class="h-4 w-4" aria-hidden="true" />
+                    </PromptInputSubmit>
+                </PromptInputFooter>
+            </PromptInput>
+        </div>
+    </div>
+</main>

@@ -41,8 +41,8 @@ public partial class PromptInputTextarea : Flowbite.Base.FlowbiteComponentBase, 
     [CascadingParameter] private PromptInputContext Context { get; set; } = default!;
 
     private string BaseClasses =>
-        "min-h-[120px] w-full resize-none rounded-2xl border border-gray-200/70 bg-white/85 px-4 py-3 text-base text-gray-900 " +
-        "shadow-inner transition focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-400/60 " +
+        "min-h-[80px] w-full resize-none rounded-xl border border-gray-200 bg-white/85 px-4 py-3 text-base text-gray-900 " +
+        "transition focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-400/60 " +
         "dark:border-white/10 dark:bg-slate-950/50 dark:text-slate-50 dark:focus:border-primary-400 dark:focus:ring-primary-400/40";
 
     protected override void OnInitialized()

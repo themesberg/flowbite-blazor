@@ -4,7 +4,7 @@
     <div class="@CombineClasses(ContainerClasses, _isDragActive ? DragActiveClasses : null)"
          @ref="_container"
          @attributes="AdditionalAttributes">
-        <form class="flex flex-col gap-4" @onsubmit="HandleSubmitAsync" @onsubmit:preventDefault>
+        <form class="flex flex-col gap-2" @onsubmit="HandleSubmitAsync" @onsubmit:preventDefault>
             @ChildContent
         </form>
         <InputFile @ref="_fileInput"
