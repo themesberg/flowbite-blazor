@@ -43,7 +43,7 @@ public partial class ReasoningTrigger : Flowbite.Base.FlowbiteComponentBase, IDi
 
         if (Context.DurationSeconds is int seconds && seconds > 0)
         {
-            return seconds == 1 ? "Thought for 1 second" : $"Thought for {seconds} seconds";
+            return $"Thought for {seconds}s";
         }
 
         return "Thought for a moment";

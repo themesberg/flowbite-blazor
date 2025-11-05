@@ -5,7 +5,7 @@
     {
         @foreach (var line in Text.Split('\n'))
         {
-            <p class="text-sm text-white dark:text-gray-100 text-start">@line</p>
+            <p class="text-start pb-3">@line</p>
         }
     }
     else
@@ -15,8 +15,7 @@
 </div>
 
 @code {
-    private string BaseClasses =>
-        "grid gap-3 text-sm leading-6 text-gray-900 dark:text-gray-100 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0";
+    private string BaseClasses => "text-gray-900 dark:text-gray-100";
 
     /// <summary>
     /// Optional plain text content rendered as paragraphs.

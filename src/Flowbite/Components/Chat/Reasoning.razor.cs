@@ -55,7 +55,7 @@ public partial class Reasoning : Flowbite.Base.FlowbiteComponentBase
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
-    private string BaseClasses => "flex flex-col gap-3";
+    private string BaseClasses => "flex flex-col gap-3 text-sm";
 
     protected override void OnInitialized()
     {

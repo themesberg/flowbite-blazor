@@ -30,23 +30,23 @@ public partial class ChatMessageContent : Flowbite.Base.FlowbiteComponentBase
 
     private string GetContentClasses()
     {
-        var builder = new StringBuilder("flex flex-col gap-2 text-sm transition");
+        var builder = new StringBuilder("flex flex-col gap-2 transition");
 
         switch (Variant)
         {
             case ChatMessageVariant.Flat:
                 builder.Append(Role switch
                 {
-                    ChatMessageRole.User => " rounded-2xl bg-gray-100 px-4 py-3 text-white shadow-sm dark:bg-gray-700 dark:text-white",
-                    ChatMessageRole.Assistant => " rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900 shadow-sm dark:border-gray-700 dark:bg-gray-800/60 dark:text-gray-100",
-                    ChatMessageRole.System => " rounded-md bg-amber-100 px-4 py-2 text-amber-900 shadow-sm dark:bg-amber-900/30 dark:text-amber-200",
+                    ChatMessageRole.User => " rounded-2xl bg-gray-100 px-4 py-2 text-white dark:bg-gray-700 dark:text-white",
+                    ChatMessageRole.Assistant => " text-gray-600 dark:text-gray-300",
+                    ChatMessageRole.System => " rounded-md bg-amber-100 px-4 py-2 text-amber-900 dark:bg-amber-900/30 dark:text-amber-200",
                     _ => string.Empty
                 });
                 break;
             default:
                 builder.Append(Role switch
                 {
-                    ChatMessageRole.User => " rounded-2xl bg-primary-600 px-4 py-3 text-white shadow-md dark:bg-primary-500",
+                    ChatMessageRole.User => " rounded-2xl bg-primary-600 px-3 py-2 text-white shadow-md",
                     ChatMessageRole.Assistant => " rounded-2xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100",
                     ChatMessageRole.System => " rounded-2xl bg-amber-100 px-4 py-3 text-amber-900 shadow-md dark:bg-amber-900/40 dark:text-amber-100",
                     _ => " rounded-2xl bg-gray-100 px-4 py-3"

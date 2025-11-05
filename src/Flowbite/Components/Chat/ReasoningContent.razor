@@ -5,7 +5,10 @@
     <div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
         @if (!string.IsNullOrEmpty(Text))
         {
-            <p class="text-sm text-gray-400 dark:text-gray-400">@Text</p>
+            @foreach (var line in Text.Split('\n'))
+            {
+                <p class="text-sm text-gray-400 dark:text-gray-400 pb-3">@line</p>
+            }
         }
         else
         {
