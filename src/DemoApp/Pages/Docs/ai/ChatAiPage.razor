@@ -64,14 +64,12 @@
                             }
                         </ChatMessageContent>
 
-                        @if (message.Role == ChatMessageRole.Assistant)
-                        {
-                            <ChatActions Class="justify-end">
-                                <ChatAction Tooltip="Copy" OnClick="@(() => CopyAsync(message.Text))">
-                                    <FileCopyIcon class="h-4 w-4" aria-hidden="true" />
-                                </ChatAction>
-                            </ChatActions>
-                        }
+                        <ChatActions Class="@(message.Role == ChatMessageRole.Assistant ? "justify-start -ml-3" : "justify-end ml-3")">
+                            <ChatAction Tooltip="Copy" OnClick="@(() => CopyAsync(message.Text))">
+                                <FileCopyIcon class="h-4 w-4" aria-hidden="true" />
+                            </ChatAction>
+                        </ChatActions>
+                        
                     </ChatMessage>
                 }
 

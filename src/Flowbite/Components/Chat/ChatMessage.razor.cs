@@ -56,7 +56,7 @@ public partial class ChatMessage : Flowbite.Base.FlowbiteComponentBase
     {
         var variantClasses = From switch
         {
-            ChatMessageRole.User => "justify-end items-center",
+            ChatMessageRole.User => "justify-end items-start",
             ChatMessageRole.Assistant => "justify-start items-start",
             ChatMessageRole.System => "justify-start items-start",
             _ => string.Empty,

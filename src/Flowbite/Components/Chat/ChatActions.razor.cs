@@ -7,7 +7,7 @@ namespace Flowbite.Components.Chat;
 /// </summary>
 public partial class ChatActions : Flowbite.Base.FlowbiteComponentBase
 {
-    private string BaseClasses => "flex items-center gap-1";
+    private string BaseClasses => "mt-2 flex items-center gap-1";
 
     /// <summary>
     /// Content to render inside the actions container.
