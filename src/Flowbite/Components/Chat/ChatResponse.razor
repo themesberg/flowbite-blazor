@@ -1,12 +1,10 @@
+@using Flowbite.Components.Markdown
 @inherits Flowbite.Base.FlowbiteComponentBase
 
 <div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrEmpty(Text))
     {
-        @foreach (var line in Text.Split('\n'))
-        {
-            <p class="text-start pb-3">@line</p>
-        }
+        <MarkdownContent Markdown="@Text" />
     }
     else
     {

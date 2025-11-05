@@ -1,3 +1,4 @@
+@using Flowbite.Components.Markdown
 @inherits Flowbite.Base.FlowbiteComponentBase
 
 @if (Context.IsOpen)
@@ -5,10 +6,7 @@
     <div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
         @if (!string.IsNullOrEmpty(Text))
         {
-            @foreach (var line in Text.Split('\n'))
-            {
-                <p class="text-sm text-gray-400 dark:text-gray-400 pb-3">@line</p>
-            }
+            <MarkdownContent Markdown="@Text" Variant="MarkdownVariant.Muted" Class="text-sm" />
         }
         else
         {
