@@ -39,7 +39,7 @@ public partial class ChatAiPage : ComponentBase
     {
         new AiProviderConfig("openrouter", "OpenRouter", "minimax/minimax-m2:free"),
         new AiProviderConfig("openai", "OpenAI", "gpt-4o"),
-        new AiProviderConfig("anthropic", "Anthropic", "claude-3-5-sonnet-20241022"),
+        new AiProviderConfig("anthropic", "Anthropic", "claude-sonnet-4-5-20250929"),
         new AiProviderConfig("google", "Google", "gemini-1.5-pro")
     };
 

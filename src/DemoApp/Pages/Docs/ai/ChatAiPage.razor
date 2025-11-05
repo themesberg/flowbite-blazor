@@ -133,6 +133,17 @@
                             }
                         </PromptInputModelSelectContent>
                     </PromptInputModelSelect>
+
+                    @if (!string.IsNullOrEmpty(SelectedProviderKey))
+                    {
+                        var selectedProvider = Providers.FirstOrDefault(p => p.Key == SelectedProviderKey);
+                        if (selectedProvider != null)
+                        {
+                            <div class="flex items-center gap-1.5 px-2">
+                                <span class="text-xs text-gray-500 dark:text-gray-400">@selectedProvider.DefaultModel</span>
+                            </div>
+                        }
+                    }
                 </PromptInputTools>
 
                 <div class="flex flex-1 flex-col max-w-sm">
