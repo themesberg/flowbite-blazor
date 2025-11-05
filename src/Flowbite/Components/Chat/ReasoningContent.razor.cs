@@ -29,7 +29,7 @@ public partial class ReasoningContent : Flowbite.Base.FlowbiteComponentBase, IDi
 
     [CascadingParameter] private ReasoningContext Context { get; set; } = default!;
 
-    private string BaseClasses => "rounded-2xl border border-gray-200 bg-white p-4 text-sm shadow-sm dark:border-gray-700 dark:bg-gray-900";
+    private string BaseClasses => "";
 
     protected override void OnInitialized()
     {
