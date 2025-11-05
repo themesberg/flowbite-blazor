@@ -53,12 +53,33 @@
 
 
   <!-- Tailwind CSS Build Targets -->
-  <Target Name="Tailwind" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
-    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/flowbite.css -o ./wwwroot/flowbite.min.css --minify --postcss" />
+
+  <Target Name="TailwindBuild" BeforeTargets="Build" Condition="'$(OS)'=='Windows_NT'">
+    <Error Condition="!Exists('..\..\tools\tailwindcss.exe')" Text="Tailwind executable not found at ..\..\tools\tailwindcss.exe" />
+    <Exec 
+      Command="..\..\tools\tailwindcss.exe -i ./wwwroot/flowbite.css -o ./wwwroot/flowbite.min.css --postcss" 
+      ConsoleToMSBuild="true"
+      StandardOutputImportance="high"
+      StandardErrorImportance="high"
+      IgnoreExitCode="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="TailwindOutput" />
+      <Output TaskParameter="ExitCode" PropertyName="TailwindExitCode" />
+    </Exec>
+    <Error Condition="'$(TailwindExitCode)' != '0'" Text="Tailwind command failed with exit code $(TailwindExitCode). Output: $(TailwindOutput)" />
   </Target>
 
-  <Target Name="TailwindWatch" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
-    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/flowbite.css -o ./wwwroot/flowbite.min.css --watch --postcss" />
+  <Target Name="TailwindBuild" BeforeTargets="Build" Condition="'$(OS)' != 'Windows_NT'">
+    <Error Condition="!Exists('../../tools/tailwindcss')" Text="Tailwind executable not found at ../../tools/tailwindcss" />
+    <Exec 
+      Command="../../tools/tailwindcss -i ./wwwroot/flowbite.css -o ./wwwroot/flowbite.min.css --postcsss" 
+      ConsoleToMSBuild="true"
+      StandardOutputImportance="high"
+      StandardErrorImportance="high"
+      IgnoreExitCode="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="TailwindOutput" />
+      <Output TaskParameter="ExitCode" PropertyName="TailwindExitCode" />
+    </Exec>
+    <Error Condition="'$(TailwindExitCode)' != '0'" Text="Tailwind command failed with exit code $(TailwindExitCode). Output: $(TailwindOutput)" />
   </Target>
 
   <Target Name="DisableTailwindOnPublish" BeforeTargets="Publish">

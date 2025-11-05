@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.32-alpha
+
+- Add Timeline example page
+
 ## 0.0.31-alpha
 
 - Add Carousel component examples and update llms-ctx.md

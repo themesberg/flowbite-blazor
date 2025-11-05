@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.13-alpha
+
+- Introduced timeline component suite:
+    - `Timeline` with `TimelineOrder` enum for Default, Vertical, Horizontal, Activity layouts
+    - `TimelineItem` supporting color variants, date formatting (`TimelineDateFormat`), custom orientation content, and connector management
+    - `Activity`/`ActivityItem` with `ActivityTimelineItem` model for activity feeds
+    - `Group`/`GroupItem` with `GroupTimelineItem` model for grouped timelines
+- Added `TimelineColor` enum to control indicator and connector accents
+- Updated timeline layout spacing to keep indicators aligned within the new gutter
+
 ## 0.0.12-alpha
 
 - Add Carousel component with support for:

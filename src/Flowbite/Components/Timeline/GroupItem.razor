@@ -1,0 +1,23 @@
+@namespace Flowbite.Components
+@inherits FlowbiteComponentBase
+
+@if (Timelines is not null)
+{
+    @foreach (var timeline in Timelines!)
+    {
+        <li class="@ItemClasses" @attributes="AdditionalAttributes">
+            @if (!string.IsNullOrWhiteSpace(timeline.Href))
+            {
+                <a href="@timeline.Href" class="@LinkClasses">
+                    @RenderContent(timeline)
+                </a>
+            }
+            else
+            {
+                <div class="@LinkClasses">
+                    @RenderContent(timeline)
+                </div>
+            }
+        </li>
+    }
+}
