@@ -24,7 +24,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.0" PrivateAssets="all" />
-    <PackageReference Include="LlmTornado" Version="3.8.11" />
+    <PackageReference Include="LlmTornado" Version="3.8.12" />
   </ItemGroup>
 
 

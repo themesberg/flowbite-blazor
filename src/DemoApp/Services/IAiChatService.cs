@@ -20,7 +20,6 @@ public interface IAiChatService
         string providerKey,
         string apiKey,
         string modelName,
-        string userMessage,
         IReadOnlyList<AiChatMessage> conversationHistory,
         bool enableWebSearch = false,
         CancellationToken cancellationToken = default);

@@ -95,37 +95,37 @@ public partial class ChatAiPage : ComponentBase
 
     private async Task HandleSubmitAsync(PromptInputMessage prompt)
     {
-        Console.WriteLine($"[ChatAiPage] HandleSubmitAsync called");
+        // Console.WriteLine($"[ChatAiPage] HandleSubmitAsync called");
         
         var text = prompt.Text?.Trim() ?? string.Empty;
         var attachments = prompt.Files.Select(f => f.Name).ToList();
         
-        Console.WriteLine($"[ChatAiPage] Text: {text}");
-        Console.WriteLine($"[ChatAiPage] Attachments count: {attachments.Count}");
+        // Console.WriteLine($"[ChatAiPage] Text: {text}");
+        // Console.WriteLine($"[ChatAiPage] Attachments count: {attachments.Count}");
 
         if (string.IsNullOrWhiteSpace(text) && attachments.Count == 0)
         {
-            Console.WriteLine($"[ChatAiPage] Returning early: no text or attachments");
+            // Console.WriteLine($"[ChatAiPage] Returning early: no text or attachments");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(ApiKey))
         {
-            Console.WriteLine($"[ChatAiPage] Returning early: no API key");
+            // Console.WriteLine($"[ChatAiPage] Returning early: no API key");
             ApiKeyValidationMessage = "Please provide an API key for the selected provider.";
             return;
         }
 
         if (string.IsNullOrWhiteSpace(SelectedProviderKey))
         {
-            Console.WriteLine($"[ChatAiPage] Returning early: no provider selected");
+            // Console.WriteLine($"[ChatAiPage] Returning early: no provider selected");
             ApiKeyValidationMessage = "Please select a provider.";
             return;
         }
 
-        Console.WriteLine($"[ChatAiPage] Validation passed, proceeding with API call");
-        Console.WriteLine($"[ChatAiPage] Provider: {SelectedProviderKey}");
-        Console.WriteLine($"[ChatAiPage] API Key length: {ApiKey?.Length ?? 0}");
+        // Console.WriteLine($"[ChatAiPage] Validation passed, proceeding with API call");
+        // Console.WriteLine($"[ChatAiPage] Provider: {SelectedProviderKey}");
+        // Console.WriteLine($"[ChatAiPage] API Key length: {ApiKey?.Length ?? 0}");
         
         ApiKeyValidationMessage = null;
 
@@ -142,13 +142,13 @@ public partial class ChatAiPage : ComponentBase
 
         try
         {
-            Console.WriteLine($"[ChatAiPage] Getting selected provider model");
+            // Console.WriteLine($"[ChatAiPage] Getting selected provider model");
             // Get selected provider's default model
             var selectedProvider = Providers.FirstOrDefault(p => p.Key == SelectedProviderKey);
             var modelName = selectedProvider?.DefaultModel ?? "gpt-4o";
-            Console.WriteLine($"[ChatAiPage] Model name: {modelName}");
+            // Console.WriteLine($"[ChatAiPage] Model name: {modelName}");
 
-            Console.WriteLine($"[ChatAiPage] Converting message history");
+            // Console.WriteLine($"[ChatAiPage] Converting message history");
             // Convert message history to service format
             var history = Messages
                 .Where(m => m.Role != ChatMessageRole.System)
@@ -156,27 +156,26 @@ public partial class ChatAiPage : ComponentBase
                     Role: m.Role.ToString(),
                     Content: m.Text))
                 .ToList();
-            Console.WriteLine($"[ChatAiPage] History messages: {history.Count}");
+            // Console.WriteLine($"[ChatAiPage] History messages: {history.Count}");
 
             // Call the AI service
-            Console.WriteLine($"[ChatAiPage] Setting status to Streaming");
+            // Console.WriteLine($"[ChatAiPage] Setting status to Streaming");
             SubmissionStatus = PromptSubmissionStatus.Streaming;
             await InvokeAsync(StateHasChanged);
 
-            Console.WriteLine($"[ChatAiPage] About to call AiChatService.SendMessageAsync");
+            // Console.WriteLine($"[ChatAiPage] About to call AiChatService.SendMessageAsync");
             var response = await AiChatService.SendMessageAsync(
                 providerKey: SelectedProviderKey!,
                 apiKey: ApiKey!,
                 modelName: modelName,
-                userMessage: text,
                 conversationHistory: history,
                 enableWebSearch: WebSearchEnabled);
-            Console.WriteLine($"[ChatAiPage] Service call returned");
-            Console.WriteLine($"[ChatAiPage] Response.IsSuccess: {response.IsSuccess}");
+            // Console.WriteLine($"[ChatAiPage] Service call returned");
+            // Console.WriteLine($"[ChatAiPage] Response.IsSuccess: {response.IsSuccess}");
 
             if (response.IsSuccess)
             {
-                Console.WriteLine($"[ChatAiPage] Success! Content length: {response.Content?.Length ?? 0}");
+                // Console.WriteLine($"[ChatAiPage] Success! Content length: {response.Content?.Length ?? 0}");
                 var assistantMessage = new ChatAiMessage(
                     Id: Guid.NewGuid(),
                     Role: ChatMessageRole.Assistant,
@@ -202,15 +201,15 @@ public partial class ChatAiPage : ComponentBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"[ChatAiPage] EXCEPTION in HandleSubmitAsync!");
-            Console.WriteLine($"[ChatAiPage] Exception Type: {ex.GetType().FullName}");
-            Console.WriteLine($"[ChatAiPage] Exception Message: {ex.Message}");
-            Console.WriteLine($"[ChatAiPage] Stack Trace: {ex.StackTrace}");
+            // Console.WriteLine($"[ChatAiPage] EXCEPTION in HandleSubmitAsync!");
+            // Console.WriteLine($"[ChatAiPage] Exception Type: {ex.GetType().FullName}");
+            // Console.WriteLine($"[ChatAiPage] Exception Message: {ex.Message}");
+            // Console.WriteLine($"[ChatAiPage] Stack Trace: {ex.StackTrace}");
             
             if (ex.InnerException != null)
             {
-                Console.WriteLine($"[ChatAiPage] Inner Exception Type: {ex.InnerException.GetType().FullName}");
-                Console.WriteLine($"[ChatAiPage] Inner Exception Message: {ex.InnerException.Message}");
+                // Console.WriteLine($"[ChatAiPage] Inner Exception Type: {ex.InnerException.GetType().FullName}");
+                // Console.WriteLine($"[ChatAiPage] Inner Exception Message: {ex.InnerException.Message}");
             }
 
             var errorMessage = new ChatAiMessage(

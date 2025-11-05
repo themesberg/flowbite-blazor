@@ -28,7 +28,7 @@ public partial class Conversation : Flowbite.Base.FlowbiteComponentBase, IAsyncD
 
     [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
 
-    private string BaseClasses => "relative flex flex-col gap-4";
+    private string BaseClasses => "flex-1 relative flex flex-col gap-4 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700";
 
     protected override void OnInitialized()
     {

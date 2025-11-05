@@ -22,7 +22,7 @@ public partial class PromptInput : Flowbite.Base.FlowbiteComponentBase, IAsyncDi
     // w-full overflow-hidden rounded-xl border border-border bg-background p-3 shadow-xs transition-all duration-200 focus-within:border-border hover:border-muted-foreground/50
 
     private readonly string ContainerClasses =
-        "relative flex w-full max-w-4xl mx-auto flex-col gap-3 rounded-xl border border-gray-200/80 bg-white/95 dark:border-white/10 dark:bg-slate-950/70 p-3 hover:border-gray-300/80 dark:hover:border-white/20";
+        "relative flex-none flex w-full max-w-4xl mx-auto flex-col gap-3 rounded-xl border border-gray-200/80 bg-white/95 dark:border-white/10 dark:bg-slate-950/70 p-3 hover:border-gray-300/80 dark:hover:border-white/20";
 
     private readonly string DragActiveClasses =
         "ring-2 ring-primary-500/70 ring-offset-2 ring-offset-white dark:ring-offset-slate-950";
