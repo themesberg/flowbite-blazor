@@ -45,6 +45,21 @@
     <script src="_content/Flowbite/js/prism.js"></script>
     <script src="_content/Flowbite/js/highlight.min.js"></script>
     <script src="_content/Flowbite/js/markdown.js"></script>
+    
+    <!-- Mermaid diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: false,
+            theme: 'dark'
+        });
+        
+        window.renderMermaid = async () => {
+            await mermaid.run({
+                querySelector: '.mermaid'
+            });
+        };
+    </script>
 </body>
 
 </html>

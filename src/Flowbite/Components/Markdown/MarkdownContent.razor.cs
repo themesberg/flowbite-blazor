@@ -27,6 +27,7 @@ public partial class MarkdownContent : ComponentBase
 {
     private static readonly MarkdownPipeline Pipeline = new MarkdownPipelineBuilder()
         .UseAdvancedExtensions()
+        .UseDiagrams()
         .DisableHtml()
         .Build();
 
@@ -80,16 +81,20 @@ public partial class MarkdownContent : ComponentBase
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        // Apply syntax highlighting to code blocks after render
+        // Apply syntax highlighting and mermaid rendering after render
         if (!string.IsNullOrWhiteSpace(_htmlContent))
         {
             try
             {
+                // Apply syntax highlighting to code blocks
                 await JSRuntime.InvokeVoidAsync("highlightMarkdownCode", _markdownContainer);
+                
+                // Render Mermaid diagrams
+                await JSRuntime.InvokeVoidAsync("renderMermaid");
             }
             catch (JSException)
             {
-                // Silently ignore if highlight.js is not loaded
+                // Silently ignore if libraries are not loaded
             }
         }
     }
