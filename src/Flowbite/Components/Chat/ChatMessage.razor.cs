@@ -7,7 +7,7 @@ namespace Flowbite.Components.Chat;
 /// </summary>
 public partial class ChatMessage : Flowbite.Base.FlowbiteComponentBase
 {
-    private string BaseClasses => "max-w-4xl group flex w-full items-end gap-3 py-4 px-1";
+    private string BaseClasses => "max-w-4xl flex w-full items-end gap-3 py-4 px-1";
 
     /// <summary>
     /// Specifies the author role for the message.
