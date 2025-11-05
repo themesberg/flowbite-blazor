@@ -2,6 +2,9 @@ namespace DemoApp.Pages.Docs.ai;
 
 using DemoApp.Services;
 using Flowbite.Components.Chat;
+using LlmTornado;
+using LlmTornado.Code;
+using LlmTornado.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -19,10 +22,36 @@ public partial class ChatAiPage : ComponentBase
     private List<ChatAiMessage> Messages { get; set; } = new();
     private string? InputText { get; set; }
     private string? ApiKey { get; set; }
+    private string? PreviousApiKey { get; set; }
     private string? ApiKeyValidationMessage { get; set; }
     private bool ShowApiKey { get; set; }
     private string ApiKeyInputType => ShowApiKey ? "text" : "password";
     private string? SelectedProviderKey { get; set; }
+    private string? SelectedModelId { get; set; }
+    private string? PreviousModelId { get; set; }
+    private List<RetrievedModel>? AvailableModels { get; set; }
+    private string? ModelSearchText { get; set; }
+    private bool IsLoadingModels { get; set; }
+    private string? ModelLoadError { get; set; }
+
+    private List<RetrievedModel>? FilteredModels
+    {
+        get
+        {
+            if (AvailableModels == null || AvailableModels.Count == 0)
+                return AvailableModels;
+
+            if (string.IsNullOrWhiteSpace(ModelSearchText))
+                return AvailableModels;
+
+            var searchLower = ModelSearchText.ToLowerInvariant();
+            return AvailableModels
+                .Where(m =>
+                    (m.Id?.ToLowerInvariant().Contains(searchLower) ?? false) ||
+                    (m.Name?.ToLowerInvariant().Contains(searchLower) ?? false))
+                .ToList();
+        }
+    }
     private bool WebSearchEnabled { get; set; }
     private bool MicrophoneEnabled { get; set; }
     private PromptSubmissionStatus SubmissionStatus { get; set; } = PromptSubmissionStatus.Idle;
@@ -33,7 +62,11 @@ public partial class ChatAiPage : ComponentBase
         IsBusy ||
         string.IsNullOrWhiteSpace(InputText) ||
         string.IsNullOrWhiteSpace(SelectedProviderKey) ||
-        string.IsNullOrWhiteSpace(ApiKey);
+        string.IsNullOrWhiteSpace(ApiKey) ||
+        string.IsNullOrWhiteSpace(SelectedModelId);
+
+    // Model cache: key = "{providerKey}_{apiKeyHash}"
+    private static readonly Dictionary<string, List<RetrievedModel>> ModelCache = new();
 
     private List<AiProviderConfig> Providers { get; } = new()
     {
@@ -78,14 +111,213 @@ public partial class ChatAiPage : ComponentBase
         return Task.CompletedTask;
     }
 
-    private Task HandleProviderChangedAsync(string? value)
+    private async Task HandleProviderChangedAsync(string? value)
     {
         if (!string.IsNullOrEmpty(value))
         {
             SelectedProviderKey = value;
             ApiKeyValidationMessage = null;
+            
+            // Clear current models when provider changes
+            AvailableModels = null;
+            SelectedModelId = null;
+            ModelLoadError = null;
+            ModelSearchText = null;
+            
+            // Try to load models if we have an API key
+            if (!string.IsNullOrWhiteSpace(ApiKey))
+            {
+                await LoadModelsAsync();
+            }
         }
+    }
+
+    private Task HandleModelSearchChanged(ChangeEventArgs e)
+    {
+        ModelSearchText = e.Value?.ToString();
+        StateHasChanged();
         return Task.CompletedTask;
+    }
+
+    private async Task HandleModelChangedAsync(string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            return;
+        }
+
+        // Check if model is changing mid-conversation
+        if (!string.IsNullOrEmpty(PreviousModelId) && 
+            PreviousModelId != value && 
+            Messages.Count > 0)
+        {
+            // Warn user that changing models will start a new conversation
+            var confirmed = await JSRuntime.InvokeAsync<bool>(
+                "confirm", 
+                "Changing models will start a new conversation. Continue?");
+            
+            if (!confirmed)
+            {
+                // User cancelled, revert to previous model
+                SelectedModelId = PreviousModelId;
+                return;
+            }
+            
+            // User confirmed, clear conversation
+            Messages.Clear();
+        }
+
+        SelectedModelId = value;
+        PreviousModelId = value;
+    }
+
+    private async Task OnApiKeyChangedAsync(ChangeEventArgs e)
+    {
+        var newApiKey = e.Value?.ToString();
+        ApiKey = newApiKey;
+        
+        // Check if API key has changed and is valid length
+        if (!string.IsNullOrWhiteSpace(newApiKey) && 
+            newApiKey != PreviousApiKey && 
+            newApiKey.Length > 10 &&
+            !string.IsNullOrWhiteSpace(SelectedProviderKey))
+        {
+            PreviousApiKey = newApiKey;
+            await LoadModelsAsync();
+        }
+    }
+
+    private async Task LoadModelsAsync()
+    {
+        if (string.IsNullOrWhiteSpace(SelectedProviderKey) || 
+            string.IsNullOrWhiteSpace(ApiKey))
+        {
+            return;
+        }
+
+        // Check cache first
+        var cacheKey = GetCacheKey(SelectedProviderKey, ApiKey);
+        if (ModelCache.TryGetValue(cacheKey, out var cachedModels))
+        {
+            AvailableModels = cachedModels;
+            SelectDefaultModel();
+            return;
+        }
+
+        IsLoadingModels = true;
+        ModelLoadError = null;
+        await InvokeAsync(StateHasChanged);
+
+        try
+        {
+            // Map provider key to enum
+            var providerEnum = MapProviderKeyToEnum(SelectedProviderKey);
+            
+            if (providerEnum == LLmProviders.Unknown)
+            {
+                ModelLoadError = $"Unknown provider: {SelectedProviderKey}";
+                return;
+            }
+
+            // Create API instance
+            var api = new TornadoApi(providerEnum, ApiKey);
+            
+            // Fetch models
+            var models = await api.Models.GetModels(providerEnum);
+            
+            if (models == null || models.Count == 0)
+            {
+                ModelLoadError = "No models available for this provider";
+                // Fallback to default model
+                var defaultModel = Providers
+                    .FirstOrDefault(p => p.Key == SelectedProviderKey)
+                    ?.DefaultModel;
+                if (!string.IsNullOrEmpty(defaultModel))
+                {
+                    SelectedModelId = defaultModel;
+                }
+                return;
+            }
+
+            // Cache the models
+            AvailableModels = models;
+            ModelCache[cacheKey] = models;
+            
+            // Auto-select default or first model
+            SelectDefaultModel();
+        }
+        catch (Exception ex)
+        {
+            ModelLoadError = $"Failed to load models: {ex.Message}";
+            
+            // Fallback to hardcoded default
+            var defaultModel = Providers
+                .FirstOrDefault(p => p.Key == SelectedProviderKey)
+                ?.DefaultModel;
+            if (!string.IsNullOrEmpty(defaultModel))
+            {
+                SelectedModelId = defaultModel;
+            }
+        }
+        finally
+        {
+            IsLoadingModels = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void SelectDefaultModel()
+    {
+        if (AvailableModels == null || AvailableModels.Count == 0)
+        {
+            return;
+        }
+
+        // Try to find the configured default model
+        var defaultModel = Providers
+            .FirstOrDefault(p => p.Key == SelectedProviderKey)
+            ?.DefaultModel;
+
+        if (!string.IsNullOrEmpty(defaultModel))
+        {
+            var matchingModel = AvailableModels
+                .FirstOrDefault(m => m.Id == defaultModel);
+            if (matchingModel != null)
+            {
+                SelectedModelId = matchingModel.Id;
+                PreviousModelId = matchingModel.Id;
+                return;
+            }
+        }
+
+        // Fall back to first model
+        SelectedModelId = AvailableModels[0].Id;
+        PreviousModelId = AvailableModels[0].Id;
+    }
+
+    private static string GetCacheKey(string providerKey, string apiKey)
+    {
+        // Create a simple hash of the API key for cache key
+        var hash = apiKey.GetHashCode();
+        return $"{providerKey}_{hash}";
+    }
+
+    private static LLmProviders MapProviderKeyToEnum(string providerKey)
+    {
+        return providerKey.ToLowerInvariant() switch
+        {
+            "openai" => LLmProviders.OpenAi,
+            "anthropic" => LLmProviders.Anthropic,
+            "google" => LLmProviders.Google,
+            "openrouter" => LLmProviders.OpenRouter,
+            "groq" => LLmProviders.Groq,
+            "deepseek" => LLmProviders.DeepSeek,
+            "mistral" => LLmProviders.Mistral,
+            "xai" => LLmProviders.XAi,
+            "perplexity" => LLmProviders.Perplexity,
+            "cohere" => LLmProviders.Cohere,
+            _ => LLmProviders.Unknown
+        };
     }
 
     private void ToggleApiKeyVisibility()
@@ -142,10 +374,9 @@ public partial class ChatAiPage : ComponentBase
 
         try
         {
-            // Console.WriteLine($"[ChatAiPage] Getting selected provider model");
-            // Get selected provider's default model
-            var selectedProvider = Providers.FirstOrDefault(p => p.Key == SelectedProviderKey);
-            var modelName = selectedProvider?.DefaultModel ?? "gpt-4o";
+            // Console.WriteLine($"[ChatAiPage] Getting selected model");
+            // Use the selected model ID
+            var modelName = SelectedModelId ?? "gpt-4o";
             // Console.WriteLine($"[ChatAiPage] Model name: {modelName}");
 
             // Console.WriteLine($"[ChatAiPage] Converting message history");
