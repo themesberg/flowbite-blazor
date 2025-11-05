@@ -4,7 +4,14 @@
 <div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrEmpty(Text))
     {
-        <MarkdownContent Markdown="@Text" />
+        if (Role == ChatMessageRole.User)
+        {
+            <p class="text-start">@Text</p>
+        }
+        else
+        {
+            <MarkdownContent Markdown="@Text" />
+        }
     }
     else
     {
@@ -13,7 +20,11 @@
 </div>
 
 @code {
-    private string BaseClasses => "text-gray-900 dark:text-gray-100";
+    private string BaseClasses => Role == ChatMessageRole.User ? "text-white" : "text-gray-900 dark:text-gray-100";
+
+
+    [Parameter]
+    public ChatMessageRole Role { get; set; } = ChatMessageRole.Assistant;
 
     /// <summary>
     /// Optional plain text content rendered as paragraphs.

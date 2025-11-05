@@ -38,7 +38,7 @@
                                 </Reasoning>
                             }
 
-                            <ChatResponse Text="@message.Text">
+                            <ChatResponse Text="@message.Text" Role="@message.Role">
                                 @if (message.Attachments?.Count > 0)
                                 {
                                     <ul class="mt-2 list-disc space-y-1 pl-5 text-xs text-gray-600 dark:text-gray-300">
