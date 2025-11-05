@@ -24,7 +24,7 @@ public partial class ConversationScrollButton : Flowbite.Base.FlowbiteComponentB
     [CascadingParameter] private ConversationContext ConversationContext { get; set; } = default!;
 
     private string BaseClasses =>
-        "absolute left-1/2 bottom-6 z-30 inline-flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-full " +
+        "sticky left-1/2 bottom-6 z-30 inline-flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-full " +
         "border border-gray-200 bg-white shadow-lg transition hover:bg-gray-50 focus:outline-none " +
         "focus:ring-2 focus:ring-primary-500 disabled:pointer-events-none disabled:opacity-50 " +
         "dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700";

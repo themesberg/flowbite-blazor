@@ -9,9 +9,6 @@ namespace Flowbite.Components.Chat;
 /// </summary>
 public partial class ConversationContent : Flowbite.Base.FlowbiteComponentBase
 {
-    private ElementReference _contentElement;
-    private bool _contentRegistered;
-
     /// <summary>
     /// Content to render inside the scrollable conversation container.
     /// </summary>
@@ -50,12 +47,6 @@ public partial class ConversationContent : Flowbite.Base.FlowbiteComponentBase
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!_contentRegistered)
-        {
-            ConversationContext.RegisterContent(_contentElement);
-            _contentRegistered = true;
-        }
-
         if (!AutoScroll || ConversationContext.ScrollToBottom is null)
         {
             return;

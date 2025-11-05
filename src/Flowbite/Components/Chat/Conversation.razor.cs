@@ -11,8 +11,10 @@ namespace Flowbite.Components.Chat;
 public partial class Conversation : Flowbite.Base.FlowbiteComponentBase, IAsyncDisposable
 {
     private readonly ConversationContext _context = new();
+    private ElementReference _conversationElement;
     private IJSObjectReference? _module;
     private DotNetObjectReference<Conversation>? _dotNetReference;
+    private bool _registered;
 
     /// <summary>
     /// Child content to render inside the conversation container.
@@ -33,29 +35,32 @@ public partial class Conversation : Flowbite.Base.FlowbiteComponentBase, IAsyncD
     protected override void OnInitialized()
     {
         _context.ScrollToBottom = ScrollToBottomAsync;
-        _context.ContentRegistered += HandleContentRegistered;
     }
 
-    private async void HandleContentRegistered(ElementReference element)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        try
+        if (!_registered && !string.IsNullOrEmpty(_conversationElement.Id))
         {
-            await EnsureModuleAsync();
-            _dotNetReference ??= DotNetObjectReference.Create(this);
-            if (_module is not null)
+            try
             {
-                await _module.InvokeVoidAsync("registerConversation", element, _dotNetReference);
+                await EnsureModuleAsync();
+                _dotNetReference ??= DotNetObjectReference.Create(this);
+                if (_module is not null)
+                {
+                    await _module.InvokeVoidAsync("registerConversation", _conversationElement, _dotNetReference);
+                    _registered = true;
+                }
             }
-        }
-        catch (JSDisconnectedException)
-        {
-            // Fail silently if JS runtime is unavailable (e.g., prerendering)
+            catch (JSDisconnectedException)
+            {
+                // Fail silently if JS runtime is unavailable (e.g., prerendering)
+            }
         }
     }
 
     private async Task ScrollToBottomAsync()
     {
-        if (!_context.HasContentElement)
+        if (!_registered)
         {
             return;
         }
@@ -63,7 +68,7 @@ public partial class Conversation : Flowbite.Base.FlowbiteComponentBase, IAsyncD
         await EnsureModuleAsync();
         if (_module is not null)
         {
-            await _module.InvokeVoidAsync("scrollToBottom", _context.ContentElement);
+            await _module.InvokeVoidAsync("scrollToBottom", _conversationElement);
         }
     }
 
@@ -85,13 +90,12 @@ public partial class Conversation : Flowbite.Base.FlowbiteComponentBase, IAsyncD
     {
         if (_module is not null)
         {
-            if (_context.HasContentElement)
+            if (_registered)
             {
-                await _module.InvokeVoidAsync("unregisterConversation", _context.ContentElement);
+                await _module.InvokeVoidAsync("unregisterConversation", _conversationElement);
             }
             await _module.DisposeAsync();
         }
         _dotNetReference?.Dispose();
-        _context.ContentRegistered -= HandleContentRegistered;
     }
 }

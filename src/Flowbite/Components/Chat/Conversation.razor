@@ -1,7 +1,7 @@
 @inherits Flowbite.Base.FlowbiteComponentBase
 
 <CascadingValue Value="_context" IsFixed="false">
-    <section class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
+    <section class="@CombineClasses(BaseClasses)" @ref="_conversationElement" @attributes="AdditionalAttributes">
         @ChildContent
     </section>
 </CascadingValue>
