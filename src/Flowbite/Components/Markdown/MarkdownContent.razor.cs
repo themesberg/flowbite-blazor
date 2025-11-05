@@ -26,6 +26,7 @@ public enum MarkdownVariant
 public partial class MarkdownContent : ComponentBase
 {
     private static readonly MarkdownPipeline Pipeline = new MarkdownPipelineBuilder()
+        .UseMathematics()
         .UseAdvancedExtensions()
         .UseDiagrams()
         .DisableHtml()
@@ -71,17 +72,38 @@ public partial class MarkdownContent : ComponentBase
         if (_lastMarkdown != Markdown)
         {
             _lastMarkdown = Markdown;
-            _htmlContent = string.IsNullOrWhiteSpace(Markdown)
-                ? string.Empty
-                : Markdig.Markdown.ToHtml(Markdown, Pipeline);
+            
+            if (string.IsNullOrWhiteSpace(Markdown))
+            {
+                _htmlContent = string.Empty;
+            }
+            else
+            {
+                // Pre-process to unwrap latex code blocks that AI models commonly use
+                var processedMarkdown = UnwrapLatexCodeBlocks(Markdown);
+                _htmlContent = Markdig.Markdown.ToHtml(processedMarkdown, Pipeline);
+            }
         }
+    }
+
+    private static string UnwrapLatexCodeBlocks(string markdown)
+    {
+        // Replace ```latex code blocks with unwrapped math expressions
+        // This handles the common pattern where AI models wrap LaTeX in code fences
+        var pattern = @"```latex\s*([\s\S]*?)\s*```";
+        return System.Text.RegularExpressions.Regex.Replace(markdown, pattern, match =>
+        {
+            var content = match.Groups[1].Value.Trim();
+            // Return the content as-is so Markdig's math extension can process it
+            return content;
+        });
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        // Apply syntax highlighting and mermaid rendering after render
+        // Apply syntax highlighting, mermaid diagrams, and math rendering after render
         if (!string.IsNullOrWhiteSpace(_htmlContent))
         {
             try
@@ -91,6 +113,9 @@ public partial class MarkdownContent : ComponentBase
                 
                 // Render Mermaid diagrams
                 await JSRuntime.InvokeVoidAsync("renderMermaid");
+                
+                // Render mathematical equations
+                await JSRuntime.InvokeVoidAsync("renderMath", _markdownContainer);
             }
             catch (JSException)
             {
