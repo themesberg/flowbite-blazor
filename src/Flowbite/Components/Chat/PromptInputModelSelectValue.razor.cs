@@ -16,6 +16,12 @@ public partial class PromptInputModelSelectValue : Flowbite.Base.FlowbiteCompone
     public string Placeholder { get; set; } = "Select a model";
 
     /// <summary>
+    /// Optional icon rendered before the content.
+    /// </summary>
+    [Parameter]
+    public Type? Icon { get; set; }
+
+    /// <summary>
     /// Additional attributes applied to the span element.
     /// </summary>
     [Parameter(CaptureUnmatchedValues = true)]

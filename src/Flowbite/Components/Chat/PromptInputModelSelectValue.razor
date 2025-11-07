@@ -1,5 +1,11 @@
 @inherits Flowbite.Base.FlowbiteComponentBase
 
 <span class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
-    @DisplayText
+    <span class="hidden lg:flex">@DisplayText</span>
+     @if (Icon is not null)
+    {
+        <span class="lg:hidden inline-flex mt-2 h-4 w-4 items-center justify-center" aria-hidden="true">
+            <DynamicComponent Type="Icon" />
+        </span>
+    }
 </span>

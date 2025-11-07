@@ -3,14 +3,13 @@
 @using Flowbite.Components
 @using Flowbite.Components.Chat
 @using Flowbite.Icons
-@using Flowbite.Icons.Extended
 
 <PageTitle>AI Chat - Flowbite Blazor</PageTitle>
 
 <main class="flex flex-col h-full min-x-0">
 
 
-        <section class="flex-none flex flex-col max-w-4xl mx-auto space-y-1 py-2">
+        <section class="hidden flex-none flex-col max-w-4xl mx-auto space-y-1 py-2 lg:flex">
             <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">AI Chat Playground</h2>
             <p class=" text-gray-600 dark:text-gray-300">
                 Connect to your preferred AI provider, supply a secure API key, and explore Flowbite chat primitives backed by 
@@ -97,152 +96,160 @@
             <PromptInputBody>
                 <PromptInputTextarea Placeholder="Send a message..." />
             </PromptInputBody>
-            <PromptInputFooter>
-                <PromptInputTools>
-                    <PromptInputActionMenu>
-                        <PromptInputActionMenuTrigger>
-                            <PlusIcon class="h-4 w-4" aria-hidden="true" />
-                        </PromptInputActionMenuTrigger>
-                        <PromptInputActionMenuContent>
-                            <PromptInputActionAddAttachments />
-                        </PromptInputActionMenuContent>
-                    </PromptInputActionMenu>
+            <PromptInputFooter Class="flex-row flex-wrap md:flex-row md:items-center md:justify-between">
+                <div class="flex w-full gap-2">
+                    <PromptInputTools Class="flex grow min-w-0 overflow-x-auto overflow-y-visible whitespace-nowrap md:flex-wrap md:overflow-visible">
+                        <PromptInputActionMenu>
+                            <PromptInputActionMenuTrigger>
+                                <PlusIcon class="h-4 w-4" aria-hidden="true" />
+                            </PromptInputActionMenuTrigger>
+                            <PromptInputActionMenuContent>
+                                <PromptInputActionAddAttachments />
+                            </PromptInputActionMenuContent>
+                        </PromptInputActionMenu>
 
-                    <PromptInputButton Variant="PromptInputButtonVariant.Ghost"
-                                    Active="@WebSearchEnabled"
-                                    OnClick="ToggleWebSearchAsync">
-                        <GlobeIcon class="h-4 w-4" aria-hidden="true" />
-                        <span>@(WebSearchEnabled ? "Search on" : "Search")</span>
-                    </PromptInputButton>
+                        <PromptInputButton Variant="PromptInputButtonVariant.Ghost"
+                                        Active="@WebSearchEnabled"
+                                        OnClick="ToggleWebSearchAsync">
+                            <GlobeIcon class="h-4 w-4" aria-hidden="true" />
+                            <span class="hidden lg:flex">@(WebSearchEnabled ? "Search on" : "Search")</span>
+                        </PromptInputButton>
 
-                    <PromptInputButton Variant="PromptInputButtonVariant.Ghost"
-                                    Active="@MicrophoneEnabled"
-                                    OnClick="ToggleMicrophoneAsync">
-                        <MicrophoneIcon class="h-4 w-4" aria-hidden="true" />
-                    </PromptInputButton>
+                        <PromptInputButton Variant="PromptInputButtonVariant.Ghost" OnClick="@(_ => OpenSettingsModalAsync())">
+                            <GearIcon class="h-4 w-4" aria-hidden="true" />
+                        </PromptInputButton>
 
-                    <PromptInputModelSelect Value="@SelectedProviderKey"
-                                            ValueChanged="HandleProviderChangedAsync">
-                        <PromptInputModelSelectTrigger>
-                            <PromptInputModelSelectValue Placeholder="Select provider" />
-                            <ChevronDownIcon class="h-4 w-4 text-gray-400" aria-hidden="true" />
-                        </PromptInputModelSelectTrigger>
-                        <PromptInputModelSelectContent>
-                            @foreach (var provider in Providers)
-                            {
-                                <PromptInputModelSelectItem Value="@provider.Key" Label="@provider.DisplayName" />
-                            }
-                        </PromptInputModelSelectContent>
-                    </PromptInputModelSelect>
+                        <span class="ml-2 max-w-1/2 truncate text-xs text-gray-500 dark:text-gray-400 sm:max-w-sm"
+                              title="@ProviderModelLabel">
+                            @ProviderModelLabel
+                        </span>
+                    </PromptInputTools>
 
-                    @if (!string.IsNullOrEmpty(SelectedProviderKey))
+                    <PromptInputSubmit Status="@SubmissionStatus"
+                                    Disabled="IsSubmitDisabled"
+                                    Label=""
+                                    SubmittingLabel=""
+                                    StreamingLabel=""
+                                    ErrorLabel=""
+                                    Class="flex-shrink-0">
+                    </PromptInputSubmit>
+                </div>
+
+                <div class="flex flex-1 flex-col max-w-sm space-y-1">
+                    @if (!string.IsNullOrEmpty(CredentialsValidationMessage))
                     {
-                        <PromptInputModelSelect Value="@SelectedModelId"
-                                                ValueChanged="HandleModelChangedAsync"
-                                                Disabled="@(IsLoadingModels || AvailableModels == null || AvailableModels.Count == 0)">
-                            <PromptInputModelSelectTrigger>
-                                @if (IsLoadingModels)
-                                {
-                                    <div class="flex items-center gap-2">
-                                        <Loader />
-                                        <span class="text-xs">Loading models...</span>
-                                    </div>
-                                }
-                                else if (AvailableModels != null && AvailableModels.Count > 0)
-                                {
-                                    <PromptInputModelSelectValue Placeholder="Select model" />
-                                }
-                                else if (!string.IsNullOrEmpty(ModelLoadError))
-                                {
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">No models</span>
-                                }
-                                else
-                                {
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">Enter API key</span>
-                                }
-                                <ChevronDownIcon class="h-4 w-4 text-gray-400" aria-hidden="true" />
-                            </PromptInputModelSelectTrigger>
-                            <PromptInputModelSelectContent>
-                                @if (AvailableModels != null && AvailableModels.Count > 0)
-                                {
-                                    <div class="mb-2 px-1">
-                                        <input type="text"
-                                               value="@ModelSearchText"
-                                               @onchange="HandleModelSearchChanged"
-                                               @onclick:stopPropagation
-                                               placeholder="Search models..."
-                                               class="w-full px-2 py-1.5 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400" />
-                                    </div>
-                                    
-                                    <div class="space-y-0.5">
-                                        @if (FilteredModels?.Count > 0)
-                                        {
-                                            @foreach (var model in FilteredModels)
-                                            {
-                                                <PromptInputModelSelectItem 
-                                                    Value="@model.Id" 
-                                                    Label="@(model.Name ?? model.Id)" />
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <div class="px-3 py-6 text-sm text-gray-500 dark:text-gray-400 text-center">
-                                                No models found
-                                            </div>
-                                        }
-                                    </div>
-                                }
-                            </PromptInputModelSelectContent>
-                        </PromptInputModelSelect>
-
-                        @if (!string.IsNullOrEmpty(ModelLoadError))
-                        {
-                            <span class="text-xs text-red-500 dark:text-red-400">@ModelLoadError</span>
-                        }
+                        <span class="text-xs text-red-500 dark:text-red-400">@CredentialsValidationMessage</span>
                     }
-                </PromptInputTools>
-
-                <div class="flex flex-1 flex-col max-w-sm">
-                    <div class="flex items-center ">
-                        <input value="@ApiKey"
-                            @onchange="OnApiKeyChangedAsync"
-                            class="w-full bg-transparent rounded-lg text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none border dark:border-gray-800 border-gray-200 dark:text-gray-100"
-                            placeholder="Paste provider API key"
-                            type="@ApiKeyInputType"
-                            autocomplete="off"
-                            spellcheck="false" />
-                        <button type="button"
-                                class="z-text-xs font-medium  text-primary-600 transition hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
-                                @onclick="ToggleApiKeyVisibility">
-                            @if(ShowApiKey)
-                            {
-                                <EyeSlashIcon class="inline h-5 w-5 ml-2" aria-hidden="true" />
-                            }
-                            else
-                            {
-                                <EyeIcon class="inline h-5 w-5 ml-2" aria-hidden="true" />
-                            }
-                        </button>
-                    </div>
-
-
-                    @if (!string.IsNullOrEmpty(ApiKeyValidationMessage))
+                    else if (!HasConfiguredProviders)
                     {
-                        <span class="text-xs text-red-500 dark:text-red-400">@ApiKeyValidationMessage</span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                            Add provider API keys via the gear icon to enable provider and model selection.
+                        </span>
+                    }
+                    else if (!HasSelectedProviderConfigured)
+                    {
+                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                            Select a provider that has an API key configured in settings.
+                        </span>
                     }
                 </div>
 
-                <PromptInputSubmit Status="@SubmissionStatus"
-                                Disabled="IsSubmitDisabled"
-                                Label=""
-                                SubmittingLabel=""
-                                StreamingLabel=""
-                                ErrorLabel="">
-                </PromptInputSubmit>
             </PromptInputFooter>
         </PromptInput>
+
+        <Modal Show="IsSettingsModalOpen"
+               ShowChanged="(value) => IsSettingsModalOpen = value"
+               Size="ModalSize.Large">
+            <ModalHeader>
+                <div class="flex flex-col gap-1">
+                    <div class="flex items-center gap-2">
+                        <CogIcon class="h-5 w-5 text-gray-500 dark:text-gray-300" aria-hidden="true" />
+                        <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+                            Provider credentials
+                        </h3>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                        Set your provider API key(s), provider, then target model. Data stored in local storage.
+                    </p>
+                </div>
+            </ModalHeader>
+            <ModalBody>
+                <div class="space-y-6">
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div class="space-y-2">
+                            <Label For="provider-select" Value="Active provider" />
+                            <Select Id="provider-select"
+                                    Value="@SelectedProviderKey"
+                                    ValueChanged="HandleModalProviderChangedAsync">
+                                <option value="">Select a provider</option>
+                                @foreach (var provider in Providers)
+                                {
+                                    <option value="@provider.Key">@provider.DisplayName</option>
+                                }
+                            </Select>
+                        </div>
+                        <div class="space-y-2">
+                            <Label For="model-select" Value="Active model" />
+                            <Select Id="model-select"
+                                    Value="@SelectedModelId"
+                                    disabled="@(AvailableModels == null || AvailableModels.Count == 0)"
+                                    ValueChanged="HandleModalModelChangedAsync">
+                                <option value="">@ModelSelectPlaceholder</option>
+                                @if (AvailableModels != null)
+                                {
+                                    @foreach (var model in AvailableModels)
+                                    {
+                                        <option value="@model.Id">@(!string.IsNullOrEmpty(model.Name) ? model.Name : model.Id)</option>
+                                    }
+                                }
+                            </Select>
+                            @if (IsLoadingModels)
+                            {
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Loading models...</p>
+                            }
+                            else if (!string.IsNullOrEmpty(ModelLoadError))
+                            {
+                                <p class="text-xs text-red-500 dark:text-red-400">@ModelLoadError</p>
+                            }
+                            else if (!HasSelectedProviderConfigured)
+                            {
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Add an API key for the selected provider to load models.</p>
+                            }
+                        </div>
+                    </div>
+
+                    @foreach (var provider in Providers)
+                    {
+                        var inputId = $"provider-{provider.Key}";
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <Label For="@inputId" Value="@($"{provider.DisplayName} API key")" />
+                                @if (IsProviderConfigured(provider.Key))
+                                {
+                                    <span class="text-xs font-medium text-green-600 dark:text-green-400">Configured</span>
+                                }
+                                else
+                                {
+                                    <span class="text-xs font-medium text-amber-600 dark:text-amber-400">Populate to Use</span>
+                                }
+                            </div>
+                            <TextInput TValue="string"
+                                       Id="@inputId"
+                                       Value="@GetApiKeyForProvider(provider.Key)"
+                                       ValueChanged="@(EventCallback.Factory.Create<string?>(this, value => HandleProviderApiKeyChangedAsync(provider.Key, value)))"
+                                       Placeholder="Enter API key"
+                                       Type="password"
+                                       Autocomplete="off" />
+                        </div>
+                    }
+                </div>
+            </ModalBody>
+            <ModalFooter>
+                <div class="flex w-full justify-end">
+                    <Button OnClick="CloseSettingsModal">Done</Button>
+                </div>
+            </ModalFooter>
+        </Modal>
         
     
 </main>
-
-@* sticky bottom-0 z-1 mx-auto flex w-full max-w-4xl gap-2 border-t-0 bg-background px-2 pb-3 md:px-4 md:pb-4 *@

@@ -6226,6 +6226,14 @@ pre[class^='language-diff-'] > code {
     width: auto;
   }
 
+  .md\:w-full {
+    width: 100%;
+  }
+
+  .md\:max-w-full {
+    max-width: 100%;
+  }
+
   .md\:flex-row {
     flex-direction: row;
   }
@@ -6328,6 +6336,10 @@ pre[class^='language-diff-'] > code {
 
   .lg\:block {
     display: block;
+  }
+
+  .lg\:flex {
+    display: flex;
   }
 
   .lg\:hidden {

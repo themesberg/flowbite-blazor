@@ -1,5 +1,6 @@
 namespace DemoApp.Pages.Docs.ai;
 
+using System.Text.Json;
 using DemoApp.Services;
 using Flowbite.Components.Chat;
 using LlmTornado;
@@ -19,41 +20,53 @@ public partial class ChatAiPage : ComponentBase
     [Inject]
     private IAiChatService AiChatService { get; set; } = default!;
 
+    private const string ProviderStorageKey = "flowbite.aiChat.providers";
+    private const string SelectionStorageKey = "flowbite.aiChat.selection";
     private List<ChatAiMessage> Messages { get; set; } = new();
     private string? InputText { get; set; }
-    private string? ApiKey { get; set; }
-    private string? PreviousApiKey { get; set; }
-    private string? ApiKeyValidationMessage { get; set; }
-    private bool ShowApiKey { get; set; }
-    private string ApiKeyInputType => ShowApiKey ? "text" : "password";
+    private Dictionary<string, string> ProviderApiKeys { get; set; } = new(StringComparer.OrdinalIgnoreCase);
     private string? SelectedProviderKey { get; set; }
     private string? SelectedModelId { get; set; }
     private string? PreviousModelId { get; set; }
     private List<RetrievedModel>? AvailableModels { get; set; }
-    private string? ModelSearchText { get; set; }
     private bool IsLoadingModels { get; set; }
     private string? ModelLoadError { get; set; }
+    private string? CurrentApiKey => SelectedProviderKey is null ? null : GetApiKeyForProvider(SelectedProviderKey);
+    private bool HasConfiguredProviders => ProviderApiKeys.Any(kvp => !string.IsNullOrWhiteSpace(kvp.Value));
+    private bool HasSelectedProviderConfigured =>
+        !string.IsNullOrEmpty(SelectedProviderKey) &&
+        !string.IsNullOrWhiteSpace(CurrentApiKey);
+    private bool IsSettingsModalOpen { get; set; }
+    private string? CredentialsValidationMessage { get; set; }
+    private bool _suppressSelectionPersistence;
 
-    private List<RetrievedModel>? FilteredModels
+    private string ProviderModelLabel
     {
         get
         {
-            if (AvailableModels == null || AvailableModels.Count == 0)
-                return AvailableModels;
+            if (string.IsNullOrEmpty(SelectedProviderKey))
+            {
+                return "Open settings to choose a provider and model";
+            }
 
-            if (string.IsNullOrWhiteSpace(ModelSearchText))
-                return AvailableModels;
+            var providerName = GetProviderDisplayName(SelectedProviderKey);
 
-            var searchLower = ModelSearchText.ToLowerInvariant();
-            return AvailableModels
-                .Where(m =>
-                    (m.Id?.ToLowerInvariant().Contains(searchLower) ?? false) ||
-                    (m.Name?.ToLowerInvariant().Contains(searchLower) ?? false))
-                .ToList();
+            if (string.IsNullOrEmpty(SelectedModelId))
+            {
+                return $"{providerName} / Select model";
+            }
+
+            var modelName = GetModelDisplayName(SelectedModelId);
+            return $"{providerName} / {modelName}";
         }
     }
+
+    private string ModelSelectPlaceholder =>
+        IsLoadingModels ? "Loading models..." :
+        !HasSelectedProviderConfigured ? "Add API key to load models" :
+        (AvailableModels == null || AvailableModels.Count == 0) ? "No models available" :
+        "Select a model";
     private bool WebSearchEnabled { get; set; }
-    private bool MicrophoneEnabled { get; set; }
     private PromptSubmissionStatus SubmissionStatus { get; set; } = PromptSubmissionStatus.Idle;
     private bool IsBusy => SubmissionStatus is PromptSubmissionStatus.Submitting or PromptSubmissionStatus.Streaming;
     private string BusyLabel => SubmissionStatus == PromptSubmissionStatus.Submitting ? "Connecting..." : "Generating response...";
@@ -61,8 +74,7 @@ public partial class ChatAiPage : ComponentBase
     private bool IsSubmitDisabled =>
         IsBusy ||
         string.IsNullOrWhiteSpace(InputText) ||
-        string.IsNullOrWhiteSpace(SelectedProviderKey) ||
-        string.IsNullOrWhiteSpace(ApiKey) ||
+        !HasSelectedProviderConfigured ||
         string.IsNullOrWhiteSpace(SelectedModelId);
 
     // Model cache: key = "{providerKey}_{apiKeyHash}"
@@ -76,27 +88,21 @@ public partial class ChatAiPage : ComponentBase
         new AiProviderConfig("google", "Google", "gemini-1.5-pro")
     };
 
-    protected override void OnInitialized()
-    {
-        SelectedProviderKey = Providers[0].Key;
-
-        // Messages.Add(new ChatAiMessage(
-        //     Id: Guid.NewGuid(),
-        //     Role: ChatMessageRole.Assistant,
-        //     Text: "Welcome to the Flowbite AI Chat playground! Select a provider, paste your API key, and start chatting to see Flowbite chat components in action with LlmTornado.",
-        //     Reasoning: "Greet the user and explain the purpose of this demo page.",
-        //     DurationSeconds: 1,
-        //     Sources: new List<ChatAiSource>
-        //     {
-        //         new("Flowbite Chatbot Docs", "https://flowbite.com/docs/components/chatbot/"),
-        //         new("LlmTornado GitHub", "https://github.com/lofcz/LlmTornado")
-        //     }));
-    }
-
     private Task HandlePromptTextChanged(string value)
     {
         InputText = value;
         return Task.CompletedTask;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        await LoadProviderCredentialsAsync();
+        await LoadSelectionStateAsync();
     }
 
     private Task ToggleWebSearchAsync()
@@ -105,38 +111,35 @@ public partial class ChatAiPage : ComponentBase
         return Task.CompletedTask;
     }
 
-    private Task ToggleMicrophoneAsync()
-    {
-        MicrophoneEnabled = !MicrophoneEnabled;
-        return Task.CompletedTask;
-    }
-
     private async Task HandleProviderChangedAsync(string? value)
     {
-        if (!string.IsNullOrEmpty(value))
+        if (string.IsNullOrEmpty(value))
         {
-            SelectedProviderKey = value;
-            ApiKeyValidationMessage = null;
-            
-            // Clear current models when provider changes
-            AvailableModels = null;
+            SelectedProviderKey = null;
             SelectedModelId = null;
             ModelLoadError = null;
-            ModelSearchText = null;
-            
-            // Try to load models if we have an API key
-            if (!string.IsNullOrWhiteSpace(ApiKey))
-            {
-                await LoadModelsAsync();
-            }
+            await PersistSelectionAsync();
+            return;
         }
-    }
 
-    private Task HandleModelSearchChanged(ChangeEventArgs e)
-    {
-        ModelSearchText = e.Value?.ToString();
-        StateHasChanged();
-        return Task.CompletedTask;
+        SelectedProviderKey = value;
+        CredentialsValidationMessage = null;
+        
+        // Clear current models when provider changes
+        AvailableModels = null;
+        SelectedModelId = null;
+        ModelLoadError = null;
+        
+        if (IsProviderConfigured(value))
+        {
+            await LoadModelsAsync();
+        }
+        else
+        {
+            CredentialsValidationMessage = $"Add an API key for {GetProviderDisplayName(value)} in settings.";
+        }
+
+        await PersistSelectionAsync();
     }
 
     private async Task HandleModelChangedAsync(string? value)
@@ -169,34 +172,300 @@ public partial class ChatAiPage : ComponentBase
 
         SelectedModelId = value;
         PreviousModelId = value;
+        await PersistSelectionAsync();
     }
 
-    private async Task OnApiKeyChangedAsync(ChangeEventArgs e)
+    private async Task OpenSettingsModalAsync()
     {
-        var newApiKey = e.Value?.ToString();
-        ApiKey = newApiKey;
-        
-        // Check if API key has changed and is valid length
-        if (!string.IsNullOrWhiteSpace(newApiKey) && 
-            newApiKey != PreviousApiKey && 
-            newApiKey.Length > 10 &&
-            !string.IsNullOrWhiteSpace(SelectedProviderKey))
+        IsSettingsModalOpen = true;
+
+        if (!string.IsNullOrEmpty(SelectedProviderKey) &&
+            IsProviderConfigured(SelectedProviderKey) &&
+            (AvailableModels == null || AvailableModels.Count == 0) &&
+            !IsLoadingModels)
         {
-            PreviousApiKey = newApiKey;
             await LoadModelsAsync();
         }
     }
 
-    private async Task LoadModelsAsync()
+    private void CloseSettingsModal()
     {
-        if (string.IsNullOrWhiteSpace(SelectedProviderKey) || 
-            string.IsNullOrWhiteSpace(ApiKey))
+        IsSettingsModalOpen = false;
+    }
+
+    private async Task HandleModalProviderChangedAsync(string? value)
+    {
+        await HandleProviderChangedAsync(value);
+    }
+
+    private async Task HandleModalModelChangedAsync(string? value)
+    {
+        await HandleModelChangedAsync(value);
+    }
+
+    private async Task HandleProviderApiKeyChangedAsync(string providerKey, string? value)
+    {
+        if (string.IsNullOrWhiteSpace(providerKey))
         {
             return;
         }
 
+        var sanitizedValue = string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+        var previousSelection = SelectedProviderKey;
+
+        if (string.IsNullOrEmpty(sanitizedValue))
+        {
+            ProviderApiKeys.Remove(providerKey);
+        }
+        else
+        {
+            ProviderApiKeys[providerKey] = sanitizedValue;
+        }
+
+        await PersistProviderKeysAsync();
+
+        EnsureDefaultProviderSelection();
+        var activeProvider = SelectedProviderKey;
+
+        if (activeProvider == providerKey)
+        {
+            AvailableModels = null;
+            SelectedModelId = null;
+            ModelLoadError = null;
+
+            if (sanitizedValue != null)
+            {
+                await LoadModelsAsync();
+            }
+        }
+        else if (previousSelection != activeProvider &&
+                 !string.IsNullOrEmpty(activeProvider) &&
+                 IsProviderConfigured(activeProvider))
+        {
+            AvailableModels = null;
+            SelectedModelId = null;
+            ModelLoadError = null;
+            await LoadModelsAsync();
+        }
+
+        await PersistSelectionAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task PersistProviderKeysAsync()
+    {
+        try
+        {
+            if (!HasConfiguredProviders)
+            {
+                await JSRuntime.InvokeVoidAsync("localStorage.removeItem", ProviderStorageKey);
+                return;
+            }
+
+            var payload = JsonSerializer.Serialize(ProviderApiKeys);
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", ProviderStorageKey, payload);
+        }
+        catch
+        {
+            // Swallow storage errors to avoid breaking the UX.
+        }
+    }
+
+    private async Task LoadProviderCredentialsAsync()
+    {
+        try
+        {
+            var stored = await JSRuntime.InvokeAsync<string?>("localStorage.getItem", ProviderStorageKey);
+            if (!string.IsNullOrWhiteSpace(stored))
+            {
+                var parsed = JsonSerializer.Deserialize<Dictionary<string, string>>(stored);
+                if (parsed != null)
+                {
+                    ProviderApiKeys = parsed
+                        .Where(kvp => !string.IsNullOrWhiteSpace(kvp.Key) && !string.IsNullOrWhiteSpace(kvp.Value))
+                        .ToDictionary(kvp => kvp.Key, kvp => kvp.Value, StringComparer.OrdinalIgnoreCase);
+                }
+            }
+        }
+        catch
+        {
+            // Ignore storage read errors; the UI will fall back to manual entry.
+        }
+
+        EnsureDefaultProviderSelection();
+
+        if (HasSelectedProviderConfigured)
+        {
+            await LoadModelsAsync();
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task LoadSelectionStateAsync()
+    {
+        string? stored = null;
+
+        try
+        {
+            stored = await JSRuntime.InvokeAsync<string?>("localStorage.getItem", SelectionStorageKey);
+        }
+        catch
+        {
+            // Ignore storage read failures.
+        }
+
+        if (string.IsNullOrWhiteSpace(stored))
+        {
+            return;
+        }
+
+        SelectionState? selection = null;
+        try
+        {
+            selection = JsonSerializer.Deserialize<SelectionState>(stored);
+        }
+        catch
+        {
+            return;
+        }
+
+        if (selection == null || string.IsNullOrWhiteSpace(selection.ProviderKey))
+        {
+            return;
+        }
+
+        _suppressSelectionPersistence = true;
+        try
+        {
+            await HandleProviderChangedAsync(selection.ProviderKey);
+
+            if (!string.IsNullOrWhiteSpace(selection.ModelId))
+            {
+                await HandleModelChangedAsync(selection.ModelId);
+            }
+        }
+        finally
+        {
+            _suppressSelectionPersistence = false;
+        }
+        
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task PersistSelectionAsync()
+    {
+        if (_suppressSelectionPersistence)
+        {
+            return;
+        }
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(SelectedProviderKey))
+            {
+                await JSRuntime.InvokeVoidAsync("localStorage.removeItem", SelectionStorageKey);
+                return;
+            }
+
+            var payload = JsonSerializer.Serialize(new SelectionState(SelectedProviderKey, SelectedModelId));
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", SelectionStorageKey, payload);
+        }
+        catch
+        {
+            // Ignore persistence errors.
+        }
+    }
+
+    private void EnsureDefaultProviderSelection()
+    {
+        if (!HasConfiguredProviders)
+        {
+            if (!string.IsNullOrEmpty(SelectedProviderKey))
+            {
+                SelectedProviderKey = null;
+                AvailableModels = null;
+                SelectedModelId = null;
+                ModelLoadError = null;
+            }
+            return;
+        }
+
+        if (!string.IsNullOrEmpty(SelectedProviderKey) && IsProviderConfigured(SelectedProviderKey))
+        {
+            CredentialsValidationMessage = null;
+            return;
+        }
+
+        var defaultProvider = Providers.FirstOrDefault(p => IsProviderConfigured(p.Key));
+        SelectedProviderKey = defaultProvider?.Key;
+        if (!string.IsNullOrEmpty(SelectedProviderKey))
+        {
+            CredentialsValidationMessage = null;
+        }
+    }
+
+    private string? GetApiKeyForProvider(string providerKey)
+    {
+        if (string.IsNullOrWhiteSpace(providerKey))
+        {
+            return null;
+        }
+
+        if (ProviderApiKeys.TryGetValue(providerKey, out var value) && !string.IsNullOrWhiteSpace(value))
+        {
+            return value;
+        }
+
+        return null;
+    }
+
+    private bool IsProviderConfigured(string providerKey)
+    {
+        return !string.IsNullOrWhiteSpace(GetApiKeyForProvider(providerKey));
+    }
+
+    private string GetProviderDisplayName(string providerKey)
+    {
+        return Providers.FirstOrDefault(p => p.Key == providerKey)?.DisplayName ?? providerKey;
+    }
+
+    private string GetModelDisplayName(string? modelId)
+    {
+        if (string.IsNullOrWhiteSpace(modelId))
+        {
+            return "Unknown model";
+        }
+
+        var match = AvailableModels?.FirstOrDefault(m => string.Equals(m.Id, modelId, StringComparison.OrdinalIgnoreCase));
+        if (match != null && !string.IsNullOrWhiteSpace(match.Name))
+        {
+            return match.Name;
+        }
+
+        return modelId;
+    }
+
+    private async Task LoadModelsAsync()
+    {
+        var providerKey = SelectedProviderKey;
+        var apiKey = CurrentApiKey;
+
+        if (string.IsNullOrWhiteSpace(providerKey) || 
+            string.IsNullOrWhiteSpace(apiKey))
+        {
+            return;
+        }
+
+        if (!IsProviderConfigured(providerKey))
+        {
+            ModelLoadError = $"Add an API key for {GetProviderDisplayName(providerKey)} in settings.";
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
         // Check cache first
-        var cacheKey = GetCacheKey(SelectedProviderKey, ApiKey);
+        var cacheKey = GetCacheKey(providerKey, apiKey);
         if (ModelCache.TryGetValue(cacheKey, out var cachedModels))
         {
             AvailableModels = cachedModels;
@@ -211,26 +480,33 @@ public partial class ChatAiPage : ComponentBase
         try
         {
             // Map provider key to enum
-            var providerEnum = MapProviderKeyToEnum(SelectedProviderKey);
+            var providerEnum = MapProviderKeyToEnum(providerKey);
             
             if (providerEnum == LLmProviders.Unknown)
             {
-                ModelLoadError = $"Unknown provider: {SelectedProviderKey}";
+                ModelLoadError = $"Unknown provider: {providerKey}";
                 return;
             }
 
             // Create API instance
-            var api = new TornadoApi(providerEnum, ApiKey);
+            var api = new TornadoApi(providerEnum, apiKey);
             
             // Fetch models
             var models = await api.Models.GetModels(providerEnum);
-            
+            if (models != null)
+            {
+                models = models
+                    .OrderBy(m => string.IsNullOrWhiteSpace(m.Name) ? m.Id : m.Name, StringComparer.OrdinalIgnoreCase)
+                    .ThenBy(m => m.Id, StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+            }
+
             if (models == null || models.Count == 0)
             {
                 ModelLoadError = "No models available for this provider";
                 // Fallback to default model
                 var defaultModel = Providers
-                    .FirstOrDefault(p => p.Key == SelectedProviderKey)
+                    .FirstOrDefault(p => p.Key == providerKey)
                     ?.DefaultModel;
                 if (!string.IsNullOrEmpty(defaultModel))
                 {
@@ -252,7 +528,7 @@ public partial class ChatAiPage : ComponentBase
             
             // Fallback to hardcoded default
             var defaultModel = Providers
-                .FirstOrDefault(p => p.Key == SelectedProviderKey)
+                .FirstOrDefault(p => p.Key == providerKey)
                 ?.DefaultModel;
             if (!string.IsNullOrEmpty(defaultModel))
             {
@@ -320,11 +596,6 @@ public partial class ChatAiPage : ComponentBase
         };
     }
 
-    private void ToggleApiKeyVisibility()
-    {
-        ShowApiKey = !ShowApiKey;
-    }
-
     private async Task HandleSubmitAsync(PromptInputMessage prompt)
     {
         // Console.WriteLine($"[ChatAiPage] HandleSubmitAsync called");
@@ -341,25 +612,24 @@ public partial class ChatAiPage : ComponentBase
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(ApiKey))
-        {
-            // Console.WriteLine($"[ChatAiPage] Returning early: no API key");
-            ApiKeyValidationMessage = "Please provide an API key for the selected provider.";
-            return;
-        }
-
         if (string.IsNullOrWhiteSpace(SelectedProviderKey))
         {
             // Console.WriteLine($"[ChatAiPage] Returning early: no provider selected");
-            ApiKeyValidationMessage = "Please select a provider.";
+            CredentialsValidationMessage = "Please select a provider.";
+            return;
+        }
+
+        if (!HasSelectedProviderConfigured)
+        {
+            CredentialsValidationMessage = $"Add an API key for {GetProviderDisplayName(SelectedProviderKey)} in settings.";
             return;
         }
 
         // Console.WriteLine($"[ChatAiPage] Validation passed, proceeding with API call");
         // Console.WriteLine($"[ChatAiPage] Provider: {SelectedProviderKey}");
-        // Console.WriteLine($"[ChatAiPage] API Key length: {ApiKey?.Length ?? 0}");
+        // Console.WriteLine($"[ChatAiPage] API Key length: {CurrentApiKey?.Length ?? 0}");
         
-        ApiKeyValidationMessage = null;
+        CredentialsValidationMessage = null;
 
         var userMessage = new ChatAiMessage(
             Id: Guid.NewGuid(),
@@ -397,7 +667,7 @@ public partial class ChatAiPage : ComponentBase
             // Console.WriteLine($"[ChatAiPage] About to call AiChatService.SendMessageAsync");
             var response = await AiChatService.SendMessageAsync(
                 providerKey: SelectedProviderKey!,
-                apiKey: ApiKey!,
+                apiKey: CurrentApiKey!,
                 modelName: modelName,
                 conversationHistory: history,
                 enableWebSearch: WebSearchEnabled);
@@ -475,6 +745,8 @@ public partial class ChatAiPage : ComponentBase
     }
 
     private sealed record AiProviderConfig(string Key, string DisplayName, string DefaultModel);
+
+    private sealed record SelectionState(string? ProviderKey, string? ModelId);
 
     private sealed record ChatAiSource(string Title, string Href);
 
