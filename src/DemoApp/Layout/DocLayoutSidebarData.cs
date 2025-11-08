@@ -29,6 +29,15 @@ public static class DocLayoutSidebarData
         },
         new DocLayoutSidebarSection
         {
+            Title = "Demo Apps",
+            Items = new List<DocLayoutSidebarItem>
+            {
+                new() { Title = "AI Chat", Href = "/docs/ai/chat", IsNew = true },
+                new() { Title = "Admin Dashboard", Href = "https://flowbite-blazor-admin-dashboard.pages.dev/", IsNew = true, IsExternal = true },
+            }
+        },
+        new DocLayoutSidebarSection
+        {
             Title = "Components",
             Items = new List<DocLayoutSidebarItem>
             {
@@ -65,14 +74,6 @@ public static class DocLayoutSidebarData
                 new() { Title = "Heading", Href = "/docs/components/heading", IsNew = true },
                 new() { Title = "Paragraph", Href = "/docs/components/paragraph", IsNew = true },
                 new() { Title = "Span", Href = "/docs/components/span", IsNew = true },
-            }
-        },
-        new DocLayoutSidebarSection
-        {
-            Title = "AI",
-            Items = new List<DocLayoutSidebarItem>
-            {
-                new() { Title = "AI Chat", Href = "/docs/ai/chat", IsNew = true },
             }
         }
     };
