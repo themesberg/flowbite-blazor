@@ -12,6 +12,7 @@ using LlmTornado.Images;
 /// </summary>
 public class AiChatService : IAiChatService
 {
+    private const int PlainTextAttachmentMaxChars = 20_000;
     /// <inheritdoc />
     public async Task<AiChatResponse> SendMessageAsync(
         string providerKey,
@@ -164,35 +165,45 @@ public class AiChatService : IAiChatService
     }
     private static ChatMessage CreateChatMessage(ChatMessageRoles role, AiChatMessage message)
     {
-        var hasAttachments = message.Attachments is { Count: > 0 };
-
-        if (!hasAttachments)
-        {
-            return new ChatMessage(role, message.Content ?? string.Empty);
-        }
-
         var parts = new List<ChatMessagePart>();
-
-        foreach (var attachment in message.Attachments!)
-        {
-            var contentType = string.IsNullOrWhiteSpace(attachment.ContentType)
-                ? "application/octet-stream"
-                : attachment.ContentType;
-
-            if (attachment.IsImage)
-            {
-                var dataUrl = $"data:{contentType};base64,{attachment.Base64Data}";
-                parts.Add(new ChatMessagePart(dataUrl, ImageDetail.Auto, contentType));
-            }
-            else
-            {
-                parts.Add(new ChatMessagePart(attachment.Base64Data, DocumentLinkTypes.Base64));
-            }
-        }
 
         if (!string.IsNullOrWhiteSpace(message.Content))
         {
             parts.Add(new ChatMessagePart(message.Content!));
+        }
+
+        if (message.Attachments is { Count: > 0 })
+        {
+            foreach (var attachment in message.Attachments)
+            {
+                var contentType = string.IsNullOrWhiteSpace(attachment.ContentType)
+                    ? "application/octet-stream"
+                    : attachment.ContentType;
+
+                if (attachment.IsImage)
+                {
+                    var dataUrl = $"data:{contentType};base64,{attachment.Base64Data}";
+                    parts.Add(new ChatMessagePart(dataUrl, ImageDetail.Auto, contentType));
+                    continue;
+                }
+
+                if (attachment.IsPlainText && !string.IsNullOrWhiteSpace(attachment.TextContent))
+                {
+                    var truncated = attachment.TextContent.Length > PlainTextAttachmentMaxChars
+                        ? attachment.TextContent[..PlainTextAttachmentMaxChars]
+                        : attachment.TextContent;
+                    var labeledContent = $"Attachment ({attachment.FileName}):\n{truncated}";
+                    parts.Add(new ChatMessagePart(labeledContent));
+                    continue;
+                }
+
+                parts.Add(new ChatMessagePart(attachment.Base64Data, DocumentLinkTypes.Base64));
+            }
+        }
+
+        if (parts.Count == 0)
+        {
+            return new ChatMessage(role, message.Content ?? string.Empty);
         }
 
         return new ChatMessage(role, parts);

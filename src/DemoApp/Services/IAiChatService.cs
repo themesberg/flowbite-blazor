@@ -44,12 +44,18 @@ public sealed record AiChatMessage(
 /// <param name="Size">Attachment size in bytes.</param>
 /// <param name="Base64Data">Base64-encoded file contents (raw base64, no data URI prefix).</param>
 /// <param name="IsImage">Indicates whether the attachment is an image.</param>
+/// <param name="IsPlainText">Indicates whether the attachment is a plain-text document.</param>
+/// <param name="TextContent">Full decoded text content for plain-text attachments.</param>
+/// <param name="TextPreview">Trimmed preview (used for UI affordances).</param>
 public sealed record AiChatAttachment(
     string FileName,
     string ContentType,
     long Size,
     string Base64Data,
-    bool IsImage);
+    bool IsImage,
+    bool IsPlainText = false,
+    string? TextContent = null,
+    string? TextPreview = null);
 
 /// <summary>
 /// Response from the AI chat service.

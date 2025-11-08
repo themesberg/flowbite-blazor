@@ -2,6 +2,7 @@ namespace DemoApp.Pages.Docs.ai;
 
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 using DemoApp.Services;
@@ -44,6 +45,8 @@ public partial class ChatAiPage : ComponentBase
     private string? CredentialsValidationMessage { get; set; }
     private bool _suppressSelectionPersistence;
     private const long AttachmentSizeLimitBytes = 5 * 1024 * 1024;
+    private const int TextPreviewMaxCharacters = 160;
+    private static readonly string[] PlainTextExtensions = [".txt", ".md", ".markdown", ".log"];
 
     private string ProviderModelLabel
     {
@@ -849,24 +852,41 @@ public partial class ChatAiPage : ComponentBase
                 ? "application/octet-stream"
                 : file.ContentType;
 
-            var base64Data = await ReadFileAsBase64Async(file).ConfigureAwait(false);
+            var bytes = await ReadFileBytesAsync(file).ConfigureAwait(false);
+            var base64Data = Convert.ToBase64String(bytes);
+            var isPlainText = IsPlainTextAttachment(contentType, file.Name);
+            string? textContent = null;
+            string? preview = null;
+
+            if (isPlainText)
+            {
+                textContent = DecodeText(bytes);
+                if (!string.IsNullOrWhiteSpace(textContent))
+                {
+                    preview = CreateTextPreview(textContent);
+                }
+            }
+
             payloads.Add(new AiChatAttachment(
                 FileName: file.Name,
                 ContentType: contentType,
                 Size: file.Size,
                 Base64Data: base64Data,
-                IsImage: contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase)));
+                IsImage: contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase),
+                IsPlainText: isPlainText,
+                TextContent: textContent,
+                TextPreview: preview));
         }
 
         return payloads;
     }
 
-    private static async Task<string> ReadFileAsBase64Async(IBrowserFile file, CancellationToken cancellationToken = default)
+    private static async Task<byte[]> ReadFileBytesAsync(IBrowserFile file, CancellationToken cancellationToken = default)
     {
         await using var stream = file.OpenReadStream(AttachmentSizeLimitBytes, cancellationToken);
         using var buffer = new MemoryStream();
         await stream.CopyToAsync(buffer, cancellationToken).ConfigureAwait(false);
-        return Convert.ToBase64String(buffer.ToArray());
+        return buffer.ToArray();
     }
 
     private static string? GetAttachmentPreviewSource(AiChatAttachment attachment)
@@ -881,6 +901,52 @@ public partial class ChatAiPage : ComponentBase
             : attachment.ContentType;
 
         return $"data:{contentType};base64,{attachment.Base64Data}";
+    }
+
+    private static bool IsPlainTextAttachment(string contentType, string fileName)
+    {
+        if (!string.IsNullOrWhiteSpace(contentType) &&
+            contentType.StartsWith("text/", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        var extension = Path.GetExtension(fileName);
+        return !string.IsNullOrWhiteSpace(extension) &&
+               PlainTextExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static string? DecodeText(byte[] bytes)
+    {
+        if (bytes.Length == 0)
+        {
+            return null;
+        }
+
+        try
+        {
+            return Encoding.UTF8.GetString(bytes);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static string? CreateTextPreview(string? content)
+    {
+        if (string.IsNullOrWhiteSpace(content))
+        {
+            return null;
+        }
+
+        var normalized = content.ReplaceLineEndings(" ").Trim();
+        if (normalized.Length <= TextPreviewMaxCharacters)
+        {
+            return normalized;
+        }
+
+        return normalized[..TextPreviewMaxCharacters] + "…";
     }
 
     private static string FormatFileSize(long bytes)

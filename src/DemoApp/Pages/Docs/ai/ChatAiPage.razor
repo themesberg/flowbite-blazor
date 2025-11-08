@@ -60,10 +60,14 @@
                                                         <PaperClipIcon class="h-5 w-5" aria-hidden="true" />
                                                     </div>
                                                 }
-                                                <div class="min-w-0">
+                                                <div class="min-w-0 text-left">
                                                     <p class="truncate text-sm font-medium text-gray-900 dark:text-white">@attachment.FileName</p>
                                                     <p class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400">@attachment.ContentType</p>
                                                     <p class="text-[11px] text-gray-500 dark:text-gray-400">@FormatFileSize(attachment.Size)</p>
+                                                    @if (attachment.IsPlainText && !string.IsNullOrWhiteSpace(attachment.TextPreview))
+                                                    {
+                                                        <p class="mt-1 whitespace-normal break-words text-xs italic text-gray-500 dark:text-gray-400">@attachment.TextPreview</p>
+                                                    }
                                                 </div>
                                             </li>
                                         }
