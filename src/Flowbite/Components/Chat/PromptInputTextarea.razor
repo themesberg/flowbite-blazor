@@ -1,0 +1,9 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<textarea class="@CombineClasses(BaseClasses)"
+          placeholder="@Placeholder"
+          value="@_value"
+          @oninput="HandleInputAsync"
+          @onkeydown="HandleKeyDownAsync"
+          rows="@Rows"
+          @attributes="AdditionalAttributes"></textarea>

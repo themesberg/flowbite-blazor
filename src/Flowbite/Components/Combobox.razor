@@ -1,0 +1,82 @@
+@using Flowbite.Icons
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<CascadingValue Value="this">
+    <div class="@CombineClasses("relative")" @attributes="AdditionalAttributes" @ref="_rootRef">
+        @ChildContent
+        <button type="button"
+                class="@TriggerClasses"
+                role="combobox"
+                aria-haspopup="listbox"
+                aria-expanded="@_isOpen"
+                aria-controls="@OptionsListId"
+                disabled="@Disabled"
+                @onclick="ToggleAsync"
+                @onkeydown="HandleTriggerKeyDown">
+            <span class="truncate">@DisplayLabel</span>
+            <ChevronDownIcon class="ml-2 h-4 w-4 text-gray-500 dark:text-gray-400" aria-hidden="true" />
+        </button>
+
+        @{
+            var options = FilteredItems;
+        }
+
+        @if (_isOpen)
+        {
+            <div class="absolute z-50 mt-2 w-full overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800">
+                <div class="border-b border-gray-100 px-3 py-2 dark:border-gray-700">
+                    <label class="sr-only" for="@SearchInputId">Search options</label>
+                    <input id="@SearchInputId"
+                           type="search"
+                           class="block w-full rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                           placeholder="@SearchPlaceholder"
+                           value="@_searchText"
+                           @oninput="HandleSearchInput"
+                           @onkeydown="HandleSearchKeyDown"
+                           @ref="_searchInputRef" />
+                </div>
+
+                <ul id="@OptionsListId" class="max-h-60 overflow-y-auto py-1" role="listbox">
+                    @if (!options.Any())
+                    {
+                        <li class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">@EmptyText</li>
+                    }
+                    else
+                    {
+                        @foreach (var option in options)
+                        {
+                            <li @key="option.Id">
+                                <button type="button"
+                                        class="@GetOptionClasses(option)"
+                                        role="option"
+                                        aria-selected="@IsSelected(option)"
+                                        disabled="@option.Disabled"
+                                        @onclick="() => HandleOptionClickAsync(option)">
+                                    <span class="flex-1 text-left">
+                                        @if (option.ChildContent is not null)
+                                        {
+                                            @option.ChildContent
+                                        }
+                                        else
+                                        {
+                                            @option.Label
+                                        }
+                                    </span>
+                                    @if (IsSelected(option))
+                                    {
+                                        <CheckIcon class="h-4 w-4 text-blue-600 dark:text-blue-400" aria-hidden="true" />
+                                    }
+                                </button>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(HelperText))
+        {
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">@HelperText</p>
+        }
+    </div>
+</CascadingValue>

@@ -1,0 +1,32 @@
+@inherits LayoutComponentBase
+@using Flowbite.Components
+@using Flowbite.Layout
+
+<div class="bg-white text-gray-600 antialiased dark:bg-slate-950/70 dark:text-white">
+    <div class="w-full min-w-0 flex-auto">
+        <div class="relative">
+            <DocLayoutNavbar IsCollapsed="@_isCollapsed" OnToggleCollapse="@HandleToggleCollapse" />
+            @* <div class="-mt-14 -mt-16 "> *@
+            <main class="h-screen mx-auto -mt-16">
+                <div class="h-full pt-20 ">
+                    <div class="h-full">
+                        @Body
+                    </div>
+                </div>
+            </main>
+
+        </div>
+    </div>
+</div>
+
+<ToastHost /> @* Add the ToastHost component here *@
+
+@code {
+    private bool _isCollapsed = true;
+
+    private void HandleToggleCollapse()
+    {
+        _isCollapsed = !_isCollapsed;
+        StateHasChanged();
+    }
+}

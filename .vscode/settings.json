@@ -27,24 +27,5 @@
         "subcomponents"
     ],
     "markdown.extension.toc.updateOnSave": false,
-    "workbench.colorCustomizations": {
-        "activityBar.activeBackground": "#4b72c8",
-        "activityBar.background": "#4b72c8",
-        "activityBar.foreground": "#e7e7e7",
-        "activityBar.inactiveForeground": "#e7e7e799",
-        "activityBarBadge.background": "#7a2540",
-        "activityBarBadge.foreground": "#e7e7e7",
-        "commandCenter.border": "#e7e7e799",
-        "sash.hoverBorder": "#4b72c8",
-        "statusBar.background": "#345aac",
-        "statusBar.foreground": "#e7e7e7",
-        "statusBarItem.hoverBackground": "#4b72c8",
-        "statusBarItem.remoteBackground": "#345aac",
-        "statusBarItem.remoteForeground": "#e7e7e7",
-        "titleBar.activeBackground": "#345aac",
-        "titleBar.activeForeground": "#e7e7e7",
-        "titleBar.inactiveBackground": "#345aac99",
-        "titleBar.inactiveForeground": "#e7e7e799"
-    },
     "peacock.color": "#345aac",
 }

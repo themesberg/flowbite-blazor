@@ -1,0 +1,8 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+@if (MenuContext.IsOpen)
+{
+    <div class="@CombineClasses(BaseClasses)" role="menu" @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+}

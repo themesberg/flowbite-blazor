@@ -1,0 +1,310 @@
+@page "/docs/ai/chat"
+@layout DocLayoutStackedDark
+@using Flowbite.Components
+@using Flowbite.Components.Chat
+@using Flowbite.Icons
+@using System.Threading.Tasks
+
+<PageTitle>AI Chat - Flowbite Blazor</PageTitle>
+
+<main class="flex flex-col h-full min-x-0">
+
+
+        <section class="hidden flex-none flex-col max-w-4xl mx-auto space-y-1 py-2 lg:flex">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">AI Chat Playground</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+                Connect to your preferred AI provider, supply a secure API key, and explore Flowbite chat primitives backed by 
+                <a class="underline text-primary-600 dark:text-primary-500 font-medium" target="_blank" rel="noreferrer" href="https://llmtornado.ai/">LLM Tornado</a>.
+                Renders Markdown with support for Mermaid diagrams and Mathematical expressions
+            </p>
+        </section>
+
+
+        <Conversation>
+            <ConversationContent AutoScrollBehavior="ConversationAutoScrollBehavior.StickToBottom" Class="px-0">
+                @foreach (var message in Messages)
+                {
+                    <ChatMessage @key="message.Id"
+                                From="message.Role"
+                                AvatarInitials="@(message.Role == ChatMessageRole.Assistant ? "AI" : "You")"
+                                Class="">
+                        <ChatMessageContent Variant="@(message.Role == ChatMessageRole.User ? ChatMessageVariant.Contained : ChatMessageVariant.Flat)">
+                            
+                            @if (message.Reasoning is not null)
+                            {
+                                <Reasoning IsStreaming="message.IsStreaming"
+                                        DurationSeconds="message.DurationSeconds">
+                                    <ReasoningTrigger />
+                                    <ReasoningContent Text="@message.Reasoning" />
+                                </Reasoning>
+                            }
+
+                            <ChatResponse Text="@message.Text" Role="@message.Role">
+                                @if (message.Attachments?.Count > 0)
+                                {
+                                    <ul class="mt-3 flex flex-wrap gap-3">
+                                        @foreach (var attachment in message.Attachments)
+                                        {
+                                            var previewUrl = GetAttachmentPreviewSource(attachment);
+                                            <li class="flex min-w-[12rem] flex-1 items-center gap-3 rounded-2xl border border-gray-200/70 bg-white/80 p-3 text-xs text-gray-600 dark:border-white/10 dark:bg-slate-900/60 dark:text-gray-300">
+                                                @if (previewUrl is not null)
+                                                {
+                                                    <img src="@previewUrl"
+                                                         alt="@attachment.FileName"
+                                                         class="h-14 w-14 flex-shrink-0 rounded-xl object-cover ring-1 ring-black/5 dark:ring-white/10"
+                                                         draggable="false" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-300">
+                                                        <PaperClipIcon class="h-5 w-5" aria-hidden="true" />
+                                                    </div>
+                                                }
+                                                <div class="min-w-0 text-left">
+                                                    <p class="truncate text-sm font-medium text-gray-900 dark:text-white">@attachment.FileName</p>
+                                                    <p class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400">@attachment.ContentType</p>
+                                                    <p class="text-[11px] text-gray-500 dark:text-gray-400">@FormatFileSize(attachment.Size)</p>
+                                                    @if (attachment.IsPlainText && !string.IsNullOrWhiteSpace(attachment.TextPreview))
+                                                    {
+                                                        <p class="mt-1 whitespace-normal break-words text-xs italic text-gray-500 dark:text-gray-400">@attachment.TextPreview</p>
+                                                    }
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </ChatResponse>
+
+                            @if (message.Sources?.Count > 0)
+                            {
+                                <Sources Count="message.Sources.Count">
+                                    <SourcesTrigger />
+                                    <SourcesContent>
+                                        @foreach (var source in message.Sources)
+                                        {
+                                            <ChatSource Href="@source.Href">@source.Title</ChatSource>
+                                        }
+                                    </SourcesContent>
+                                </Sources>
+                            }
+                        </ChatMessageContent>
+
+                        <ChatActions Class="@(message.Role == ChatMessageRole.Assistant ? "justify-start -ml-3" : "justify-end ml-3")">
+                            <ChatAction Tooltip="Copy" OnClick="@(() => CopyAsync(message.Text))">
+                                <FileCopyIcon class="h-4 w-4" aria-hidden="true" />
+                            </ChatAction>
+                        </ChatActions>
+                        
+                    </ChatMessage>
+                }
+
+                @if (IsBusy)
+                {
+                    <div class="flex items-center gap-2 px-6 pb-6 text-sm text-gray-500 dark:text-gray-400">
+                        <Loader />
+                        <span>@BusyLabel</span>
+                    </div>
+                }
+            </ConversationContent>
+
+            <ConversationScrollButton />
+        </Conversation>
+
+        <PromptInput OnSubmit="HandleSubmitAsync"
+                     Text="@(InputText ?? string.Empty)"
+                     TextChanged="HandlePromptTextChanged"
+                     AttachmentsChanged="HandleAttachmentsChangedAsync"
+                     GlobalDrop="true"
+                     Multiple="true">
+            <PromptInputHeader>
+                <PromptInputAttachments>
+                    <ChildContent Context="attachment">
+                        <PromptInputAttachment Data="attachment" />
+                    </ChildContent>
+                </PromptInputAttachments>
+            </PromptInputHeader>
+            <PromptInputBody>
+                <PromptInputTextarea Placeholder="Send a message..." />
+            </PromptInputBody>
+            <PromptInputFooter Class="flex-row flex-wrap md:flex-row md:items-center md:justify-between">
+                <div class="flex w-full gap-2">
+                    <PromptInputTools Class="flex grow min-w-0 overflow-x-auto overflow-y-visible whitespace-nowrap md:flex-wrap md:overflow-visible">
+                        <PromptInputActionMenu>
+                            <PromptInputActionMenuTrigger>
+                                <PlusIcon class="h-4 w-4" aria-hidden="true" />
+                            </PromptInputActionMenuTrigger>
+                            <PromptInputActionMenuContent>
+                                <PromptInputActionAddAttachments />
+                            </PromptInputActionMenuContent>
+                        </PromptInputActionMenu>
+
+                        @* Will re-add web search toggle in future release
+                        
+                        <PromptInputButton Variant="PromptInputButtonVariant.Ghost"
+                                        Active="@WebSearchEnabled"
+                                        OnClick="ToggleWebSearchAsync">
+                            <GlobeIcon class="h-4 w-4" aria-hidden="true" />
+                            <span class="hidden lg:flex">@(WebSearchEnabled ? "Search on" : "Search")</span>
+                        </PromptInputButton> *@
+
+                        <PromptInputButton Variant="PromptInputButtonVariant.Ghost" OnClick="@(_ => OpenSettingsModalAsync())">
+                            <GearIcon class="h-4 w-4" aria-hidden="true" />
+                        </PromptInputButton>
+
+                        <span class="ml-2 max-w-1/2 truncate text-xs text-gray-500 dark:text-gray-400 sm:max-w-sm"
+                              title="@ProviderModelLabel">
+                            @ProviderModelLabel
+                        </span>
+                    </PromptInputTools>
+
+                    <PromptInputSubmit Status="@SubmissionStatus"
+                                    Disabled="IsSubmitDisabled"
+                                    Label=""
+                                    SubmittingLabel=""
+                                    StreamingLabel=""
+                                    ErrorLabel=""
+                                    Class="flex-shrink-0">
+                    </PromptInputSubmit>
+                </div>
+
+                <div class="flex flex-1 justify-center space-y-1">
+                    @if (!string.IsNullOrEmpty(AttachmentValidationMessage))
+                    {
+                        <span class="text-xs text-red-500 dark:text-red-400">@AttachmentValidationMessage</span>
+                    }
+                    else if (!string.IsNullOrEmpty(CredentialsValidationMessage))
+                    {
+                        <span class="text-xs text-red-500 dark:text-red-400">@CredentialsValidationMessage</span>
+                    }
+                    else if (!HasConfiguredProviders)
+                    {
+                        <span class="text-xs text-amber-600 dark:text-amber-400">
+                            Add provider API keys via the gear icon to enable provider and model selection.
+                        </span>
+                    }
+                    else if (!HasSelectedProviderConfigured)
+                    {
+                        <span class="text-xs text-amber-600 dark:text-amber-400">
+                            Select a provider that has an API key configured in settings.
+                        </span>
+                    }
+                </div>
+
+            </PromptInputFooter>
+        </PromptInput>
+
+        <Modal Show="IsSettingsModalOpen" ShowChanged="(value) => IsSettingsModalOpen = value" Size="ModalSize.Large">
+            <ModalHeader>
+                <div class="flex flex-col gap-1">
+                    <div class="flex items-center gap-2">
+                        <CogIcon class="h-5 w-5 text-gray-500 dark:text-gray-300" aria-hidden="true" />
+                        <h3 class="text-2xl mt-1 font-semibold text-gray-900 dark:text-white">
+                            Provider credentials
+                        </h3>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                        Set your provider API key(s), provider, then target model. Data stored in local storage.
+                    </p>
+                </div>
+            </ModalHeader>
+            <ModalBody>
+                <div class="space-y-6">
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div class="space-y-2">
+                            <Label For="provider-select" Value="Active provider" />
+                            <Select Id="provider-select" Value="@SelectedProviderKey" ValueChanged="HandleModalProviderChangedAsync">
+                                <option value="">Select a provider</option>
+                                @foreach (var provider in Providers)
+                                {
+                                    <option value="@provider.Key">@provider.DisplayName</option>
+                                }
+                            </Select>
+                            @if (!string.IsNullOrEmpty(ProviderValidationMessage))
+                            {
+                                <p class="text-xs text-red-500 dark:text-red-400">@ProviderValidationMessage</p>
+                            }
+                            else if (IsProviderSelectionValid)
+                            {
+                                <p class="text-xs text-green-600 dark:text-green-400">Provider ready</p>
+                            }
+                        </div>
+                        <div class="space-y-2">
+                            <Label For="model-combobox" Value="Active model" />
+                            <Combobox Id="model-combobox"
+                                      Placeholder="@ModelSelectPlaceholder"
+                                      SearchPlaceholder="Search models"
+                                      Disabled="@(!IsProviderSelectionValid || AvailableModels == null || AvailableModels.Count == 0)"
+                                      Value="@SelectedModelId"
+                                      ValueChanged="HandleModalModelChangedAsync">
+                                <ComboboxItem Value="" Label="@ModelSelectPlaceholder" />
+                                @if (AvailableModels != null)
+                                {
+                                    @foreach (var model in AvailableModels)
+                                    {
+                                        <ComboboxItem Value="@model.Id"
+                                                      Label="@(!string.IsNullOrEmpty(model.Name) ? model.Name : model.Id)" />
+                                    }
+                                }
+                            </Combobox>
+                            @if (IsLoadingModels)
+                            {
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Loading models...</p>
+                            }
+                            else if (!string.IsNullOrEmpty(ModelLoadError))
+                            {
+                                <p class="text-xs text-red-500 dark:text-red-400">@ModelLoadError</p>
+                            }
+
+
+                            @if (!string.IsNullOrEmpty(ModelValidationMessage))
+                            {
+                                <p class="text-xs text-red-500 dark:text-red-400">@ModelValidationMessage</p>
+                            }
+                            else if (IsModelSelectionValid)
+                            {
+                                <p class="text-xs text-green-600 dark:text-green-400">Model ready</p>
+                            }
+                        </div>
+                    </div>
+
+                    @foreach (var provider in Providers)
+                    {
+                        var inputId = $"provider-{provider.Key}";
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <Label For="@inputId" Value="@($"{provider.DisplayName} API key")" />
+                                @if (IsProviderConfigured(provider.Key))
+                                {
+                                    <span class="text-xs font-medium text-green-600 dark:text-green-400">Configured</span>
+                                }
+                                else
+                                {
+                                    <span class="text-xs font-medium text-amber-600 dark:text-amber-400">Populate to Use</span>
+                                }
+                            </div>
+                            <TextInput TValue="string"
+                                       Id="@inputId"
+                                       Value="@GetApiKeyForProvider(provider.Key)"
+                                       ValueChanged="@(EventCallback.Factory.Create<string?>(this, value => HandleProviderApiKeyChangedAsync(provider.Key, value)))"
+                                       Placeholder="Enter API key"
+                                       Type="password"
+                                       Autocomplete="off" />
+                            @if (SelectedProviderKey == provider.Key && !IsProviderConfigured(provider.Key))
+                            {
+                                <p class="text-xs text-red-500 dark:text-red-400">
+                                    API key required for @provider.DisplayName.
+                                </p>
+                            }
+                        </div>
+                    }
+                </div>
+            </ModalBody>
+            <ModalFooter>
+                <div class="flex w-full justify-end">
+                    <Button OnClick="CloseSettingsModal" Disabled="!IsSettingsFormValid">Done</Button>
+                </div>
+            </ModalFooter>
+        </Modal>
+        
+    
+</main>

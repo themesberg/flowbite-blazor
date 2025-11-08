@@ -1,0 +1,47 @@
+@using Flowbite.Components.Markdown
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Text))
+    {
+        if (Role == ChatMessageRole.User)
+        {
+            <p class="text-start">@Text</p>
+        }
+        else
+        {
+            <MarkdownContent Markdown="@Text" />
+        }
+    }
+
+    @if (ChildContent is not null)
+    {
+        @ChildContent
+    }
+</div>
+
+@code {
+    private string BaseClasses => Role == ChatMessageRole.User ? "text-white" : "text-gray-900 dark:text-gray-100";
+
+
+    [Parameter]
+    public ChatMessageRole Role { get; set; } = ChatMessageRole.Assistant;
+
+    /// <summary>
+    /// Optional plain text content rendered as paragraphs.
+    /// </summary>
+    [Parameter]
+    public string? Text { get; set; }
+
+    /// <summary>
+    /// Child content for advanced layouts such as lists or custom markup.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Additional attributes applied to the container element.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

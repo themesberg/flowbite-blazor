@@ -8,7 +8,11 @@
     <base href="/" />
     <link rel="stylesheet" href="DemoApp.styles.css" />
     <link rel="stylesheet" href="_content/Flowbite/flowbite.min.css" />
+    <link rel="stylesheet" href="_content/Flowbite/css/github-dark.min.css" />
     <link rel="stylesheet" href="css/app.min.css" />
+    
+    <!-- KaTeX for math rendering -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha512-fHwaWebuwA7NSF5Qg/af4UeDx9XqUpYpOGgubo3yWu+b2IQR4UeQwbb42Ti7gVAjNtVoI/I9TEoYeu9omwcC6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
 
     <script>
@@ -41,7 +45,43 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="/js/app.js"></script>
     <script src="_content/Flowbite/flowbite.js"></script>
-    <script src="_content/Flowbite/prism.js"></script>
+    <script src="_content/Flowbite/js/prism.js"></script>
+    <script src="_content/Flowbite/js/highlight.min.js"></script>
+    <script src="_content/Flowbite/js/markdown.js"></script>
+    
+    <!-- Mermaid diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: false,
+            theme: 'dark'
+        });
+        
+        window.renderMermaid = async () => {
+            await mermaid.run({
+                querySelector: '.mermaid'
+            });
+        };
+    </script>
+    
+    <!-- KaTeX for math rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" integrity="sha512-LQNxIMR5rXv7o+b1l8+N1EZMfhG7iFZ9HhnbJkTp4zjNr5Wvst75AqUeFDxeRUa7l5vEDyUiAip//r+EFLLCyA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" integrity="sha512-iWiuBS5nt6r60fCz26Nd0Zqe0nbk1ZTIQbl3Kv7kYsX+yKMUFHzjaH2+AnM6vp2Xs+gNmaBAVWJjSmuPw76Efg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        window.renderMath = (element) => {
+            if (typeof renderMathInElement !== 'undefined') {
+                renderMathInElement(element, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\[', right: '\\]', display: true},
+                        {left: '\\(', right: '\\)', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        };
+    </script>
 </body>
 
 </html>

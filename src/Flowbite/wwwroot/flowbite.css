@@ -149,3 +149,188 @@ pre[class^='language-diff-'] > code {
 
 
 /* Styling for the Quick Grid  END --------------------------------------------------------------------------------------------------*/
+
+
+/* Markdown Content Styles BEGIN --------------------------------------------------------------------------------------------------*/
+
+.markdown-content {
+    @apply text-gray-900 dark:text-gray-100;
+}
+
+/* Typography */
+.markdown-content p {
+    @apply mb-4 text-base leading-relaxed;
+}
+
+.markdown-content h1 {
+    @apply text-4xl font-bold mb-4 mt-8 text-gray-900 dark:text-white;
+}
+
+.markdown-content h2 {
+    @apply text-3xl font-bold mb-3 mt-6 text-gray-900 dark:text-white;
+}
+
+.markdown-content h3 {
+    @apply text-2xl font-bold mb-3 mt-5 text-gray-900 dark:text-white;
+}
+
+.markdown-content h4 {
+    @apply text-xl font-bold mb-2 mt-4 text-gray-900 dark:text-white;
+}
+
+.markdown-content h5 {
+    @apply text-lg font-bold mb-2 mt-3 text-gray-900 dark:text-white;
+}
+
+.markdown-content h6 {
+    @apply text-base font-bold mb-2 mt-3 text-gray-900 dark:text-white;
+}
+
+/* Links */
+.markdown-content a {
+    @apply text-blue-600 dark:text-blue-400 hover:underline;
+}
+
+/* Inline Code */
+.markdown-content code:not(pre code) {
+    @apply px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-sm font-mono text-pink-600 dark:text-pink-400;
+}
+
+/* Code Blocks */
+.markdown-content pre {
+    @apply mb-4 rounded-lg overflow-x-auto bg-gray-900 dark:bg-gray-950;
+}
+
+.markdown-content pre code {
+    @apply block p-4 text-sm font-mono text-gray-100 dark:text-gray-200 bg-transparent;
+}
+
+/* Lists */
+.markdown-content ul {
+    @apply mb-4 list-disc list-inside space-y-1 text-gray-900 dark:text-gray-100;
+}
+
+.markdown-content ol {
+    @apply mb-4 list-decimal list-inside space-y-1 text-gray-900 dark:text-gray-100;
+}
+
+.markdown-content li {
+    @apply leading-relaxed;
+}
+
+.markdown-content ul ul,
+.markdown-content ol ol,
+.markdown-content ul ol,
+.markdown-content ol ul {
+    @apply ml-6 mt-1 mb-1;
+}
+
+/* Task Lists */
+.markdown-content input[type="checkbox"] {
+    @apply mr-2 h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500;
+}
+
+.markdown-content li input[type="checkbox"] {
+    @apply align-middle;
+}
+
+/* Tables */
+.markdown-content table {
+    @apply w-full mb-4 border-collapse text-sm;
+}
+
+.markdown-content thead {
+    @apply bg-gray-50 dark:bg-gray-700;
+}
+
+.markdown-content thead th {
+    @apply px-4 py-2 text-left font-semibold text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-600;
+}
+
+.markdown-content tbody tr {
+    @apply border-b border-gray-200 dark:border-gray-700;
+}
+
+.markdown-content tbody tr:hover {
+    @apply bg-gray-50 dark:bg-gray-800;
+}
+
+.markdown-content tbody td {
+    @apply px-4 py-2 text-gray-900 dark:text-gray-100;
+}
+
+/* Blockquotes */
+.markdown-content blockquote {
+    @apply mb-4 pl-4 border-l-4 border-gray-300 dark:border-gray-600 italic text-gray-700 dark:text-gray-300;
+}
+
+/* Horizontal Rules */
+.markdown-content hr {
+    @apply my-6 border-t border-gray-300 dark:border-gray-600;
+}
+
+/* Images */
+.markdown-content img {
+    @apply max-w-full h-auto rounded-lg my-4;
+}
+
+/* Strong/Bold */
+.markdown-content strong {
+    @apply font-bold text-gray-900 dark:text-white;
+}
+
+/* Emphasis/Italic */
+.markdown-content em {
+    @apply italic;
+}
+
+/* Muted Variant for Reasoning Content */
+.markdown-content-muted {
+    @apply text-gray-400 dark:text-gray-400;
+}
+
+.markdown-content-muted p,
+.markdown-content-muted h1,
+.markdown-content-muted h2,
+.markdown-content-muted h3,
+.markdown-content-muted h4,
+.markdown-content-muted h5,
+.markdown-content-muted h6 {
+    @apply text-gray-400 dark:text-gray-400;
+}
+
+.markdown-content-muted a {
+    @apply text-gray-500 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400;
+}
+
+.markdown-content-muted strong {
+    @apply font-bold text-gray-400 dark:text-gray-400;
+}
+
+.markdown-content-muted code:not(pre code) {
+    @apply text-gray-500 dark:text-gray-500 bg-gray-100 dark:bg-gray-700;
+}
+
+.markdown-content-muted pre code {
+    @apply text-gray-400 dark:text-gray-400;
+}
+
+.markdown-content-muted blockquote {
+    @apply text-gray-500 dark:text-gray-500 border-gray-400 dark:border-gray-600;
+}
+
+.markdown-content-muted thead th {
+    @apply text-gray-400 dark:text-gray-400;
+}
+
+.markdown-content-muted tbody td {
+    @apply text-gray-400 dark:text-gray-400;
+}
+
+.markdown-content-muted ul,
+.markdown-content-muted ol,
+.markdown-content-muted li {
+    @apply text-gray-400 dark:text-gray-400;
+}
+
+/* Markdown Content Styles END --------------------------------------------------------------------------------------------------*/

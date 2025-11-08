@@ -207,6 +207,12 @@ public partial class Dropdown : IDisposable
     private string Id = $"dropdown-{Guid.NewGuid()}";
     private bool IsOpen;
 
+    /// <summary>
+    /// Additional classes applied to the dropdown menu surface.
+    /// </summary>
+    [Parameter]
+    public string? MenuClass { get; set; }
+
     private async Task ToggleDropdown(MouseEventArgs args)
     {
         if (OnTriggerClick.HasDelegate)
@@ -287,14 +293,18 @@ public partial class Dropdown : IDisposable
             _ => "origin-top-left top-1/2 -translate-y-1/2" // Left is default
         };
 
-        return CombineClasses(string.Join(" ", new[]
+        var baseClasses = string.Join(" ", new[]
         {
-            "absolute z-10 min-w-[180px] rounded shadow focus:outline-none",
+            "absolute min-w-[180px] rounded shadow focus:outline-none",
             "divide-y divide-gray-100",
             "border border-gray-200 bg-white text-gray-900 dark:border-none dark:bg-gray-700 dark:text-white",
             positionClass,
             alignmentClass
-        }));
+        });
+
+        var zClass = string.IsNullOrWhiteSpace(MenuClass) ? "z-10" : MenuClass;
+
+        return CombineClasses(baseClasses, zClass);
     }
 
     public void Dispose()
