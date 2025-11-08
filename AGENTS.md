@@ -55,6 +55,7 @@
 - When fixing bugs, reproduce them in the demo first, then validate the fix there.
 - Ensure `src/Flowbite/wwwroot/flowbite.min.css` is regenerated as part of builds and committed whenever component styles change.
 - **Non‑negotiable:** drive every meaningful UI verification through the Playwright MCP server (`mcp__playwright__browser_*`). Treat these scripted runs as mandatory—launch the DemoApp, navigate to the affected surface, and capture evidence (screenshots or DOM state) before calling a change “done.”
+- After finishing verification, stop any locally running DemoApp instances so the next person can launch it cleanly.
 
 ## Problem-Solving Approach
 1. Analyze and form a hypothesis before modifying code.

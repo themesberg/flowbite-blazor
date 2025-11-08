@@ -3,6 +3,7 @@
 @using Flowbite.Components
 @using Flowbite.Components.Chat
 @using Flowbite.Icons
+@using System.Threading.Tasks
 
 <PageTitle>AI Chat - Flowbite Blazor</PageTitle>
 
@@ -10,8 +11,8 @@
 
 
         <section class="hidden flex-none flex-col max-w-4xl mx-auto space-y-1 py-2 lg:flex">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">AI Chat Playground</h2>
-            <p class=" text-gray-600 dark:text-gray-300">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">AI Chat Playground</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-300">
                 Connect to your preferred AI provider, supply a secure API key, and explore Flowbite chat primitives backed by 
                 <a class="underline text-primary-600 dark:text-primary-500 font-medium" target="_blank" rel="noreferrer" href="https://llmtornado.ai/">LLM Tornado</a>.
                 Renders Markdown with support for Mermaid diagrams and Mathematical expressions
@@ -135,7 +136,7 @@
                     </PromptInputSubmit>
                 </div>
 
-                <div class="flex flex-1 justify-center max-w-sm space-y-1">
+                <div class="flex flex-1 justify-center space-y-1">
                     @if (!string.IsNullOrEmpty(CredentialsValidationMessage))
                     {
                         <span class="text-xs text-red-500 dark:text-red-400">@CredentialsValidationMessage</span>
@@ -157,9 +158,7 @@
             </PromptInputFooter>
         </PromptInput>
 
-        <Modal Show="IsSettingsModalOpen"
-               ShowChanged="(value) => IsSettingsModalOpen = value"
-               Size="ModalSize.Large">
+        <Modal Show="IsSettingsModalOpen" ShowChanged="(value) => IsSettingsModalOpen = value" Size="ModalSize.Large">
             <ModalHeader>
                 <div class="flex flex-col gap-1">
                     <div class="flex items-center gap-2">
@@ -178,15 +177,21 @@
                     <div class="grid gap-4 md:grid-cols-2">
                         <div class="space-y-2">
                             <Label For="provider-select" Value="Active provider" />
-                            <Select Id="provider-select"
-                                    Value="@SelectedProviderKey"
-                                    ValueChanged="HandleModalProviderChangedAsync">
+                            <Select Id="provider-select" Value="@SelectedProviderKey" ValueChanged="HandleModalProviderChangedAsync">
                                 <option value="">Select a provider</option>
                                 @foreach (var provider in Providers)
                                 {
                                     <option value="@provider.Key">@provider.DisplayName</option>
                                 }
                             </Select>
+                            @if (!string.IsNullOrEmpty(ProviderValidationMessage))
+                            {
+                                <p class="text-xs text-red-500 dark:text-red-400">@ProviderValidationMessage</p>
+                            }
+                            else if (IsProviderSelectionValid)
+                            {
+                                <p class="text-xs text-green-600 dark:text-green-400">Provider ready</p>
+                            }
                         </div>
                         <div class="space-y-2">
                             <Label For="model-select" Value="Active model" />
@@ -211,9 +216,15 @@
                             {
                                 <p class="text-xs text-red-500 dark:text-red-400">@ModelLoadError</p>
                             }
-                            else if (!HasSelectedProviderConfigured)
+
+
+                            @if (!string.IsNullOrEmpty(ModelValidationMessage))
                             {
-                                <p class="text-xs text-gray-500 dark:text-gray-400">Add an API key for the selected provider to load models.</p>
+                                <p class="text-xs text-red-500 dark:text-red-400">@ModelValidationMessage</p>
+                            }
+                            else if (IsModelSelectionValid)
+                            {
+                                <p class="text-xs text-green-600 dark:text-green-400">Model ready</p>
                             }
                         </div>
                     </div>
@@ -240,13 +251,19 @@
                                        Placeholder="Enter API key"
                                        Type="password"
                                        Autocomplete="off" />
+                            @if (SelectedProviderKey == provider.Key && !IsProviderConfigured(provider.Key))
+                            {
+                                <p class="text-xs text-red-500 dark:text-red-400">
+                                    API key required for @provider.DisplayName.
+                                </p>
+                            }
                         </div>
                     }
                 </div>
             </ModalBody>
             <ModalFooter>
                 <div class="flex w-full justify-end">
-                    <Button OnClick="CloseSettingsModal">Done</Button>
+                    <Button OnClick="CloseSettingsModal" Disabled="!IsSettingsFormValid">Done</Button>
                 </div>
             </ModalFooter>
         </Modal>

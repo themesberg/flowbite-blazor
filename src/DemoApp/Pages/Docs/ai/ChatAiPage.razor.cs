@@ -75,7 +75,17 @@ public partial class ChatAiPage : ComponentBase
         IsBusy ||
         string.IsNullOrWhiteSpace(InputText) ||
         !HasSelectedProviderConfigured ||
-        string.IsNullOrWhiteSpace(SelectedModelId);
+        string.IsNullOrWhiteSpace(SelectedModelId) ||
+        SelectedModelId == ModelSelectPlaceholder;
+    private string? ProviderValidationMessage { get; set; }
+    private string? ModelValidationMessage { get; set; }
+    private bool IsProviderSelectionValid =>
+        !string.IsNullOrWhiteSpace(SelectedProviderKey) &&
+        IsProviderConfigured(SelectedProviderKey);
+    private bool IsModelSelectionValid =>
+        IsProviderSelectionValid &&
+        !string.IsNullOrWhiteSpace(SelectedModelId);
+    private bool IsSettingsFormValid => IsProviderSelectionValid && IsModelSelectionValid;
 
     // Model cache: key = "{providerKey}_{apiKeyHash}"
     private static readonly Dictionary<string, List<RetrievedModel>> ModelCache = new();
@@ -108,7 +118,39 @@ public partial class ChatAiPage : ComponentBase
     private Task ToggleWebSearchAsync()
     {
         WebSearchEnabled = !WebSearchEnabled;
+        UpdateSettingsValidation();
         return Task.CompletedTask;
+    }
+
+    private void UpdateSettingsValidation()
+    {
+        if (string.IsNullOrWhiteSpace(SelectedProviderKey))
+        {
+            ProviderValidationMessage = "Select a provider.";
+        }
+        else if (!IsProviderConfigured(SelectedProviderKey))
+        {
+            ProviderValidationMessage = $"Enter an API key for {GetProviderDisplayName(SelectedProviderKey)}.";
+        }
+        else
+        {
+            ProviderValidationMessage = null;
+        }
+
+        if (!IsProviderSelectionValid)
+        {
+            ModelValidationMessage = "Select and configure a provider before choosing a model.";
+        }
+        else if (string.IsNullOrWhiteSpace(SelectedModelId))
+        {
+            ModelValidationMessage = "Select a model.";
+        }
+        else
+        {
+            ModelValidationMessage = null;
+        }
+
+        _ = InvokeAsync(StateHasChanged);
     }
 
     private async Task HandleProviderChangedAsync(string? value)
@@ -119,6 +161,7 @@ public partial class ChatAiPage : ComponentBase
             SelectedModelId = null;
             ModelLoadError = null;
             await PersistSelectionAsync();
+            UpdateSettingsValidation();
             return;
         }
 
@@ -140,6 +183,7 @@ public partial class ChatAiPage : ComponentBase
         }
 
         await PersistSelectionAsync();
+        UpdateSettingsValidation();
     }
 
     private async Task HandleModelChangedAsync(string? value)
@@ -173,11 +217,13 @@ public partial class ChatAiPage : ComponentBase
         SelectedModelId = value;
         PreviousModelId = value;
         await PersistSelectionAsync();
+        UpdateSettingsValidation();
     }
 
     private async Task OpenSettingsModalAsync()
     {
         IsSettingsModalOpen = true;
+        UpdateSettingsValidation();
 
         if (!string.IsNullOrEmpty(SelectedProviderKey) &&
             IsProviderConfigured(SelectedProviderKey) &&
@@ -249,6 +295,7 @@ public partial class ChatAiPage : ComponentBase
         }
 
         await PersistSelectionAsync();
+        UpdateSettingsValidation();
         await InvokeAsync(StateHasChanged);
     }
 
@@ -300,6 +347,7 @@ public partial class ChatAiPage : ComponentBase
         }
 
         await InvokeAsync(StateHasChanged);
+        UpdateSettingsValidation();
     }
 
     private async Task LoadSelectionStateAsync()
@@ -351,6 +399,7 @@ public partial class ChatAiPage : ComponentBase
         }
         
         await InvokeAsync(StateHasChanged);
+        UpdateSettingsValidation();
     }
 
     private async Task PersistSelectionAsync()
@@ -388,12 +437,14 @@ public partial class ChatAiPage : ComponentBase
                 SelectedModelId = null;
                 ModelLoadError = null;
             }
+            UpdateSettingsValidation();
             return;
         }
 
         if (!string.IsNullOrEmpty(SelectedProviderKey) && IsProviderConfigured(SelectedProviderKey))
         {
             CredentialsValidationMessage = null;
+            UpdateSettingsValidation();
             return;
         }
 
@@ -403,6 +454,8 @@ public partial class ChatAiPage : ComponentBase
         {
             CredentialsValidationMessage = null;
         }
+
+        UpdateSettingsValidation();
     }
 
     private string? GetApiKeyForProvider(string providerKey)
@@ -454,6 +507,7 @@ public partial class ChatAiPage : ComponentBase
         if (string.IsNullOrWhiteSpace(providerKey) || 
             string.IsNullOrWhiteSpace(apiKey))
         {
+            UpdateSettingsValidation();
             return;
         }
 
@@ -461,6 +515,7 @@ public partial class ChatAiPage : ComponentBase
         {
             ModelLoadError = $"Add an API key for {GetProviderDisplayName(providerKey)} in settings.";
             await InvokeAsync(StateHasChanged);
+            UpdateSettingsValidation();
             return;
         }
 
@@ -470,6 +525,7 @@ public partial class ChatAiPage : ComponentBase
         {
             AvailableModels = cachedModels;
             SelectDefaultModel();
+            UpdateSettingsValidation();
             return;
         }
 
@@ -485,6 +541,7 @@ public partial class ChatAiPage : ComponentBase
             if (providerEnum == LLmProviders.Unknown)
             {
                 ModelLoadError = $"Unknown provider: {providerKey}";
+                UpdateSettingsValidation();
                 return;
             }
 
@@ -515,6 +572,7 @@ public partial class ChatAiPage : ComponentBase
                 {
                     SelectedModelId = defaultModel;
                 }
+                UpdateSettingsValidation();
                 return;
             }
 
@@ -542,6 +600,7 @@ public partial class ChatAiPage : ComponentBase
         {
             IsLoadingModels = false;
             await InvokeAsync(StateHasChanged);
+            UpdateSettingsValidation();
         }
     }
 
