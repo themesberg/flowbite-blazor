@@ -72,6 +72,21 @@ public partial class TextInput<TValue> : IDisposable
     [Parameter] public string? HelperText { get; set; }
 
     /// <summary>
+    /// Gets or sets the regular expression pattern used for client-side validation.
+    /// </summary>
+    [Parameter] public string? Pattern { get; set; }
+
+    /// <summary>
+    /// Gets or sets the HTML title attribute.
+    /// </summary>
+    [Parameter] public string? Title { get; set; }
+
+    /// <summary>
+    /// Gets or sets the HTML inputmode attribute for improved mobile keyboard hints.
+    /// </summary>
+    [Parameter] public string? InputMode { get; set; }
+
+    /// <summary>
     /// Gets or sets the icon displayed on the left side of the input.
     /// </summary>
     [Parameter] public IconBase? Icon { get; set; }
@@ -227,41 +242,66 @@ public partial class TextInput<TValue> : IDisposable
 
     private string? CurrentValueAsString
     {
-        get => Value?.ToString();
+        get => Value switch
+        {
+            null => string.Empty,
+            _ => Value!.ToString()
+        };
         set
         {
-            var success = false;
-            var parsedValue = default(TValue);
+            var underlyingType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+            var isNullable = Nullable.GetUnderlyingType(typeof(TValue)) != null || !underlyingType.IsValueType;
 
-            if (typeof(TValue) == typeof(int))
+            if (string.IsNullOrEmpty(value))
+            {
+                if (underlyingType == typeof(string))
+                {
+                    Value = (TValue)(object)string.Empty;
+                }
+                else if (isNullable)
+                {
+                    Value = default!;
+                }
+                else
+                {
+                    Value = default!;
+                }
+                _ = ValueChanged.InvokeAsync(Value);
+                return;
+            }
+
+            object? parsedValue = null;
+            var success = false;
+
+            if (underlyingType == typeof(int))
             {
                 success = int.TryParse(value, out var result);
-                parsedValue = (TValue)(object)result;
+                parsedValue = result;
             }
-            else if (typeof(TValue) == typeof(decimal))
+            else if (underlyingType == typeof(decimal))
             {
                 success = decimal.TryParse(value, out var result);
-                parsedValue = (TValue)(object)result;
+                parsedValue = result;
             }
-            else if (typeof(TValue) == typeof(double))
+            else if (underlyingType == typeof(double))
             {
                 success = double.TryParse(value, out var result);
-                parsedValue = (TValue)(object)result;
+                parsedValue = result;
             }
-            else if (typeof(TValue) == typeof(float))
+            else if (underlyingType == typeof(float))
             {
                 success = float.TryParse(value, out var result);
-                parsedValue = (TValue)(object)result;
+                parsedValue = result;
             }
-            else if (typeof(TValue) == typeof(string))
+            else if (underlyingType == typeof(string))
             {
                 success = true;
-                parsedValue = (TValue)(object)(value ?? string.Empty);
+                parsedValue = value ?? string.Empty;
             }
 
-            if (success && !EqualityComparer<TValue>.Default.Equals(parsedValue, Value))
+            if (success)
             {
-                Value = parsedValue;
+                Value = (TValue)(parsedValue ?? default!);
                 _ = ValueChanged.InvokeAsync(Value);
             }
         }

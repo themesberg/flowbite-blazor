@@ -1,5 +1,7 @@
 @page "/docs/components/forms"
 @using Flowbite.Icons
+@using Flowbite.Components
+@using System.Collections.Generic
 
 <PageTitle>Forms - Flowbite Blazor</PageTitle>
 
@@ -213,6 +215,36 @@
                         </Select>
                     </div>
                 </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample 
+            Title="Combobox field"
+            Description="Combobox provides a Flowbite-styled dropdown with a built-in search box for long lists."
+            RazorCode="@(@"<Combobox Placeholder=""Select a country""
+           @bind-Value=""_comboboxCountry"">
+    <ComboboxItem Value=""US"" Label=""United States"" />
+    <ComboboxItem Value=""CA"" Label=""Canada"" />
+    <ComboboxItem Value=""DE"" Label=""Germany"" />
+    <ComboboxItem Value=""FR"" Label=""France"" />
+    <ComboboxItem Value=""JP"" Label=""Japan"" />
+</Combobox>
+
+<p class=""text-sm text-gray-500 mt-2"">
+    Selected: @_comboboxCountry
+</p>")">
+            <PreviewContent>
+                <Combobox Placeholder="Select a country"
+                          @bind-Value="_comboboxCountry">
+                    @foreach (var country in _comboboxCountries)
+                    {
+                        <ComboboxItem Value="@country.Code" Label="@country.Name" />
+                    }
+                </Combobox>
+
+                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                    Selected: @(_comboboxCountry ?? "None")
+                </p>
             </PreviewContent>
         </ComponentExample>
 
@@ -577,4 +609,17 @@
     private string successInput = "Success input";
     private string errorInput = "Error input";
     private string disabledInput = "Disabled input";
+
+    private string? _comboboxCountry;
+    private readonly List<(string Name, string Code)> _comboboxCountries = new()
+    {
+        ("United States", "US"),
+        ("Canada", "CA"),
+        ("Germany", "DE"),
+        ("France", "FR"),
+        ("Japan", "JP"),
+        ("Brazil", "BR"),
+        ("Australia", "AU"),
+        ("South Africa", "ZA"),
+    };
 }

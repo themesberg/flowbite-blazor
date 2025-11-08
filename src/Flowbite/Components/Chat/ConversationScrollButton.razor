@@ -1,0 +1,12 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+@if (ShouldRenderButton)
+{
+    <button type="button"
+            class="@CombineClasses(BaseClasses)"
+            @onclick="HandleScrollClick"
+            aria-label="Scroll to latest message"
+            @attributes="AdditionalAttributes">
+        <ChevronDownIcon class="" aria-hidden="true" />
+    </button>
+}

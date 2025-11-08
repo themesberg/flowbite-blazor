@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <Version>0.0.31-alpha</Version>
+    <Version>0.1.0-beta</Version>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -20,11 +20,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
     <PackageReference Include="BlazorWasmPreRendering.Build" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.0" PrivateAssets="all" />
+    <PackageReference Include="LlmTornado" Version="3.8.14" />
   </ItemGroup>
+
 
   <!-- Documentation Build Target -->
   <Target Name="BuildLlmsContext" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
@@ -32,13 +35,34 @@
   </Target>
 
   <!-- Tailwind CSS Build Targets -->
-  <Target Name="Tailwind" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
-    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --minify --postcss" />
+ 
+  <Target Name="TailwindBuild" BeforeTargets="Build" Condition="'$(OS)'=='Windows_NT' and '$(DisableTailwind)' != 'true' and '$(Configuration)' != 'Release'">
+    <Error Condition="!Exists('..\..\tools\tailwindcss.exe')" Text="Tailwind executable not found at ..\..\tools\tailwindcss.exe" />
+    <Exec 
+      Command="..\..\tools\tailwindcss.exe -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --minify --postcss" 
+      ConsoleToMSBuild="true"
+      StandardOutputImportance="high"
+      StandardErrorImportance="high"
+      IgnoreExitCode="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="TailwindOutput" />
+      <Output TaskParameter="ExitCode" PropertyName="TailwindExitCode" />
+    </Exec>
+    <Error Condition="'$(TailwindExitCode)' != '0'" Text="Tailwind command failed with exit code $(TailwindExitCode). Output: $(TailwindOutput)" />
   </Target>
 
-<!--  <Target Name="TailwindWatch" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">-->
-<!--    <Exec Command="..\..\tools\tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css &#45;&#45;watch &#45;&#45;postcss" />-->
-<!--  </Target>-->
+  <Target Name="TailwindBuild" BeforeTargets="Build" Condition="'$(OS)'!='Windows_NT' and '$(DisableTailwind)' != 'true' and '$(Configuration)' != 'Release'">
+    <Error Condition="!Exists('../../tools/tailwindcss')" Text="Tailwind executable not found at ../../tools/tailwindcss" />
+    <Exec 
+      Command="../../tools/tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --minify --postcss" 
+      ConsoleToMSBuild="true"
+      StandardOutputImportance="high"
+      StandardErrorImportance="high"
+      IgnoreExitCode="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="TailwindOutput" />
+      <Output TaskParameter="ExitCode" PropertyName="TailwindExitCode" />
+    </Exec>
+    <Error Condition="'$(TailwindExitCode)' != '0'" Text="Tailwind command failed with exit code $(TailwindExitCode). Output: $(TailwindOutput)" />
+  </Target>
 
   <Target Name="DisableTailwindOnPublish" BeforeTargets="Publish">
     <PropertyGroup>
@@ -54,8 +78,8 @@
 
   <!-- Use package references for Release builds -->
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="Flowbite" Version="0.0.*-*" />
-    <PackageReference Include="Flowbite.ExtendedIcons" Version="0.0.*-*" />
+    <PackageReference Include="Flowbite" Version="0.1.*-*" />
+    <PackageReference Include="Flowbite.ExtendedIcons" Version="*-*" />
   </ItemGroup>
 
   <!-- Use project references for Debug/Development -->

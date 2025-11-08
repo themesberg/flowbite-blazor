@@ -1,0 +1,8 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+@if (ModelContext.IsOpen)
+{
+    <div class="@CombineClasses(BaseClasses)" role="listbox" @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+}

@@ -1,0 +1,89 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+@if (!string.IsNullOrWhiteSpace(Tooltip))
+{
+    <Tooltip Content="@Tooltip"
+             Placement="@Flowbite.Components.Tooltip.TooltipPlacement.Auto"
+             Arrow="false">
+        @ButtonFragment
+    </Tooltip>
+}
+else
+{
+    @ButtonFragment
+}
+
+@code {
+    private string BaseClasses =>
+        "relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-transparent " +
+        "bg-transparent p-1.5 text-gray-500 transition hover:border-gray-200 hover:bg-gray-100 hover:text-gray-900 " +
+        "focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:pointer-events-none disabled:opacity-50 " +
+        "dark:text-gray-400 dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white";
+
+    /// <summary>
+    /// Text used for tooltip and screen reader context.
+    /// </summary>
+    [Parameter]
+    public string? Tooltip { get; set; }
+
+    /// <summary>
+    /// Optional label for screen readers. Defaults to the tooltip text.
+    /// </summary>
+    [Parameter]
+    public string? Label { get; set; }
+
+    /// <summary>
+    /// Disables the action button.
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    /// <summary>
+    /// Button type attribute value. Defaults to <c>button</c>.
+    /// </summary>
+    [Parameter]
+    public string ButtonType { get; set; } = "button";
+
+    /// <summary>
+    /// Additional html attributes applied to the button element.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>
+    /// Display content, typically an icon.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Callback invoked when the button is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    private RenderFragment ButtonFragment => builder =>
+    {
+        builder.OpenElement(0, "button");
+        builder.AddMultipleAttributes(1, AdditionalAttributes);
+        builder.AddAttribute(2, "type", ButtonType);
+        builder.AddAttribute(3, "class", CombineClasses(BaseClasses));
+        builder.AddAttribute(4, "disabled", Disabled);
+        builder.AddAttribute(5, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, HandleClickAsync));
+        builder.AddAttribute(6, "aria-label", GetAriaLabel());
+        builder.AddContent(7, ChildContent);
+        builder.CloseElement();
+    };
+
+    private string GetAriaLabel() => Label ?? Tooltip ?? "Action";
+
+    private async Task HandleClickAsync(MouseEventArgs args)
+    {
+        if (Disabled)
+        {
+            return;
+        }
+
+        await OnClick.InvokeAsync(args);
+    }
+}

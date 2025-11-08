@@ -13,18 +13,25 @@ Thank you for your interest in contributing to Flowbite Blazor! This document pr
 
 1. Install standalone Tailwind CSS CLI executable:
 
-   Mac/Linux:
+   Mac:
 
    ```bash
-   mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss
+   mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss  && cd ..
    ```
+
+   Linux:
+
+   ```bash
+   mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-linux-x64  && chmod +x tailwindcss-linux-x64 && mv tailwindcss-linux-x64 tailwindcss && cd ..
+   ```
+
 
    Windows:
 
    ```pwsh
    mkdir ./tools -Force; `
    cd ./tools; `
-   Invoke-WebRequest -Uri "https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe" `
+   Invoke-WebRequest -Uri "https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-windows-x64.exe" `
       -OutFile "tailwindcss.exe" `
       -UseBasicParsing ; `
    cd ..

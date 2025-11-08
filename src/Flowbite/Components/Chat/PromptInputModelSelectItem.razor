@@ -1,0 +1,17 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<button type="button"
+        role="option"
+        class="@CombineClasses(GetItemClasses())"
+        @onclick="HandleClickAsync"
+        aria-selected="@(ModelContext.Value == Value)"
+        @attributes="AdditionalAttributes">
+    @if (ChildContent is not null)
+    {
+        @ChildContent
+    }
+    else
+    {
+        <span>@Label</span>
+    }
+</button>

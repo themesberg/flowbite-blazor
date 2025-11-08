@@ -22,12 +22,12 @@
                                         ActiveClass="bg-primary-50 dark:bg-primary-900"
                                         Match="NavLinkMatch.All"
                                         @onclick="HandleItemClick">
-                                    @if (item.IsNew)
+                                    @if (item.Status is not DocLayoutSidebarItem.StatusType.None)
                                     {
                                         <span class="flex items-center gap-2">
                                             @item.Title
                                             <span class="ml-2 inline-flex h-[1.1rem] items-center rounded border border-primary-100 bg-primary-100 px-1.5 text-[10px] font-semibold uppercase text-primary-800 dark:border-primary-400 dark:bg-gray-700 dark:text-primary-400">
-                                                new
+                                                @item.Status.ToString()
                                             </span>
                                         </span>
                                     }

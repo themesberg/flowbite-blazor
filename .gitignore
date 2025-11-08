@@ -502,10 +502,13 @@ CapitalComparison/
 [Oo]utput/
 [Dd]ist/
 src/DemoApp/wwwroot/llms-ctx.txt
-tailwindcss*.*
+# Tailwind CSS CLI executables
+tools/tailwindcss
+tools/tailwindcss.exe
 dotnet/
 dotnet-install.sh
 
 
 .playwright-mcp/
 verification/
+src/nuget.config

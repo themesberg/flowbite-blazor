@@ -1,0 +1,8 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+@if (ChildContent is not null)
+{
+    <header class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
+        @ChildContent
+    </header>
+}

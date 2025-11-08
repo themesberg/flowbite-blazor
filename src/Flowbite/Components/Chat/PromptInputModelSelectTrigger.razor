@@ -1,0 +1,9 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<button type="button"
+        class="@CombineClasses(BaseClasses)"
+        @onclick="HandleClick"
+        aria-haspopup="listbox"
+        aria-expanded="@ModelContext.IsOpen">
+    @ChildContent
+</button>

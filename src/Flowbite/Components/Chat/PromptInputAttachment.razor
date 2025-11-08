@@ -1,0 +1,33 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
+    <div class="flex items-center gap-3">
+        @if (HasPreview)
+        {
+            <div class="relative h-12 w-12 overflow-hidden rounded-xl border border-gray-200/60 bg-gray-50 dark:border-white/10 dark:bg-slate-900/60">
+                <img src="@_previewDataUrl"
+                     alt="@PreviewAltText"
+                     class="h-full w-full object-cover"
+                     draggable="false" />
+            </div>
+        }
+        else
+        {
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 text-gray-500 dark:bg-slate-900 dark:text-gray-400">
+                <PaperClipIcon class="h-5 w-5" aria-hidden="true" />
+            </div>
+        }
+
+        <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-medium text-gray-800 dark:text-gray-100">@Data?.Name</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">@FormatSize(Data?.Size ?? 0)</p>
+        </div>
+    </div>
+
+    <button type="button"
+            class="absolute right-3 top-3 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/95 text-gray-500 opacity-0 shadow transition hover:bg-gray-100 hover:text-gray-900 focus-visible:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary-400 group-hover:opacity-100 dark:bg-slate-900/80 dark:text-gray-300 dark:hover:bg-slate-800"
+            @onclick="RemoveAsync"
+            aria-label="Remove attachment">
+        <CloseIcon class="h-3.5 w-3.5" aria-hidden="true" />
+    </button>
+</div>

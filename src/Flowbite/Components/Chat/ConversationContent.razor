@@ -1,0 +1,12 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<div class="@CombineClasses(BaseClasses)"
+     role="@RoleAttribute"
+     aria-live="@AriaLiveAttribute"
+     aria-relevant="@AriaRelevantAttribute"
+     aria-atomic="@AriaAtomicAttribute"
+     @attributes="AdditionalAttributes">
+     <div class="flex flex-col max-w-4xl px-2 mx-auto">
+        @ChildContent
+    </div>
+</div>

@@ -1,0 +1,17 @@
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+<CascadingValue Value="_context" IsFixed="false">
+    <section class="sticky bottom-0 z-1 mx-auto flex w-full max-w-4xl gap-2 border-t-0 bg-background px-2 pb-3 md:px-4 md:pb-4">
+        <div class="@CombineClasses(ContainerClasses, _isDragActive ? DragActiveClasses : null)"
+            @ref="_container"
+            @attributes="AdditionalAttributes">
+            <form class="flex flex-col gap-2" @onsubmit="HandleSubmitAsync" @onsubmit:preventDefault>
+                @ChildContent
+            </form>
+            <InputFile @ref="_fileInput"
+                    OnChange="HandleFileChangedAsync"
+                    class="hidden"
+                    multiple="@AllowMultipleFiles" />
+        </div>
+    </section>
+</CascadingValue>

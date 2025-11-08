@@ -8,9 +8,18 @@ public class DocLayoutSidebarSection
 
 public class DocLayoutSidebarItem
 {
+    public enum StatusType
+    {
+        None,
+        New,
+        Updated
+    }
+
     public string Title { get; set; } = string.Empty;
     public string Href { get; set; } = string.Empty;
-    public bool IsNew { get; set; }
+    public StatusType Status { get; set; } = StatusType.None;
+
+    public bool IsUpdated { get; set; }
     public bool IsExternal { get; set; }
 }
 
@@ -29,6 +38,15 @@ public static class DocLayoutSidebarData
         },
         new DocLayoutSidebarSection
         {
+            Title = "Demo Apps",
+            Items = new List<DocLayoutSidebarItem>
+            {
+                new() { Title = "AI Chat", Href = "/docs/ai/chat", Status = DocLayoutSidebarItem.StatusType.New },
+                new() { Title = "Admin Dashboard", Href = "https://flowbite-blazor-admin-dashboard.pages.dev/", Status = DocLayoutSidebarItem.StatusType.New, IsExternal = true },
+            }
+        },
+        new DocLayoutSidebarSection
+        {
             Title = "Components",
             Items = new List<DocLayoutSidebarItem>
             {
@@ -38,11 +56,12 @@ public static class DocLayoutSidebarData
                 new() { Title = "Breadcrumb", Href = "/docs/components/breadcrumb" },
                 new() { Title = "Button", Href = "/docs/components/button" },
                 new() { Title = "Card", Href = "/docs/components/card" },
-                new() { Title = "Carousel", Href = "/docs/components/carousel", IsNew = true },
+                new() { Title = "Carousel", Href = "/docs/components/carousel", Status = DocLayoutSidebarItem.StatusType.New },
+                new() { Title = "Chatbot", Href = "/docs/components/chatbot", Status = DocLayoutSidebarItem.StatusType.New },
                 new() { Title = "Dropdown", Href = "/docs/components/dropdown" },
                 new() { Title = "Drawer", Href = "/docs/components/drawer" },
                 new() { Title = "Form Validation", Href = "/docs/components/form-validation"},
-                new() { Title = "Forms", Href = "/docs/components/forms" },
+                new() { Title = "Forms", Href = "/docs/components/forms", Status = DocLayoutSidebarItem.StatusType.Updated },
                 new() { Title = "Modal", Href = "/docs/components/modal" },
                 new() { Title = "Navbar", Href = "/docs/components/navbar" },
                 new() { Title = "QuickGrid", Href = "/docs/components/quickgrid" },
@@ -50,8 +69,9 @@ public static class DocLayoutSidebarData
                 new() { Title = "Spinner", Href = "/docs/components/spinner" },
                 new() { Title = "Table", Href = "/docs/components/table"},
                 new() { Title = "Tabs", Href = "/docs/components/tabs" },
+                new() { Title = "Timeline", Href = "/docs/components/timeline", Status = DocLayoutSidebarItem.StatusType.New },
                 new() { Title = "Toast", Href = "/docs/components/toast" }, // Add Toast link here
-                new() { Title = "Toolbar", Href = "/docs/components/toolbar", IsNew = true },
+                new() { Title = "Toolbar", Href = "/docs/components/toolbar", Status = DocLayoutSidebarItem.StatusType.New },
                 new() { Title = "Tooltip", Href = "/docs/components/tooltip" },
             }
         },
@@ -60,9 +80,9 @@ public static class DocLayoutSidebarData
             Title = "Typography",
             Items = new List<DocLayoutSidebarItem>
             {
-                new() { Title = "Heading", Href = "/docs/components/heading", IsNew = true },
-                new() { Title = "Paragraph", Href = "/docs/components/paragraph", IsNew = true },
-                new() { Title = "Span", Href = "/docs/components/span", IsNew = true },
+                new() { Title = "Heading", Href = "/docs/components/heading", Status = DocLayoutSidebarItem.StatusType.New },
+                new() { Title = "Paragraph", Href = "/docs/components/paragraph", Status = DocLayoutSidebarItem.StatusType.New },
+                new() { Title = "Span", Href = "/docs/components/span", Status = DocLayoutSidebarItem.StatusType.New },
             }
         }
     };

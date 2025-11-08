@@ -1,0 +1,16 @@
+@using Flowbite.Components.Markdown
+@inherits Flowbite.Base.FlowbiteComponentBase
+
+@if (Context.IsOpen)
+{
+    <div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
+        @if (!string.IsNullOrEmpty(Text))
+        {
+            <MarkdownContent Markdown="@Text" Variant="MarkdownVariant.Muted" Class="text-sm" />
+        }
+        else
+        {
+            @ChildContent
+        }
+    </div>
+}
