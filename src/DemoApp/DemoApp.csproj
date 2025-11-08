@@ -78,8 +78,8 @@
 
   <!-- Use package references for Release builds -->
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="Flowbite" Version="0.0.*-*" />
-    <PackageReference Include="Flowbite.ExtendedIcons" Version="0.0.*-*" />
+    <PackageReference Include="Flowbite" Version="*-*" />
+    <PackageReference Include="Flowbite.ExtendedIcons" Version="*-*" />
   </ItemGroup>
 
   <!-- Use project references for Debug/Development -->
