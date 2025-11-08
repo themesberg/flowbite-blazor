@@ -135,20 +135,20 @@
                     </PromptInputSubmit>
                 </div>
 
-                <div class="flex flex-1 flex-col max-w-sm space-y-1">
+                <div class="flex flex-1 justify-center max-w-sm space-y-1">
                     @if (!string.IsNullOrEmpty(CredentialsValidationMessage))
                     {
                         <span class="text-xs text-red-500 dark:text-red-400">@CredentialsValidationMessage</span>
                     }
                     else if (!HasConfiguredProviders)
                     {
-                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                        <span class="text-xs text-amber-600 dark:text-amber-400">
                             Add provider API keys via the gear icon to enable provider and model selection.
                         </span>
                     }
                     else if (!HasSelectedProviderConfigured)
                     {
-                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                        <span class="text-xs text-amber-600 dark:text-amber-400">
                             Select a provider that has an API key configured in settings.
                         </span>
                     }
