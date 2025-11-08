@@ -110,7 +110,12 @@
             <ConversationScrollButton />
         </Conversation>
 
-        <PromptInput OnSubmit="HandleSubmitAsync" Text="@(InputText ?? string.Empty)" TextChanged="HandlePromptTextChanged" GlobalDrop="true" Multiple="true">
+        <PromptInput OnSubmit="HandleSubmitAsync"
+                     Text="@(InputText ?? string.Empty)"
+                     TextChanged="HandlePromptTextChanged"
+                     AttachmentsChanged="HandleAttachmentsChangedAsync"
+                     GlobalDrop="true"
+                     Multiple="true">
             <PromptInputHeader>
                 <PromptInputAttachments>
                     <ChildContent Context="attachment">
@@ -163,7 +168,11 @@
                 </div>
 
                 <div class="flex flex-1 justify-center space-y-1">
-                    @if (!string.IsNullOrEmpty(CredentialsValidationMessage))
+                    @if (!string.IsNullOrEmpty(AttachmentValidationMessage))
+                    {
+                        <span class="text-xs text-red-500 dark:text-red-400">@AttachmentValidationMessage</span>
+                    }
+                    else if (!string.IsNullOrEmpty(CredentialsValidationMessage))
                     {
                         <span class="text-xs text-red-500 dark:text-red-400">@CredentialsValidationMessage</span>
                     }

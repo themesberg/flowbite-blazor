@@ -43,6 +43,8 @@ public partial class ChatAiPage : ComponentBase
         !string.IsNullOrWhiteSpace(CurrentApiKey);
     private bool IsSettingsModalOpen { get; set; }
     private string? CredentialsValidationMessage { get; set; }
+    private string? AttachmentValidationMessage { get; set; }
+    private bool HasUnsupportedAttachments { get; set; }
     private bool _suppressSelectionPersistence;
     private const long AttachmentSizeLimitBytes = 5 * 1024 * 1024;
     private const int TextPreviewMaxCharacters = 160;
@@ -81,6 +83,7 @@ public partial class ChatAiPage : ComponentBase
 
     private bool IsSubmitDisabled =>
         IsBusy ||
+        HasUnsupportedAttachments ||
         string.IsNullOrWhiteSpace(InputText) ||
         !HasSelectedProviderConfigured ||
         string.IsNullOrWhiteSpace(SelectedModelId) ||
@@ -692,6 +695,13 @@ public partial class ChatAiPage : ComponentBase
     {
         var text = prompt.Text?.Trim() ?? string.Empty;
 
+        if (HasUnsupportedAttachments)
+        {
+            AttachmentValidationMessage = "PDF attachments are not supported. Remove the file to continue.";
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
         IReadOnlyList<AiChatAttachment> attachments;
         try
         {
@@ -854,6 +864,11 @@ public partial class ChatAiPage : ComponentBase
                 ? "application/octet-stream"
                 : file.ContentType;
 
+            if (IsPdfAttachment(contentType, file.Name))
+            {
+                throw new InvalidOperationException("PDF attachments are not supported.");
+            }
+
             var bytes = await ReadFileBytesAsync(file).ConfigureAwait(false);
             var base64Data = Convert.ToBase64String(bytes);
             var isPlainText = IsPlainTextAttachment(contentType, file.Name);
@@ -883,6 +898,16 @@ public partial class ChatAiPage : ComponentBase
         return payloads;
     }
 
+    private Task HandleAttachmentsChangedAsync(IReadOnlyList<PromptAttachment> attachments)
+    {
+        var hasPdf = attachments?.Any(att => IsPdfAttachment(att.ContentType, att.Name)) ?? false;
+        HasUnsupportedAttachments = hasPdf;
+        AttachmentValidationMessage = hasPdf
+            ? "PDF attachments are not supported yet. Remove the file to continue."
+            : null;
+        return InvokeAsync(StateHasChanged);
+    }
+
     private static async Task<byte[]> ReadFileBytesAsync(IBrowserFile file, CancellationToken cancellationToken = default)
     {
         await using var stream = file.OpenReadStream(AttachmentSizeLimitBytes, cancellationToken);
@@ -903,6 +928,18 @@ public partial class ChatAiPage : ComponentBase
             : attachment.ContentType;
 
         return $"data:{contentType};base64,{attachment.Base64Data}";
+    }
+
+    private static bool IsPdfAttachment(string? contentType, string fileName)
+    {
+        if (!string.IsNullOrWhiteSpace(contentType) &&
+            contentType.Equals("application/pdf", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        var extension = Path.GetExtension(fileName);
+        return string.Equals(extension, ".pdf", StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool IsPlainTextAttachment(string contentType, string fileName)
