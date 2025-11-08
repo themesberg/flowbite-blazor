@@ -5,6 +5,7 @@ using LlmTornado;
 using LlmTornado.Chat;
 using LlmTornado.Chat.Models;
 using LlmTornado.Code;
+using LlmTornado.Images;
 
 /// <summary>
 /// Implementation of AI chat service using LlmTornado.
@@ -53,13 +54,12 @@ public class AiChatService : IAiChatService
             var model = new ChatModel(modelName, provider);
             
             // Build chat request with conversation history
-            var messages = new List<ChatMessage>();
+            var messages = new List<ChatMessage>
+            {
+                new(ChatMessageRoles.System, "You are a helpful AI assistant.")
+            };
 
-            // Add system message
-            messages.Add(new ChatMessage(ChatMessageRoles.System, "You are a helpful AI assistant."));
-            
-            // Add conversation history
-                        if (conversationHistory != null)
+            if (conversationHistory is not null)
             {
                 foreach (var msg in conversationHistory)
                 {
@@ -70,7 +70,8 @@ public class AiChatService : IAiChatService
                         "system" => ChatMessageRoles.System,
                         _ => ChatMessageRoles.User
                     };
-                    messages.Add(new ChatMessage(role, msg.Content ?? string.Empty));
+
+                    messages.Add(CreateChatMessage(role, msg));
                 }
             }
 
@@ -160,5 +161,40 @@ public class AiChatService : IAiChatService
             "cohere" => LLmProviders.Cohere,
             _ => LLmProviders.Unknown
         };
+    }
+    private static ChatMessage CreateChatMessage(ChatMessageRoles role, AiChatMessage message)
+    {
+        var hasAttachments = message.Attachments is { Count: > 0 };
+
+        if (!hasAttachments)
+        {
+            return new ChatMessage(role, message.Content ?? string.Empty);
+        }
+
+        var parts = new List<ChatMessagePart>();
+
+        foreach (var attachment in message.Attachments!)
+        {
+            var contentType = string.IsNullOrWhiteSpace(attachment.ContentType)
+                ? "application/octet-stream"
+                : attachment.ContentType;
+
+            if (attachment.IsImage)
+            {
+                var dataUrl = $"data:{contentType};base64,{attachment.Base64Data}";
+                parts.Add(new ChatMessagePart(dataUrl, ImageDetail.Auto, contentType));
+            }
+            else
+            {
+                parts.Add(new ChatMessagePart(attachment.Base64Data, DocumentLinkTypes.Base64));
+            }
+        }
+
+        if (!string.IsNullOrWhiteSpace(message.Content))
+        {
+            parts.Add(new ChatMessagePart(message.Content!));
+        }
+
+        return new ChatMessage(role, parts);
     }
 }

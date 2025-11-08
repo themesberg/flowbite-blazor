@@ -28,9 +28,28 @@ public interface IAiChatService
 /// <summary>
 /// Represents a message in the chat conversation.
 /// </summary>
-/// <param name="Role">Role of the message sender</param>
-/// <param name="Content">Content of the message</param>
-public sealed record AiChatMessage(string Role, string Content);
+/// <param name="Role">Role of the message sender.</param>
+/// <param name="Content">Content of the message.</param>
+/// <param name="Attachments">Optional attachments included with the message.</param>
+public sealed record AiChatMessage(
+    string Role,
+    string Content,
+    IReadOnlyList<AiChatAttachment>? Attachments = null);
+
+/// <summary>
+/// Represents a file or image attachment submitted with a prompt.
+/// </summary>
+/// <param name="FileName">Display name of the attachment.</param>
+/// <param name="ContentType">MIME type of the attachment.</param>
+/// <param name="Size">Attachment size in bytes.</param>
+/// <param name="Base64Data">Base64-encoded file contents (raw base64, no data URI prefix).</param>
+/// <param name="IsImage">Indicates whether the attachment is an image.</param>
+public sealed record AiChatAttachment(
+    string FileName,
+    string ContentType,
+    long Size,
+    string Base64Data,
+    bool IsImage);
 
 /// <summary>
 /// Response from the AI chat service.

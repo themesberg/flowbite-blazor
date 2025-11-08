@@ -1,12 +1,16 @@
 namespace DemoApp.Pages.Docs.ai;
 
+using System.IO;
+using System.Linq;
 using System.Text.Json;
+using System.Threading;
 using DemoApp.Services;
 using Flowbite.Components.Chat;
 using LlmTornado;
 using LlmTornado.Code;
 using LlmTornado.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 
 /// <summary>
@@ -39,6 +43,7 @@ public partial class ChatAiPage : ComponentBase
     private bool IsSettingsModalOpen { get; set; }
     private string? CredentialsValidationMessage { get; set; }
     private bool _suppressSelectionPersistence;
+    private const long AttachmentSizeLimitBytes = 5 * 1024 * 1024;
 
     private string ProviderModelLabel
     {
@@ -680,17 +685,30 @@ public partial class ChatAiPage : ComponentBase
 
     private async Task HandleSubmitAsync(PromptInputMessage prompt)
     {
-        // Console.WriteLine($"[ChatAiPage] HandleSubmitAsync called");
-        
         var text = prompt.Text?.Trim() ?? string.Empty;
-        var attachments = prompt.Files.Select(f => f.Name).ToList();
-        
-        // Console.WriteLine($"[ChatAiPage] Text: {text}");
-        // Console.WriteLine($"[ChatAiPage] Attachments count: {attachments.Count}");
+
+        IReadOnlyList<AiChatAttachment> attachments;
+        try
+        {
+            attachments = await CreateAttachmentPayloadsAsync(prompt.Files);
+        }
+        catch (InvalidOperationException ex)
+        {
+            Messages.Add(new ChatAiMessage(
+                Id: Guid.NewGuid(),
+                Role: ChatMessageRole.Assistant,
+                Text: $"Attachment error: {ex.Message}"));
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        if (attachments.Count > 0)
+        {
+            Console.WriteLine($"[ChatAiPage] Prepared {attachments.Count} attachment(s): {string.Join(", ", attachments.Select(a => a.FileName))}");
+        }
 
         if (string.IsNullOrWhiteSpace(text) && attachments.Count == 0)
         {
-            // Console.WriteLine($"[ChatAiPage] Returning early: no text or attachments");
             return;
         }
 
@@ -737,7 +755,8 @@ public partial class ChatAiPage : ComponentBase
                 .Where(m => m.Role != ChatMessageRole.System)
                 .Select(m => new Services.AiChatMessage(
                     Role: m.Role.ToString(),
-                    Content: m.Text))
+                    Content: m.Text,
+                    Attachments: m.Attachments))
                 .ToList();
             // Console.WriteLine($"[ChatAiPage] History messages: {history.Count}");
 
@@ -809,6 +828,78 @@ public partial class ChatAiPage : ComponentBase
         }
     }
 
+    private async Task<IReadOnlyList<AiChatAttachment>> CreateAttachmentPayloadsAsync(IReadOnlyList<IBrowserFile> files)
+    {
+        if (files is null || files.Count == 0)
+        {
+            return Array.Empty<AiChatAttachment>();
+        }
+
+        var payloads = new List<AiChatAttachment>(files.Count);
+
+        foreach (var file in files)
+        {
+            if (file.Size > AttachmentSizeLimitBytes)
+            {
+                throw new InvalidOperationException(
+                    $"\"{file.Name}\" ({FormatFileSize(file.Size)}) exceeds the {FormatFileSize(AttachmentSizeLimitBytes)} attachment limit.");
+            }
+
+            var contentType = string.IsNullOrWhiteSpace(file.ContentType)
+                ? "application/octet-stream"
+                : file.ContentType;
+
+            var base64Data = await ReadFileAsBase64Async(file).ConfigureAwait(false);
+            payloads.Add(new AiChatAttachment(
+                FileName: file.Name,
+                ContentType: contentType,
+                Size: file.Size,
+                Base64Data: base64Data,
+                IsImage: contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase)));
+        }
+
+        return payloads;
+    }
+
+    private static async Task<string> ReadFileAsBase64Async(IBrowserFile file, CancellationToken cancellationToken = default)
+    {
+        await using var stream = file.OpenReadStream(AttachmentSizeLimitBytes, cancellationToken);
+        using var buffer = new MemoryStream();
+        await stream.CopyToAsync(buffer, cancellationToken).ConfigureAwait(false);
+        return Convert.ToBase64String(buffer.ToArray());
+    }
+
+    private static string? GetAttachmentPreviewSource(AiChatAttachment attachment)
+    {
+        if (!attachment.IsImage)
+        {
+            return null;
+        }
+
+        var contentType = string.IsNullOrWhiteSpace(attachment.ContentType)
+            ? "image/*"
+            : attachment.ContentType;
+
+        return $"data:{contentType};base64,{attachment.Base64Data}";
+    }
+
+    private static string FormatFileSize(long bytes)
+    {
+        var units = new[] { "B", "KB", "MB", "GB", "TB" };
+        double size = bytes;
+        var unitIndex = 0;
+
+        while (size >= 1024 && unitIndex < units.Length - 1)
+        {
+            size /= 1024d;
+            unitIndex++;
+        }
+
+        return unitIndex == 0
+            ? $"{bytes} {units[unitIndex]}"
+            : $"{size:0.##} {units[unitIndex]}";
+    }
+
     private async Task CopyAsync(string text)
     {
         if (string.IsNullOrWhiteSpace(text))
@@ -840,5 +931,5 @@ public partial class ChatAiPage : ComponentBase
         int? DurationSeconds = null,
         string? Reasoning = null,
         IReadOnlyList<ChatAiSource>? Sources = null,
-        IReadOnlyList<string>? Attachments = null);
+        IReadOnlyList<AiChatAttachment>? Attachments = null);
 }

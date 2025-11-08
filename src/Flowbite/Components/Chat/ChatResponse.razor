@@ -13,7 +13,8 @@
             <MarkdownContent Markdown="@Text" />
         }
     }
-    else
+
+    @if (ChildContent is not null)
     {
         @ChildContent
     }

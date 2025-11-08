@@ -42,10 +42,30 @@
                             <ChatResponse Text="@message.Text" Role="@message.Role">
                                 @if (message.Attachments?.Count > 0)
                                 {
-                                    <ul class="mt-2 list-disc space-y-1 pl-5 text-xs text-gray-600 dark:text-gray-300">
+                                    <ul class="mt-3 flex flex-wrap gap-3">
                                         @foreach (var attachment in message.Attachments)
                                         {
-                                            <li>@attachment</li>
+                                            var previewUrl = GetAttachmentPreviewSource(attachment);
+                                            <li class="flex min-w-[12rem] flex-1 items-center gap-3 rounded-2xl border border-gray-200/70 bg-white/80 p-3 text-xs text-gray-600 dark:border-white/10 dark:bg-slate-900/60 dark:text-gray-300">
+                                                @if (previewUrl is not null)
+                                                {
+                                                    <img src="@previewUrl"
+                                                         alt="@attachment.FileName"
+                                                         class="h-14 w-14 flex-shrink-0 rounded-xl object-cover ring-1 ring-black/5 dark:ring-white/10"
+                                                         draggable="false" />
+                                                }
+                                                else
+                                                {
+                                                    <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-gray-100 text-gray-500 dark:bg-slate-800 dark:text-gray-300">
+                                                        <PaperClipIcon class="h-5 w-5" aria-hidden="true" />
+                                                    </div>
+                                                }
+                                                <div class="min-w-0">
+                                                    <p class="truncate text-sm font-medium text-gray-900 dark:text-white">@attachment.FileName</p>
+                                                    <p class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400">@attachment.ContentType</p>
+                                                    <p class="text-[11px] text-gray-500 dark:text-gray-400">@FormatFileSize(attachment.Size)</p>
+                                                </div>
+                                            </li>
                                         }
                                     </ul>
                                 }
