@@ -12,43 +12,50 @@
         <ComponentExample Title="Card with CTA Button"
                           Description="Add a call-to-action button inside the card to encourage user interaction. This example shows how to combine the Card and Button components for an effective CTA layout."
                           RazorCode=@(@"
-<Card class=""p-4 sm:p-6 md:p-8"">
-    <h5 class=""text-2xl font-bold tracking-tight text-gray-900 dark:text-white"">
-        Noteworthy technology acquisitions 2021
-    </h5>
-    <p class=""font-normal text-gray-700 dark:text-gray-400"">
-        Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
-    </p>
-    <Button>
-        <div class=""inline-flex items-center"">
-            Read more
-            <svg class=""ml-2 h-4 w-4"" fill=""currentColor"" viewBox=""0 0 20 20"" xmlns=""http://www.w3.org/2000/svg"">
-                <path fillRule=""evenodd""
-                    d=""M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z""
-                    clipRule=""evenodd"" />
-            </svg>
-        </div>
-    </Button>
+<Card class=""max-w-sm p-4 sm:p-6 md:p-8"">
+    <div class=""flex flex-col space-y-8"">
+        <div class=""flex flex-col space-y-2"">
+            <h5 class=""text-2xl font-bold tracking-tight text-gray-900 dark:text-white"">
+                Noteworthy technology acquisitions 2021
+            </h5>
+            <p class=""font-normal text-gray-700 dark:text-gray-400"">
+                Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+            </p>
+        <Button>
+            <div class=""inline-flex items-center"">
+                Read more
+                <svg class=""ml-2 h-4 w-4"" fill=""currentColor"" viewBox=""0 0 20 20"" xmlns=""http://www.w3.org/2000/svg"">
+                    <path fillRule=""evenodd""
+                        d=""M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z""
+                        clipRule=""evenodd"" />
+                </svg>
+            </div>
+        </Button>
+    </div>
 </Card>")
                           SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
-                <Card class="p-4 sm:p-6 md:p-8">
-                    <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        Noteworthy technology acquisitions 2021
-                    </h5>
-                    <p class="font-normal text-gray-700 dark:text-gray-400">
-                        Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
-                    </p>
-                    <Button>
-                        <div class="inline-flex items-center">
-                            Read more
-                            <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fillRule="evenodd"
-                                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                                    clipRule="evenodd" />
-                            </svg>
+                <Card class="max-w-sm p-4 sm:p-6 md:p-8">
+                    <div class="flex flex-col space-y-8">
+                        <div class="flex flex-col space-y-2">
+                            <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                Noteworthy technology acquisitions 2021
+                            </h5>
+                            <p class="font-normal text-gray-700 dark:text-gray-400">
+                                Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+                            </p>
                         </div>
-                    </Button>
+                        <Button>
+                            <div class="inline-flex items-center">
+                                Read more
+                                <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fillRule="evenodd"
+                                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                        clipRule="evenodd" />
+                                </svg>
+                            </div>
+                        </Button>
+                    </div>
                 </Card>
             </PreviewContent>
         </ComponentExample>
