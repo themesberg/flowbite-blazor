@@ -222,7 +222,7 @@
             Title="Combobox field"
             Description="Combobox provides a Flowbite-styled dropdown with a built-in search box for long lists."
             RazorCode="@(@"<Combobox Placeholder=""Select a country""
-           @@bind-Value=""_comboboxCountry"">
+           @bind-Value=""_comboboxCountry"">
     <ComboboxItem Value=""US"" Label=""United States"" />
     <ComboboxItem Value=""CA"" Label=""Canada"" />
     <ComboboxItem Value=""DE"" Label=""Germany"" />
@@ -231,7 +231,7 @@
 </Combobox>
 
 <p class=""text-sm text-gray-500 mt-2"">
-    Selected: @@_comboboxCountry
+    Selected: @_comboboxCountry
 </p>")">
             <PreviewContent>
                 <Combobox Placeholder="Select a country"
