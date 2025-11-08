@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.0.13-alpha
+## 0.1.0-beta
 
 - Added AI Chat primitives:
     - PromptInput + footer/header/actions infrastructure
