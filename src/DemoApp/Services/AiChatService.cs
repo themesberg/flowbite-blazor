@@ -38,7 +38,7 @@ public class AiChatService : IAiChatService
                         
             if (provider == LLmProviders.Unknown)
             {
-                                return new AiChatResponse(
+                return new AiChatResponse(
                     Content: string.Empty,
                     IsSuccess: false,
                     ErrorMessage: $"Unknown provider: {providerKey}. Supported providers: openai, anthropic, google, openrouter.");
@@ -160,6 +160,7 @@ public class AiChatService : IAiChatService
             "xai" => LLmProviders.XAi,
             "perplexity" => LLmProviders.Perplexity,
             "cohere" => LLmProviders.Cohere,
+            "requesty" => LLmProviders.Requesty,
             _ => LLmProviders.Unknown
         };
     }

@@ -223,7 +223,7 @@
                                       Placeholder="@ModelSelectPlaceholder"
                                       SearchPlaceholder="Search models"
                                       Disabled="@(!IsProviderSelectionValid || AvailableModels == null || AvailableModels.Count == 0)"
-                                      Value="SelectedModelId"
+                                      Value="@SelectedModelId"
                                       ValueChanged="HandleModalModelChangedAsync">
                                 <ComboboxItem Value="" Label="@ModelSelectPlaceholder" />
                                 @if (AvailableModels != null)
