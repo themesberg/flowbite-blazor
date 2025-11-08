@@ -133,12 +133,14 @@
                             </PromptInputActionMenuContent>
                         </PromptInputActionMenu>
 
+                        @* Will re-add web search toggle in future release
+                        
                         <PromptInputButton Variant="PromptInputButtonVariant.Ghost"
                                         Active="@WebSearchEnabled"
                                         OnClick="ToggleWebSearchAsync">
                             <GlobeIcon class="h-4 w-4" aria-hidden="true" />
                             <span class="hidden lg:flex">@(WebSearchEnabled ? "Search on" : "Search")</span>
-                        </PromptInputButton>
+                        </PromptInputButton> *@
 
                         <PromptInputButton Variant="PromptInputButtonVariant.Ghost" OnClick="@(_ => OpenSettingsModalAsync())">
                             <GearIcon class="h-4 w-4" aria-hidden="true" />
