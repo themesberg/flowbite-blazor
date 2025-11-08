@@ -1,14 +1,11 @@
 # Changelog
 
-## 0.0.32-alpha
-
-- Add Timeline example page
-
-## 0.0.31-alpha
+## 0.1.0-beta
 
 - Add AI Chat playground page demonstrating PromptInput, Conversation, modal settings, and provider/model persistence
 - Add Chatbot demo page alongside conversational helpers, including ChatAction/ChatResponse walkthroughs
 - Introduce Combobox component (with forms example + new docs snippet) and refresh navigation to point to the consolidated Forms entry
+- Add Timeline example page
 - Add Carousel component examples and update llms-ctx.md
 - Add carousel documentation (01-23-carousel.md)
 - Update sidebar navigation with Carousel component
