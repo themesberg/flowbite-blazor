@@ -101,10 +101,11 @@ public partial class ChatAiPage : ComponentBase
 
     private List<AiProviderConfig> Providers { get; } = new()
     {
-        new AiProviderConfig("openrouter", "OpenRouter", "minimax/minimax-m2:free"),
-        new AiProviderConfig("openai", "OpenAI", "gpt-4o"),
-        new AiProviderConfig("anthropic", "Anthropic", "claude-sonnet-4-5-20250929"),
-        new AiProviderConfig("google", "Google", "gemini-1.5-pro")
+        new AiProviderConfig("openrouter", "OpenRouter", ""),
+        new AiProviderConfig("requesty", "Requesty", ""),
+        new AiProviderConfig("openai", "OpenAI", ""),
+        new AiProviderConfig("anthropic", "Anthropic", ""),
+        new AiProviderConfig("google", "Google", "")
     };
 
     private Task HandlePromptTextChanged(string value)
@@ -682,6 +683,7 @@ public partial class ChatAiPage : ComponentBase
             "xai" => LLmProviders.XAi,
             "perplexity" => LLmProviders.Perplexity,
             "cohere" => LLmProviders.Cohere,
+            "requesty" => LLmProviders.Requesty,
             _ => LLmProviders.Unknown
         };
     }
