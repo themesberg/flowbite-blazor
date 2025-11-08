@@ -490,6 +490,9 @@ public partial class ChatAiPage : ComponentBase
 
             // Create API instance
             var api = new TornadoApi(providerEnum, apiKey);
+
+            // Enable direct browser access for web-based providers (availble in v3.8.13)
+            // api.DirectBrowserAccess = true;
             
             // Fetch models
             var models = await api.Models.GetModels(providerEnum);

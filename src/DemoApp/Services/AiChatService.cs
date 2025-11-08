@@ -42,9 +42,12 @@ public class AiChatService : IAiChatService
                     ErrorMessage: $"Unknown provider: {providerKey}. Supported providers: openai, anthropic, google, openrouter.");
             }
 
-                        
+
             // Initialize TornadoApi with the provider and API key
             var api = new TornadoApi(provider, apiKey);
+
+            // Enable direct browser access for web-based providers (availble in v3.8.13)
+            // api.DirectBrowserAccess = true;
             
                         // Create chat model
             var model = new ChatModel(modelName, provider);
