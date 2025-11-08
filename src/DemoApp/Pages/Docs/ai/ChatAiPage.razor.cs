@@ -86,6 +86,7 @@ public partial class ChatAiPage : ComponentBase
         IsProviderSelectionValid &&
         !string.IsNullOrWhiteSpace(SelectedModelId);
     private bool IsSettingsFormValid => IsProviderSelectionValid && IsModelSelectionValid;
+    private bool _settingsModalRequestQueued;
 
     // Model cache: key = "{providerKey}_{apiKeyHash}"
     private static readonly Dictionary<string, List<RetrievedModel>> ModelCache = new();
@@ -148,6 +149,25 @@ public partial class ChatAiPage : ComponentBase
         else
         {
             ModelValidationMessage = null;
+        }
+
+        var needsSettingsModal =
+            !string.IsNullOrEmpty(CredentialsValidationMessage) ||
+            !HasConfiguredProviders ||
+            !HasSelectedProviderConfigured;
+
+        if (needsSettingsModal && !IsSettingsModalOpen && !_settingsModalRequestQueued)
+        {
+            _settingsModalRequestQueued = true;
+            _ = InvokeAsync(async () =>
+            {
+                await OpenSettingsModalAsync();
+                _settingsModalRequestQueued = false;
+            });
+        }
+        else if (!needsSettingsModal)
+        {
+            _settingsModalRequestQueued = false;
         }
 
         _ = InvokeAsync(StateHasChanged);
