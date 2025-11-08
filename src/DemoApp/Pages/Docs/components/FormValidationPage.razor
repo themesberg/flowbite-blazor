@@ -56,6 +56,30 @@
             </PreviewContent>
         </ComponentExample>
 
+        <ComponentExample
+            Title="ZIP code validation"
+            Description="Combine EditForm validation with TextInput pattern enforcement to collect a 5-digit ZIP code."
+            RazorCode="@ZipValidationCode">
+            <PreviewContent>
+                <EditForm Model="@zipModel" OnValidSubmit="@HandleZipSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="max-w-sm space-y-2">
+                        <Label For="zip" Value="ZIP code" />
+                        <TextInput TValue="int"
+                                   Id="zip"
+                                   Placeholder="12345"
+                                   HelperText="ZIP must be 5 digits"
+                                   Pattern="^\d{5}$"
+                                   InputMode="numeric"
+                                   Title="Enter a 5-digit ZIP code"
+                                   @bind-Value="zipModel.ZipCode" />
+                        <ValidationMessage For="@(() => zipModel.ZipCode)" />
+                        <Button Type="submit">Validate ZIP</Button>
+                    </div>
+                </EditForm>
+            </PreviewContent>
+        </ComponentExample>
+
         <ComponentExample 
             Title="Custom Validation"
             Description="Example of custom validation rules with field-level validation and custom messages."
@@ -398,6 +422,7 @@
     }
     private ComplexModel complexModel = new();
     private bool isSubmitting;
+    private ZipModel zipModel = new();
 
     private async Task HandleComplexFormSubmit()
     {
@@ -406,5 +431,32 @@
         isSubmitting = false;
     }
 
-    
+    private async Task HandleZipSubmit()
+    {
+        await Task.Delay(500);
+    }
+
+    private class ZipModel
+    {
+        [Required]
+        [Range(0, 99999, ErrorMessage = "ZIP must be 5 digits")]
+        public int ZipCode { get; set; }
+    }
+
+    private const string ZipValidationCode = @"<EditForm Model=""@zipModel"" OnValidSubmit=""@HandleZipSubmit"">
+    <DataAnnotationsValidator />
+    <div class=""max-w-sm space-y-2"">
+        <Label For=""zip"" Value=""ZIP code"" />
+        <TextInput TValue=""int""
+                   Id=""zip""
+                   Placeholder=""12345""
+                   HelperText=""ZIP must be 5 digits""
+                   Pattern=""^\d{5}$""
+                   InputMode=""numeric""
+                   Title=""Enter a 5-digit ZIP code""
+                   @bind-Value=""zipModel.ZipCode"" />
+        <ValidationMessage For=""@(() => zipModel.ZipCode)"" />
+        <Button Type=""submit"">Validate ZIP</Button>
+    </div>
+</EditForm>";
 }
