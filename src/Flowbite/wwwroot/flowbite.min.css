@@ -1643,6 +1643,10 @@ input[type="range"]::-ms-fill-lower {
   height: 100vh;
 }
 
+.max-h-60 {
+  max-height: 15rem;
+}
+
 .max-h-80 {
   max-height: 20rem;
 }
@@ -3336,6 +3340,16 @@ input[type="range"]::-ms-fill-lower {
 .antialiased {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.placeholder-gray-500::-moz-placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-placeholder-opacity, 1));
+}
+
+.placeholder-gray-500::placeholder {
+  --tw-placeholder-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-placeholder-opacity, 1));
 }
 
 .placeholder-green-700::-moz-placeholder {

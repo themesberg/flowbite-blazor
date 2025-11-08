@@ -194,20 +194,23 @@
                             }
                         </div>
                         <div class="space-y-2">
-                            <Label For="model-select" Value="Active model" />
-                            <Select Id="model-select"
-                                    Value="@SelectedModelId"
-                                    disabled="@(AvailableModels == null || AvailableModels.Count == 0)"
-                                    ValueChanged="HandleModalModelChangedAsync">
-                                <option value="">@ModelSelectPlaceholder</option>
+                            <Label For="model-combobox" Value="Active model" />
+                            <Combobox Id="model-combobox"
+                                      Placeholder="@ModelSelectPlaceholder"
+                                      SearchPlaceholder="Search models"
+                                      Disabled="@(!IsProviderSelectionValid || AvailableModels == null || AvailableModels.Count == 0)"
+                                      Value="SelectedModelId"
+                                      ValueChanged="HandleModalModelChangedAsync">
+                                <ComboboxItem Value="" Label="@ModelSelectPlaceholder" />
                                 @if (AvailableModels != null)
                                 {
                                     @foreach (var model in AvailableModels)
                                     {
-                                        <option value="@model.Id">@(!string.IsNullOrEmpty(model.Name) ? model.Name : model.Id)</option>
+                                        <ComboboxItem Value="@model.Id"
+                                                      Label="@(!string.IsNullOrEmpty(model.Name) ? model.Name : model.Id)" />
                                     }
                                 }
-                            </Select>
+                            </Combobox>
                             @if (IsLoadingModels)
                             {
                                 <p class="text-xs text-gray-500 dark:text-gray-400">Loading models...</p>

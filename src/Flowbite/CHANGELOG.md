@@ -2,6 +2,12 @@
 
 ## 0.0.13-alpha
 
+- Added AI Chat primitives:
+    - PromptInput + footer/header/actions infrastructure
+    - Conversation host/content with auto-scroll behaviours
+    - Reasoning, Sources, and PromptInput model select building blocks
+    - Toast/Drawer interop helpers shipped via `flowbite.js`
+- Added headless `Combobox` + `ComboboxItem` components with keyboard support, inline search/filtering, and external value binding hooks
 - Introduced timeline component suite:
     - `Timeline` with `TimelineOrder` enum for Default, Vertical, Horizontal, Activity layouts
     - `TimelineItem` supporting color variants, date formatting (`TimelineDateFormat`), custom orientation content, and connector management
