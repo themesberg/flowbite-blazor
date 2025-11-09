@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1-beta (UNDER WORK)
+
+TBD
+
 ## 0.1.0-beta
 
 - Add AI Chat playground page demonstrating PromptInput, Conversation, modal settings, and provider/model persistence
