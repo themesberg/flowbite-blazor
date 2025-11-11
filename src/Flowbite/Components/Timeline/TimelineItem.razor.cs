@@ -95,6 +95,12 @@ public partial class TimelineItem : FlowbiteComponentBase
     public string? TitleClass { get; set; }
 
     /// <summary>
+    /// Additional classes applied to the content element.
+    /// </summary>
+    [Parameter]
+    public string? ContentClass { get; set; }
+
+    /// <summary>
     /// Additional classes applied to the connector element for vertical layouts.
     /// </summary>
     [Parameter]
@@ -117,6 +123,7 @@ public partial class TimelineItem : FlowbiteComponentBase
     private string IndicatorIconClasses => JoinClasses("w-4 h-4", SvgClass, GetColorIconClasses());
     private string TimeClasses => JoinClasses(GetTimeBaseClasses(), TimeClass);
     private string TitleClasses => JoinClasses(GetTitleBaseClasses(), TitleClass);
+    private string ContentClasses => JoinClasses(GetContentClasses(), ContentClass);
     private string ConnectorClasses => JoinClasses(GetConnectorBaseClasses(), ConnectorClass, GetConnectorColorClasses());
     private bool ShouldRenderConnector => !IsLast && (Order == TimelineOrder.Vertical || Order == TimelineOrder.Activity);
     private string DisplayDate => BuildDisplayDate();
@@ -153,6 +160,13 @@ public partial class TimelineItem : FlowbiteComponentBase
         TimelineOrder.Horizontal => "mt-3 text-lg font-semibold text-gray-900 dark:text-white",
         TimelineOrder.Activity => "text-lg font-semibold text-gray-900 dark:text-white",
         _ => "text-lg font-semibold text-gray-900 dark:text-white"
+    };
+
+    private string GetContentClasses() => Order switch
+    {
+        TimelineOrder.Vertical => "flex-1 ml-6",
+        TimelineOrder.Horizontal => "flex-1 pr-2",
+        _ => ""
     };
 
     private string GetConnectorBaseClasses() => Order switch

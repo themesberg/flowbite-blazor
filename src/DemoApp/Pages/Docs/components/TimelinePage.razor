@@ -3,6 +3,7 @@
 @using Flowbite.Components
 @using Flowbite.Icons
 @using Microsoft.AspNetCore.Components
+@using static Flowbite.Components.Badge
 
 <PageTitle>Timeline - Flowbite Blazor</PageTitle>
 
@@ -30,14 +31,14 @@
     </TimelineItem>
     <TimelineItem Title=""Application UI code in Tailwind CSS"" Date=""March 2022"">
         <ChildContent>
-            <p class=""text-base font-normal text-gray-500 dark:text-gray-400"">
+            <p>
                 All of the pages and components are first designed in Figma to maintain parity between design and implementation.
             </p>
         </ChildContent>
     </TimelineItem>
     <TimelineItem Title=""Application UI code in Tailwind CSS"" Date=""April 2022"">
         <ChildContent>
-            <p class=""text-base font-normal text-gray-500 dark:text-gray-400"">
+            <p>
                 Get started with dozens of web components and interactive elements built on top of Tailwind CSS.
             </p>
         </ChildContent>
@@ -59,14 +60,14 @@
                     </TimelineItem>
                     <TimelineItem Title="Application UI code in Tailwind CSS" Date="March 2022">
                         <ChildContent>
-                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                            <p>
                                 All of the pages and components are first designed in Figma to maintain parity between design and implementation.
                             </p>
                         </ChildContent>
                     </TimelineItem>
                     <TimelineItem Title="Application UI code in Tailwind CSS" Date="April 2022">
                         <ChildContent>
-                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                            <p>
                                 Get started with dozens of web components and interactive elements built on top of Tailwind CSS.
                             </p>
                         </ChildContent>
@@ -86,7 +87,7 @@
             </span>
         </OrientationContent>
         <ChildContent>
-            <p class=""mb-4 pl-4 text-base font-normal text-gray-500 dark:text-gray-400"">
+            <p>
                 Get access to over 20+ pages including dashboards, kanban boards, calendars, and marketing layouts.
             </p>
         </ChildContent>
@@ -98,7 +99,7 @@
             </span>
         </OrientationContent>
         <ChildContent>
-            <p class=""pl-4 text-base font-normal text-gray-500 dark:text-gray-400"">
+            <p>
                 Maintain parity between design and implementation by starting from our Figma resources.
             </p>
         </ChildContent>
@@ -114,7 +115,7 @@
                             </span>
                         </OrientationContent>
                         <ChildContent>
-                            <p class="mb-4 pl-4 text-base font-normal text-gray-500 dark:text-gray-400">
+                            <p>
                                 Get access to over 20+ pages including dashboards, kanban boards, calendars, and marketing layouts.
                             </p>
                         </ChildContent>
@@ -126,7 +127,7 @@
                             </span>
                         </OrientationContent>
                         <ChildContent>
-                            <p class="pl-4 text-base font-normal text-gray-500 dark:text-gray-400">
+                            <p>
                                 Maintain parity between design and implementation by starting from our Figma resources.
                             </p>
                         </ChildContent>
@@ -149,10 +150,11 @@
             </div>
         </OrientationContent>
         <ChildContent>
-            <p class=""text-base font-normal text-gray-500 dark:text-gray-400"">
+            <p>
                 Get started with dozens of web components and interactive elements.
             </p>
         </ChildContent>
+        ...
     </TimelineItem>
 </Timeline>")
                           SupportedLanguages="@(new[] { "razor" })">
@@ -168,7 +170,7 @@
                             </div>
                         </OrientationContent>
                         <ChildContent>
-                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                            <p>
                                 Get started with dozens of web components and interactive elements.
                             </p>
                         </ChildContent>
@@ -183,7 +185,7 @@
                             </div>
                         </OrientationContent>
                         <ChildContent>
-                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                            <p>
                                 Continue iterating on new components and accessibility improvements.
                             </p>
                         </ChildContent>
@@ -197,7 +199,7 @@
                             </div>
                         </OrientationContent>
                         <ChildContent>
-                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                            <p>
                                 Ship new templates designed for dashboard and marketing use cases.
                             </p>
                         </ChildContent>
@@ -228,9 +230,9 @@
         <ChildContent>
             <div class=""pl-6"">
                 <p class=""mb-2 text-base font-normal text-gray-500 dark:text-gray-400"">@appointment.Description</p>
-                <span class=""inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium @visual.BadgeClass"">
-                    @visual.DisplayStatus
-                </span>
+                <div class=""inline-flex"">
+                    <Badge Color=""@visual.BadgeColor"">@visual.DisplayStatus</Badge>
+                </div>
             </div>
         </ChildContent>
     </TimelineItem>
@@ -255,12 +257,12 @@
                                 </span>
                             </OrientationContent>
                             <ChildContent>
-                                <div class="pl-6">
-                                    <p class="mb-2 text-base font-normal text-gray-500 dark:text-gray-400">@appointment.Description</p>
-                                    <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium @visual.BadgeClass">
-                                        @visual.DisplayStatus
-                                    </span>
+
+                                <p class="mb-2 text-base font-normal text-gray-500 dark:text-gray-400">@appointment.Description</p>
+                                <div class="inline-flex">
+                                    <Badge Color="@visual.BadgeColor">@visual.DisplayStatus</Badge>
                                 </div>
+                                
                             </ChildContent>
                         </TimelineItem>
                     }
@@ -296,9 +298,9 @@
             <p class=""text-base font-normal text-gray-500 dark:text-gray-400"">
                 @release.Description
             </p>
-            <span class=""mt-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium @visual.BadgeClass"">
-                @visual.DisplayStatus
-            </span>
+            <div class=""inline-flex"">
+                <Badge Color=""@visual.BadgeColor"">@visual.DisplayStatus</Badge>
+            </div>
         </ChildContent>
     </TimelineItem>
 }
@@ -330,9 +332,9 @@
                                 <p class="text-base font-normal text-gray-500 dark:text-gray-400">
                                     @release.Description
                                 </p>
-                                <span class="mt-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium @visual.BadgeClass">
-                                    @visual.DisplayStatus
-                                </span>
+                                <div class="inline-flex">
+                                    <Badge Color="@visual.BadgeColor">@visual.DisplayStatus</Badge>
+                                </div>
                             </ChildContent>
                         </TimelineItem>
                     }
@@ -441,7 +443,7 @@
             "completed" => new StatusVisual(
                 TimelineColor.Green,
                 "bg-green-200 dark:bg-green-900",
-                "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
+                BadgeColor.Success,
                 "bg-green-200 dark:bg-green-700",
                 builder =>
                 {
@@ -453,7 +455,7 @@
             "in-progress" => new StatusVisual(
                 TimelineColor.Orange,
                 "bg-orange-200 dark:bg-orange-900",
-                "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300",
+                BadgeColor.Warning,
                 "bg-orange-200 dark:bg-orange-700",
                 builder =>
                 {
@@ -463,21 +465,21 @@
                 },
                 "In progress"),
             "upcoming" => new StatusVisual(
-                TimelineColor.Blue,
-                "bg-blue-200 dark:bg-blue-900",
-                "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300",
-                "bg-blue-200 dark:bg-blue-700",
+                TimelineColor.Primary,
+                "bg-primary-200 dark:bg-primary-900",
+                BadgeColor.Primary,
+                "bg-primary-200 dark:bg-primary-700",
                 builder =>
                 {
                     builder.OpenComponent<CalendarMonthIcon>(0);
-                    builder.AddAttribute(1, nameof(IconBase.Class), "h-4 w-4 text-blue-600 dark:text-blue-400");
+                    builder.AddAttribute(1, nameof(IconBase.Class), "h-4 w-4 text-primary-600 dark:text-primary-400");
                     builder.CloseComponent();
                 },
                 "Upcoming"),
             "cancelled" => new StatusVisual(
                 TimelineColor.Red,
                 "bg-red-200 dark:bg-red-900",
-                "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
+                BadgeColor.Failure,
                 "bg-red-200 dark:bg-red-700",
                 builder =>
                 {
@@ -489,7 +491,7 @@
             _ => new StatusVisual(
                 TimelineColor.Gray,
                 "bg-gray-200 dark:bg-gray-900",
-                "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300",
+                BadgeColor.Gray,
                 "bg-gray-200 dark:bg-gray-700",
                 builder =>
                 {
@@ -521,14 +523,14 @@
     private sealed record StatusVisual(
         TimelineColor Color,
         string OrientationClass,
-        string BadgeClass,
+        BadgeColor BadgeColor,
         string ConnectorClass,
         RenderFragment IconFragment,
         string DisplayStatus)
     {
         public RenderFragment IconFragment { get; } = IconFragment;
         public string OrientationClass { get; } = OrientationClass;
-        public string BadgeClass { get; } = BadgeClass;
+        public BadgeColor BadgeColor { get; } = BadgeColor;
         public string ConnectorClass { get; } = ConnectorClass;
         public TimelineColor Color { get; } = Color;
         public string DisplayStatus { get; } = DisplayStatus;

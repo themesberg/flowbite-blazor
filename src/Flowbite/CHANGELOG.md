@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1-beta
+
+- Update Timeline component styling to simplify user-styling and bring consistency.
+
 ## 0.1.0-beta
 
 - Added AI Chat primitives:
