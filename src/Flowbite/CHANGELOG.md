@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.1.1-beta (UNDER WORK)
+## 0.1.1-beta
 
-TBD
+- Update Timeline component styling to simplify user-styling and bring consistency.
 
 ## 0.1.0-beta
 

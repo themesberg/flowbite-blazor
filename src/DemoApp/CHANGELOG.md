@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.1.1-beta (UNDER WORK)
+## 0.1.1-beta
 
-TBD
+- Update Timeline page
 
 ## 0.1.0-beta
 
