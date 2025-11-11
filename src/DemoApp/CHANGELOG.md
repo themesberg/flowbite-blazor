@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2-beta (UNDER WORK)
+
+- TBD
+
 ## 0.1.1-beta
 
 - Update Timeline page
