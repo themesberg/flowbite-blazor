@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3-beta
+
+- TBD
+
 ## 0.1.2-beta
 
 - Fix ToggleSwitch backing color css classes
