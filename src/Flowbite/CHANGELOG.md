@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.3-beta
+
+- Fix Blazor Server input lag and character loss in TextInput and PromptInputTextarea components (#15)
+
+## 0.1.2-beta
+
+- Fix ToggleSwitch backing color css classes
+
 ## 0.1.1-beta
 
 - Update Timeline component styling to simplify user-styling and bring consistency.

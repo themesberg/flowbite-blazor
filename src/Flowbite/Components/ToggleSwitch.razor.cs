@@ -82,13 +82,18 @@ private void HandleKeyDown(KeyboardEventArgs e)
             "relative h-6 w-11 min-w-11 rounded-full border",
             "after:absolute after:left-px after:top-px after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all rtl:after:right-px",
             "group-focus:ring-4 group-focus:ring-primary-500/25",
-            "border-gray-200 bg-gray-200 dark:border-gray-600 dark:bg-gray-700"
+            "border-gray-200  dark:border-gray-600 ",
         };
 
         if (Checked)
         {
+            
             classes.Add("bg-primary-700 dark:bg-primary-600");
             classes.Add("after:translate-x-full after:border-white dark:after:border-gray-300 dark:after:bg-gray-200");
+        }
+        else
+        {
+            classes.Add("bg-gray-200 dark:bg-gray-700");
         }
 
         if (Disabled)
