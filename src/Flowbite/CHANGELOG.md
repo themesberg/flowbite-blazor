@@ -2,7 +2,7 @@
 
 ## 0.1.3-beta
 
-- TBD
+- Fix Blazor Server input lag and character loss in TextInput and PromptInputTextarea components (#15)
 
 ## 0.1.2-beta
 
