@@ -13,6 +13,7 @@ namespace Flowbite.Components.Chat;
 public partial class PromptInputTextarea : Flowbite.Base.FlowbiteComponentBase, IDisposable
 {
     private string _value = string.Empty;
+    private bool _isLocalUpdate;
 
     /// <summary>
     /// Placeholder text shown when the textarea is empty.
@@ -94,7 +95,10 @@ public partial class PromptInputTextarea : Flowbite.Base.FlowbiteComponentBase, 
     {
         var next = args.Value?.ToString() ?? string.Empty;
         _value = next;
+
+        _isLocalUpdate = true;
         Context.SetText(next);
+        _isLocalUpdate = false;
 
         if (OnChanged.HasDelegate)
         {
@@ -104,6 +108,8 @@ public partial class PromptInputTextarea : Flowbite.Base.FlowbiteComponentBase, 
 
     private void HandleContextTextChanged()
     {
+        if (_isLocalUpdate) return;  // Skip re-render for local changes
+
         var next = Context.Text;
         if (!string.Equals(_value, next, StringComparison.Ordinal))
         {

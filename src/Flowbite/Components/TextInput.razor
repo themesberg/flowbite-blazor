@@ -30,8 +30,9 @@
         }
         <input type="@Type"
                class="@GetInputClasses()"
-               value="@CurrentValueAsString"
-               @oninput="OnInputChanged"
+               @bind="CurrentValueAsString"
+               @bind:event="oninput"
+               @bind:after="NotifyValueChangedAsync"
                placeholder="@Placeholder"
                disabled="@Disabled"
                required="@Required"
