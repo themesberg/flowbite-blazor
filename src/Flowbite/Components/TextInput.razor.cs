@@ -266,7 +266,6 @@ public partial class TextInput<TValue> : IDisposable
                 {
                     Value = default!;
                 }
-                _ = ValueChanged.InvokeAsync(Value);
                 return;
             }
 
@@ -302,14 +301,12 @@ public partial class TextInput<TValue> : IDisposable
             if (success)
             {
                 Value = (TValue)(parsedValue ?? default!);
-                _ = ValueChanged.InvokeAsync(Value);
             }
         }
     }
 
-    private Task OnInputChanged(ChangeEventArgs e)
+    private Task NotifyValueChangedAsync()
     {
-        CurrentValueAsString = e.Value?.ToString();
-        return Task.CompletedTask;
+        return ValueChanged.InvokeAsync(Value);
     }
 }
