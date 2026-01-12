@@ -192,7 +192,7 @@ Before starting any task:
 ## Task Implementation Cycle
 
 <task_cycle>
-Repeat this cycle for each task within a phase.
+Repeat this cycle for each task within a phase. Complete the entire implementation and address 100% of the acceptance criteira without stopping. If you need to continue, do so automatically without waiting for confirmation.
 
 ### Step 1: Create Feature Branch
 
@@ -297,66 +297,21 @@ For each file change:
    ```
 </verification>
 
-### Step 5: Update Version and Changelog (BEFORE Commit)
-
-<versioning>
-**CRITICAL: Update version and changelog BEFORE committing feature changes.**
-
-For features (`feat`) or bug fixes (`fix`):
-
-1. **Increment Version in csproj**
-
-   Edit `src/Flowbite/Flowbite.csproj`:
-   ```xml
-   <Version>0.1.4-beta</Version>
-   ```
-
-   Version increment rules:
-   - **PATCH** (0.1.3 → 0.1.4): New feature or bug fix
-   - **MINOR** (0.1.x → 0.2.0): Phase completed or significant milestone
-   - **MAJOR** (0.x.x → 1.0.0): Breaking changes or stable release
-
-2. **Update CHANGELOG.md**
-
-   Add new version section at top of `src/Flowbite/CHANGELOG.md`:
-   ```markdown
-   ## 0.1.4-beta
-
-   - Add TailwindMerge.NET integration for class conflict resolution
-   - Add `MergeClasses()` helper method to `FlowbiteComponentBase`
-
-   ## 0.1.3-beta
-   ...
-   ```
-
-3. **Stage Version Files with Feature Changes**
-   ```bash
-   git add src/Flowbite/Flowbite.csproj src/Flowbite/CHANGELOG.md
-   ```
-
-**Skip versioning for:** `docs`, `chore`, `refactor` commits that don't change functionality.
-</versioning>
-
-### Step 6: Commit (Atomic, Descriptive)
+### Step 5: Commit (Atomic, Descriptive)
 
 <commit_protocol>
-1. **Review All Changes** (including version bump)
+1. **Review All Changes**
    ```bash
    git status
    git diff --cached
    ```
 
-2. **Verify Version and Changelog are Staged** (for feat/fix commits)
-   - Check that `src/Flowbite/Flowbite.csproj` shows version change
-   - Check that `src/Flowbite/CHANGELOG.md` has new entry
-
-3. **Commit with Descriptive Message**
+2. **Commit with Descriptive Message**
    ```bash
    git commit -m "{type}({scope}): {description}
 
    - {bullet point 1}
    - {bullet point 2}
-   - Bump version to {X.Y.Z-beta}
 
    Task: Phase {N} Task {M}"
    ```
@@ -364,12 +319,12 @@ For features (`feat`) or bug fixes (`fix`):
    **Types:** `feat`, `fix`, `docs`, `refactor`, `test`, `chore`
    **Scopes:** `component`, `base`, `service`, `demo`, `build`
 
-4. **Present Commit to User for Review**
+3. **Present Commit to User for Review**
    - Show `git log --oneline -1`
    - Show `git diff develop --stat`
 </commit_protocol>
 
-### Step 7: Update Verification Checklist
+### Step 6: Update Verification Checklist
 
 <checklist_update>
 Create or update the task-specific verification checklist:
@@ -425,7 +380,11 @@ Create or update the task-specific verification checklist:
 ```
 </checklist_update>
 
-### Step 8: Await User Approval
+Complete the entire implementation and address 100% of the acceptance criteira without stopping. If you need to continue, do so automatically without waiting for confirmation.
+
+</task_cycle>
+
+### Step 7: Await User Approval
 
 <approval_gate>
 **STOP AND WAIT FOR EXPLICIT USER APPROVAL**
@@ -448,7 +407,7 @@ Present to user:
 **DO NOT** execute `git push` or `git merge` without user confirmation.
 </approval_gate>
 
-### Step 9: Push and Merge (User-Initiated)
+### Step 8: Push and Merge (User-Initiated)
 
 <push_merge>
 Only after user approval:
@@ -476,6 +435,53 @@ Only after user approval:
    git push origin --delete feature/phase{N}-task{M}-{desc}
    ```
 </push_merge>
+
+### Step 9: Update Version and Changelog (After Task Completion)
+
+<versioning>
+After completing a task or phase:
+
+1. **Increment Version in csproj**
+
+   Edit `src/Flowbite/Flowbite.csproj`:
+   ```xml
+   <Version>0.2.0-beta</Version>
+   ```
+
+   Version increment rules:
+   - **MINOR** (0.1.x → 0.2.0): New feature or phase completed
+   - **PATCH** (0.1.0 → 0.1.1): Bug fix
+   - **MAJOR** (0.x.x → 1.0.0): Breaking changes or stable release
+
+2. **Update CHANGELOG.md**
+
+   Move items from `[Unreleased]` to new version section:
+   ```markdown
+   ## [Unreleased]
+
+   ## [0.2.0-beta] - YYYY-MM-DD
+   ### Added
+   - TailwindMerge.NET integration for class conflict resolution
+
+   ### Changed
+   - Base class now includes Style parameter
+   ```
+
+   Categories: Added, Changed, Deprecated, Removed, Fixed, Security
+
+3. **Commit Version Bump**
+   ```bash
+   git add src/Flowbite/Flowbite.csproj CHANGELOG.md
+   git commit -m "chore(release): bump version to 0.2.0-beta"
+   git push origin develop
+   ```
+
+4. **Create Git Tag (Optional, for releases)**
+   ```bash
+   git tag -a v0.2.0-beta -m "Version 0.2.0-beta"
+   git push origin v0.2.0-beta
+   ```
+</versioning>
 
 ---
 
@@ -683,10 +689,6 @@ Copy this template when starting a new task:
 - [ ] No console errors in browser
 - [ ] `demoapp.log` shows no errors
 
-## Version & Changelog (for feat/fix only)
-- [ ] Version bumped in `src/Flowbite/Flowbite.csproj`
-- [ ] Changelog updated in `src/Flowbite/CHANGELOG.md`
-
 ## Commits
 | Hash | Message |
 |------|---------|
@@ -727,13 +729,6 @@ read_file -> edit -> python build.py -> git diff -> git add
 python build.py start
 # Test with Playwright MCP at http://localhost:5290
 python build.py stop
-```
-
-### Version & Changelog (for feat/fix)
-```bash
-# 1. Bump version in src/Flowbite/Flowbite.csproj
-# 2. Add entry to src/Flowbite/CHANGELOG.md
-git add src/Flowbite/Flowbite.csproj src/Flowbite/CHANGELOG.md
 ```
 
 ### Commit
