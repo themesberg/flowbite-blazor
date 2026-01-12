@@ -1,6 +1,6 @@
 # Phase 1: Foundation & Tooling
 
-**Status:** Not Started
+**Status:** In Progress (Task 1.1 Complete)
 **Prerequisites:** None
 **Priority:** P1 (High)
 **Effort:** S (4-8 hours)
@@ -27,20 +27,20 @@ Replace `CombineClasses()` string concatenation with TailwindMerge to resolve Ta
 
 ### Tasks
 
-- [ ] Add `TailwindMerge.NET` NuGet package to Flowbite.csproj
-- [ ] Register `TwMerge` in `ServiceCollectionExtensions.cs`
-- [ ] Inject `TwMerge` into `FlowbiteComponentBase`
-- [ ] Create `MergeClasses()` helper method
+- [x] Add `TailwindMerge.NET` NuGet package to Flowbite.csproj
+- [x] Register `TwMerge` in `ServiceCollectionExtensions.cs`
+- [x] Inject `TwMerge` into `FlowbiteComponentBase`
+- [x] Create `MergeClasses()` helper method
 - [ ] Migrate components from `CombineClasses()` to `MergeClasses()`
 
 ### Acceptance Criteria
 
-- [ ] `TailwindMerge.NET` NuGet package added to `Flowbite.csproj`
-- [ ] `TwMerge` service registered in `AddFlowbite()` extension method
-- [ ] `FlowbiteComponentBase` has `[Inject] internal TwMerge TwMerge { get; set; }`
-- [ ] New `MergeClasses()` method added alongside existing `CombineClasses()`
-- [ ] `TwMerge.Merge("px-4 px-6")` returns `"px-6"`
-- [ ] `TwMerge.Merge("bg-red-500 bg-blue-500")` returns `"bg-blue-500"`
+- [x] `TailwindMerge.NET` NuGet package added to `Flowbite.csproj`
+- [x] `TwMerge` service registered in `AddFlowbite()` extension method
+- [x] `FlowbiteComponentBase` has `[Inject] internal TwMerge TwMerge { get; set; }`
+- [x] New `MergeClasses()` method added alongside existing `CombineClasses()`
+- [x] `TwMerge.Merge("px-4 px-6")` returns `"px-6"`
+- [x] `TwMerge.Merge("bg-red-500 bg-blue-500")` returns `"bg-blue-500"`
 - [ ] All components use TwMerge for class combination
 - [ ] Unit test: `MergeClasses("p-2", "p-4")` returns `"p-4"`
 - [ ] Unit test: `MergeClasses("text-red-500", "text-blue-500")` returns `"text-blue-500"`
