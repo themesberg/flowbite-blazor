@@ -47,9 +47,14 @@ Use the Python automation script for all build operations:
 
 ## Architecture and Component Patterns
 - Base classes live in `src/Flowbite/Base/`:
-  - `FlowbiteComponentBase` provides `CombineClasses()` and a `Class` parameter.
+  - `FlowbiteComponentBase` provides `CombineClasses()`, `MergeClasses()`, and a `Class` parameter.
   - `IconBase` extends the base for SVG icons with aria and stroke control.
   - `OffCanvasComponentBase` manages visibility for drawers, modals, and toasts.
+- **CSS Class Composition Patterns:**
+  - **PREFER `ElementClass` fluent builder** for component class logic (`src/Flowbite/Utilities/ElementClass.cs`)
+  - Use `ElementClass.Empty().Add("class").Add("conditional", when: bool)` for readable conditional classes
+  - Pass result to `MergeClasses()` for TailwindMerge.NET conflict resolution
+  - Example: `MergeClasses(ElementClass.Empty().Add("px-4").Add("hidden", when: !visible).Add(Class))`
 - Components use a two-file pattern: `Component.razor` for markup and `Component.razor.cs` for logic.
 - Services for programmatic control (`AddFlowbite*`) reside in `src/Flowbite/Services/`; register them in `Program.cs`.
 - DemoApp structure:
@@ -98,6 +103,11 @@ Use the Python automation script for all build operations:
 - Branch from `develop`: `git checkout develop && git pull origin develop`.
 - Naming: `fix/issue-{id}-description`, `feature/issue-{id}-description`, or `enhancement/issue-{id}-description`.
 - Commit format: `{type}({scope}): {description}` (types: fix, feat, docs, style, refactor, test, chore). Reference issues with `Fixes #{number}` when applicable.
+- **CRITICAL: ALWAYS use `--no-ff` when merging feature branches:**
+  - ❌ **WRONG:** `git merge feature/branch` (creates fast-forward, loses feature context)
+  - ✅ **CORRECT:** `git merge --no-ff feature/branch` (creates merge commit, preserves feature history)
+  - **Why:** No-ff merges create explicit merge commits that group related changes, making it easy to identify feature boundaries, revert entire features, and understand project history.
+  - **Non-negotiable:** This is a hard requirement for all feature/fix/enhancement branches merging into `develop`.
 
 ## Key References
 - `.clinerules/AGENTS.md` — detailed contributor expectations.

@@ -425,12 +425,22 @@ Only after user approval:
    git push origin feature/phase{N}-task{M}-{desc}
    ```
 
-2. **Merge to Develop** (if approved)
+2. **Merge to Develop with --no-ff** (if approved)
    ```bash
    git checkout develop
-   git merge feature/phase{N}-task{M}-{desc}
+   git merge --no-ff feature/phase{N}-task{M}-{desc}
    git push origin develop
    ```
+
+   **CRITICAL: ALWAYS use `--no-ff` flag when merging feature branches!**
+   - ❌ **NEVER:** `git merge feature/branch` (fast-forward merge loses feature context)
+   - ✅ **ALWAYS:** `git merge --no-ff feature/branch` (creates merge commit)
+   - **Why:** No-ff merges create explicit merge commits that:
+     - Group related changes together
+     - Make feature boundaries visible in history
+     - Enable reverting entire features with single revert
+     - Preserve who merged and when
+   - **Non-negotiable:** This is a hard requirement for ALL feature branches
 
 3. **Delete Feature Branch**
    ```bash
