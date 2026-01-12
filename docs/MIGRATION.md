@@ -8,9 +8,9 @@ This guide documents breaking changes and provides migration instructions for up
 
 ### Breaking Changes
 
-#### 1. Button.Style renamed to Button.Variant
+#### 1. Button.Style renamed to Button.Variant (and ButtonStyle enum renamed to ButtonVariant)
 
-The `Style` parameter on `Button` was renamed to `Variant` to free up `Style` for inline CSS styles.
+The `Style` parameter on `Button` was renamed to `Variant` to free up `Style` for inline CSS styles. Additionally, the `ButtonStyle` enum was renamed to `ButtonVariant` for consistency.
 
 **Before:**
 ```razor
@@ -20,11 +20,13 @@ The `Style` parameter on `Button` was renamed to `Variant` to free up `Style` fo
 
 **After:**
 ```razor
-<Button Variant="ButtonStyle.Outline">Click me</Button>
-<Button Variant="ButtonStyle.Outline" Color="ButtonColor.Red">Delete</Button>
+<Button Variant="ButtonVariant.Outline">Click me</Button>
+<Button Variant="ButtonVariant.Outline" Color="ButtonColor.Red">Delete</Button>
 ```
 
-**Find & Replace:** `Style="ButtonStyle.` → `Variant="ButtonStyle.`
+**Find & Replace (two-step):**
+1. `Style="ButtonStyle.` → `Variant="ButtonStyle.` (first fix property name)
+2. `ButtonStyle.` → `ButtonVariant.` (then fix enum name)
 
 ---
 
@@ -94,11 +96,16 @@ All components now inherit `Style` and `AdditionalAttributes` from `FlowbiteComp
 
 ### Migration Steps
 
-1. **Update Button.Style to Button.Variant**
+1. **Update Button.Style to Button.Variant and ButtonStyle to ButtonVariant**
    ```bash
    # In your IDE or using grep/sed:
+   # Step 1 - Fix property name:
    # Find: Style="ButtonStyle.
    # Replace: Variant="ButtonStyle.
+
+   # Step 2 - Fix enum name:
+   # Find: ButtonStyle.
+   # Replace: ButtonVariant.
    ```
 
 2. **Update Tooltip.Style to Tooltip.Theme**
