@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4-beta
+
+- Add TailwindMerge.NET integration for intelligent CSS class conflict resolution
+- Add `MergeClasses()` helper method to `FlowbiteComponentBase`
+
 ## 0.1.3-beta
 
 - Fix Blazor Server input lag and character loss in TextInput and PromptInputTextarea components (#15)

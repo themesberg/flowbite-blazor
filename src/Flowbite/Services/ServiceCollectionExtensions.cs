@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using TailwindMerge.Extensions;
 
 namespace Flowbite.Services;
 
@@ -16,10 +17,11 @@ public static class ServiceCollectionExtensions
         {
             throw new ArgumentNullException(nameof(services));
         }
-        
+
+        services.AddTailwindMerge();
         services.AddSingleton<FlowbiteVersionService>();
         services.AddFlowbiteOffCanvasServices();
-        
+
         return services;
     }
     
