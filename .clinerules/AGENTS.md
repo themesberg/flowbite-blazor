@@ -1,4 +1,4 @@
-# Agent Guidelines
+# Cline and Claude Project Rules for Flowbite Blazor
 
 ## Overview
 - Flowbite Blazor is a Blazor component library that ports Flowbite React to ASP.NET Blazor 8/9 on top of Tailwind CSS.
@@ -12,12 +12,38 @@
 - Place shared docs under `docs/`, automation in `scripts/`, and ship-ready static assets under each project’s `wwwroot/`.
 
 ## Build, Run, and Packaging
-- `dotnet build` or `dotnet build FlowbiteBlazor.sln` compiles the full solution; `dotnet build -c Release` tests the packaged flow.
-- `dotnet watch --project src/DemoApp/DemoApp.csproj run` (or `dotnet run` from `src/DemoApp/`) starts the demo with hot reload at http://localhost:5290/.
-- `./cf-build.sh` (Linux/macOS) or `./publish-local.ps1` (Windows) packs libraries and publishes the demo to `dist/` for NuGet-style validation.
-- Test packaged components by running `publish-local.ps1` then serving `dist/wwwroot` (e.g., `dotnet serve`).
-- Tailwind builds automatically via MSBuild; install the CLI into `tools/` before the first build. Manual run: `tools/tailwindcss -i src/DemoApp/wwwroot/css/app.css -o src/DemoApp/wwwroot/css/app.min.css --minify --postcss`.
-- Documentation context can be regenerated with `powershell -ExecutionPolicy Bypass -File Build-LlmsContext.ps1` inside `src/DemoApp/`.
+
+Use the Python automation script for all build operations:
+
+### Build & Run Commands
+- `python build.py` — Build the solution (default)
+- `python build.py build` — Same as above, builds FlowbiteBlazor.sln
+- `python build.py watch` — Run DemoApp with hot reload (foreground, Ctrl+C to stop)
+- `python build.py run` — Run DemoApp in foreground
+- `python build.py start` — Auto-builds, then starts DemoApp in background (http://localhost:5290)
+- `python build.py stop` — Stop background DemoApp
+- `python build.py status` — Check if DemoApp is running
+
+**Key Behaviors:**
+- `build` auto-stops any running DemoApp (prevents file lock errors)
+- `start` auto-builds before launching (always runs latest code)
+- Tailwind CSS is auto-downloaded to `tools/` on first build
+
+### Package Commands
+- `python build.py pack` — Create NuGet packages in `nuget-local/`
+- `python build.py publish` — Pack NuGet + publish DemoApp to `dist/`
+
+### Log Commands (for debugging)
+- `python build.py log` — Show last 50 lines of demoapp.log
+- `python build.py log <pattern>` — Search log for regex pattern (case-insensitive)
+- `python build.py log --tail <n>` — Show last n lines
+- `python build.py log --level error` — Filter by log level (error/warn/info/debug)
+
+### Manual Alternatives (if needed)
+- Direct build: `dotnet build FlowbiteBlazor.sln`
+- Direct watch: `dotnet watch --project src/DemoApp/DemoApp.csproj`
+- Manual Tailwind: `tools/tailwindcss -i src/DemoApp/wwwroot/css/app.css -o src/DemoApp/wwwroot/css/app.min.css --minify --postcss`
+- Regenerate docs context: `powershell -ExecutionPolicy Bypass -File Build-LlmsContext.ps1` inside `src/DemoApp/`
 
 ## Architecture and Component Patterns
 - Base classes live in `src/Flowbite/Base/`:

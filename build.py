@@ -1,0 +1,546 @@
+#!/usr/bin/env python3
+"""
+Build script for Flowbite Blazor Component Library
+Supports: build, pack, publish, watch, run, start, stop, status commands
+"""
+
+import sys
+import os
+import platform
+import subprocess
+import urllib.request
+import signal
+import time
+import re
+from pathlib import Path
+from typing import Optional, Dict
+
+try:
+    import psutil
+except ImportError:
+    print("Error: psutil is required. Install with: pip install psutil")
+    sys.exit(1)
+
+REQUIRED_DOTNET_VERSION = "9.0"
+TAILWIND_VERSION = "v3.4.15"
+TOOLS_DIR = Path("tools")
+SOLUTION_PATH = "FlowbiteBlazor.sln"
+PROJECT_PATH = "src/DemoApp/DemoApp.csproj"
+FLOWBITE_PROJECT = "src/Flowbite/Flowbite.csproj"
+EXTENDED_ICONS_PROJECT = "src/Flowbite.ExtendedIcons/Flowbite.ExtendedIcons.csproj"
+PID_FILE = Path(".demoapp.pid")
+LOG_FILE = Path("demoapp.log")
+NUGET_LOCAL_DIR = Path("nuget-local")
+DIST_DIR = Path("dist")
+
+
+def get_os_info() -> Dict[str, str]:
+    """Detect OS and return tailwindcss download info"""
+    system = platform.system()
+
+    if system == "Linux":
+        return {
+            "url": f"https://github.com/tailwindlabs/tailwindcss/releases/download/{TAILWIND_VERSION}/tailwindcss-linux-x64",
+            "exec_name": "tailwindcss",
+            "os_name": "Linux"
+        }
+    elif system == "Darwin":
+        return {
+            "url": f"https://github.com/tailwindlabs/tailwindcss/releases/download/{TAILWIND_VERSION}/tailwindcss-macos-arm64",
+            "exec_name": "tailwindcss",
+            "os_name": "macOS"
+        }
+    elif system == "Windows":
+        return {
+            "url": f"https://github.com/tailwindlabs/tailwindcss/releases/download/{TAILWIND_VERSION}/tailwindcss-windows-x64.exe",
+            "exec_name": "tailwindcss.exe",
+            "os_name": "Windows"
+        }
+    else:
+        print(f"Unsupported OS: {system}")
+        sys.exit(1)
+
+
+def setup_tailwindcss() -> None:
+    """Check and download Tailwind CSS if needed"""
+    os_info = get_os_info()
+    tailwind_path = TOOLS_DIR / os_info["exec_name"]
+
+    if tailwind_path.exists():
+        print(f"Tailwind CSS executable already exists at {tailwind_path}")
+        return
+
+    print(f"Downloading Tailwind CSS executable for {os_info['os_name']}...")
+    TOOLS_DIR.mkdir(parents=True, exist_ok=True)
+
+    try:
+        urllib.request.urlretrieve(os_info["url"], tailwind_path)
+
+        # Make executable on Unix-like systems
+        if platform.system() != "Windows":
+            os.chmod(tailwind_path, 0o755)
+
+        print(f"Tailwind CSS executable downloaded to {tailwind_path}")
+    except Exception as e:
+        print(f"Error downloading Tailwind CSS: {e}")
+        sys.exit(1)
+
+
+def get_dotnet_version() -> Optional[str]:
+    """Get installed dotnet version, return None if not found"""
+    try:
+        result = subprocess.run(
+            ["dotnet", "--version"],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        return result.stdout.strip()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+
+
+def version_greater_equal(current: str, required: str) -> bool:
+    """Compare version numbers (major.minor)"""
+    try:
+        current_parts = [int(x) for x in current.split('.')[:2]]
+        required_parts = [int(x) for x in required.split('.')[:2]]
+
+        if current_parts[0] > required_parts[0]:
+            return True
+        elif current_parts[0] == required_parts[0]:
+            return current_parts[1] >= required_parts[1]
+        else:
+            return False
+    except (ValueError, IndexError):
+        return current >= required
+
+
+def check_dotnet() -> Optional[str]:
+    """Check if dotnet is installed and meets version requirements"""
+    dotnet_version = get_dotnet_version()
+
+    if dotnet_version:
+        print(f"Found .NET version: {dotnet_version}")
+
+        version_parts = dotnet_version.split('.')[:2]
+        current_version = '.'.join(version_parts)
+
+        if version_greater_equal(current_version, REQUIRED_DOTNET_VERSION):
+            print(f"Using system-installed .NET {dotnet_version}")
+            return "dotnet"
+        else:
+            print(f"System .NET version {current_version} is older than required version {REQUIRED_DOTNET_VERSION}")
+            return None
+    else:
+        print("No system .NET installation found")
+        return None
+
+
+def is_process_running(pid: int) -> bool:
+    """Check if a process with given PID is running"""
+    try:
+        process = psutil.Process(pid)
+        return process.is_running() and process.status() != psutil.STATUS_ZOMBIE
+    except (psutil.NoSuchProcess, psutil.AccessDenied):
+        return False
+
+
+def get_running_pid() -> Optional[int]:
+    """Get PID of running application if it exists"""
+    if not PID_FILE.exists():
+        return None
+
+    try:
+        with open(PID_FILE, 'r') as f:
+            pid = int(f.read().strip())
+
+        if is_process_running(pid):
+            return pid
+        else:
+            PID_FILE.unlink()
+            return None
+    except (ValueError, IOError):
+        return None
+
+
+def check_status() -> None:
+    """Check if application is running"""
+    pid = get_running_pid()
+
+    if pid:
+        print(f"[OK] DemoApp is running (PID: {pid})")
+        print(f"  URL: http://localhost:5290")
+        print(f"  Log file: {LOG_FILE}")
+    else:
+        print("[--] DemoApp is not running")
+
+
+def start_background(dotnet_path: str) -> None:
+    """Start application in background"""
+    existing_pid = get_running_pid()
+    if existing_pid:
+        print(f"DemoApp is already running (PID: {existing_pid})")
+        print("Use 'python build.py stop' to stop it first")
+        return
+
+    print("Starting DemoApp in background...")
+
+    log_file = open(LOG_FILE, 'w')
+
+    env = os.environ.copy()
+    env["ASPNETCORE_ENVIRONMENT"] = "Development"
+
+    if platform.system() == "Windows":
+        process = subprocess.Popen(
+            [dotnet_path, "run", "--project", PROJECT_PATH, "--no-restore"],
+            stdout=log_file,
+            stderr=subprocess.STDOUT,
+            env=env,
+            creationflags=subprocess.CREATE_NEW_PROCESS_GROUP
+        )
+    else:
+        process = subprocess.Popen(
+            [dotnet_path, "run", "--project", PROJECT_PATH, "--no-restore"],
+            stdout=log_file,
+            stderr=subprocess.STDOUT,
+            env=env,
+            start_new_session=True
+        )
+
+    with open(PID_FILE, 'w') as f:
+        f.write(str(process.pid))
+
+    print(f"DemoApp started (PID: {process.pid})")
+    print(f"Log output: {LOG_FILE}")
+
+    time.sleep(3)
+
+    if is_process_running(process.pid):
+        print("[OK] DemoApp is running at http://localhost:5290")
+    else:
+        print("[FAIL] DemoApp failed to start. Check log file for details:")
+        print(f"  python build.py log")
+
+
+def stop_background() -> None:
+    """Stop background application"""
+    pid = get_running_pid()
+
+    if not pid:
+        print("No running DemoApp found")
+        return
+
+    print(f"Stopping DemoApp (PID: {pid})...")
+
+    try:
+        process = psutil.Process(pid)
+
+        if platform.system() == "Windows":
+            process.terminate()
+        else:
+            process.send_signal(signal.SIGTERM)
+
+        try:
+            process.wait(timeout=10)
+            print("[OK] DemoApp stopped gracefully")
+        except psutil.TimeoutExpired:
+            print("DemoApp did not stop gracefully, forcing shutdown...")
+            process.kill()
+            process.wait(timeout=5)
+            print("[OK] DemoApp stopped forcefully")
+
+        if PID_FILE.exists():
+            PID_FILE.unlink()
+
+    except psutil.NoSuchProcess:
+        print("Process already stopped")
+        if PID_FILE.exists():
+            PID_FILE.unlink()
+
+    except Exception as e:
+        print(f"Error stopping DemoApp: {e}")
+        sys.exit(1)
+
+
+def run_dotnet_command(dotnet_path: str, command: str) -> None:
+    """Execute the appropriate dotnet command"""
+    try:
+        if command == "build":
+            # Auto-stop any running application to prevent file lock issues
+            pid = get_running_pid()
+            if pid:
+                print("Stopping running DemoApp before build...")
+                stop_background()
+
+            print("Building solution...")
+            subprocess.run(
+                [dotnet_path, "build", SOLUTION_PATH],
+                check=True
+            )
+            print("[OK] Successfully built solution")
+
+        elif command == "watch":
+            print("Starting DemoApp with hot reload...")
+            print("Press Ctrl+C to stop watching...")
+
+            env = os.environ.copy()
+            env["ASPNETCORE_ENVIRONMENT"] = "Development"
+
+            subprocess.run(
+                [dotnet_path, "watch", "--project", PROJECT_PATH, "--no-restore"],
+                env=env
+            )
+
+        elif command == "run":
+            print("Running DemoApp...")
+            print("Press Ctrl+C to stop...")
+
+            env = os.environ.copy()
+            env["ASPNETCORE_ENVIRONMENT"] = "Development"
+
+            subprocess.run(
+                [dotnet_path, "run", "--project", PROJECT_PATH, "--no-restore"],
+                env=env
+            )
+
+        elif command == "start":
+            # Auto-stop any running application
+            pid = get_running_pid()
+            if pid:
+                print("Stopping running DemoApp before build...")
+                stop_background()
+
+            # Auto-build before starting
+            print("Building solution before start...")
+            subprocess.run(
+                [dotnet_path, "build", SOLUTION_PATH],
+                check=True
+            )
+            start_background(dotnet_path)
+
+        elif command == "stop":
+            stop_background()
+
+        elif command == "status":
+            check_status()
+
+        elif command == "pack":
+            # Pack NuGet packages (like publish-local.ps1)
+            print(f"Creating NuGet packages in {NUGET_LOCAL_DIR}...")
+            NUGET_LOCAL_DIR.mkdir(parents=True, exist_ok=True)
+
+            # Pack Flowbite
+            print("Packing Flowbite...")
+            subprocess.run(
+                [dotnet_path, "pack", FLOWBITE_PROJECT, "-c", "Release", "-o", str(NUGET_LOCAL_DIR)],
+                check=True
+            )
+
+            # Pack Flowbite.ExtendedIcons
+            print("Packing Flowbite.ExtendedIcons...")
+            subprocess.run(
+                [dotnet_path, "pack", EXTENDED_ICONS_PROJECT, "-c", "Release", "-o", str(NUGET_LOCAL_DIR)],
+                check=True
+            )
+
+            print(f"[OK] NuGet packages created in {NUGET_LOCAL_DIR}")
+
+        elif command == "publish":
+            # Full publish flow: pack + publish demo
+            print(f"Publishing solution...")
+
+            # Pack NuGet packages first
+            NUGET_LOCAL_DIR.mkdir(parents=True, exist_ok=True)
+
+            print("Packing Flowbite...")
+            subprocess.run(
+                [dotnet_path, "pack", FLOWBITE_PROJECT, "-c", "Release", "-o", str(NUGET_LOCAL_DIR)],
+                check=True
+            )
+
+            print("Packing Flowbite.ExtendedIcons...")
+            subprocess.run(
+                [dotnet_path, "pack", EXTENDED_ICONS_PROJECT, "-c", "Release", "-o", str(NUGET_LOCAL_DIR)],
+                check=True
+            )
+
+            print(f"[OK] NuGet packages created in {NUGET_LOCAL_DIR}")
+
+            # Publish DemoApp
+            print(f"Publishing DemoApp to {DIST_DIR}...")
+
+            # Clean dist directory
+            if DIST_DIR.exists():
+                import shutil
+                shutil.rmtree(DIST_DIR)
+
+            subprocess.run(
+                [dotnet_path, "publish", PROJECT_PATH, "-c", "Release", "-o", str(DIST_DIR)],
+                check=True
+            )
+
+            print(f"[OK] Successfully published to {DIST_DIR}")
+            print("")
+            print("To serve locally:")
+            print("  1. Ensure you have dotnet-serve installed: dotnet tool install -g dotnet-serve")
+            print(f"  2. Run: cd {DIST_DIR}/wwwroot && dotnet serve")
+
+        else:
+            print(f"Unknown command: {command}")
+            print_usage()
+            sys.exit(1)
+
+    except KeyboardInterrupt:
+        print("\n\nShutdown requested. Exiting cleanly...")
+        sys.exit(0)
+
+    except subprocess.CalledProcessError:
+        print(f"Error: Failed to {command}")
+        sys.exit(1)
+
+
+def search_log(pattern: Optional[str] = None, tail: int = 0, level: Optional[str] = None) -> None:
+    """Search or tail the log file
+
+    Args:
+        pattern: Regex pattern to search for (case-insensitive)
+        tail: Number of lines to show from end (0 = all)
+        level: Filter by log level (error, warn, info, debug)
+    """
+    if not LOG_FILE.exists():
+        print(f"Log file not found: {LOG_FILE}")
+        print("Start the DemoApp first with: python build.py start")
+        return
+
+    try:
+        with open(LOG_FILE, 'r', encoding='utf-8', errors='replace') as f:
+            lines = f.readlines()
+
+        if tail > 0:
+            lines = lines[-tail:]
+
+        if level:
+            level_upper = level.upper()
+            level_pattern = re.compile(rf'\b{level_upper}\b|{level_upper}:', re.IGNORECASE)
+            lines = [line for line in lines if level_pattern.search(line)]
+
+        if pattern:
+            try:
+                regex = re.compile(pattern, re.IGNORECASE)
+                lines = [line for line in lines if regex.search(line)]
+            except re.error as e:
+                print(f"Invalid regex pattern: {e}")
+                return
+
+        if lines:
+            for line in lines:
+                print(line.rstrip())
+            print(f"\n--- {len(lines)} line(s) shown ---")
+        else:
+            print("No matching log entries found")
+
+    except Exception as e:
+        print(f"Error reading log file: {e}")
+
+
+def print_usage() -> None:
+    """Print usage information"""
+    print("Usage: python build.py [command] [options]")
+    print("")
+    print("Build & Run Commands:")
+    print("  build        - Build the solution (default)")
+    print("  watch        - Run DemoApp with hot reload (foreground)")
+    print("  run          - Run DemoApp (foreground)")
+    print("  start        - Build & start DemoApp in background (port 5290)")
+    print("  stop         - Stop the background DemoApp")
+    print("  status       - Check if DemoApp is running")
+    print("")
+    print("Package Commands:")
+    print("  pack         - Create NuGet packages in nuget-local/")
+    print("  publish      - Pack NuGet + publish DemoApp to dist/")
+    print("")
+    print("Log Commands:")
+    print("  log                      - Show last 50 lines of log")
+    print("  log <pattern>            - Search log for regex pattern")
+    print("  log --tail <n>           - Show last n lines")
+    print("  log --level <level>      - Filter by level (error/warn/info/debug)")
+    print("")
+    print("Examples:")
+    print("  python build.py              # Build solution")
+    print("  python build.py start        # Build and start in background")
+    print("  python build.py watch        # Hot reload development")
+    print("  python build.py pack         # Create NuGet packages")
+    print("  python build.py log error    # Search for 'error' in logs")
+    print("  python build.py log --tail 100 --level warn")
+
+
+def main() -> None:
+    """Main entry point"""
+    command = sys.argv[1] if len(sys.argv) > 1 else "build"
+
+    # Special commands that don't need setup
+    if command in ["stop", "status"]:
+        if command == "stop":
+            stop_background()
+        else:
+            check_status()
+        return
+
+    # Log command
+    if command == "log":
+        pattern = None
+        tail = 50  # Default to last 50 lines
+        level = None
+
+        args = sys.argv[2:]
+        i = 0
+        while i < len(args):
+            if args[i] == "--tail" and i + 1 < len(args):
+                try:
+                    tail = int(args[i + 1])
+                except ValueError:
+                    print(f"Invalid tail value: {args[i + 1]}")
+                    sys.exit(1)
+                i += 2
+            elif args[i] == "--level" and i + 1 < len(args):
+                level = args[i + 1]
+                i += 2
+            elif not args[i].startswith("--"):
+                pattern = args[i]
+                i += 1
+            else:
+                print(f"Unknown option: {args[i]}")
+                print_usage()
+                sys.exit(1)
+
+        search_log(pattern=pattern, tail=tail, level=level)
+        return
+
+    if command == "help" or command == "--help" or command == "-h":
+        print_usage()
+        return
+
+    if command not in ["build", "watch", "run", "start", "pack", "publish"]:
+        print(f"Unknown command: {command}")
+        print_usage()
+        sys.exit(1)
+
+    # Setup prerequisites
+    print("Setting up build environment...")
+    setup_tailwindcss()
+
+    # Check .NET
+    dotnet_path = check_dotnet()
+    if not dotnet_path:
+        print("")
+        print("Error: .NET SDK 9.0 or later is required.")
+        print("Download from: https://dotnet.microsoft.com/download")
+        sys.exit(1)
+
+    # Execute command
+    run_dotnet_command(dotnet_path, command)
+
+
+if __name__ == "__main__":
+    main()
