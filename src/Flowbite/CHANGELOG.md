@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1-beta
+
+### Added
+- Add `ElementClass` fluent builder utility for CSS class composition with conditional logic
+- Refactor `Button` component to use `ElementClass` pattern as demonstration
+
 ## 0.2.0-beta
 
 ### Added
