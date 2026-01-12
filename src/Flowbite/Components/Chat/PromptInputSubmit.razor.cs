@@ -62,7 +62,7 @@ public partial class PromptInputSubmit : Flowbite.Base.FlowbiteComponentBase
     {
         var classes =
             "h-10 w-10 items-center gap-2 rounded-full bg-primary-600 text-sm font-medium text-white shadow-lg " +
-            "transition hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-400/70 " +
+            "transition motion-reduce:transition-none hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-400/70 " +
             "dark:bg-primary-500 dark:hover:bg-primary-400";
 
         if (Disabled || Status is PromptSubmissionStatus.Submitting or PromptSubmissionStatus.Streaming)
