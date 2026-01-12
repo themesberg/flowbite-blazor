@@ -514,3 +514,4 @@ verification/
 src/nuget.config
 tmpclaude*
 .demoapp.pid
+tmpclaude-*
