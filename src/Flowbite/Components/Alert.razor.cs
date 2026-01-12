@@ -172,15 +172,6 @@ public partial class Alert
     [Parameter]
     public bool WithBorderAccent { get; set; }
 
-    /// <summary>
-    /// Additional attributes to be applied to the alert container.
-    /// </summary>
-    /// <remarks>
-    /// Allows for custom HTML attributes to be added to the alert element.
-    /// </remarks>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string ClassNames => string.Join(" ", new[]
     {
         BaseClasses,

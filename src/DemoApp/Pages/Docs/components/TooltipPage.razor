@@ -70,30 +70,30 @@
                           Description="Choose between different tooltip styles to match your design theme."
                           RazorCode=@(@"
 <div class=""flex items-center gap-4"">
-    <Tooltip Content=""Dark style"" Style=""dark"">
+    <Tooltip Content=""Dark style"" Theme=""dark"">
         <Button>Dark</Button>
     </Tooltip>
 
-    <Tooltip Content=""Light style"" Style=""light"">
+    <Tooltip Content=""Light style"" Theme=""light"">
         <Button Color=""ButtonColor.Light"">Light</Button>
     </Tooltip>
 
-    <Tooltip Content=""Auto style (adapts to dark mode)"" Style=""auto"">
+    <Tooltip Content=""Auto style (adapts to dark mode)"" Theme=""auto"">
         <Button>Auto</Button>
     </Tooltip>
 </div>")
                           SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
                 <div class="flex items-center gap-4">
-                    <Tooltip Content="Dark style" Style="dark">
+                    <Tooltip Content="Dark style" Theme="dark">
                         <Button>Dark</Button>
                     </Tooltip>
 
-                    <Tooltip Content="Light style" Style="light">
+                    <Tooltip Content="Light style" Theme="light">
                         <Button Color="ButtonColor.Light">Light</Button>
                     </Tooltip>
 
-                    <Tooltip Content="Auto style (adapts to dark mode)" Style="auto">
+                    <Tooltip Content="Auto style (adapts to dark mode)" Theme="auto">
                         <Button>Auto</Button>
                     </Tooltip>
                 </div>

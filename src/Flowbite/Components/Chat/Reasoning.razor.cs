@@ -49,12 +49,6 @@ public partial class Reasoning : Flowbite.Base.FlowbiteComponentBase
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the outer container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string BaseClasses => "flex flex-col gap-3 text-sm mb-4";
 
     protected override void OnInitialized()

@@ -22,12 +22,6 @@ public partial class Conversation : Flowbite.Base.FlowbiteComponentBase, IAsyncD
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes for the conversation container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
 
     private string BaseClasses => "flex-1 relative flex flex-col gap-4 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700";

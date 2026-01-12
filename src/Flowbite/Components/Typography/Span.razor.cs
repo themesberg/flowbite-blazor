@@ -75,12 +75,6 @@ public partial class Span
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Additional attributes that will be applied to the span element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
     /// Generates the appropriate CSS classes for the span based on its properties.
     /// </summary>
     private string GetSpanClasses()

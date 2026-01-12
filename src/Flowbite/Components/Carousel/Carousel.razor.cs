@@ -54,12 +54,6 @@ public partial class Carousel : IDisposable
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Gets or sets additional HTML attributes to be applied to the carousel container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     protected override void OnInitialized()
     {
         _currentIndex = ClampIndex(Index);

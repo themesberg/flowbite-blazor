@@ -37,12 +37,6 @@ private readonly string Id = Guid.NewGuid().ToString();
 /// </summary>
 [Parameter] public string? Name { get; set; }
 
-/// <summary>
-/// Gets or sets additional attributes for the toggle switch.
-/// </summary>
-[Parameter(CaptureUnmatchedValues = true)]
-public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
 private async Task HandleClick()
 {
     if (Disabled)

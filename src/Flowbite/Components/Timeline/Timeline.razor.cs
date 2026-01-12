@@ -18,12 +18,6 @@ public partial class Timeline : FlowbiteComponentBase
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional arbitrary attributes to be splatted onto the root element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string GetBaseClasses() => Order switch
     {
         TimelineOrder.Default => "relative border-s border-gray-200 dark:border-gray-700",

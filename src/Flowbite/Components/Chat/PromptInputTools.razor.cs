@@ -14,11 +14,5 @@ public partial class PromptInputTools : Flowbite.Base.FlowbiteComponentBase
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the container element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string BaseClasses => "flex flex-wrap items-center gap-2 text-sm text-gray-600 dark:text-gray-300";
 }

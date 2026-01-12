@@ -53,12 +53,6 @@ public partial class RangeSlider
     /// </summary>
     [Parameter] public double Step { get; set; } = 1;
 
-    /// <summary>
-    /// Gets or sets additional attributes for the range slider.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string GetRootClasses()
     {
         return "relative";

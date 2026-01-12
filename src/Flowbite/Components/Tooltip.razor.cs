@@ -190,21 +190,21 @@ public partial class Tooltip : IDisposable
     public TooltipPlacement Placement { get; set; } = TooltipPlacement.Top;
 
     /// <summary>
-    /// The visual style of the tooltip.
+    /// The visual theme of the tooltip.
     /// </summary>
     /// <remarks>
     /// Supports "dark" (default) and "light" themes.
-    /// Choose a style that provides good contrast with the page background.
+    /// Choose a theme that provides good contrast with the page background.
     /// </remarks>
     /// <example>
     /// <code>
-    /// &lt;Tooltip Style="light"&gt;
+    /// &lt;Tooltip Theme="light"&gt;
     ///     &lt;button&gt;Light theme&lt;/button&gt;
     /// &lt;/Tooltip&gt;
     /// </code>
     /// </example>
     [Parameter]
-    public string Style { get; set; } = "dark";
+    public string Theme { get; set; } = "dark";
 
     /// <summary>
     /// The event that triggers the tooltip.
@@ -277,13 +277,13 @@ public partial class Tooltip : IDisposable
         _ => "bottom-full left-1/2 -translate-x-1/2 mb-2" // Top is default
     };
 
-    private string GetStyleClasses() => Style switch
+    private string GetThemeClasses() => Theme switch
     {
         "light" => "inline-block rounded-lg px-3 py-2 text-sm font-medium shadow-sm border border-gray-200 bg-white text-gray-900",
         _ => "inline-block rounded-lg px-3 py-2 text-sm font-medium shadow-sm bg-gray-900 text-white dark:bg-gray-700"
     };
 
-    private string GetAnimationClasses() => 
+    private string GetAnimationClasses() =>
         Animation == null ? "" : $"transition-opacity {Animation}";
 
     private string GetArrowClasses() => Placement switch
@@ -294,7 +294,7 @@ public partial class Tooltip : IDisposable
         _ => "left-1/2 -ml-4 -bottom-1"
     };
 
-    private string GetArrowStyles() => Style switch
+    private string GetArrowThemeClasses() => Theme switch
     {
         "light" => "bg-white",
         _ => "bg-gray-900 dark:bg-gray-700"

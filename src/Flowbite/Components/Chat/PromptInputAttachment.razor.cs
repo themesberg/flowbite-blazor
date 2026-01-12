@@ -21,12 +21,6 @@ public partial class PromptInputAttachment : Flowbite.Base.FlowbiteComponentBase
     [Parameter, EditorRequired]
     public PromptAttachment? Data { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the root element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter] private PromptInputContext Context { get; set; } = default!;
 
     private string BaseClasses =>

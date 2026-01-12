@@ -69,25 +69,6 @@ public partial class Spinner : FlowbiteComponentBase
     public SpinnerSize Size { get; set; } = SpinnerSize.Md;
 
     /// <summary>
-    /// Additional attributes that will be merged with the component's native attributes.
-    /// </summary>
-    /// <remarks>
-    /// Useful for adding custom data attributes, event handlers, or CSS classes.
-    /// These attributes will be merged with the spinner's base attributes.
-    /// </remarks>
-    /// <example>
-    /// <code>
-    /// &lt;Spinner @attributes="new Dictionary&lt;string, object&gt;
-    /// {
-    ///     { "data-testid", "loading-spinner" },
-    ///     { "class", "my-custom-class" }
-    /// }" /&gt;
-    /// </code>
-    /// </example>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
     /// Gets the CSS classes for the spinner.
     /// </summary>
     /// <returns>A string containing all the CSS classes for the spinner.</returns>

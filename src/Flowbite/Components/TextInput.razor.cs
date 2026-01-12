@@ -106,12 +106,6 @@ public partial class TextInput<TValue> : IDisposable
     /// </summary>
     [Parameter] public string? AddonRight { get; set; }
 
-    /// <summary>
-    /// Additional attributes that will be applied to the input element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string GetWrapperClasses() => BaseWrapperClasses;
 
     private string GetFieldClasses() => BaseFieldClasses;

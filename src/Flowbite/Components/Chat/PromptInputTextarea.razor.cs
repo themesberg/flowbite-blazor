@@ -28,12 +28,6 @@ public partial class PromptInputTextarea : Flowbite.Base.FlowbiteComponentBase, 
     public int Rows { get; set; } = 0;
 
     /// <summary>
-    /// Additional attributes applied to the textarea element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
     /// Fired when the input value changes.
     /// </summary>
     [Parameter]

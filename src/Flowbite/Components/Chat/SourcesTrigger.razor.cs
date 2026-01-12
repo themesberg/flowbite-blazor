@@ -15,12 +15,6 @@ public partial class SourcesTrigger : Flowbite.Base.FlowbiteComponentBase
     [Parameter]
     public string? Label { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the trigger button.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter] private SourcesContext SourcesContext { get; set; } = default!;
 
     private string BaseClasses =>

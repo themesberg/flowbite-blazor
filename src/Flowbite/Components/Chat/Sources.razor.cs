@@ -22,12 +22,6 @@ public partial class Sources : Flowbite.Base.FlowbiteComponentBase, IDisposable
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the wrapper element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string BaseClasses => "flex flex-col gap-2";
 
     protected override void OnInitialized()

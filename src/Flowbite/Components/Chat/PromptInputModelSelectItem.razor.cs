@@ -27,12 +27,6 @@ public partial class PromptInputModelSelectItem : Flowbite.Base.FlowbiteComponen
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the option element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter] private PromptInputModelSelectContext ModelContext { get; set; } = default!;
 
     private string GetItemClasses()

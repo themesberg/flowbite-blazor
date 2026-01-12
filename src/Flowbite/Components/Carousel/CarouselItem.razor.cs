@@ -54,12 +54,6 @@ public partial class CarouselItem : FlowbiteComponentBase, IDisposable
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Gets or sets additional HTML attributes to be applied to the slide container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     /// <inheritdoc />
     protected override void OnInitialized()
     {

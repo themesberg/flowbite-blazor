@@ -14,12 +14,6 @@ public partial class PromptInputActionMenuContent : Flowbite.Base.FlowbiteCompon
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the content container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter] private PromptInputActionMenuContext MenuContext { get; set; } = default!;
 
     private string BaseClasses =>

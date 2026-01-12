@@ -20,12 +20,6 @@ public partial class ChatMessageContent : Flowbite.Base.FlowbiteComponentBase
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional HTML attributes applied to the wrapper element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter] private ChatMessageRole Role { get; set; }
 
     private string GetContentClasses()

@@ -15,12 +15,6 @@ public partial class ConversationScrollButton : Flowbite.Base.FlowbiteComponentB
     [Parameter]
     public bool Disabled { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the button element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter] private ConversationContext ConversationContext { get; set; } = default!;
 
     private string BaseClasses =>

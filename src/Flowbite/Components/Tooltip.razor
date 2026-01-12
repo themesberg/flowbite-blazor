@@ -4,13 +4,13 @@
 <div class="relative group inline-block" @onclick="HandleClick" @onfocusout="HandleFocusOut" @onkeydown="HandleKeyDown" tabindex="-1">
     @ChildContent
 
-    <div class="@CombineClasses($"absolute z-10 w-max {GetVisibilityClasses()} {GetPlacementClasses()} {GetStyleClasses()} {GetAnimationClasses()}")">
+    <div class="@CombineClasses($"absolute z-10 w-max {GetVisibilityClasses()} {GetPlacementClasses()} {GetThemeClasses()} {GetAnimationClasses()}")">
         <div class="relative z-20">
             @Content
         </div>
         @if (Arrow)
         {
-            <div class="@($"absolute z-10 h-2 w-2 rotate-45 {GetArrowClasses()} { GetArrowStyles()}")" ></div>
+            <div class="@($"absolute z-10 h-2 w-2 rotate-45 {GetArrowClasses()} {GetArrowThemeClasses()}")"></div>
         }
     </div>
 </div>
