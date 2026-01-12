@@ -1,6 +1,6 @@
 # Phase 1: Foundation & Tooling
 
-**Status:** In Progress (Task 1.1 Complete)
+**Status:** In Progress (Tasks 1.1, 1.2 Complete)
 **Prerequisites:** None
 **Priority:** P1 (High)
 **Effort:** S (4-8 hours)
@@ -102,20 +102,20 @@ Add `Style` parameter and `AdditionalAttributes` capture to enable inline styles
 
 ### Tasks
 
-- [ ] Add `[Parameter] public string? Style { get; set; }` to `FlowbiteComponentBase`
-- [ ] Add `[Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes`
-- [ ] Update component templates to spread `@attributes="AdditionalAttributes"`
+- [x] Add `[Parameter] public string? Style { get; set; }` to `FlowbiteComponentBase`
+- [x] Add `[Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes`
+- [x] Update component templates to spread `@attributes="AdditionalAttributes"`
 
 ### Acceptance Criteria
 
-- [ ] `FlowbiteComponentBase` has `[Parameter] public string? Style { get; set; }`
-- [ ] `FlowbiteComponentBase` has `[Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }`
-- [ ] `<Button Style="margin-top: 1rem">` applies inline style
-- [ ] Button component renders `style` attribute when `Style` is set
-- [ ] `<Button data-testid="submit-btn">` passes through to HTML
-- [ ] Button component renders `data-testid` when passed as additional attribute
-- [ ] Existing components continue to work without changes
-- [ ] Existing functionality unchanged (no breaking changes)
+- [x] `FlowbiteComponentBase` has `[Parameter] public string? Style { get; set; }`
+- [x] `FlowbiteComponentBase` has `[Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }`
+- [x] `<Button Style="margin-top: 1rem">` applies inline style
+- [x] Button component renders `style` attribute when `Style` is set
+- [x] `<Button data-testid="submit-btn">` passes through to HTML
+- [x] Button component renders `data-testid` when passed as additional attribute
+- [x] Existing components continue to work without changes
+- [x] Existing functionality unchanged (breaking changes documented in MIGRATION.md)
 
 ### Code Examples
 
