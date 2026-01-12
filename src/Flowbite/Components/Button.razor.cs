@@ -111,47 +111,28 @@ public partial class Button
     /// </summary>
     private string GetButtonClasses()
     {
-        var classes = new List<string>
-        {
-            "focus:outline-none",
-            "focus-within:outline-hidden",
-            "inline-flex",
-            "items-center",
-            "justify-center",
-            "font-medium",
-            "text-center",
-            Pill ? "rounded-full" : "rounded-lg",
-            "group"
-        };
+        var baseClasses = ElementClass.Empty()
+            .Add("focus:outline-none focus-within:outline-hidden inline-flex items-center justify-center font-medium text-center group")
+            .Add(Pill ? "rounded-full" : "rounded-lg")
+            .Add(GetSizeClasses())
+            .Add(string.Join(" ", GetColorClasses()))
+            .Add("cursor-not-allowed opacity-50", when: Disabled)
+            .Add("cursor-wait opacity-75", when: Loading)
+            .Add(Class);
 
-        // Size classes
-        classes.AddRange(Size switch
-        {
-            ButtonSize.Small => new[] { "text-sm", "px-4", "py-2" },
-            ButtonSize.Medium => new[] { "text-sm", "px-5", "py-2.5" },
-            ButtonSize.Large => new[] { "text-base", "px-6", "py-3" },
-            _ => new[] { "text-sm", "px-5", "py-2.5" }
-        });
-
-        // Color and style classes
-        classes.AddRange(GetColorClasses());
-
-        // Disabled state
-        if (Disabled)
-        {
-            classes.Add("cursor-not-allowed");
-            classes.Add("opacity-50");
-        }
-
-        // Loading state
-        if (Loading)
-        {
-            classes.Add("cursor-wait");
-            classes.Add("opacity-75");
-        }
-
-        return CombineClasses(string.Join(" ", classes)) ?? string.Empty;
+        return MergeClasses(baseClasses);
     }
+
+    /// <summary>
+    /// Gets the size-specific CSS classes for the button.
+    /// </summary>
+    private string GetSizeClasses() => Size switch
+    {
+        ButtonSize.Small => "text-sm px-4 py-2",
+        ButtonSize.Medium => "text-sm px-5 py-2.5",
+        ButtonSize.Large => "text-base px-6 py-3",
+        _ => "text-sm px-5 py-2.5"
+    };
 
     /// <summary>
     /// Generates color-specific classes based on button style and color.
@@ -282,4 +263,3 @@ public partial class Button
         Large
     }
 }
-
