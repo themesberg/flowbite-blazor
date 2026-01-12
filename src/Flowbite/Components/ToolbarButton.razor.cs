@@ -41,12 +41,6 @@ public partial class ToolbarButton
     [Parameter]
     public string? AriaLabel { get; set; }
 
-    /// <summary>
-    /// Additional attributes to be applied to the button element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private async Task HandleClick(MouseEventArgs e)
     {
         await OnClick.InvokeAsync(e);

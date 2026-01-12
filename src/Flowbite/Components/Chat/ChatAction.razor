@@ -45,12 +45,6 @@ else
     public string ButtonType { get; set; } = "button";
 
     /// <summary>
-    /// Additional html attributes applied to the button element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
     /// Display content, typically an icon.
     /// </summary>
     [Parameter]

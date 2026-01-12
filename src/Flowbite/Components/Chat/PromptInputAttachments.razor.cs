@@ -18,12 +18,6 @@ public partial class PromptInputAttachments : Flowbite.Base.FlowbiteComponentBas
     [Parameter]
     public RenderFragment<PromptAttachment>? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the attachment container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter] private PromptInputContext Context { get; set; } = default!;
 
     private string BaseClasses => "flex flex-wrap gap-2 rounded-2xl bg-gray-100/80 p-2 dark:bg-slate-950/50";

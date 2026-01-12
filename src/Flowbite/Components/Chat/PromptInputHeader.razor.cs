@@ -14,11 +14,5 @@ public partial class PromptInputHeader : Flowbite.Base.FlowbiteComponentBase
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes forwarded to the header element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string BaseClasses => "flex flex-col gap-2 overflow-hidden px-1";
 }

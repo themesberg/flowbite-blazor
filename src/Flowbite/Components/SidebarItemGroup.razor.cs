@@ -11,9 +11,4 @@ public partial class SidebarItemGroup
     [Parameter]
     public string? AdditionalClasses { get; set; }
 
-    /// <summary>
-    /// Gets or sets additional attributes for the sidebar item group.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

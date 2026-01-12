@@ -14,12 +14,6 @@ public abstract class IconBase : FlowbiteComponentBase
     public bool AriaHidden { get; set; } = true;
 
     /// <summary>
-    /// Additional attributes to be applied to the SVG element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
     /// The stroke width of the SVG icon.
     /// </summary>
     [Parameter]

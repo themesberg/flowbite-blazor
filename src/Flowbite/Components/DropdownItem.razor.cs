@@ -98,22 +98,6 @@ public partial class DropdownItem
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-    /// <summary>
-    /// Additional attributes to be applied to the dropdown item.
-    /// </summary>
-    /// <remarks>
-    /// Allows for custom HTML attributes to be added to the dropdown item element.
-    /// </remarks>
-    /// <example>
-    /// <code>
-    /// &lt;DropdownItem data-testid="profile-edit"&gt;
-    ///     Edit Profile
-    /// &lt;/DropdownItem&gt;
-    /// </code>
-    /// </example>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private async Task HandleClick(MouseEventArgs args)
     {
         if (Disabled) return;

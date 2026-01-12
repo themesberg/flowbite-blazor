@@ -46,12 +46,6 @@
     [Parameter]
     public RenderFragment? TabPanelsContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes to be applied to the tabs container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string ComponentClasses => CombineClasses(BaseClasses);
 
     protected override void OnInitialized()

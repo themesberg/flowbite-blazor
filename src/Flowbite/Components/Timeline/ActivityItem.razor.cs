@@ -60,12 +60,6 @@ public partial class ActivityItem : FlowbiteComponentBase
     [Parameter]
     public string? TextClass { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to each generated list item.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string ListItemClasses => CombineClasses("mb-10 ms-6", ListItemClass);
     private string AvatarWrapperClasses => JoinClasses("flex absolute -start-3 justify-center items-center w-6 h-6 bg-blue-200 rounded-full ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900", AvatarWrapperClass);
     private string AvatarClasses => JoinClasses("rounded-full shadow-lg", AvatarClass);

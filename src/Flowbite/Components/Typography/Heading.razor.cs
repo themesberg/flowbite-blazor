@@ -76,12 +76,6 @@ public partial class Heading
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Additional attributes that will be applied to the heading element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
     /// Generates the appropriate CSS classes for the heading based on its tag and properties.
     /// </summary>
     private string GetHeadingClasses()

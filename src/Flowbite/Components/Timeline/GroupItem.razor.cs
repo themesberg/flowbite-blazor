@@ -55,12 +55,6 @@ public partial class GroupItem : FlowbiteComponentBase
     [Parameter]
     public string? IconClass { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to each <c>li</c> element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string ItemClasses => CombineClasses(string.Empty, ItemClass);
     private string LinkClasses => JoinClasses("block items-center p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700", LinkClass);
     private string ImageClasses => JoinClasses("me-3 mb-3 w-12 h-12 rounded-full sm:mb-0", ImageClass);

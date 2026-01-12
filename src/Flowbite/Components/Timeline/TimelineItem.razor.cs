@@ -112,12 +112,6 @@ public partial class TimelineItem : FlowbiteComponentBase
     [Parameter]
     public string? DatePrefix { get; set; }
 
-    /// <summary>
-    /// Additional attributes to be applied to the root list item.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string ItemClasses => CombineClasses(GetItemBaseClasses(), ListItemClass);
     private string IndicatorClasses => JoinClasses(GetIndicatorBaseClasses(), IndicatorClass, GetColorIndicatorClasses());
     private string IndicatorIconClasses => JoinClasses("w-4 h-4", SvgClass, GetColorIconClasses());

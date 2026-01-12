@@ -43,12 +43,6 @@ public partial class PromptInputModelSelect : Flowbite.Base.FlowbiteComponentBas
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string BaseClasses => "relative inline-flex z-[75]";
 
     protected override void OnParametersSet()

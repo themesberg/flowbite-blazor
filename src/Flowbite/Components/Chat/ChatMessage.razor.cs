@@ -22,12 +22,6 @@ public partial class ChatMessage : Flowbite.Base.FlowbiteComponentBase
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Additional html attributes for the container element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
     /// Optional avatar markup rendered alongside the message.
     /// </summary>
     [Parameter]

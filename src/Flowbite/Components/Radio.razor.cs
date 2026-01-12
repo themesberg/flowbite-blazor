@@ -44,12 +44,6 @@ public partial class Radio
     [Parameter]
     public string? Name { get; set; }
 
-    /// <summary>
-    /// Additional attributes that will be applied to the radio button.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string RadioClass => string.Join(" ", new[]
     {
         BaseClasses,

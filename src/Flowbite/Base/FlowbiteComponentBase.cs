@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
 using System.Linq;
 using TailwindMerge;
 
@@ -20,6 +21,19 @@ public abstract class FlowbiteComponentBase : ComponentBase
     /// </summary>
     [Parameter]
     public string? Class { get; set; }
+
+    /// <summary>
+    /// Inline CSS styles to apply to the component's root element.
+    /// </summary>
+    [Parameter]
+    public string? Style { get; set; }
+
+    /// <summary>
+    /// Additional HTML attributes to apply to the component's root element.
+    /// Component-set attributes take precedence over these values.
+    /// </summary>
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
     /// <summary>
     /// Combines multiple CSS class strings with additional user-provided classes.

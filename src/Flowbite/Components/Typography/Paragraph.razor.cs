@@ -87,12 +87,6 @@ public partial class Paragraph
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Additional attributes that will be applied to the paragraph element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
     /// Generates the appropriate CSS classes for the paragraph based on its properties.
     /// </summary>
     private string GetParagraphClasses()

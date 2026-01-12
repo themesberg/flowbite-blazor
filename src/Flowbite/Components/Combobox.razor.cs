@@ -91,12 +91,6 @@ public partial class Combobox : FlowbiteComponentBase, IAsyncDisposable
     [Parameter]
     public EventCallback<string> OnSearchChanged { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the outer container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string SearchInputId => $"{_instanceId}-search";
 
     private string DisplayLabel => SelectedLabel ?? Placeholder;

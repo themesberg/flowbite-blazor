@@ -50,10 +50,10 @@ public partial class Button
     public bool Pill { get; set; }
 
     /// <summary>
-    /// The visual style of the button.
+    /// The visual style variant of the button.
     /// </summary>
     [Parameter]
-    public ButtonStyle Style { get; set; } = ButtonStyle.Default;
+    public ButtonStyle Variant { get; set; } = ButtonStyle.Default;
 
     /// <summary>
     /// The size of the button.
@@ -90,13 +90,6 @@ public partial class Button
     /// </summary>
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
-
-    /// <summary>
-    /// Additional attributes to be applied to the button element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
 
     private string IconCssClassOverrides => $"{OverrideIconTextColor} {OverrideIconSize}";
 
@@ -165,7 +158,7 @@ public partial class Button
     /// </summary>
     private IEnumerable<string> GetColorClasses()
     {
-        return Style switch
+        return Variant switch
         {
             ButtonStyle.Default => Color switch
             {

@@ -15,9 +15,6 @@ public partial class PromptInputModelSelectTrigger : Flowbite.Base.FlowbiteCompo
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter] private PromptInputModelSelectContext ModelContext { get; set; } = default!;
 
     private string BaseClasses =>

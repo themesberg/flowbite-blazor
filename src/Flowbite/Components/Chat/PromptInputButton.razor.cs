@@ -47,12 +47,6 @@ public partial class PromptInputButton : Flowbite.Base.FlowbiteComponentBase
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Additional attributes applied to the button element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
     /// Click callback.
     /// </summary>
     [Parameter]

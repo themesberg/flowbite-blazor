@@ -45,12 +45,6 @@ public partial class PromptInputSubmit : Flowbite.Base.FlowbiteComponentBase
     public string ErrorLabel { get; set; } = "Retry";
 
     /// <summary>
-    /// Additional attributes applied to the button element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
     /// Optional custom content rendered when the submission status is idle.
     /// </summary>
     [Parameter]

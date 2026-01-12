@@ -13,11 +13,5 @@ public partial class Loader : Flowbite.Base.FlowbiteComponentBase
     [Parameter]
     public int Size { get; set; } = 16;
 
-    /// <summary>
-    /// Additional attributes applied to the wrapper element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string BaseClasses => "inline-flex items-center justify-center text-primary-500";
 }

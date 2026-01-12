@@ -20,12 +20,6 @@ public partial class SidebarCTA
     public SidebarCTAColor Color { get; set; } = SidebarCTAColor.Info;
 
     /// <summary>
-    /// Gets or sets additional attributes that will be applied to the CTA div element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
     /// Gets or sets whether the CTA is collapsed. This is automatically handled by the parent Sidebar component.
     /// </summary>
     [CascadingParameter]

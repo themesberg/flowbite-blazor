@@ -21,12 +21,6 @@ public partial class ReasoningContent : Flowbite.Base.FlowbiteComponentBase, IDi
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the content container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter] private ReasoningContext Context { get; set; } = default!;
 
     private string BaseClasses => "";

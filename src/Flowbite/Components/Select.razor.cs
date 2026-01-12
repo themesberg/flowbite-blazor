@@ -79,12 +79,6 @@ public partial class Select
     [Parameter]
     public string? Id { get; set; }
 
-    /// <summary>
-    /// Additional attributes that will be applied to the select element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string ThemeClass => string.Join(" ", new[]
     {
         "relative",

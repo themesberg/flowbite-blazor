@@ -16,12 +16,6 @@ public partial class ReasoningTrigger : Flowbite.Base.FlowbiteComponentBase, IDi
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the button element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter] private ReasoningContext Context { get; set; } = default!;
 
     private string BaseClasses =>

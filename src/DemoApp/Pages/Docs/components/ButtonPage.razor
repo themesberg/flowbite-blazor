@@ -41,26 +41,26 @@
             Description="Create outline buttons with transparent backgrounds and colored borders. These are useful for secondary actions or alternative styling options."
             RazorCode="@(
 @"<div class=""flex flex-wrap gap-4"">
-    <Button Style=""ButtonStyle.Outline"">Default</Button>
-    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Gray"">Gray</Button>
-    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Dark"">Dark</Button>
-    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Light"">Light</Button>
-    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Green"">Green</Button>
-    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Red"">Red</Button>
-    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Yellow"">Yellow</Button>
-    <Button Style=""ButtonStyle.Outline"" Color=""ButtonColor.Purple"">Purple</Button>
+    <Button Variant=""ButtonStyle.Outline"">Default</Button>
+    <Button Variant=""ButtonStyle.Outline"" Color=""ButtonColor.Gray"">Gray</Button>
+    <Button Variant=""ButtonStyle.Outline"" Color=""ButtonColor.Dark"">Dark</Button>
+    <Button Variant=""ButtonStyle.Outline"" Color=""ButtonColor.Light"">Light</Button>
+    <Button Variant=""ButtonStyle.Outline"" Color=""ButtonColor.Green"">Green</Button>
+    <Button Variant=""ButtonStyle.Outline"" Color=""ButtonColor.Red"">Red</Button>
+    <Button Variant=""ButtonStyle.Outline"" Color=""ButtonColor.Yellow"">Yellow</Button>
+    <Button Variant=""ButtonStyle.Outline"" Color=""ButtonColor.Purple"">Purple</Button>
 </div>")"
             SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
                 <div class="flex flex-wrap gap-4">
-                    <Button Style="ButtonStyle.Outline">Default</Button>
-                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Gray">Gray</Button>
-                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Dark">Dark</Button>
-                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Light">Light</Button>
-                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Green">Green</Button>
-                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Red">Red</Button>
-                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Yellow">Yellow</Button>
-                    <Button Style="ButtonStyle.Outline" Color="ButtonColor.Purple">Purple</Button>
+                    <Button Variant="ButtonStyle.Outline">Default</Button>
+                    <Button Variant="ButtonStyle.Outline" Color="ButtonColor.Gray">Gray</Button>
+                    <Button Variant="ButtonStyle.Outline" Color="ButtonColor.Dark">Dark</Button>
+                    <Button Variant="ButtonStyle.Outline" Color="ButtonColor.Light">Light</Button>
+                    <Button Variant="ButtonStyle.Outline" Color="ButtonColor.Green">Green</Button>
+                    <Button Variant="ButtonStyle.Outline" Color="ButtonColor.Red">Red</Button>
+                    <Button Variant="ButtonStyle.Outline" Color="ButtonColor.Yellow">Yellow</Button>
+                    <Button Variant="ButtonStyle.Outline" Color="ButtonColor.Purple">Purple</Button>
                 </div>
             </PreviewContent>
         </ComponentExample>
@@ -74,7 +74,7 @@
     <Button Icon=""@(new EyeIcon())"" Color=""ButtonColor.Yellow"">View alert</Button>
     <Button Icon=""@(new InfoIcon())"" Size=""ButtonSize.Large"">Large with icon</Button>
     <Button Icon=""@(new InfoIcon())"" 
-            Style=""ButtonStyle.Outline""
+            Variant=""ButtonStyle.Outline""
             OverrideIconTextColor=""text-primary-700 group-hover:text-white"">
             Outline with icon
     </Button>
@@ -86,7 +86,7 @@
                     <Button Icon="@(new EyeIcon())" Color="ButtonColor.Yellow">View alert</Button>
                     <Button Icon="@(new InfoIcon())" Size="ButtonSize.Large">Large with icon</Button>
                     <Button Icon="@(new InfoIcon())" 
-                            Style="ButtonStyle.Outline" 
+                            Variant="ButtonStyle.Outline" 
                             OverrideIconTextColor="text-primary-700 group-hover:text-white">
                             Outline with icon
                     </Button>
@@ -120,14 +120,14 @@
 @"<div class=""flex flex-wrap gap-4"">
     <Button Pill>Default pill</Button>
     <Button Pill Color=""ButtonColor.Green"">Success pill</Button>
-    <Button Pill Style=""ButtonStyle.Outline"">Outline pill</Button>
+    <Button Pill Variant=""ButtonStyle.Outline"">Outline pill</Button>
 </div>")"
             SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
                 <div class="flex flex-wrap gap-4">
                     <Button Pill>Default pill</Button>
                     <Button Pill Color="ButtonColor.Green">Success pill</Button>
-                    <Button Pill Style="ButtonStyle.Outline">Outline pill</Button>
+                    <Button Pill Variant="ButtonStyle.Outline">Outline pill</Button>
                 </div>
             </PreviewContent>
         </ComponentExample>

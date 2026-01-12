@@ -15,12 +15,6 @@ public partial class PromptInputActionMenuTrigger : Flowbite.Base.FlowbiteCompon
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the trigger button.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter] private PromptInputActionMenuContext MenuContext { get; set; } = default!;
 
     private string BaseClasses =>

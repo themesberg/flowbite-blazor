@@ -83,12 +83,6 @@ public partial class PromptInput : Flowbite.Base.FlowbiteComponentBase, IAsyncDi
     [Parameter]
     public EventCallback<IReadOnlyList<PromptAttachment>> AttachmentsChanged { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the outer container element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private bool AllowMultipleFiles => Multiple;
 
     protected override void OnInitialized()
