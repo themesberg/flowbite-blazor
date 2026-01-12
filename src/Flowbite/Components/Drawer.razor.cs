@@ -212,7 +212,7 @@ public partial class Drawer
     private string GetDrawerClasses()
     {
         // p-16 fixed inset-0 z-50 h-screen md:inset-0 md:h-full flex bg-gray-900/50 dark:bg-gray-900/80 items-center justify-center
-        var baseClasses = "fixed z-[70] overflow-y-auto bg-white p-4 transition-transform dark:bg-gray-800";
+        var baseClasses = "fixed z-[70] overflow-y-auto bg-white p-4 transition-transform motion-reduce:transition-none dark:bg-gray-800";
         var positionClasses = GetPositionClasses();
         
         return CombineClasses(baseClasses, positionClasses, Class);

@@ -143,7 +143,7 @@ public partial class Combobox : FlowbiteComponentBase, IAsyncDisposable
     private string GetOptionClasses(ComboboxItemRegistration item)
     {
         var baseClasses =
-            "flex w-full items-center gap-2 px-3 py-2 text-sm text-left transition-colors hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-700";
+            "flex w-full items-center gap-2 px-3 py-2 text-sm text-left transition-colors motion-reduce:transition-none hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-700";
 
         if (item.Disabled)
         {

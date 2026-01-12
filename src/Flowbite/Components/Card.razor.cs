@@ -7,7 +7,7 @@ namespace Flowbite.Components;
 /// </summary>
 public partial class Card
 {
-    private string BaseClasses => "flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 transition-colors duration-200";
+    private string BaseClasses => "flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 transition-colors duration-200 motion-reduce:transition-none";
 
     /// <summary>
     /// Optional URL that the card will link to when clicked.

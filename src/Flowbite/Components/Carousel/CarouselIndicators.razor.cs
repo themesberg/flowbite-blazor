@@ -29,7 +29,7 @@ public partial class CarouselIndicators : FlowbiteComponentBase
     {
         bool isActive = index == State?.CurrentIndex;
         
-        string baseClass = "w-3 h-3 rounded-full transition-all";
+        string baseClass = "w-3 h-3 rounded-full transition-all motion-reduce:transition-none";
         string stateClass = isActive 
             ? "bg-white dark:bg-gray-800" 
             : "bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800";
