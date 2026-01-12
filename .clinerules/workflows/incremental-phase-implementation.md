@@ -373,6 +373,7 @@ Create or update the task-specific verification checklist:
 
 ## Approvals
 - [ ] Changes reviewed by user
+- [ ] Flowbite and/or DemoApp csproj versions updated AND CHANGELOG.md file(s) updated
 - [ ] Approved for push to origin
 - [ ] DemoApp stopped before merge
 - [ ] Merged to develop
@@ -397,6 +398,8 @@ read_file docs/verification/phase{N}/task{M}-checklist.md
 - **ALL** verification steps must be `[x]`
 - If ANY item shows `[ ]`, complete it FIRST before asking for approval
 - The commit is NOT the completion milestone - the full checklist is
+- If breaking changes occurred: Verify `docs/MIGRATION.md` is updated
+- **REMINDER:** After merge completes, Step 9 (version bump + changelog) is REQUIRED
 
 Present to user:
 1. Summary of changes made
@@ -581,6 +584,8 @@ Before assuming existing code is correct:
 - Keep verification checklists current
 - Record blockers immediately when encountered
 - Add XML comments to all public APIs
+- **When APIs change:** Update `src/DemoApp/wwwroot/llms-docs/sections/` files
+- **After llms-docs changes:** Build regenerates `llms-ctx.md` automatically
 
 ### When Stuck
 1. Use `git log` and `git diff` to understand what changed
@@ -809,4 +814,60 @@ builder.Services.AddFlowbite();
 git add src/Flowbite/wwwroot/flowbite.min.css
 git add src/DemoApp/wwwroot/css/app.min.css
 ```
+
+### Base Class Parameter Conflicts
+When adding parameters to `FlowbiteComponentBase`, check for conflicts:
+```csharp
+// If adding Style to base class, search for existing Style properties:
+// grep -r "public.*Style" src/Flowbite/Components/
+
+// Common conflicts:
+// - Button.Style (enum) → rename to Button.Variant
+// - Tooltip.Style (string) → rename to Tooltip.Theme
+
+// Also remove duplicate AdditionalAttributes from derived classes:
+// grep -r "AdditionalAttributes" src/Flowbite/Components/
+```
+
+### Parameter/Enum Naming Consistency
+When renaming parameters, also rename associated enums for consistency:
+
+| Parameter Rename | Also Rename Enum |
+|------------------|------------------|
+| `Style` → `Variant` | `ButtonStyle` → `ButtonVariant` |
+| `Style` → `Theme` | (string, no enum change needed) |
+
+This ensures API consistency: `Variant="ButtonVariant.Outline"` instead of `Variant="ButtonStyle.Outline"`.
 </common_pitfalls>
+
+---
+
+## Breaking Changes Protocol
+
+<breaking_changes>
+When a task requires breaking changes to existing APIs:
+
+### Step 1: Document in MIGRATION.md
+Update `docs/MIGRATION.md` with:
+- Version number
+- What changed (old → new)
+- Before/after code examples
+- Find & replace instructions
+
+### Step 2: Update All Affected Files
+- Component source files
+- DemoApp pages in `src/DemoApp/Pages/Docs/components/`
+- AI docs in `src/DemoApp/wwwroot/llms-docs/sections/`
+- Regenerated `llms-ctx.md` (automatic on build)
+
+### Step 3: Changelog Entry
+Mark breaking changes with `**BREAKING:**` prefix:
+```markdown
+### Changed
+- **BREAKING:** Rename `Button.Style` to `Button.Variant`
+- **BREAKING:** Rename `ButtonStyle` enum to `ButtonVariant`
+```
+
+### Step 4: Consider Version Impact
+Breaking changes typically warrant a MINOR version bump (0.1.x → 0.2.0).
+</breaking_changes>
