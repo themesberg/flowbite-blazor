@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.0-beta
+
+### Added
+- Add `Style` parameter to `FlowbiteComponentBase` for inline CSS styles on all components
+- Add `AdditionalAttributes` parameter to `FlowbiteComponentBase` for arbitrary HTML attributes (data-*, aria-*, etc.)
+- Add `docs/MIGRATION.md` with breaking change documentation and migration instructions
+
+### Changed
+- **BREAKING:** Rename `Button.Style` parameter to `Button.Variant`
+- **BREAKING:** Rename `ButtonStyle` enum to `ButtonVariant`
+- **BREAKING:** Rename `Tooltip.Style` parameter to `Tooltip.Theme`
+- Remove duplicate `AdditionalAttributes` declarations from 56+ components (now inherited from base)
+
 ## 0.1.4-beta
 
 - Add TailwindMerge.NET integration for intelligent CSS class conflict resolution

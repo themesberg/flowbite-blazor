@@ -373,6 +373,7 @@ Create or update the task-specific verification checklist:
 
 ## Approvals
 - [ ] Changes reviewed by user
+- [ ] Flowbite and/or DemoApp csproj versions updated AND CHANGELOG.md file(s) updated
 - [ ] Approved for push to origin
 - [ ] DemoApp stopped before merge
 - [ ] Merged to develop
