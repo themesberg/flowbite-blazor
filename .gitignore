@@ -513,3 +513,4 @@ dotnet-install.sh
 verification/
 src/nuget.config
 tmpclaude*
+.demoapp.pid
