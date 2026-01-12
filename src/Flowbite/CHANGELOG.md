@@ -5,6 +5,10 @@
 ### Added
 - Add `ElementClass` fluent builder utility for CSS class composition with conditional logic
 - Refactor `Button` component to use `ElementClass` pattern as demonstration
+- Add `motion-reduce:transition-none` accessibility support to all animated components
+  - Drawer, Sidebar, SidebarCollapse, Tooltip, Toast, Card, Combobox
+  - CarouselIndicators, CarouselItem, PromptInput components, ToggleSwitch
+  - Respects `prefers-reduced-motion: reduce` user preference
 
 ## 0.2.0-beta
 

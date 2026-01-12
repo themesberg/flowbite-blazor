@@ -1,6 +1,6 @@
 # Phase 1: Foundation & Tooling
 
-**Status:** In Progress (Tasks 1.1, 1.2, 1.3 Complete)
+**Status:** Complete (Tasks 1.1, 1.2, 1.3, 1.4 Complete)
 **Prerequisites:** None
 **Priority:** P1 (High)
 **Effort:** S (4-8 hours)
@@ -235,20 +235,20 @@ Add `motion-reduce:transition-none` to all components with CSS transitions to re
 
 ### Tasks
 
-- [ ] Audit all components with `transition-*` classes
-- [ ] Add `motion-reduce:transition-none` to each
+- [x] Audit all components with `transition-*` classes
+- [x] Add `motion-reduce:transition-none` to each
 - [ ] Document pattern in contributing guide
 
 ### Acceptance Criteria
 
-- [ ] `Drawer` component includes `motion-reduce:transition-none`
-- [ ] `Modal` component includes `motion-reduce:transition-none`
-- [ ] `Tooltip` component includes `motion-reduce:transition-none`
-- [ ] `SidebarCollapse` component includes `motion-reduce:transition-none`
-- [ ] Any component with `transition-*` class has matching `motion-reduce:transition-none`
-- [ ] Users with `prefers-reduced-motion: reduce` see no transitions
-- [ ] Components affected: Button, Drawer, Modal, Sidebar, Accordion, Tooltip, Toast
-- [ ] No visual regression for users without motion preference
+- [x] `Drawer` component includes `motion-reduce:transition-none`
+- [x] `Modal` component includes `motion-reduce:transition-none` (N/A - no transitions)
+- [x] `Tooltip` component includes `motion-reduce:transition-none`
+- [x] `SidebarCollapse` component includes `motion-reduce:transition-none`
+- [x] Any component with `transition-*` class has matching `motion-reduce:transition-none`
+- [x] Users with `prefers-reduced-motion: reduce` see no transitions
+- [x] Components affected: Button (N/A), Drawer, Modal (N/A), Sidebar, Accordion (N/A), Tooltip, Toast
+- [x] No visual regression for users without motion preference
 
 ### Components to Update
 

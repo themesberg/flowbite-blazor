@@ -70,7 +70,7 @@ public partial class CarouselItem : FlowbiteComponentBase, IDisposable
     {
         bool isActive = _assignedIndex >= 0 && CarouselState?.CurrentIndex == _assignedIndex;
         
-        string baseClasses = "absolute inset-0 transition-opacity duration-700 ease-in-out";
+        string baseClasses = "absolute inset-0 transition-opacity duration-700 ease-in-out motion-reduce:transition-none";
         string visibilityClass = isActive ? "opacity-100 z-10" : "opacity-0 pointer-events-none";
         
         return CombineClasses($"{baseClasses} {visibilityClass}");

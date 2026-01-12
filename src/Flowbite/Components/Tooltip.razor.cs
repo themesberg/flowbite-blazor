@@ -284,7 +284,7 @@ public partial class Tooltip : IDisposable
     };
 
     private string GetAnimationClasses() =>
-        Animation == null ? "" : $"transition-opacity {Animation}";
+        Animation == null ? "" : $"transition-opacity motion-reduce:transition-none {Animation}";
 
     private string GetArrowClasses() => Placement switch
     {

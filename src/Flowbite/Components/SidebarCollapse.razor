@@ -13,7 +13,7 @@
         {
             <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object>
             {
-                { "class", "w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" },
+                { "class", "w-5 h-5 text-gray-500 transition duration-75 motion-reduce:transition-none dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" },
                 { "aria-hidden", true },
             })" />
         }
@@ -41,9 +41,9 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private string GetButtonClasses() => CombineClasses("flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700");
+    private string GetButtonClasses() => CombineClasses("flex items-center w-full p-2 text-base text-gray-900 transition duration-75 motion-reduce:transition-none rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700");
 
-    private string GetChevronClasses() => CombineClasses($"w-6 h-6 text-gray-500 transition-transform dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white {(_isOpen ? "rotate-180" : "")}");
+    private string GetChevronClasses() => CombineClasses($"w-6 h-6 text-gray-500 transition-transform motion-reduce:transition-none dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white {(_isOpen ? "rotate-180" : "")}");
 
     private string GetListClasses() => CombineClasses("py-2 space-y-2 ps-7");
 }

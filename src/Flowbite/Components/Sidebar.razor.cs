@@ -81,7 +81,7 @@ public partial class Sidebar
         var classes = new List<string>
         {
             "h-full w-64",
-            "transition-transform",
+            "transition-transform motion-reduce:transition-none",
             IsCollapsed && CollapseBehavior == SidebarCollapseBehavior.Collapse ? "-translate-x-full" : "",
             CollapseMode == SidebarCollapseMode.Responsive ? "lg:translate-x-0" : ""
         };

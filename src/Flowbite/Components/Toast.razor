@@ -50,4 +50,14 @@
         from { opacity: 1; transform: translateY(0); }
         to { opacity: 0; transform: translateY(-10px); }
     }
+
+    /* Respect reduced motion preferences */
+    @@media (prefers-reduced-motion: reduce) {
+        .toast-fade-in,
+        .toast-fade-out {
+            animation: none;
+            opacity: 1;
+            transform: none;
+        }
+    }
 </style>
