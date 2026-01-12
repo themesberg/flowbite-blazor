@@ -192,7 +192,7 @@ Before starting any task:
 ## Task Implementation Cycle
 
 <task_cycle>
-Repeat this cycle for each task within a phase.
+Repeat this cycle for each task within a phase. Complete the entire implementation and address 100% of the acceptance criteira without stopping. If you need to continue, do so automatically without waiting for confirmation.
 
 ### Step 1: Create Feature Branch
 
@@ -379,6 +379,10 @@ Create or update the task-specific verification checklist:
 - [ ] Feature branch deleted
 ```
 </checklist_update>
+
+Complete the entire implementation and address 100% of the acceptance criteira without stopping. If you need to continue, do so automatically without waiting for confirmation.
+
+</task_cycle>
 
 ### Step 7: Await User Approval
 
