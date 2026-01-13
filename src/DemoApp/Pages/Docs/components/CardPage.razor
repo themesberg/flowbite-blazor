@@ -207,5 +207,42 @@
                 </Card>
             </PreviewContent>
         </ComponentExample>
+        <ComponentExample Title="Card with Slots"
+                          Description="Use the Slots parameter to customize specific parts of the card component. Slots enable fine-grained control over the base container, image, and body sections."
+                          RazorCode=@(@"
+<Card class=""max-w-sm""
+    ImgSrc=""https://flowbite-react.com/images/blog/image-1.jpg""
+    ImgAlt=""Scenic mountain landscape""
+    Slots=""@(new CardSlots {
+        Base = ""shadow-2xl border-2 border-blue-500"",
+        Image = ""rounded-xl"",
+        Body = ""p-6 bg-blue-50 dark:bg-blue-900/20""
+    })"">
+    <h5 class=""mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"">
+        Customized with Slots
+    </h5>
+    <p class=""font-normal text-gray-700 dark:text-gray-400"">
+        This card uses the Slots parameter to apply custom styling: enhanced shadow, blue border, rounded image, and tinted body background.
+    </p>
+</Card>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Card class="max-w-sm"
+                    ImgSrc="https://flowbite-react.com/images/blog/image-1.jpg"
+                    ImgAlt="Scenic mountain landscape"
+                    Slots="@(new CardSlots {
+                        Base = "shadow-2xl border-2 border-blue-500",
+                        Image = "rounded-xl",
+                        Body = "p-6 bg-blue-50 dark:bg-blue-900/20"
+                    })">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        Customized with Slots
+                    </h5>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">
+                        This card uses the Slots parameter to apply custom styling: enhanced shadow, blue border, rounded image, and tinted body background.
+                    </p>
+                </Card>
+            </PreviewContent>
+        </ComponentExample>
     </div>
 </main>

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Flowbite.Base;
+using Flowbite.Common;
 using Flowbite.Utilities;
 
 namespace Flowbite.Components;
@@ -214,6 +215,34 @@ public partial class Dropdown : IDisposable
     [Parameter]
     public string? MenuClass { get; set; }
 
+    /// <summary>
+    /// Slot configuration for per-element class customization.
+    /// </summary>
+    /// <remarks>
+    /// Use slots to override default styling for specific parts of the dropdown:
+    /// - Base: The dropdown container
+    /// - Trigger: The trigger button
+    /// - Menu: The dropdown menu panel
+    /// - Item: Classes passed to DropdownItem components
+    /// </remarks>
+    /// <example>
+    /// <code>
+    /// &lt;Dropdown Slots="@(new DropdownSlots {
+    ///     Trigger = "bg-blue-600",
+    ///     Menu = "w-64 shadow-xl"
+    /// })"&gt;
+    ///     ...
+    /// &lt;/Dropdown&gt;
+    /// </code>
+    /// </example>
+    [Parameter]
+    public DropdownSlots? Slots { get; set; }
+
+    /// <summary>
+    /// Gets the item slot classes for DropdownItem components.
+    /// </summary>
+    internal string? ItemSlotClasses => Slots?.Item;
+
     private async Task ToggleDropdown(MouseEventArgs args)
     {
         if (OnTriggerClick.HasDelegate)
@@ -244,7 +273,10 @@ public partial class Dropdown : IDisposable
 
     private string GetContainerClasses()
     {
-        return "relative inline-block text-left";
+        return MergeClasses(
+            "relative inline-block text-left",
+            Slots?.Base
+        );
     }
 
     private ButtonSize GetButtonSize()
@@ -270,7 +302,7 @@ public partial class Dropdown : IDisposable
             ? $"inline-flex items-center text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500 {sizeClasses}"
             : $"inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm {sizeClasses} bg-white dark:bg-gray-800 font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500";
 
-        return MergeClasses(baseClasses);
+        return MergeClasses(baseClasses, Slots?.Trigger);
     }
 
     private string GetMenuClasses()
@@ -305,7 +337,7 @@ public partial class Dropdown : IDisposable
 
         var zClass = string.IsNullOrWhiteSpace(MenuClass) ? "z-10" : MenuClass;
 
-        return MergeClasses(baseClasses, zClass);
+        return MergeClasses(baseClasses, zClass, Slots?.Menu);
     }
 
     public void Dispose()

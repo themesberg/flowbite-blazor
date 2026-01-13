@@ -41,6 +41,7 @@
                 <Button @onclick="@(args => ToggleDropdown(args))"
                        Type="ButtonType.Button"
                        Size="@GetButtonSize()"
+                       Class="@(Slots?.Trigger)"
                        id="@Id"
                        aria-expanded="@IsOpen"
                        aria-haspopup="true">

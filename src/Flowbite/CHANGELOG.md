@@ -4,6 +4,13 @@
 
 ### Added
 - Add `ElementClass` fluent builder utility for CSS class composition with conditional logic
+- Add Slot System for per-element CSS class customization within complex components
+  - `SlotBase` abstract base class with `Base` property
+  - `CardSlots` for Card component (Base, Image, Body)
+  - `DropdownSlots` for Dropdown component (Base, Trigger, Menu, Item)
+  - `ModalSlots` for Modal component (Backdrop, Content, Header, Body, Footer)
+  - `AccordionItemSlots` for future Accordion component
+  - All slot classes use TailwindMerge for intelligent conflict resolution
 
 ### Changed
 - Migrate all 30 components from `CombineClasses()` to `MergeClasses()` + `ElementClass` pattern
