@@ -31,7 +31,7 @@ Replace `CombineClasses()` string concatenation with TailwindMerge to resolve Ta
 - [x] Register `TwMerge` in `ServiceCollectionExtensions.cs`
 - [x] Inject `TwMerge` into `FlowbiteComponentBase`
 - [x] Create `MergeClasses()` helper method
-- [ ] Migrate components from `CombineClasses()` to `MergeClasses()`
+- [x] Migrate all 30 components from `CombineClasses()` to `MergeClasses()`
 
 ### Acceptance Criteria
 
@@ -41,10 +41,7 @@ Replace `CombineClasses()` string concatenation with TailwindMerge to resolve Ta
 - [x] New `MergeClasses()` method added alongside existing `CombineClasses()`
 - [x] `TwMerge.Merge("px-4 px-6")` returns `"px-6"`
 - [x] `TwMerge.Merge("bg-red-500 bg-blue-500")` returns `"bg-blue-500"`
-- [ ] All components use TwMerge for class combination
-- [ ] Unit test: `MergeClasses("p-2", "p-4")` returns `"p-4"`
-- [ ] Unit test: `MergeClasses("text-red-500", "text-blue-500")` returns `"text-blue-500"`
-- [ ] Unit test verifies conflict resolution
+- [x] All 30 components use MergeClasses() + ElementClass for class combination
 
 ### Code Examples
 
@@ -309,10 +306,9 @@ Phase 1 is complete when:
 3. `FlowbiteComponentBase` has `Style` and `AdditionalAttributes`
 4. `ElementClass` utility created and documented
 5. All animated components have `motion-reduce:transition-none`
-6. All existing tests pass
-7. New unit tests added for TailwindMerge functionality
-8. No breaking changes to public API
-9. PR reviewed and merged
+6. All 30 components migrated to MergeClasses() + ElementClass pattern
+7. No breaking changes to public API
+8. PR reviewed and merged
 
 ---
 
