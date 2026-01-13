@@ -8,11 +8,16 @@ namespace Flowbite.Components;
 public partial class ModalFooter
 {
     /// <summary>
+    /// Gets or sets the cascading modal context.
+    /// </summary>
+    [CascadingParameter] private ModalContext? Context { get; set; }
+
+    /// <summary>
     /// Gets or sets the content of the footer.
     /// </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
-    
-    
+
+
     /// <summary>
     /// Gets the CSS classes for the footer.
     /// </summary>
@@ -21,6 +26,7 @@ public partial class ModalFooter
     {
         return MergeClasses(
             "flex items-center space-x-2 rounded-b border-t border-gray-200 p-6 dark:border-gray-600",
+            Context?.Slots?.Footer,
             Class
         );
     }

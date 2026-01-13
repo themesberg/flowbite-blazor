@@ -8,7 +8,16 @@
         {
             <img src="@ImgSrc" alt="@ImgAlt" class="@GetImageClasses()" />
         }
-         @ChildContent
+        @if (HasBodySlot)
+        {
+            <div class="@GetBodyClasses()">
+                @ChildContent
+            </div>
+        }
+        else
+        {
+            @ChildContent
+        }
     </div>
 }
 else
@@ -18,6 +27,15 @@ else
         {
             <img src="@ImgSrc" alt="@ImgAlt" class="@GetImageClasses()" />
         }
-        @ChildContent
+        @if (HasBodySlot)
+        {
+            <div class="@GetBodyClasses()">
+                @ChildContent
+            </div>
+        }
+        else
+        {
+            @ChildContent
+        }
     </a>
 }

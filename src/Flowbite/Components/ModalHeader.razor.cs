@@ -49,6 +49,7 @@ public partial class ModalHeader
     {
         return MergeClasses(
             "flex items-start justify-between rounded-t border-b p-5 dark:border-gray-600",
+            Context?.Slots?.Header,
             Class
         );
     }
