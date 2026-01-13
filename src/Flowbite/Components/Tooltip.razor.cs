@@ -26,6 +26,7 @@ public partial class Tooltip : FlowbiteComponentBase, IAsyncDisposable
     private bool _isDisposed;
     private bool _isFocusLeaving;
     private bool _initialized;
+    private bool _isPositioned;
     private string _id = $"tooltip-{Guid.NewGuid():N}"[..20];
     private string? _actualPlacement;
 
@@ -40,10 +41,13 @@ public partial class Tooltip : FlowbiteComponentBase, IAsyncDisposable
         if (Trigger == "hover")
         {
             _isVisible = true;
+            _isPositioned = false;
             _initialized = false;
             StateHasChanged();
             await Task.Yield();
             await InitializeFloatingAsync();
+            _isPositioned = true;
+            StateHasChanged();
         }
     }
 
@@ -75,10 +79,13 @@ public partial class Tooltip : FlowbiteComponentBase, IAsyncDisposable
             else
             {
                 _isVisible = true;
+                _isPositioned = false;
                 _initialized = false;
                 StateHasChanged();
                 await Task.Yield();
                 await InitializeFloatingAsync();
+                _isPositioned = true;
+                StateHasChanged();
             }
         }
     }
@@ -127,6 +134,7 @@ public partial class Tooltip : FlowbiteComponentBase, IAsyncDisposable
     private async Task HideTooltipAsync()
     {
         _isVisible = false;
+        _isPositioned = false;
         if (_initialized)
         {
             await FloatingService.DestroyAsync(_id);
@@ -339,7 +347,8 @@ public partial class Tooltip : FlowbiteComponentBase, IAsyncDisposable
     private string GetTooltipClasses()
     {
         // Base classes - positioning is handled by Floating UI
-        var baseClasses = "z-50 rounded-lg px-3 py-2 text-sm font-medium shadow-sm";
+        // Start with absolute positioning to prevent layout shifts before Floating UI positions it
+        var baseClasses = "z-50 rounded-lg px-3 py-2 text-sm font-medium shadow-sm absolute";
 
         var themeClasses = Theme switch
         {
@@ -351,7 +360,12 @@ public partial class Tooltip : FlowbiteComponentBase, IAsyncDisposable
             ? $"transition-opacity motion-reduce:transition-none {Animation}"
             : "";
 
-        return MergeClasses(baseClasses, themeClasses, animationClasses);
+        // Use invisible + opacity-0 until Floating UI has positioned the tooltip
+        // invisible (visibility:hidden) completely hides the element preventing any flash
+        // The element starts at top-0 left-0 of the relative container until positioned
+        var visibilityClass = _isPositioned ? "visible opacity-100" : "invisible opacity-0 top-0 left-0";
+
+        return MergeClasses(baseClasses, themeClasses, animationClasses, visibilityClass);
     }
 
     private string GetArrowClasses()
