@@ -3,6 +3,13 @@
 ## 0.2.1-beta
 
 ### Added
+- Add keyboard navigation and focus management for Dropdown and Tooltip components
+  - Dropdown: ArrowUp/Down navigation, Home/End, Enter/Space selection, Escape to close, type-ahead search
+  - Dropdown: Focus ring styling with `ring-2 ring-primary-500` classes
+  - Dropdown: Proper ARIA roles (`role="menu"`, `role="menuitem"`) and keyboard semantics
+  - Tooltip: Focus/blur handlers for show/hide on focus
+  - Tooltip: Escape key dismissal support
+  - Tooltip: ARIA linkage via `aria-describedby` and `role="tooltip"`
 - Add `ElementClass` fluent builder utility for CSS class composition with conditional logic
 - Add Slot System for per-element CSS class customization within complex components
 - Add Floating UI integration for viewport-aware positioning of Dropdown, Tooltip, and Combobox components

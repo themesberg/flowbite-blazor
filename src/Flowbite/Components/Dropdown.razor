@@ -3,7 +3,7 @@
 
 <div class="@GetContainerClasses()"
      @onkeydown="HandleKeyDown"
-     tabindex="0">
+     @onkeydown:preventDefault="@ShouldPreventDefault">
     <div data-floating-trigger="@Id">
         @if (CustomTrigger != null)
         {

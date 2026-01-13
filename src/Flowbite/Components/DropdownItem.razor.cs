@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Flowbite.Base;
 using Flowbite.Utilities;
 
-
 namespace Flowbite.Components;
 
 /// <summary>
@@ -11,11 +10,25 @@ namespace Flowbite.Components;
 /// </summary>
 /// <remarks>
 /// Provides a flexible and interactive dropdown item with support for icons, disabled states, and custom click handling.
+/// Implements keyboard navigation support with visual focus indicators.
 /// </remarks>
-public partial class DropdownItem
+public partial class DropdownItem : IDisposable
 {
+    private bool _disposed;
+    private string? _textContent;
+
     [CascadingParameter]
     private Dropdown ParentDropdown { get; set; } = default!;
+
+    /// <summary>
+    /// Plain text content for type-ahead search and accessibility.
+    /// </summary>
+    /// <remarks>
+    /// If not provided, the component will try to extract text from ChildContent.
+    /// For complex content, explicitly set this parameter.
+    /// </remarks>
+    [Parameter]
+    public string? Text { get; set; }
 
     /// <summary>
     /// The content to be displayed in the dropdown item.
@@ -121,7 +134,9 @@ public partial class DropdownItem
         return MergeClasses(
             ElementClass.Empty()
                 .Add("flex w-full items-center px-4 py-2 text-sm")
-                .Add("cursor-pointer text-gray-700 dark:text-gray-200 hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:hover:text-white dark:focus:text-white focus:outline-none", when: !Disabled)
+                .Add("cursor-pointer text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white focus:outline-none", when: !Disabled)
+                // Focus ring styles (Flowbite default) - applied on keyboard focus
+                .Add("ring-2 ring-inset ring-blue-500 bg-gray-100 dark:bg-gray-600 dark:text-white", when: IsFocused && !Disabled)
                 .Add("text-gray-400 dark:text-gray-500 cursor-not-allowed", when: Disabled)
                 .Add("items-center", when: Icon != null)
                 .Add(ParentDropdown?.ItemSlotClasses)
@@ -137,5 +152,61 @@ public partial class DropdownItem
                 .Add("text-gray-400 dark:text-gray-500", when: Disabled)
                 .Add("text-gray-500 dark:text-gray-400", when: !Disabled)
         );
+    }
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ParentDropdown?.RegisterItem(this);
+    }
+
+    /// <summary>
+    /// Gets the text content for type-ahead search.
+    /// </summary>
+    internal string? GetTextContent()
+    {
+        return Text ?? _textContent;
+    }
+
+    /// <summary>
+    /// Sets the text content extracted from ChildContent.
+    /// </summary>
+    internal void SetTextContent(string? text)
+    {
+        _textContent = text;
+    }
+
+    /// <summary>
+    /// Invokes the click handler programmatically (for keyboard selection).
+    /// </summary>
+    internal async Task InvokeClick()
+    {
+        await HandleClick(new MouseEventArgs());
+    }
+
+    /// <summary>
+    /// Gets whether this item is currently focused via keyboard navigation.
+    /// </summary>
+    private bool IsFocused => ParentDropdown?.IsItemFocused(this) == true;
+
+    /// <summary>
+    /// Gets the tabindex for this item based on focus state.
+    /// </summary>
+    private int GetTabIndex()
+    {
+        // Roving tabindex: only the focused item or no item should be tabbable
+        if (Disabled) return -1;
+        return IsFocused ? 0 : -1;
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        if (!_disposed)
+        {
+            _disposed = true;
+            ParentDropdown?.UnregisterItem(this);
+        }
     }
 }

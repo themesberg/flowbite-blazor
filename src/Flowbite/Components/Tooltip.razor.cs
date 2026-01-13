@@ -40,14 +40,7 @@ public partial class Tooltip : FlowbiteComponentBase, IAsyncDisposable
     {
         if (Trigger == "hover")
         {
-            _isVisible = true;
-            _isPositioned = false;
-            _initialized = false;
-            StateHasChanged();
-            await Task.Yield();
-            await InitializeFloatingAsync();
-            _isPositioned = true;
-            StateHasChanged();
+            await ShowTooltipAsync();
         }
     }
 
@@ -60,6 +53,48 @@ public partial class Tooltip : FlowbiteComponentBase, IAsyncDisposable
         {
             await HideTooltipAsync();
         }
+    }
+
+    /// <summary>
+    /// Handles focus events on the tooltip trigger element.
+    /// </summary>
+    /// <remarks>
+    /// Shows tooltip immediately on focus (best practice for accessibility).
+    /// </remarks>
+    private async Task HandleFocus()
+    {
+        if (Trigger == "hover")
+        {
+            await ShowTooltipAsync();
+        }
+    }
+
+    /// <summary>
+    /// Handles blur events on the tooltip trigger element.
+    /// </summary>
+    private async Task HandleBlur()
+    {
+        if (Trigger == "hover" && _isVisible)
+        {
+            await HideTooltipAsync();
+        }
+    }
+
+    /// <summary>
+    /// Shows the tooltip with proper positioning.
+    /// </summary>
+    private async Task ShowTooltipAsync()
+    {
+        if (_isVisible) return;
+
+        _isVisible = true;
+        _isPositioned = false;
+        _initialized = false;
+        StateHasChanged();
+        await Task.Yield();
+        await InitializeFloatingAsync();
+        _isPositioned = true;
+        StateHasChanged();
     }
 
     /// <summary>

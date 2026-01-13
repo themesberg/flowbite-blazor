@@ -13,12 +13,18 @@ namespace Flowbite.Components;
 /// <remarks>
 /// Supports various configurations like inline display, custom triggers, and menu placement.
 /// Uses Floating UI for viewport-aware positioning with automatic flip and shift behavior.
+/// Implements WAI-ARIA menu pattern with full keyboard navigation support.
 /// </remarks>
 public partial class Dropdown : IAsyncDisposable
 {
     private bool _disposed;
     private bool _initialized;
     private string? _actualPlacement;
+    private int _focusedIndex = -1;
+    private readonly List<DropdownItem> _registeredItems = new();
+    private string _typeAheadBuffer = string.Empty;
+    private DateTime _typeAheadLastKeyTime = DateTime.MinValue;
+    private const int TypeAheadTimeoutMs = 500;
 
     [Inject]
     private IFloatingService FloatingService { get; set; } = default!;
@@ -338,10 +344,191 @@ public partial class Dropdown : IAsyncDisposable
 
     private async Task HandleKeyDown(KeyboardEventArgs args)
     {
-        if (args.Key == "Escape")
+        switch (args.Key)
         {
-            await CloseDropdown();
+            case "Escape":
+                await CloseDropdown();
+                break;
+
+            case "ArrowDown":
+                if (!IsOpen)
+                {
+                    // Open dropdown and focus first item
+                    await OpenDropdown();
+                    _focusedIndex = GetNextFocusableIndex(-1);
+                }
+                else
+                {
+                    // Move focus to next item
+                    _focusedIndex = GetNextFocusableIndex(_focusedIndex);
+                }
+                StateHasChanged();
+                break;
+
+            case "ArrowUp":
+                if (IsOpen)
+                {
+                    // Move focus to previous item
+                    _focusedIndex = GetPreviousFocusableIndex(_focusedIndex);
+                    StateHasChanged();
+                }
+                break;
+
+            case "Home":
+                if (IsOpen)
+                {
+                    // Move focus to first item
+                    _focusedIndex = GetNextFocusableIndex(-1);
+                    StateHasChanged();
+                }
+                break;
+
+            case "End":
+                if (IsOpen)
+                {
+                    // Move focus to last item
+                    _focusedIndex = GetPreviousFocusableIndex(_registeredItems.Count);
+                    StateHasChanged();
+                }
+                break;
+
+            case "Enter":
+            case " ":
+                if (IsOpen && _focusedIndex >= 0 && _focusedIndex < _registeredItems.Count)
+                {
+                    // Select the focused item
+                    var item = _registeredItems[_focusedIndex];
+                    if (!item.Disabled)
+                    {
+                        await item.InvokeClick();
+                    }
+                }
+                else if (!IsOpen)
+                {
+                    // Open dropdown
+                    await OpenDropdown();
+                    _focusedIndex = GetNextFocusableIndex(-1);
+                    StateHasChanged();
+                }
+                break;
+
+            case "Tab":
+                // Close dropdown and let focus move naturally
+                if (IsOpen)
+                {
+                    await CloseDropdown();
+                }
+                break;
+
+            default:
+                // Type-ahead search
+                if (IsOpen && args.Key.Length == 1 && char.IsLetterOrDigit(args.Key[0]))
+                {
+                    HandleTypeAhead(args.Key);
+                }
+                break;
         }
+    }
+
+    /// <summary>
+    /// Determines if the default browser behavior should be prevented for keyboard events.
+    /// </summary>
+    private bool ShouldPreventDefault => IsOpen && _focusedIndex >= 0;
+
+    private async Task OpenDropdown()
+    {
+        if (!IsOpen)
+        {
+            IsOpen = true;
+            _initialized = false;
+            _focusedIndex = -1;
+            await IsOpenChanged.InvokeAsync(true);
+        }
+    }
+
+    private int GetNextFocusableIndex(int currentIndex)
+    {
+        if (_registeredItems.Count == 0) return -1;
+
+        var startIndex = currentIndex + 1;
+        for (var i = 0; i < _registeredItems.Count; i++)
+        {
+            var index = (startIndex + i) % _registeredItems.Count;
+            if (!_registeredItems[index].Disabled)
+            {
+                return index;
+            }
+        }
+        return currentIndex; // No focusable items found, stay where we are
+    }
+
+    private int GetPreviousFocusableIndex(int currentIndex)
+    {
+        if (_registeredItems.Count == 0) return -1;
+
+        var startIndex = currentIndex - 1;
+        if (startIndex < 0) startIndex = _registeredItems.Count - 1;
+
+        for (var i = 0; i < _registeredItems.Count; i++)
+        {
+            var index = (startIndex - i + _registeredItems.Count) % _registeredItems.Count;
+            if (!_registeredItems[index].Disabled)
+            {
+                return index;
+            }
+        }
+        return currentIndex; // No focusable items found, stay where we are
+    }
+
+    private void HandleTypeAhead(string key)
+    {
+        var now = DateTime.Now;
+        if ((now - _typeAheadLastKeyTime).TotalMilliseconds > TypeAheadTimeoutMs)
+        {
+            _typeAheadBuffer = string.Empty;
+        }
+        _typeAheadLastKeyTime = now;
+        _typeAheadBuffer += key.ToLowerInvariant();
+
+        // Find the first item that starts with the type-ahead buffer
+        for (var i = 0; i < _registeredItems.Count; i++)
+        {
+            var item = _registeredItems[i];
+            if (!item.Disabled && item.GetTextContent()?.ToLowerInvariant().StartsWith(_typeAheadBuffer) == true)
+            {
+                _focusedIndex = i;
+                StateHasChanged();
+                break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Registers a dropdown item for keyboard navigation.
+    /// </summary>
+    internal void RegisterItem(DropdownItem item)
+    {
+        if (!_registeredItems.Contains(item))
+        {
+            _registeredItems.Add(item);
+        }
+    }
+
+    /// <summary>
+    /// Unregisters a dropdown item from keyboard navigation.
+    /// </summary>
+    internal void UnregisterItem(DropdownItem item)
+    {
+        _registeredItems.Remove(item);
+    }
+
+    /// <summary>
+    /// Checks if the specified item is currently focused.
+    /// </summary>
+    internal bool IsItemFocused(DropdownItem item)
+    {
+        var index = _registeredItems.IndexOf(item);
+        return index >= 0 && index == _focusedIndex;
     }
 
     /// <summary>

@@ -5,9 +5,11 @@
      @onclick="HandleClick"
      @onmouseenter="HandleMouseEnter"
      @onmouseleave="HandleMouseLeave"
+     @onfocusin="HandleFocus"
      @onfocusout="HandleFocusOut"
+     @onblur="HandleBlur"
      @onkeydown="HandleKeyDown"
-     tabindex="-1"
+     aria-describedby="@(_isVisible ? _id : null)"
      data-floating-trigger="@_id">
     @ChildContent
 
@@ -15,7 +17,8 @@
     {
         <div class="@GetTooltipClasses()"
              data-floating-element="@_id"
-             role="tooltip">
+             role="tooltip"
+             id="@_id">
             <div class="relative z-20">
                 @Content
             </div>
