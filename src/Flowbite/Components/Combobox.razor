@@ -2,7 +2,7 @@
 @inherits Flowbite.Base.FlowbiteComponentBase
 
 <CascadingValue Value="this">
-    <div class="@CombineClasses("relative")" @attributes="AdditionalAttributes" @ref="_rootRef">
+    <div class="@CombineClasses("relative")" style="@Style" @attributes="AdditionalAttributes" @ref="_rootRef">
         @ChildContent
         <button type="button"
                 class="@TriggerClasses"

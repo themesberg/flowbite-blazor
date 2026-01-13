@@ -1,7 +1,7 @@
 @using Flowbite.Components.Markdown
 @inherits Flowbite.Base.FlowbiteComponentBase
 
-<div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
+<div class="@CombineClasses(BaseClasses)" style="@Style" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrEmpty(Text))
     {
         if (Role == ChatMessageRole.User)

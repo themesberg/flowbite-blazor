@@ -3,21 +3,21 @@
 @switch (Tag)
 {
     case HeadingTag.H1:
-        <h1 class="@GetHeadingClasses()" @attributes="AdditionalAttributes">@ChildContent</h1>
+        <h1 class="@GetHeadingClasses()" style="@Style" @attributes="AdditionalAttributes">@ChildContent</h1>
         break;
     case HeadingTag.H2:
-        <h2 class="@GetHeadingClasses()" @attributes="AdditionalAttributes">@ChildContent</h2>
+        <h2 class="@GetHeadingClasses()" style="@Style" @attributes="AdditionalAttributes">@ChildContent</h2>
         break;
     case HeadingTag.H3:
-        <h3 class="@GetHeadingClasses()" @attributes="AdditionalAttributes">@ChildContent</h3>
+        <h3 class="@GetHeadingClasses()" style="@Style" @attributes="AdditionalAttributes">@ChildContent</h3>
         break;
     case HeadingTag.H4:
-        <h4 class="@GetHeadingClasses()" @attributes="AdditionalAttributes">@ChildContent</h4>
+        <h4 class="@GetHeadingClasses()" style="@Style" @attributes="AdditionalAttributes">@ChildContent</h4>
         break;
     case HeadingTag.H5:
-        <h5 class="@GetHeadingClasses()" @attributes="AdditionalAttributes">@ChildContent</h5>
+        <h5 class="@GetHeadingClasses()" style="@Style" @attributes="AdditionalAttributes">@ChildContent</h5>
         break;
     case HeadingTag.H6:
-        <h6 class="@GetHeadingClasses()" @attributes="AdditionalAttributes">@ChildContent</h6>
+        <h6 class="@GetHeadingClasses()" style="@Style" @attributes="AdditionalAttributes">@ChildContent</h6>
         break;
 }

@@ -2,7 +2,7 @@
 @inherits FlowbiteComponentBase
 @typeparam TValue
 
-<div class="@GetWrapperClasses()">
+<div class="@GetWrapperClasses()" style="@Style">
     @if (!string.IsNullOrEmpty(AddonLeft))
     {
         <span class="@GetAddonClasses()">@AddonLeft</span>

@@ -5,7 +5,7 @@
 @if (Href != null)
 {
     <a href="@Href" class="@HrefClass">
-        <span class="@BadgeClass" @attributes="AdditionalAttributes">
+        <span class="@BadgeClass" style="@Style" @attributes="AdditionalAttributes">
             @if (Icon != null)
             {
                 <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object>
@@ -23,7 +23,7 @@
 }
 else
 {
-    <span class="@BadgeClass" @attributes="AdditionalAttributes">
+    <span class="@BadgeClass" style="@Style" @attributes="AdditionalAttributes">
         @if (Icon != null)
         {
             <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object>
