@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Components;
+using Flowbite.Utilities;
 
 namespace Flowbite.Components;
 
@@ -60,17 +60,43 @@ public partial class ActivityItem : FlowbiteComponentBase
     [Parameter]
     public string? TextClass { get; set; }
 
-    private string ListItemClasses => CombineClasses("mb-10 ms-6", ListItemClass);
-    private string AvatarWrapperClasses => JoinClasses("flex absolute -start-3 justify-center items-center w-6 h-6 bg-blue-200 rounded-full ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900", AvatarWrapperClass);
-    private string AvatarClasses => JoinClasses("rounded-full shadow-lg", AvatarClass);
-    private string CardClasses => JoinClasses("p-4 bg-white rounded-lg border border-gray-200 shadow-xs dark:bg-gray-700 dark:border-gray-600", CardClass);
-    private string HeaderClasses => JoinClasses("justify-between items-center mb-3 sm:flex", HeaderClass);
-    private string TimeClasses => JoinClasses("mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0", TimeClass);
-    private string TitleClasses => JoinClasses("text-sm font-normal text-gray-500 dark:text-gray-300", TitleClass);
-    private string TextClasses => JoinClasses("p-3 text-xs italic font-normal text-gray-500 bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300", TextClass);
+    private string ListItemClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add("mb-10 ms-6")
+            .Add(ListItemClass));
 
-    private static string JoinClasses(params string?[] classes)
-    {
-        return string.Join(" ", classes.Where(c => !string.IsNullOrWhiteSpace(c)));
-    }
+    private string AvatarWrapperClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add("flex absolute -start-3 justify-center items-center w-6 h-6 bg-blue-200 rounded-full ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900")
+            .Add(AvatarWrapperClass));
+
+    private string AvatarClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add("rounded-full shadow-lg")
+            .Add(AvatarClass));
+
+    private string CardClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add("p-4 bg-white rounded-lg border border-gray-200 shadow-xs dark:bg-gray-700 dark:border-gray-600")
+            .Add(CardClass));
+
+    private string HeaderClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add("justify-between items-center mb-3 sm:flex")
+            .Add(HeaderClass));
+
+    private string TimeClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add("mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0")
+            .Add(TimeClass));
+
+    private string TitleClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add("text-sm font-normal text-gray-500 dark:text-gray-300")
+            .Add(TitleClass));
+
+    private string TextClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add("p-3 text-xs italic font-normal text-gray-500 bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300")
+            .Add(TextClass));
 }

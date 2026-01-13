@@ -4,7 +4,12 @@
 
 ### Added
 - Add `ElementClass` fluent builder utility for CSS class composition with conditional logic
-- Refactor `Button` component to use `ElementClass` pattern as demonstration
+
+### Changed
+- Migrate all 30 components from `CombineClasses()` to `MergeClasses()` + `ElementClass` pattern
+  - Enables TailwindMerge.NET intelligent CSS class conflict resolution
+  - User-provided `Class` parameter now properly overrides component defaults
+  - Components: Card, Combobox, Modal, ModalBody, ModalFooter, ModalHeader, Drawer, DrawerHeader, DrawerItems, Navbar, NavbarLink, SidebarCTA, SidebarLogo, Dropdown, DropdownItem, Carousel, CarouselIndicators, CarouselItem, ChatMessage, ChatMessageContent, Activity, ActivityItem, Group, GroupItem, Timeline, TimelineItem, Heading, Paragraph, Span, TableContext
 - Add `motion-reduce:transition-none` accessibility support to all animated components
   - Drawer, Modal, Sidebar, SidebarCollapse, Tooltip, Toast, Card, Combobox
   - CarouselIndicators, CarouselItem, PromptInput components, ToggleSwitch

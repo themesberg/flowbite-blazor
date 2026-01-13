@@ -1,10 +1,14 @@
+using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 
 namespace Flowbite.Components;
 
 public partial class Timeline : FlowbiteComponentBase
 {
-    private string ComponentClasses => CombineClasses(GetBaseClasses());
+    private string ComponentClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add(GetBaseClasses())
+            .Add(Class));
 
     /// <summary>
     /// Determines the visual layout of the timeline.

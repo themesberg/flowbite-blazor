@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Flowbite.Base;
+using Flowbite.Utilities;
 
 namespace Flowbite.Components;
 
@@ -129,19 +130,20 @@ public partial class Navbar : FlowbiteComponentBase
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private string NavbarClasses => CombineClasses(string.Join(" ", new[]
-    {
-        "bg-white dark:border-gray-700 dark:bg-gray-800 px-2 py-2.5 rounded sm:px-4 w-full",
-        Rounded ? "rounded" : "",
-        Border ? "border" : ""
-    }).Trim());
+    private string NavbarClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add("bg-white dark:border-gray-700 dark:bg-gray-800 px-2 py-2.5 sm:px-4 w-full")
+            .Add("rounded", when: Rounded)
+            .Add("border", when: Border)
+            .Add(Class)
+    );
 
-    private string ContainerClasses => CombineClasses(string.Join(" ", new[]
-    {
-        !Fluid ? "mx-auto" : "",
-        Fluid ? "px-2 sm:px-4 py-2.5" : "",
-        "flex flex-wrap justify-between items-center"
-    }).Trim());
+    private string ContainerClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add("mx-auto", when: !Fluid)
+            .Add("px-2 sm:px-4 py-2.5", when: Fluid)
+            .Add("flex flex-wrap justify-between items-center")
+    );
 
     protected override void OnInitialized()
     {

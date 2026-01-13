@@ -1,3 +1,4 @@
+using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 
 namespace Flowbite.Components;
@@ -7,7 +8,7 @@ namespace Flowbite.Components;
 /// </summary>
 public partial class Card
 {
-    private string BaseClasses => "flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 transition-colors duration-200 motion-reduce:transition-none";
+    private const string BaseClasses = "flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 transition-colors duration-200 motion-reduce:transition-none";
 
     /// <summary>
     /// Optional URL that the card will link to when clicked.
@@ -39,24 +40,13 @@ public partial class Card
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private string? ComponentClasses
-    {
-        get
-        {
-            var classes = new List<string>
-            {
-                BaseClasses,
-                Horizontal ? "flex-col md:flex-row" : "flex-col",
-            };
-
-            if (!string.IsNullOrEmpty(Href))
-            {
-                classes.Add("cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700");
-            }
-
-            return CombineClasses(string.Join(" ", classes.Where(c => !string.IsNullOrEmpty(c))));
-        }
-    }
+    private string ComponentClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add(BaseClasses)
+            .Add(Horizontal ? "flex-col md:flex-row" : "flex-col")
+            .Add("cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700", when: !string.IsNullOrEmpty(Href))
+            .Add(Class)
+    );
 
     private string GetImageClasses() => Horizontal
         ? "h-96 w-full object-cover md:h-auto md:w-48 md:rounded-l-lg"

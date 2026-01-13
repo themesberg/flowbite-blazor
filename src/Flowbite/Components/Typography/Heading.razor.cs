@@ -1,4 +1,6 @@
 
+using Flowbite.Utilities;
+
 namespace Flowbite.Components.Typography;
 
 /// <summary>
@@ -80,28 +82,15 @@ public partial class Heading
     /// </summary>
     private string GetHeadingClasses()
     {
-        var classes = new List<string>();
+        // Determine color/gradient classes
+        var colorClasses = Gradient != GradientColor.None
+            ? GetGradientClasses(Gradient)
+            : CustomColor ?? "text-gray-900 dark:text-white";
 
-        // Add gradient classes if specified
-        if (Gradient != GradientColor.None)
-        {
-            classes.Add(GetGradientClasses(Gradient));
-        }
-        else
-        {
-            // Add color classes only if no gradient
-            classes.Add(CustomColor ?? "text-gray-900 dark:text-white");
-        }
-
-        // Add size classes
-        if (Size.HasValue)
-        {
-            classes.Add(GetTextSizeClass(Size.Value));
-        }
-        else
-        {
-            // Default tag-based sizing
-            classes.Add(Tag switch
+        // Determine size classes
+        var sizeClasses = Size.HasValue
+            ? GetTextSizeClass(Size.Value)
+            : Tag switch
             {
                 HeadingTag.H1 => "text-5xl",
                 HeadingTag.H2 => "text-4xl",
@@ -110,21 +99,19 @@ public partial class Heading
                 HeadingTag.H5 => "text-xl",
                 HeadingTag.H6 => "text-lg",
                 _ => "text-5xl"
-            });
-        }
+            };
 
-        // Add weight classes
-        if (Weight.HasValue)
-        {
-            classes.Add(GetFontWeightClass(Weight.Value));
-        }
-        else
-        {
-            // Default weight (extrabold for H1, bold for others)
-            classes.Add(Tag == HeadingTag.H1 ? "font-extrabold" : "font-bold");
-        }
+        // Determine weight classes (extrabold for H1, bold for others)
+        var weightClasses = Weight.HasValue
+            ? GetFontWeightClass(Weight.Value)
+            : Tag == HeadingTag.H1 ? "font-extrabold" : "font-bold";
 
-        return CombineClasses(classes.ToArray());
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add(colorClasses)
+                .Add(sizeClasses)
+                .Add(weightClasses)
+                .Add(Class));
     }
 
     /// <summary>

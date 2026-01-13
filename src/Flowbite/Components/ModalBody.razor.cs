@@ -19,7 +19,7 @@ public partial class ModalBody
     /// <returns>The CSS classes for the body.</returns>
     private string GetBodyClasses()
     {
-        return CombineClasses(
+        return MergeClasses(
             "flex-1 overflow-auto p-6",
             Class
         );
