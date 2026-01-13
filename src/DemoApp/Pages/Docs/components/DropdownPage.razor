@@ -321,5 +321,71 @@
                 </Dropdown>
             </PreviewContent>
         </ComponentExample>
+
+        <ComponentExample Title="Dropdown with slots"
+                          Description="Use the Slots parameter to customize the styling of specific dropdown elements like the trigger button, menu container, and individual items."
+                          RazorCode=@(@"
+<div class=""flex items-center gap-4"">
+    @* Custom trigger styling with green theme *@
+    <Dropdown Slots=""@(new DropdownSlots {
+        Trigger = ""bg-green-600 hover:bg-green-700 focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600"",
+        Menu = ""border-2 border-green-500 bg-green-50 dark:bg-green-900"",
+        Item = ""hover:bg-green-100 dark:hover:bg-green-800""
+    })"">
+        <Label>Green Theme</Label>
+        <ChildContent>
+            <DropdownItem>Dashboard</DropdownItem>
+            <DropdownItem>Settings</DropdownItem>
+            <DropdownItem>Sign out</DropdownItem>
+        </ChildContent>
+    </Dropdown>
+
+    @* Custom menu styling with purple accents *@
+    <Dropdown Slots=""@(new DropdownSlots {
+        Trigger = ""bg-purple-600 hover:bg-purple-700 focus:ring-purple-300 dark:bg-purple-500"",
+        Menu = ""rounded-xl shadow-xl border-2 border-purple-300 dark:border-purple-600"",
+        Item = ""text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-800""
+    })"">
+        <Label>Purple Theme</Label>
+        <ChildContent>
+            <DropdownItem>Profile</DropdownItem>
+            <DropdownItem>Preferences</DropdownItem>
+            <DropdownItem>Logout</DropdownItem>
+        </ChildContent>
+    </Dropdown>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex items-center gap-4">
+                    @* Custom trigger styling with green theme *@
+                    <Dropdown Slots="@(new DropdownSlots {
+                        Trigger = "bg-green-600 hover:bg-green-700 focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600",
+                        Menu = "border-2 border-green-500 bg-green-50 dark:bg-green-900",
+                        Item = "hover:bg-green-100 dark:hover:bg-green-800"
+                    })">
+                        <Label>Green Theme</Label>
+                        <ChildContent>
+                            <DropdownItem>Dashboard</DropdownItem>
+                            <DropdownItem>Settings</DropdownItem>
+                            <DropdownItem>Sign out</DropdownItem>
+                        </ChildContent>
+                    </Dropdown>
+
+                    @* Custom menu styling with purple accents *@
+                    <Dropdown Slots="@(new DropdownSlots {
+                        Trigger = "bg-purple-600 hover:bg-purple-700 focus:ring-purple-300 dark:bg-purple-500",
+                        Menu = "rounded-xl shadow-xl border-2 border-purple-300 dark:border-purple-600",
+                        Item = "text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-800"
+                    })">
+                        <Label>Purple Theme</Label>
+                        <ChildContent>
+                            <DropdownItem>Profile</DropdownItem>
+                            <DropdownItem>Preferences</DropdownItem>
+                            <DropdownItem>Logout</DropdownItem>
+                        </ChildContent>
+                    </Dropdown>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
     </div>
 </main>
