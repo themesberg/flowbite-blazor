@@ -19,21 +19,21 @@ This plan respects that constraint. We adopt patterns from LumexUI **selectively
 
 ### Customization Scope
 
-| Customization Type | Supported | Mechanism |
-|--------------------|-----------|-----------|
-| Primary brand color | Yes | Tailwind v4 `@theme` directive |
-| Per-element class customization | Yes | Slot system |
-| Layout/spacing adjustments | Yes | Class parameter + Slots |
-| Secondary/success/warning/danger colors | No | Part of Flowbite design system |
-| Custom typography scales | No | Use standard Tailwind |
-| Custom border radius tokens | No | Flowbite has own rounded utilities |
+| Customization Type                      | Supported | Mechanism                          |
+| --------------------------------------- | --------- | ---------------------------------- |
+| Primary brand color                     | Yes       | Tailwind v4 `@theme` directive     |
+| Per-element class customization         | Yes       | Slot system                        |
+| Layout/spacing adjustments              | Yes       | Class parameter + Slots            |
+| Secondary/success/warning/danger colors | No        | Part of Flowbite design system     |
+| Custom typography scales                | No        | Use standard Tailwind              |
+| Custom border radius tokens             | No        | Flowbite has own rounded utilities |
 
 ---
 
 ## Roadmap Overview
 
 ```
-Phase 1: Foundation & Tooling (P1)
+Phase 1: Foundation & Tooling (P1) 
     ├── TailwindMerge.NET
     ├── Style + AdditionalAttributes
     ├── ElementClass Builder
@@ -66,13 +66,13 @@ Phase 5: Polish & DX (P2)
 
 ## Quick Reference
 
-| Phase | Document | Priority | Effort | Key Deliverables |
-|-------|----------|----------|--------|------------------|
-| 1 | [01-PHASE-FOUNDATION.md](./01-PHASE-FOUNDATION.md) | P1 | S (4-8 hrs) | TailwindMerge, base class, ElementClass, motion-reduce |
-| 2 | [02-PHASE-CORE-ARCHITECTURE.md](./02-PHASE-CORE-ARCHITECTURE.md) | P0 | L (20-30 hrs) | Full slot system, Floating UI positioning |
-| 3 | [03-PHASE-TAILWIND-V4.md](./03-PHASE-TAILWIND-V4.md) | P1 | M (12-18 hrs) | Tailwind v4, @theme directive, dark mode |
-| 4 | [04-PHASE-ANIMATION.md](./04-PHASE-ANIMATION.md) | P1 | M (8-12 hrs) | CollapseState enum, height animations |
-| 5 | [05-PHASE-POLISH.md](./05-PHASE-POLISH.md) | P2 | M (10-16 hrs) | Debouncing, lazy loading, documentation |
+| Phase | Document                                                         | Priority | Status      | Effort        | Key Deliverables                                       |
+| ----- | ---------------------------------------------------------------- | -------- | ----------- | ------------- | ------------------------------------------------------ |
+| 1     | [01-PHASE-FOUNDATION.md](./01-PHASE-FOUNDATION.md)               | P1       | COMPLETED   | S (4-8 hrs)   | TailwindMerge, base class, ElementClass, motion-reduce |
+| 2     | [02-PHASE-CORE-ARCHITECTURE.md](./02-PHASE-CORE-ARCHITECTURE.md) | P0       | NOT STARTED | L (20-30 hrs) | Full slot system, Floating UI positioning              |
+| 3     | [03-PHASE-TAILWIND-V4.md](./03-PHASE-TAILWIND-V4.md)             | P1       | NOT STARTED | M (12-18 hrs) | Tailwind v4, @theme directive, dark mode               |
+| 4     | [04-PHASE-ANIMATION.md](./04-PHASE-ANIMATION.md)                 | P1       | NOT STARTED | M (8-12 hrs)  | CollapseState enum, height animations                  |
+| 5     | [05-PHASE-POLISH.md](./05-PHASE-POLISH.md)                       | P2       | NOT STARTED | M (10-16 hrs) | Debouncing, lazy loading, documentation                |
 
 **Priority Legend:**
 - **P0 (Critical):** Blocks quality features, must do first
@@ -117,16 +117,16 @@ Phase 1: Foundation (P1)
 
 ## Success Metrics
 
-| Metric | Current | Target | Phase |
-|--------|---------|--------|-------|
-| Class conflict resolution | None | TailwindMerge handles all | 1 |
-| Per-element slot customization | None | Complex components | 2 |
-| Floating element overflow | Broken (CSS-only) | Auto-flip/shift via @floating-ui | 2 |
-| Tailwind version | v3 | v4 with `@theme` support | 3 |
-| Accessibility (motion-reduce) | 0 components | All animated components | 1, 4 |
-| Collapse animations | Instant show/hide | Smooth height transitions | 4 |
-| Input debouncing | Not available | Configurable delay | 5 |
-| JS bundle size impact | All loaded upfront | Lazy-loaded modules | 5 |
+| Metric                         | Current            | Target                           | Phase |
+| ------------------------------ | ------------------ | -------------------------------- | ----- |
+| Class conflict resolution      | None               | TailwindMerge handles all        | 1     |
+| Per-element slot customization | None               | Complex components               | 2     |
+| Floating element overflow      | Broken (CSS-only)  | Auto-flip/shift via @floating-ui | 2     |
+| Tailwind version               | v3                 | v4 with `@theme` support         | 3     |
+| Accessibility (motion-reduce)  | 0 components       | All animated components          | 1, 4  |
+| Collapse animations            | Instant show/hide  | Smooth height transitions        | 4     |
+| Input debouncing               | Not available      | Configurable delay               | 5     |
+| JS bundle size impact          | All loaded upfront | Lazy-loaded modules              | 5     |
 
 ---
 
@@ -134,12 +134,12 @@ Phase 1: Foundation (P1)
 
 The following LumexUI features are **intentionally excluded** to preserve Flowbite's design philosophy:
 
-| Feature | Why Excluded |
-|---------|--------------|
-| Full CSS token system (100+ tokens) | Flowbite provides tokens via `flowbite/plugin` |
-| Multiple semantic color palettes | Flowbite uses single `primary` palette by design |
-| ThemeService for custom themes | Flowbite has existing dark mode via `dark:` classes |
-| Per-component color slot overrides | Colors come from Flowbite system, slots for structure only |
+| Feature                             | Why Excluded                                               |
+| ----------------------------------- | ---------------------------------------------------------- |
+| Full CSS token system (100+ tokens) | Flowbite provides tokens via `flowbite/plugin`             |
+| Multiple semantic color palettes    | Flowbite uses single `primary` palette by design           |
+| ThemeService for custom themes      | Flowbite has existing dark mode via `dark:` classes        |
+| Per-component color slot overrides  | Colors come from Flowbite system, slots for structure only |
 
 ---
 
@@ -147,15 +147,15 @@ The following LumexUI features are **intentionally excluded** to preserve Flowbi
 
 This hybrid plan merges the best elements from both source plans:
 
-| Aspect | Cline Original | Claude Original | Hybrid Decision |
-|--------|---------------|-----------------|-----------------|
-| Slot System | Simplified (Root + Content only) | Full per-element (6+ slots) | **Full per-element** - future-proofs customization |
-| Tailwind v4 | Core phase (Phase 2) | Explicitly excluded | **Included as Phase 3** - needed for @theme customization |
-| Effort Estimates | Time-based (hours) | Relative sizing (S/M/L) | **Both** - sizing labels with hour ranges |
-| Risk Management | Formal risk tables | Mentioned but not tabulated | **Formal tables** - from Cline |
-| Animation Pattern | `Task.Delay(10)` hack | `Task.Yield()` pattern | **Task.Yield()** - cleaner approach |
-| Lazy JS Loading | Deferred to future | Included with Lazy<T> pattern | **Included** - from Claude |
-| Consumer Guide | Comprehensive MIGRATION.md | Migration notes only | **Comprehensive** - from Cline |
+| Aspect            | Cline Original                   | Claude Original               | Hybrid Decision                                           |
+| ----------------- | -------------------------------- | ----------------------------- | --------------------------------------------------------- |
+| Slot System       | Simplified (Root + Content only) | Full per-element (6+ slots)   | **Full per-element** - future-proofs customization        |
+| Tailwind v4       | Core phase (Phase 2)             | Explicitly excluded           | **Included as Phase 3** - needed for @theme customization |
+| Effort Estimates  | Time-based (hours)               | Relative sizing (S/M/L)       | **Both** - sizing labels with hour ranges                 |
+| Risk Management   | Formal risk tables               | Mentioned but not tabulated   | **Formal tables** - from Cline                            |
+| Animation Pattern | `Task.Delay(10)` hack            | `Task.Yield()` pattern        | **Task.Yield()** - cleaner approach                       |
+| Lazy JS Loading   | Deferred to future               | Included with Lazy<T> pattern | **Included** - from Claude                                |
+| Consumer Guide    | Comprehensive MIGRATION.md       | Migration notes only          | **Comprehensive** - from Cline                            |
 
 ---
 
@@ -173,25 +173,25 @@ Animation State ────────┴──► Collapse/Accordion/Sidebar
 
 ### Package Versions
 
-| Package | Type | Minimum Version |
-|---------|------|-----------------|
-| `TailwindMerge.NET` | NuGet | Latest stable |
-| `tailwindcss` | npm | 4.x |
-| `@floating-ui/dom` | npm | 1.x |
-| `flowbite` | npm | Latest with v4 support |
+| Package             | Type  | Minimum Version        |
+| ------------------- | ----- | ---------------------- |
+| `TailwindMerge.NET` | NuGet | Latest stable          |
+| `tailwindcss`       | npm   | 4.x                    |
+| `@floating-ui/dom`  | npm   | 1.x                    |
+| `flowbite`          | npm   | Latest with v4 support |
 
 ---
 
 ## Risk Summary
 
-| Risk | Phase | Likelihood | Impact | Mitigation |
-|------|-------|------------|--------|------------|
-| TailwindMerge performance | 1 | Low | Medium | Benchmark; singleton service |
-| Flowbite plugin v4 compatibility | 3 | Medium | High | Check releases; may need shim |
-| @floating-ui bundle size | 2 | Medium | Medium | Tree-shake; ~15KB gzipped acceptable |
-| Portal breaks event bubbling | 2 | Medium | High | Test click-outside thoroughly |
-| Animation timing issues | 4 | Medium | Low | Use `transitionend` event, not timers |
-| Breaking position changes | 3 | High | Medium | Document migration; provide legacy flags |
+| Risk                             | Phase | Likelihood | Impact | Mitigation                               |
+| -------------------------------- | ----- | ---------- | ------ | ---------------------------------------- |
+| TailwindMerge performance        | 1     | Low        | Medium | Benchmark; singleton service             |
+| Flowbite plugin v4 compatibility | 3     | Medium     | High   | Check releases; may need shim            |
+| @floating-ui bundle size         | 2     | Medium     | Medium | Tree-shake; ~15KB gzipped acceptable     |
+| Portal breaks event bubbling     | 2     | Medium     | High   | Test click-outside thoroughly            |
+| Animation timing issues          | 4     | Medium     | Low    | Use `transitionend` event, not timers    |
+| Breaking position changes        | 3     | High       | Medium | Document migration; provide legacy flags |
 
 See individual phase documents for detailed risk tables.
 
