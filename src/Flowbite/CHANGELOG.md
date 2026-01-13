@@ -6,9 +6,13 @@
 - Add `ElementClass` fluent builder utility for CSS class composition with conditional logic
 - Refactor `Button` component to use `ElementClass` pattern as demonstration
 - Add `motion-reduce:transition-none` accessibility support to all animated components
-  - Drawer, Sidebar, SidebarCollapse, Tooltip, Toast, Card, Combobox
+  - Drawer, Modal, Sidebar, SidebarCollapse, Tooltip, Toast, Card, Combobox
   - CarouselIndicators, CarouselItem, PromptInput components, ToggleSwitch
   - Respects `prefers-reduced-motion: reduce` user preference
+- Add smooth animations to Sidebar and SidebarCollapse components
+  - SidebarCollapse expand/collapse with max-height + opacity transitions
+  - Chevron icon rotation animation on toggle
+- Improve Carousel slide transitions with scale + opacity effect (500ms duration)
 
 ## 0.2.0-beta
 
