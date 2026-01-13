@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Flowbite.Base;
+using Flowbite.Services;
 using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -18,11 +19,13 @@ public partial class Combobox : FlowbiteComponentBase, IAsyncDisposable
     private readonly List<ComboboxItemRegistration> _items = new();
     private readonly string _instanceId = $"flowbite-combobox-{Guid.NewGuid():N}";
     private readonly string _optionsListId;
+    private readonly string _floatingId;
 
     private bool _isOpen;
     private string _searchText = string.Empty;
     private bool _shouldFocusSearch;
     private bool _itemsInvalidated;
+    private bool _floatingInitialized;
 
     private ElementReference _searchInputRef;
     private ElementReference _rootRef;
@@ -32,10 +35,12 @@ public partial class Combobox : FlowbiteComponentBase, IAsyncDisposable
     private bool _outsideClickRegistered;
 
     [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
+    [Inject] private IFloatingService FloatingService { get; set; } = default!;
 
     public Combobox()
     {
         _optionsListId = $"{_instanceId}-list";
+        _floatingId = $"{_instanceId}-floating";
     }
 
     /// <summary>
@@ -229,10 +234,27 @@ public partial class Combobox : FlowbiteComponentBase, IAsyncDisposable
         if (_isOpen)
         {
             await EnsureOutsideClickAsync();
+
+            // Initialize Floating UI positioning
+            if (!_floatingInitialized)
+            {
+                await FloatingService.InitializeAsync(_floatingId, new FloatingOptions(
+                    Placement: "bottom-start",
+                    Offset: 8
+                ));
+                _floatingInitialized = true;
+            }
         }
         else
         {
             await ReleaseOutsideClickAsync();
+
+            // Cleanup Floating UI when closed
+            if (_floatingInitialized)
+            {
+                await FloatingService.DestroyAsync(_floatingId);
+                _floatingInitialized = false;
+            }
         }
     }
 
@@ -272,6 +294,13 @@ public partial class Combobox : FlowbiteComponentBase, IAsyncDisposable
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
+        // Cleanup Floating UI
+        if (_floatingInitialized)
+        {
+            await FloatingService.DestroyAsync(_floatingId);
+            _floatingInitialized = false;
+        }
+
         if (_jsModule is not null)
         {
             await ReleaseOutsideClickAsync();
