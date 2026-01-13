@@ -11,6 +11,7 @@
           id="@_elementId"
           aria-describedby="@(HelperText != null ? $"helper-{_elementId}" : null)"
           data-testid="flowbite-textarea"
+          style="@Style"
           @attributes="AdditionalAttributes"></textarea>
 @if (!string.IsNullOrEmpty(HelperText))
 {

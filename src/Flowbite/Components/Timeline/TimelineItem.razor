@@ -1,7 +1,7 @@
 @namespace Flowbite.Components
 @inherits FlowbiteComponentBase
 
-<li class="@ItemClasses" @attributes="AdditionalAttributes">
+<li class="@ItemClasses" style="@Style" @attributes="AdditionalAttributes">
     @if (ShouldRenderConnector)
     {
         <div class="@ConnectorClasses" aria-hidden="true"></div>

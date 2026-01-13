@@ -2,7 +2,7 @@
 
 @if (ModelContext.IsOpen)
 {
-    <div class="@CombineClasses(BaseClasses)" role="listbox" @attributes="AdditionalAttributes">
+    <div class="@CombineClasses(BaseClasses)" role="listbox" style="@Style" @attributes="AdditionalAttributes">
         @ChildContent
     </div>
 }

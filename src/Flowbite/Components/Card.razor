@@ -3,7 +3,7 @@
 
 @if (string.IsNullOrEmpty(Href))
 {
-    <div class="@ComponentClasses" @attributes="AdditionalAttributes">
+    <div class="@ComponentClasses" style="@Style" @attributes="AdditionalAttributes">
         @if (!string.IsNullOrEmpty(ImgSrc))
         {
             <img src="@ImgSrc" alt="@ImgAlt" class="@GetImageClasses()" />
@@ -13,7 +13,7 @@
 }
 else
 {
-    <a href="@Href" class="@ComponentClasses" role="article" @attributes="AdditionalAttributes">
+    <a href="@Href" class="@ComponentClasses" role="article" style="@Style" @attributes="AdditionalAttributes">
         @if (!string.IsNullOrEmpty(ImgSrc))
         {
             <img src="@ImgSrc" alt="@ImgAlt" class="@GetImageClasses()" />

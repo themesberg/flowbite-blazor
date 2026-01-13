@@ -5,7 +5,7 @@
 {
     @foreach (var timeline in Timelines!)
     {
-        <li class="@ItemClasses" @attributes="AdditionalAttributes">
+        <li class="@ItemClasses" style="@Style" @attributes="AdditionalAttributes">
             @if (!string.IsNullOrWhiteSpace(timeline.Href))
             {
                 <a href="@timeline.Href" class="@LinkClasses">

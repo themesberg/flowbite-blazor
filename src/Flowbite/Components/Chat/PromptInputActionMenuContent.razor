@@ -2,7 +2,7 @@
 
 @if (MenuContext.IsOpen)
 {
-    <div class="@CombineClasses(BaseClasses)" role="menu" @attributes="AdditionalAttributes">
+    <div class="@CombineClasses(BaseClasses)" role="menu" style="@Style" @attributes="AdditionalAttributes">
         @ChildContent
     </div>
 }

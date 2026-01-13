@@ -2,7 +2,7 @@
 
 @if (_hasAttachments && ChildContent is not null)
 {
-    <div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
+    <div class="@CombineClasses(BaseClasses)" style="@Style" @attributes="AdditionalAttributes">
         @foreach (var attachment in _attachments)
         {
             <span @key="attachment.Id" class="contents">
