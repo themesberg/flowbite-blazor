@@ -1,6 +1,19 @@
 // Flowbite JavaScript utilities
 // console.log('[Flowbite.js] Initializing Flowbite JavaScript utilities...');
 
+// Dynamically load the Floating UI bundle if not already loaded
+(function() {
+    if (typeof window.FlowbiteFloating === 'undefined') {
+        const script = document.createElement('script');
+        // Get the base path from the current script
+        const currentScript = document.currentScript || document.querySelector('script[src*="flowbite.js"]');
+        const basePath = currentScript ? currentScript.src.replace(/flowbite\.js.*$/, '') : '/_content/Flowbite/';
+        script.src = basePath + 'js/floating-ui.bundle.js';
+        script.async = false; // Load synchronously to ensure it's available
+        document.head.appendChild(script);
+    }
+})();
+
 window.Flowbite = {
     init: function() {
         console.log('[Flowbite.js] Flowbite JavaScript utilities initialized');

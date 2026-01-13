@@ -1,6 +1,6 @@
 # Phase 2: Core Architecture
 
-**Status:** In Progress (Task 2.1 Complete, Task 2.2 Not Started)
+**Status:** Complete (Task 2.1 Complete, Task 2.2 Complete)
 **Prerequisites:** Phase 1 complete (TailwindMerge Integration)
 **Priority:** P0 (Critical)
 **Effort:** L (20-30 hours)
@@ -131,13 +131,13 @@ var positionClass = Placement switch
 
 ### Tasks
 
-#### 2.2.1 Install Dependencies
-- [ ] Add `@floating-ui/dom` via npm
-- [ ] Configure bundling (Rollup/Vite)
+#### 2.2.1 Install Dependencies ✅
+- [x] Add `@floating-ui/dom` via npm
+- [x] Configure bundling (Rollup/Vite)
 
-#### 2.2.2 Create JavaScript Module
-- [ ] Create `src/Flowbite/wwwroot/js/utils/positioning.js`
-- [ ] Create `src/Flowbite/wwwroot/js/utils/dom.js` (portal, waitForElement)
+#### 2.2.2 Create JavaScript Module ✅
+- [x] Create `src/Flowbite/js-src/positioning.js`
+- [x] Create `src/Flowbite/js-src/dom.js` (portal, waitForElement)
 
 ```javascript
 // positioning.js
@@ -215,9 +215,9 @@ export function waitForElement(selector, timeout = 5000) {
 }
 ```
 
-#### 2.2.3 Create C# Service
-- [ ] Create `src/Flowbite/Services/FloatingService.cs`
-- [ ] Register in DI
+#### 2.2.3 Create C# Service ✅
+- [x] Create `src/Flowbite/Services/FloatingService.cs`
+- [x] Register in DI
 
 ```csharp
 // Services/FloatingService.cs
@@ -266,10 +266,10 @@ public class FloatingService : IAsyncDisposable
 public record FloatingOptions(string Placement = "bottom", int Offset = 8);
 ```
 
-#### 2.2.4 Update Components
-- [ ] Refactor `Dropdown.razor.cs`
-- [ ] Refactor `Tooltip.razor.cs`
-- [ ] Refactor `Popover.razor.cs` (if exists)
+#### 2.2.4 Update Components ✅
+- [x] Refactor `Dropdown.razor.cs`
+- [x] Refactor `Tooltip.razor.cs`
+- [ ] Refactor `Popover.razor.cs` (if exists) - N/A, no Popover component
 
 ```csharp
 // Dropdown.razor.cs
@@ -315,19 +315,19 @@ public partial class Dropdown : FlowbiteComponentBase, IAsyncDisposable
 </div>
 ```
 
-### Acceptance Criteria
-- [ ] `@floating-ui/dom` bundled in wwwroot
-- [ ] `FloatingService` registered and injectable
-- [ ] Dropdown at right viewport edge shifts left
-- [ ] Tooltip near bottom flips to top
-- [ ] Position updates on scroll/resize
-- [ ] No memory leaks (cleanup on dispose)
+### Acceptance Criteria ✅
+- [x] `@floating-ui/dom` bundled in wwwroot (`floating-ui.bundle.js`)
+- [x] `FloatingService` registered and injectable
+- [x] Dropdown at right viewport edge shifts left
+- [x] Tooltip near bottom flips to top
+- [x] Position updates on scroll/resize
+- [x] No memory leaks (cleanup on dispose)
 
-### Testing Checklist
-- [ ] **Edge Test:** Open dropdown at right edge → shifts left
-- [ ] **Flip Test:** Tooltip on button at bottom → flips to top
-- [ ] **Scroll Test:** Open dropdown, scroll page → stays attached
-- [ ] **Dispose Test:** Navigate away → no console errors
+### Testing Checklist ✅
+- [x] **Edge Test:** Open dropdown at right edge → shifts left
+- [x] **Flip Test:** Tooltip on button at bottom → flips to top
+- [x] **Scroll Test:** Open dropdown, scroll page → stays attached
+- [x] **Dispose Test:** Navigate away → no console errors
 
 ---
 
@@ -350,12 +350,12 @@ public partial class Dropdown : FlowbiteComponentBase, IAsyncDisposable
 - [x] Slot classes merge via TwMerge in style methods
 - [x] Demo examples for Card, Dropdown, Modal
 
-### Task 2.2: Floating UI (Not Started)
-- [ ] Floating UI JavaScript module bundled
-- [ ] `FloatingService` created and registered
-- [ ] Dropdown and Tooltip use Floating UI
-- [ ] All acceptance criteria met
-- [ ] All testing checklist items pass
+### Task 2.2: Floating UI ✅
+- [x] Floating UI JavaScript module bundled
+- [x] `FloatingService` created and registered
+- [x] Dropdown and Tooltip use Floating UI
+- [x] All acceptance criteria met
+- [x] All testing checklist items pass
 
 ---
 

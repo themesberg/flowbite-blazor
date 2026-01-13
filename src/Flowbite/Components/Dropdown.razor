@@ -1,15 +1,15 @@
-
 @inherits FlowbiteComponentBase
+@implements IAsyncDisposable
 
-<div class="@GetContainerClasses()" 
+<div class="@GetContainerClasses()"
      @onkeydown="HandleKeyDown"
      tabindex="0">
-    <div>
+    <div data-floating-trigger="@Id">
         @if (CustomTrigger != null)
         {
-            <div @onclick="@(args => ToggleDropdown(args))" 
-                 id="@Id" 
-                 aria-expanded="@IsOpen" 
+            <div @onclick="@(args => ToggleDropdown(args))"
+                 id="@Id"
+                 aria-expanded="@IsOpen"
                  aria-haspopup="true">
                 @CustomTrigger
             </div>
@@ -66,8 +66,9 @@
     {
         <CascadingValue Value="this">
             <div class="@GetMenuClasses()"
-                 role="menu" 
-                 aria-orientation="vertical" 
+                 data-floating-element="@Id"
+                 role="menu"
+                 aria-orientation="vertical"
                  aria-labelledby="@Id">
                 <div class="py-1 text-sm text-gray-700 dark:text-gray-200" role="none">
                     @ChildContent

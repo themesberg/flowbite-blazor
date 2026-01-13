@@ -5,6 +5,10 @@
 ### Added
 - Add `ElementClass` fluent builder utility for CSS class composition with conditional logic
 - Add Slot System for per-element CSS class customization within complex components
+- Add Floating UI integration for viewport-aware positioning of Dropdown and Tooltip components
+  - `FloatingService` - C# service for JavaScript interop with @floating-ui/dom
+  - Automatic flip/shift middleware ensures elements stay within viewport boundaries
+  - Arrow positioning for Tooltip component
   - `SlotBase` abstract base class with `Base` property
   - `CardSlots` for Card component (Base, Image, Body)
   - `DropdownSlots` for Dropdown component (Base, Trigger, Menu, Item)
