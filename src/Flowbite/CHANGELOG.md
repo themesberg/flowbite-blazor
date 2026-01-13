@@ -5,16 +5,20 @@
 ### Added
 - Add `ElementClass` fluent builder utility for CSS class composition with conditional logic
 - Add Slot System for per-element CSS class customization within complex components
-- Add Floating UI integration for viewport-aware positioning of Dropdown and Tooltip components
+- Add Floating UI integration for viewport-aware positioning of Dropdown, Tooltip, and Combobox components
   - `FloatingService` - C# service for JavaScript interop with @floating-ui/dom
   - Automatic flip/shift middleware ensures elements stay within viewport boundaries
   - Arrow positioning for Tooltip component
+  - Combobox dropdown now uses Floating UI for viewport-aware positioning
   - `SlotBase` abstract base class with `Base` property
   - `CardSlots` for Card component (Base, Image, Body)
   - `DropdownSlots` for Dropdown component (Base, Trigger, Menu, Item)
   - `ModalSlots` for Modal component (Backdrop, Content, Header, Body, Footer)
   - `AccordionItemSlots` for future Accordion component
   - All slot classes use TailwindMerge for intelligent conflict resolution
+
+### Fixed
+- Fix Tooltip positioning flash on show by using `invisible` + `absolute` positioning until Floating UI calculates position
 
 ### Changed
 - Migrate all 30 components from `CombineClasses()` to `MergeClasses()` + `ElementClass` pattern
