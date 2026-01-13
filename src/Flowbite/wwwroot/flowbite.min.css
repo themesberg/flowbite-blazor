@@ -3512,8 +3512,8 @@ input[type="range"]::-ms-fill-lower {
   transition-duration: 300ms;
 }
 
-.duration-700 {
-  transition-duration: 700ms;
+.duration-500 {
+  transition-duration: 500ms;
 }
 
 .duration-75 {
