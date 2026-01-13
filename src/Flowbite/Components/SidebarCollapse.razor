@@ -20,12 +20,13 @@
         <span class="flex-1 ms-3 text-left whitespace-nowrap">@Label</span>
         <ChevronDownIcon class="@GetChevronClasses()" aria-hidden="true" />
     </button>
-    <ul id="sidebar-collapse-@Id" 
-        class="@GetListClasses()"
-        style="list-style-type: none;"
-        hidden="@(!_isOpen)">
-        @ChildContent
-    </ul>
+    <div class="@GetCollapseWrapperClasses()">
+        <ul id="sidebar-collapse-@Id" 
+            class="@GetListClasses()"
+            style="list-style-type: none;">
+            @ChildContent
+        </ul>
+    </div>
 </li>
 
 @code {
@@ -43,7 +44,14 @@
 
     private string GetButtonClasses() => CombineClasses("flex items-center w-full p-2 text-base text-gray-900 transition duration-75 motion-reduce:transition-none rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700");
 
-    private string GetChevronClasses() => CombineClasses($"w-6 h-6 text-gray-500 transition-transform motion-reduce:transition-none dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white {(_isOpen ? "rotate-180" : "")}");
+    private string GetChevronClasses() => CombineClasses($"w-6 h-6 text-gray-500 transition-transform duration-300 ease-in-out motion-reduce:transition-none dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white {(_isOpen ? "rotate-180" : "")}");
+
+    private string GetCollapseWrapperClasses()
+    {
+        string baseClasses = "overflow-hidden transition-all duration-300 ease-in-out motion-reduce:transition-none";
+        string stateClasses = _isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0";
+        return CombineClasses($"{baseClasses} {stateClasses}");
+    }
 
     private string GetListClasses() => CombineClasses("py-2 space-y-2 ps-7");
 }

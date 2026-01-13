@@ -1,46 +1,45 @@
 @using Flowbite.Base
 @inherits OffCanvasComponentBase
 
-@if (IsVisible)
-{
-    <div id="@Id" 
-         class="@GetBackdropClasses()" 
-         @onclick="HandleBackdropClick"
-         @onkeydown="HandleEscapeKey"
-         tabindex="-1"
-         role="dialog"
-         aria-modal="true"
-         aria-labelledby="@($"{Id}-title")">
-        
-        <div class="@GetModalClasses()" @onclick:stopPropagation>
-            <CascadingValue Value="@_modalContext">
-                @if (!string.IsNullOrEmpty(Title) || FooterContent != null)
+@* Always render modal in DOM to enable CSS transitions *@
+<div id="@Id" 
+     class="@GetBackdropClasses()" 
+     @onclick="HandleBackdropClick"
+     @onkeydown="HandleEscapeKey"
+     tabindex="@(IsVisible ? 0 : -1)"
+     role="dialog"
+     aria-modal="@IsVisible.ToString().ToLower()"
+     aria-hidden="@(!IsVisible).ToString().ToLower()"
+     aria-labelledby="@($"{Id}-title")">
+    
+    <div class="@GetModalClasses()" @onclick:stopPropagation>
+        <CascadingValue Value="@_modalContext">
+            @if (!string.IsNullOrEmpty(Title) || FooterContent != null)
+            {
+                @* Legacy mode - automatically create header/body/footer *@
+                @if (!string.IsNullOrEmpty(Title))
                 {
-                    @* Legacy mode - automatically create header/body/footer *@
-                    @if (!string.IsNullOrEmpty(Title))
-                    {
-                        <ModalHeader>
-                            <h3>@Title</h3>
-                        </ModalHeader>
-                    }
-                    
-                    <ModalBody>
-                        @ChildContent
-                    </ModalBody>
-                    
-                    @if (FooterContent != null)
-                    {
-                        <ModalFooter>
-                            @FooterContent
-                        </ModalFooter>
-                    }
+                    <ModalHeader>
+                        <h3>@Title</h3>
+                    </ModalHeader>
                 }
-                else
-                {
-                    @* New compound component mode *@
+                
+                <ModalBody>
                     @ChildContent
+                </ModalBody>
+                
+                @if (FooterContent != null)
+                {
+                    <ModalFooter>
+                        @FooterContent
+                    </ModalFooter>
                 }
-            </CascadingValue>
-        </div>
+            }
+            else
+            {
+                @* New compound component mode *@
+                @ChildContent
+            }
+        </CascadingValue>
     </div>
-}
+</div>

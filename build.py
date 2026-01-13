@@ -263,6 +263,42 @@ def stop_background() -> None:
         sys.exit(1)
 
 
+def run_tailwind_css() -> None:
+    """Run Tailwind CSS for both Flowbite and DemoApp projects"""
+    os_info = get_os_info()
+    tailwind_path = TOOLS_DIR / os_info["exec_name"]
+    
+    if not tailwind_path.exists():
+        print(f"Warning: Tailwind CSS not found at {tailwind_path}")
+        return
+    
+    # Build Flowbite CSS
+    print("Building Flowbite CSS with Tailwind...")
+    flowbite_result = subprocess.run(
+        [str(tailwind_path), "-i", "./wwwroot/flowbite.css", "-o", "./wwwroot/flowbite.min.css", "--postcss"],
+        cwd="src/Flowbite",
+        capture_output=True,
+        text=True
+    )
+    if flowbite_result.returncode == 0:
+        print("[OK] Flowbite CSS built")
+    else:
+        print(f"[WARN] Flowbite CSS build failed: {flowbite_result.stderr}")
+    
+    # Build DemoApp CSS
+    print("Building DemoApp CSS with Tailwind...")
+    demoapp_result = subprocess.run(
+        [str(tailwind_path), "-i", "./wwwroot/css/app.css", "-o", "./wwwroot/css/app.min.css", "--postcss"],
+        cwd="src/DemoApp",
+        capture_output=True,
+        text=True
+    )
+    if demoapp_result.returncode == 0:
+        print("[OK] DemoApp CSS built")
+    else:
+        print(f"[WARN] DemoApp CSS build failed: {demoapp_result.stderr}")
+
+
 def run_dotnet_command(dotnet_path: str, command: str) -> None:
     """Execute the appropriate dotnet command"""
     try:
@@ -272,6 +308,9 @@ def run_dotnet_command(dotnet_path: str, command: str) -> None:
             if pid:
                 print("Stopping running DemoApp before build...")
                 stop_background()
+
+            # Run Tailwind CSS before dotnet build
+            run_tailwind_css()
 
             print("Building solution...")
             subprocess.run(
@@ -310,6 +349,9 @@ def run_dotnet_command(dotnet_path: str, command: str) -> None:
             if pid:
                 print("Stopping running DemoApp before build...")
                 stop_background()
+
+            # Run Tailwind CSS before dotnet build
+            run_tailwind_css()
 
             # Auto-build before starting
             print("Building solution before start...")
