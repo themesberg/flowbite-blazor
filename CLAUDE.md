@@ -94,6 +94,13 @@ Use the Python automation script for all build operations:
 - Ensure `src/Flowbite/wwwroot/flowbite.min.css` is regenerated as part of builds and committed whenever component styles change.
 - **Non‑negotiable:** drive every meaningful UI verification through the Playwright MCP server (`mcp__playwright__browser_*`). Treat these scripted runs as mandatory—launch the DemoApp, navigate to the affected surface, and capture evidence (screenshots or DOM state) before calling a change “done.”
 
+## CSS Commits
+**CRITICAL:** When Tailwind classes change, commit the generated CSS:
+```bash
+git add src/Flowbite/wwwroot/flowbite.min.css
+git add src/DemoApp/wwwroot/css/app.min.css
+```
+
 ## Problem-Solving Approach
 1. Analyze and form a hypothesis before modifying code.
 2. Implement a focused fix and verify it.

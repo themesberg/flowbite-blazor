@@ -24,7 +24,7 @@ public partial class ChatMessageContent : Flowbite.Base.FlowbiteComponentBase
 
     private string GetContentClasses()
     {
-        var builder = new StringBuilder("flex flex-col gap-2 transition");
+        var builder = new StringBuilder("flex flex-col gap-2 transition motion-reduce:transition-none");
 
         switch (Variant)
         {

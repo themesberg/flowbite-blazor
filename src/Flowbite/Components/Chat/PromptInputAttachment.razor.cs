@@ -24,7 +24,7 @@ public partial class PromptInputAttachment : Flowbite.Base.FlowbiteComponentBase
     [CascadingParameter] private PromptInputContext Context { get; set; } = default!;
 
     private string BaseClasses =>
-        "group relative flex min-w-0 items-center gap-3 overflow-hidden rounded-2xl border border-gray-200/90 bg-white/95 px-3.5 py-2 shadow-sm transition " +
+        "group relative flex min-w-0 items-center gap-3 overflow-hidden rounded-2xl border border-gray-200/90 bg-white/95 px-3.5 py-2 shadow-sm transition motion-reduce:transition-none " +
         "hover:border-gray-300 dark:border-white/10 dark:bg-slate-950/85";
 
     private bool HasPreview => !string.IsNullOrEmpty(_previewDataUrl);

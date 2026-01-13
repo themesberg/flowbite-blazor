@@ -112,6 +112,7 @@ The solution is configured for two development modes:
    - Include ARIA attributes
    - Support keyboard navigation
    - Maintain focus management
+   - Add `motion-reduce:transition-none` to all elements with `transition-*` classes (respects `prefers-reduced-motion` user preference)
 
 1. Styling:
    - TailwindCSS is integrated via MSBuild

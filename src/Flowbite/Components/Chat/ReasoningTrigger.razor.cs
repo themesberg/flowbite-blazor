@@ -19,7 +19,7 @@ public partial class ReasoningTrigger : Flowbite.Base.FlowbiteComponentBase, IDi
     [CascadingParameter] private ReasoningContext Context { get; set; } = default!;
 
     private string BaseClasses =>
-        "inline-flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-400 transition hover:text-black dark:hover:text-white ";
+        "inline-flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-400 transition motion-reduce:transition-none hover:text-black dark:hover:text-white ";
 
     protected override void OnInitialized()
     {
@@ -43,7 +43,7 @@ public partial class ReasoningTrigger : Flowbite.Base.FlowbiteComponentBase, IDi
         return "Thought for a moment";
     }
 
-    private string GetChevronClasses() => Context.IsOpen ? "h-4 w-4 transition" : "h-4 w-4 rotate-180 transition";
+    private string GetChevronClasses() => Context.IsOpen ? "h-4 w-4 transition motion-reduce:transition-none" : "h-4 w-4 rotate-180 transition motion-reduce:transition-none";
 
     private async Task HandleClick()
     {
