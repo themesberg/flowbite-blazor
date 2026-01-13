@@ -237,7 +237,7 @@ Add `motion-reduce:transition-none` to all components with CSS transitions to re
 
 - [x] Audit all components with `transition-*` classes
 - [x] Add `motion-reduce:transition-none` to each
-- [ ] Document pattern in contributing guide
+- [x] Document pattern in contributing guide
 
 ### Acceptance Criteria
 
