@@ -69,7 +69,7 @@ Phase 5: Polish & DX (P2)
 | Phase | Document                                                         | Priority | Status      | Effort | Key Deliverables                                       |
 | ----- | ---------------------------------------------------------------- | -------- | ----------- | ------ | ------------------------------------------------------ |
 | 1     | [01-PHASE-FOUNDATION.md](./01-PHASE-FOUNDATION.md)               | P1       | COMPLETED   | S      | TailwindMerge, base class, ElementClass, motion-reduce |
-| 2     | [02-PHASE-CORE-ARCHITECTURE.md](./02-PHASE-CORE-ARCHITECTURE.md) | P0       | STARTED     | L      | Full slot system, Floating UI positioning              |
+| 2     | [02-PHASE-CORE-ARCHITECTURE.md](./02-PHASE-CORE-ARCHITECTURE.md) | P0       | IN PROGRESS | L      | Full slot system ✅, Floating UI positioning           |
 | 3     | [03-PHASE-TAILWIND-V4.md](./03-PHASE-TAILWIND-V4.md)             | P1       | NOT STARTED | M      | Tailwind v4, @theme directive, dark mode               |
 | 4     | [04-PHASE-ANIMATION.md](./04-PHASE-ANIMATION.md)                 | P1       | NOT STARTED | M      | CollapseState enum, height animations                  |
 | 5     | [05-PHASE-POLISH.md](./05-PHASE-POLISH.md)                       | P2       | NOT STARTED | M      | Debouncing, lazy loading, documentation                |
