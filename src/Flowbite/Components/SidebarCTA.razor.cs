@@ -1,3 +1,4 @@
+using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 
 namespace Flowbite.Components;
@@ -43,7 +44,11 @@ public partial class SidebarCTA
             _ => string.Empty
         };
 
-        return CombineClasses($"mt-6 rounded-lg p-4 {colorClasses}");
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add("mt-6 rounded-lg p-4")
+                .Add(colorClasses)
+                .Add(Class));
     }
 
     /// <summary>

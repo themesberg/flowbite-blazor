@@ -1,3 +1,4 @@
+using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System;
@@ -154,19 +155,15 @@ public partial class Modal
     /// <returns>The CSS classes for the modal backdrop.</returns>
     private string GetBackdropClasses()
     {
-        // Base classes for backdrop with transition support
-        var baseClasses = "p-16 fixed inset-0 z-50 h-screen md:inset-0 md:h-full flex transition-opacity duration-300 ease-in-out motion-reduce:transition-none";
-        
-        // Visibility and opacity based on IsVisible state
-        var visibilityClasses = IsVisible 
-            ? "bg-gray-900/50 dark:bg-gray-900/80 opacity-100" 
-            : "bg-transparent opacity-0 invisible pointer-events-none";
-        
-        return CombineClasses(
-            baseClasses,
-            visibilityClasses,
-            GetPositionClasses(),
-            BackdropClass
+        return MergeClasses(
+            ElementClass.Empty()
+                // Base classes for backdrop with transition support
+                .Add("p-16 fixed inset-0 z-50 h-screen md:inset-0 md:h-full flex transition-opacity duration-300 ease-in-out motion-reduce:transition-none")
+                // Visibility and opacity based on IsVisible state
+                .Add("bg-gray-900/50 dark:bg-gray-900/80 opacity-100", when: IsVisible)
+                .Add("bg-transparent opacity-0 invisible pointer-events-none", when: !IsVisible)
+                .Add(GetPositionClasses())
+                .Add(BackdropClass)
         );
     }
     
@@ -176,19 +173,15 @@ public partial class Modal
     /// <returns>The CSS classes for the modal container.</returns>
     private string GetModalClasses()
     {
-        // Base classes with scale/opacity transition for the modal itself
-        var baseClasses = "relative w-full flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700 transition-all duration-300 ease-in-out motion-reduce:transition-none";
-        
-        // Scale and opacity transform based on visibility
-        var transformClasses = IsVisible 
-            ? "scale-100 opacity-100" 
-            : "scale-95 opacity-0";
-        
-        return CombineClasses(
-            baseClasses,
-            transformClasses,
-            GetSizeClasses(),
-            ModalClass
+        return MergeClasses(
+            ElementClass.Empty()
+                // Base classes with scale/opacity transition for the modal itself
+                .Add("relative w-full flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700 transition-all duration-300 ease-in-out motion-reduce:transition-none")
+                // Scale and opacity transform based on visibility
+                .Add("scale-100 opacity-100", when: IsVisible)
+                .Add("scale-95 opacity-0", when: !IsVisible)
+                .Add(GetSizeClasses())
+                .Add(ModalClass)
         );
     }
     

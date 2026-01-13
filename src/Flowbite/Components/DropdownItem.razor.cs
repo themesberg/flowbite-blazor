@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Flowbite.Base;
+using Flowbite.Utilities;
 
 
 namespace Flowbite.Components;
@@ -117,30 +118,23 @@ public partial class DropdownItem
 
     private string GetItemClasses()
     {
-        var baseClasses = "flex w-full items-center px-4 py-2 text-sm";
-        var stateClasses = !Disabled 
-            ? "cursor-pointer text-gray-700 dark:text-gray-200 hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:hover:text-white dark:focus:text-white focus:outline-none" 
-            : "text-gray-400 dark:text-gray-500 cursor-not-allowed";
-        var iconClasses = Icon != null ? "items-center" : "";
-        var additionalClasses = AdditionalAttributes?.ContainsKey("class") == true 
-            ? AdditionalAttributes["class"]?.ToString() 
-            : null;
-
-        return CombineClasses(string.Join(" ", new[]
-        {
-            baseClasses,
-            stateClasses,
-            iconClasses, 
-            additionalClasses
-        }));
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add("flex w-full items-center px-4 py-2 text-sm")
+                .Add("cursor-pointer text-gray-700 dark:text-gray-200 hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:hover:text-white dark:focus:text-white focus:outline-none", when: !Disabled)
+                .Add("text-gray-400 dark:text-gray-500 cursor-not-allowed", when: Disabled)
+                .Add("items-center", when: Icon != null)
+                .Add(Class)
+        );
     }
 
     private string GetIconClasses()
     {
-        return CombineClasses(string.Join(" ", new[]
-        {
-            "mr-2 h-4 w-4",
-            Disabled ? "text-gray-400 dark:text-gray-500" : "text-gray-500 dark:text-gray-400",
-        }));
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add("mr-2 h-4 w-4")
+                .Add("text-gray-400 dark:text-gray-500", when: Disabled)
+                .Add("text-gray-500 dark:text-gray-400", when: !Disabled)
+        );
     }
 }

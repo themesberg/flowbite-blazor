@@ -1,3 +1,4 @@
+using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 
 namespace Flowbite.Components.Chat;
@@ -43,7 +44,10 @@ public partial class ChatMessage : Flowbite.Base.FlowbiteComponentBase
             _ => string.Empty,
         };
 
-        return CombineClasses(BaseClasses, variantClasses);
+        return MergeClasses(ElementClass.Empty()
+            .Add(BaseClasses)
+            .Add(variantClasses)
+            .Add(Class));
     }
 
     private string GetSubcontainerClasses()

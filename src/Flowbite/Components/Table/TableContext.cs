@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Components;
+using Flowbite.Utilities;
 
 namespace Flowbite.Components.Table;
 
@@ -35,10 +35,10 @@ public class TableContext
     /// <summary>
     /// Gets the wrapper CSS classes for the table container.
     /// </summary>
-    public string ContainerClasses => CombineClasses(
-        "relative",
-        Responsive ? "overflow-x-auto" : string.Empty
-    );
+    public string ContainerClasses => ElementClass.Empty()
+        .Add("relative")
+        .Add("overflow-x-auto", when: Responsive)
+        .ToString();
 
     /// <summary>
     /// Gets the wrapper CSS classes for the table element.
@@ -61,8 +61,4 @@ public class TableContext
         Responsive = responsive;
     }
 
-    private string CombineClasses(params string[] classes)
-    {
-        return string.Join(" ", classes.Where(c => !string.IsNullOrWhiteSpace(c)));
-    }
 }

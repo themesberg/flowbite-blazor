@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Flowbite.Base;
+using Flowbite.Utilities;
 
 namespace Flowbite.Components;
 
@@ -269,7 +270,7 @@ public partial class Dropdown : IDisposable
             ? $"inline-flex items-center text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500 {sizeClasses}"
             : $"inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm {sizeClasses} bg-white dark:bg-gray-800 font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500";
 
-        return CombineClasses(baseClasses);
+        return MergeClasses(baseClasses);
     }
 
     private string GetMenuClasses()
@@ -304,7 +305,7 @@ public partial class Dropdown : IDisposable
 
         var zClass = string.IsNullOrWhiteSpace(MenuClass) ? "z-10" : MenuClass;
 
-        return CombineClasses(baseClasses, zClass);
+        return MergeClasses(baseClasses, zClass);
     }
 
     public void Dispose()

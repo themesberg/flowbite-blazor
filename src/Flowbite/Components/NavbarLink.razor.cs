@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Flowbite.Base;
-using System.Collections.Generic;
+using Flowbite.Utilities;
 
 namespace Flowbite.Components;
 
@@ -198,43 +198,24 @@ public partial class NavbarLink : FlowbiteComponentBase
 
     private string GetLinkClasses()
     {
-        var classes = new List<string>
-        {
-            "block py-2 pr-4 pl-3 md:p-0"
-        };
-
-        if (HasDropdown)
-        {
-            classes.Add("inline-flex items-center");
-        }
-
-        if (!Active && !Disabled)
-        {
-            classes.Add("text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent");
-        }
-
-        if (Active)
-        {
-            classes.Add("text-white bg-blue-700 md:bg-transparent md:text-blue-700 dark:text-white");
-        }
-
-        if (Disabled)
-        {
-            classes.Add("text-gray-400 hover:cursor-not-allowed");
-        }
-
-        return CombineClasses(string.Join(" ", classes));
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add("block py-2 pr-4 pl-3 md:p-0")
+                .Add("inline-flex items-center", when: HasDropdown)
+                .Add("text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent", when: !Active && !Disabled)
+                .Add("text-white bg-blue-700 md:bg-transparent md:text-blue-700 dark:text-white", when: Active)
+                .Add("text-gray-400 hover:cursor-not-allowed", when: Disabled)
+                .Add(Class)
+        );
     }
 
     private string GetDropdownClasses()
     {
-        var classes = new List<string>
-        {
-            "absolute z-10 mt-2 w-48 rounded-md shadow-lg",
-            "bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5",
-            "md:right-0 origin-top-right"
-        };
-
-        return CombineClasses(string.Join(" ", classes));
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add("absolute z-10 mt-2 w-48 rounded-md shadow-lg")
+                .Add("bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5")
+                .Add("md:right-0 origin-top-right")
+        );
     }
 }

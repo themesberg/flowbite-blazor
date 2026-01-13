@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Flowbite.Base;
+using Flowbite.Utilities;
 
 namespace Flowbite.Components.Carousel;
 
@@ -69,17 +70,17 @@ public partial class CarouselItem : FlowbiteComponentBase, IDisposable
     private string GetSlideClasses()
     {
         bool isActive = _assignedIndex >= 0 && CarouselState?.CurrentIndex == _assignedIndex;
-        
+
         // Base classes with transform + opacity transition for smooth sliding effect
-        string baseClasses = "absolute inset-0 transition-all duration-500 ease-in-out motion-reduce:transition-none";
-        
         // Active slide: fully visible and centered
         // Inactive slide: faded out with slight scale down
-        string visibilityClass = isActive 
-            ? "opacity-100 z-10 scale-100" 
-            : "opacity-0 pointer-events-none scale-95";
-        
-        return CombineClasses($"{baseClasses} {visibilityClass}");
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add("absolute inset-0 transition-all duration-500 ease-in-out motion-reduce:transition-none")
+                .Add("opacity-100 z-10 scale-100", when: isActive)
+                .Add("opacity-0 pointer-events-none scale-95", when: !isActive)
+                .Add(Class)
+        );
     }
 
     private string GetImageClass()

@@ -1,3 +1,4 @@
+using Flowbite.Utilities;
 
 namespace Flowbite.Components.Typography;
 
@@ -91,77 +92,26 @@ public partial class Paragraph
     /// </summary>
     private string GetParagraphClasses()
     {
-        var classes = new List<string>();
+        // Color classes: gradient takes precedence over custom color
+        var colorClasses = Gradient != GradientColor.None
+            ? GetGradientClasses(Gradient)
+            : CustomColor ?? "text-gray-700 dark:text-gray-400";
 
-        // Add gradient classes if specified
-        if (Gradient != GradientColor.None)
-        {
-            classes.Add(GetGradientClasses(Gradient));
-        }
-        else
-        {
-            // Add color classes only if no gradient
-            classes.Add(CustomColor ?? "text-gray-700 dark:text-gray-400");
-        }
+        var classes = ElementClass.Empty()
+            .Add(colorClasses)
+            .Add(GetTextSizeClass(Size))
+            .Add(GetFontWeightClass(Weight!.Value), when: Weight.HasValue)
+            .Add(GetLineHeightClass(Leading!.Value), when: Leading.HasValue)
+            .Add(GetTextAlignClass(Align!.Value), when: Align.HasValue)
+            .Add(GetLetterSpacingClass(Tracking!.Value), when: Tracking.HasValue)
+            .Add(GetWhitespaceClass(Space!.Value), when: Space.HasValue)
+            .Add($"opacity-{Opacity!.Value}", when: Opacity.HasValue)
+            .Add("italic", when: Italic)
+            .Add("underline", when: Underline)
+            .Add("first-letter:uppercase first-letter:text-7xl first-letter:font-bold first-letter:mr-1 first-letter:float-left", when: FirstLetterUpper)
+            .Add(Class);
 
-        // Add size class
-        classes.Add(GetTextSizeClass(Size));
-
-        // Add weight class if specified
-        if (Weight.HasValue)
-        {
-            classes.Add(GetFontWeightClass(Weight.Value));
-        }
-
-        // Add line height if specified
-        if (Leading.HasValue)
-        {
-            classes.Add(GetLineHeightClass(Leading.Value));
-        }
-
-        // Add text alignment if specified
-        if (Align.HasValue)
-        {
-            classes.Add(GetTextAlignClass(Align.Value));
-        }
-
-        // Add letter spacing if specified
-        if (Tracking.HasValue)
-        {
-            classes.Add(GetLetterSpacingClass(Tracking.Value));
-        }
-
-        // Add whitespace handling if specified
-        if (Space.HasValue)
-        {
-            classes.Add(GetWhitespaceClass(Space.Value));
-        }
-
-        // Add opacity if specified
-        if (Opacity.HasValue)
-        {
-            classes.Add($"opacity-{Opacity.Value}");
-        }
-
-        // Add italic style
-        if (Italic)
-        {
-            classes.Add("italic");
-        }
-
-        // Add underline style
-        if (Underline)
-        {
-            classes.Add("underline");
-        }
-
-        // Add first letter uppercase
-        if (FirstLetterUpper)
-        {
-            classes.Add("first-letter:uppercase first-letter:text-7xl first-letter:font-bold first-letter:mr-1 first-letter:float-left");
-        }
-
-        return CombineClasses(classes.ToArray());
+        return MergeClasses(classes);
     }
 
     /// <summary>

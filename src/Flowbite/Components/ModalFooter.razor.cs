@@ -19,7 +19,7 @@ public partial class ModalFooter
     /// <returns>The CSS classes for the footer.</returns>
     private string GetFooterClasses()
     {
-        return CombineClasses(
+        return MergeClasses(
             "flex items-center space-x-2 rounded-b border-t border-gray-200 p-6 dark:border-gray-600",
             Class
         );

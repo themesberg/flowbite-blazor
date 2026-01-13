@@ -1,3 +1,4 @@
+using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 
 namespace Flowbite.Components;
@@ -24,6 +25,6 @@ public partial class DrawerItems
     /// <returns>The CSS classes for the items container.</returns>
     private string GetItemsClasses()
     {
-        return CombineClasses(Class);
+        return MergeClasses(Class);
     }
 }

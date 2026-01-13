@@ -1,3 +1,5 @@
+using Flowbite.Utilities;
+
 namespace Flowbite.Components;
 
 /// <summary>
@@ -29,9 +31,16 @@ public partial class SidebarLogo
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private string GetBaseClasses() => CombineClasses("flex items-center pl-1 mb-5");
+    private string GetBaseClasses() => MergeClasses(
+        ElementClass.Empty()
+            .Add("flex items-center pl-1 mb-5")
+            .Add(Class));
 
-    private string GetImgClasses() => CombineClasses("h-6 mr-3 sm:h-7");
+    private string GetImgClasses() => MergeClasses(
+        ElementClass.Empty()
+            .Add("h-6 mr-3 sm:h-7"));
 
-    private string GetTextClasses() => CombineClasses("self-center text-xl font-semibold whitespace-nowrap dark:text-white");
+    private string GetTextClasses() => MergeClasses(
+        ElementClass.Empty()
+            .Add("self-center text-xl font-semibold whitespace-nowrap dark:text-white"));
 }
