@@ -21,7 +21,22 @@ public static class ServiceCollectionExtensions
         services.AddTailwindMerge();
         services.AddSingleton<FlowbiteVersionService>();
         services.AddFlowbiteOffCanvasServices();
+        services.AddFlowbiteFloatingService();
 
+        return services;
+    }
+
+    /// <summary>
+    /// Adds Flowbite floating positioning service to the specified IServiceCollection.
+    /// </summary>
+    /// <remarks>
+    /// The FloatingService provides viewport-aware positioning for dropdowns, tooltips, and popovers
+    /// using @floating-ui/dom. It automatically handles flip and shift behavior when elements would
+    /// otherwise overflow the viewport.
+    /// </remarks>
+    public static IServiceCollection AddFlowbiteFloatingService(this IServiceCollection services)
+    {
+        services.AddScoped<IFloatingService, FloatingService>();
         return services;
     }
     

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Flowbite.Base;
 using Flowbite.Common;
+using Flowbite.Services;
 using Flowbite.Utilities;
 
 namespace Flowbite.Components;
@@ -11,10 +12,16 @@ namespace Flowbite.Components;
 /// </summary>
 /// <remarks>
 /// Supports various configurations like inline display, custom triggers, and menu placement.
+/// Uses Floating UI for viewport-aware positioning with automatic flip and shift behavior.
 /// </remarks>
-public partial class Dropdown : IDisposable
+public partial class Dropdown : IAsyncDisposable
 {
-    private bool isDisposed;
+    private bool _disposed;
+    private bool _initialized;
+    private string? _actualPlacement;
+
+    [Inject]
+    private IFloatingService FloatingService { get; set; } = default!;
 
     /// <summary>
     /// Defines the label content for the dropdown trigger.
@@ -239,9 +246,76 @@ public partial class Dropdown : IDisposable
     public DropdownSlots? Slots { get; set; }
 
     /// <summary>
+    /// Disables the automatic flip behavior when the dropdown would overflow the viewport.
+    /// </summary>
+    /// <remarks>
+    /// When disabled, the dropdown will maintain its configured placement even if it overflows.
+    /// </remarks>
+    [Parameter]
+    public bool DisableFlip { get; set; }
+
+    /// <summary>
+    /// Disables the automatic shift behavior when the dropdown would overflow the viewport.
+    /// </summary>
+    /// <remarks>
+    /// When disabled, the dropdown will not shift along its axis to stay visible.
+    /// </remarks>
+    [Parameter]
+    public bool DisableShift { get; set; }
+
+    /// <summary>
+    /// Distance in pixels between the trigger and the dropdown menu.
+    /// </summary>
+    [Parameter]
+    public int Offset { get; set; } = 8;
+
+    /// <summary>
     /// Gets the item slot classes for DropdownItem components.
     /// </summary>
     internal string? ItemSlotClasses => Slots?.Item;
+
+    /// <inheritdoc />
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (IsOpen && !_initialized)
+        {
+            await InitializeFloatingAsync();
+        }
+    }
+
+    private async Task InitializeFloatingAsync()
+    {
+        var placement = GetFloatingPlacement();
+        var options = new FloatingOptions(
+            Placement: placement,
+            Offset: Offset,
+            EnableFlip: !DisableFlip,
+            EnableShift: !DisableShift,
+            ShiftPadding: 8
+        );
+
+        _actualPlacement = await FloatingService.InitializeAsync(Id, options);
+        _initialized = true;
+    }
+
+    private string GetFloatingPlacement() => Placement switch
+    {
+        DropdownPlacement.Top => "top",
+        DropdownPlacement.TopStart => "top-start",
+        DropdownPlacement.TopEnd => "top-end",
+        DropdownPlacement.Bottom => "bottom",
+        DropdownPlacement.BottomStart => "bottom-start",
+        DropdownPlacement.BottomEnd => "bottom-end",
+        DropdownPlacement.Left => "left",
+        DropdownPlacement.LeftStart => "left-start",
+        DropdownPlacement.LeftEnd => "left-end",
+        DropdownPlacement.Right => "right",
+        DropdownPlacement.RightStart => "right-start",
+        DropdownPlacement.RightEnd => "right-end",
+        _ => "bottom"
+    };
 
     private async Task ToggleDropdown(MouseEventArgs args)
     {
@@ -250,8 +324,16 @@ public partial class Dropdown : IDisposable
             await OnTriggerClick.InvokeAsync(args);
         }
 
-        IsOpen = !IsOpen;
-        await IsOpenChanged.InvokeAsync(IsOpen);
+        if (IsOpen)
+        {
+            await CloseDropdown();
+        }
+        else
+        {
+            IsOpen = true;
+            _initialized = false; // Reset so OnAfterRenderAsync initializes floating
+            await IsOpenChanged.InvokeAsync(true);
+        }
     }
 
     private async Task HandleKeyDown(KeyboardEventArgs args)
@@ -262,11 +344,16 @@ public partial class Dropdown : IDisposable
         }
     }
 
+    /// <summary>
+    /// Closes the dropdown menu and cleans up the floating position.
+    /// </summary>
     public async Task CloseDropdown()
     {
         if (IsOpen)
         {
             IsOpen = false;
+            _initialized = false;
+            await FloatingService.DestroyAsync(Id);
             await IsOpenChanged.InvokeAsync(false);
         }
     }
@@ -307,44 +394,29 @@ public partial class Dropdown : IDisposable
 
     private string GetMenuClasses()
     {
-        var positionClass = Placement switch
-        {
-            DropdownPlacement.Top or DropdownPlacement.TopStart or DropdownPlacement.TopEnd => "bottom-full mb-2",
-            DropdownPlacement.Right or DropdownPlacement.RightStart or DropdownPlacement.RightEnd => "left-full ml-2",
-            DropdownPlacement.Left or DropdownPlacement.LeftStart or DropdownPlacement.LeftEnd => "right-full mr-2",
-            _ => "top-full mt-2" // Bottom is default
-        };
-
-        var alignmentClass = Placement switch
-        {
-            DropdownPlacement.TopStart or DropdownPlacement.BottomStart => "origin-top-left start-0",
-            DropdownPlacement.TopEnd or DropdownPlacement.BottomEnd => "origin-top-right end-0",
-            DropdownPlacement.RightStart or DropdownPlacement.LeftStart => "origin-top-left top-0",
-            DropdownPlacement.RightEnd or DropdownPlacement.LeftEnd => "origin-bottom-left bottom-0",
-            DropdownPlacement.Top or DropdownPlacement.Bottom => "origin-top-left start-0",
-            DropdownPlacement.Right => "origin-top-right top-1/2 -translate-y-1/2",
-            _ => "origin-top-left top-1/2 -translate-y-1/2" // Left is default
-        };
-
+        // Base classes for the floating menu - positioning is handled by Floating UI
         var baseClasses = string.Join(" ", new[]
         {
-            "absolute min-w-[180px] rounded shadow focus:outline-none",
+            "min-w-[180px] rounded shadow focus:outline-none",
             "divide-y divide-gray-100",
-            "border border-gray-200 bg-white text-gray-900 dark:border-none dark:bg-gray-700 dark:text-white",
-            positionClass,
-            alignmentClass
+            "border border-gray-200 bg-white text-gray-900 dark:border-none dark:bg-gray-700 dark:text-white"
         });
 
-        var zClass = string.IsNullOrWhiteSpace(MenuClass) ? "z-10" : MenuClass;
+        var zClass = string.IsNullOrWhiteSpace(MenuClass) ? "z-50" : MenuClass;
 
         return MergeClasses(baseClasses, zClass, Slots?.Menu);
     }
 
-    public void Dispose()
+    /// <inheritdoc />
+    public async ValueTask DisposeAsync()
     {
-        if (!isDisposed)
+        if (!_disposed)
         {
-            isDisposed = true;
+            _disposed = true;
+            if (_initialized)
+            {
+                await FloatingService.DestroyAsync(Id);
+            }
         }
     }
 }

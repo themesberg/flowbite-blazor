@@ -1,5 +1,7 @@
-
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Flowbite.Base;
+using Flowbite.Services;
 
 namespace Flowbite.Components;
 
@@ -9,6 +11,7 @@ namespace Flowbite.Components;
 /// <remarks>
 /// The Tooltip component provides contextual information in a small overlay.
 /// It supports multiple trigger methods, placements, and visual styles.
+/// Uses Floating UI for viewport-aware positioning with automatic flip and shift behavior.
 /// </remarks>
 /// <example>
 /// <code>
@@ -17,11 +20,47 @@ namespace Flowbite.Components;
 /// &lt;/Tooltip&gt;
 /// </code>
 /// </example>
-public partial class Tooltip : IDisposable
+public partial class Tooltip : FlowbiteComponentBase, IAsyncDisposable
 {
     private bool _isVisible;
     private bool _isDisposed;
     private bool _isFocusLeaving;
+    private bool _initialized;
+    private bool _isPositioned;
+    private string _id = $"tooltip-{Guid.NewGuid():N}"[..20];
+    private string? _actualPlacement;
+
+    [Inject]
+    private IFloatingService FloatingService { get; set; } = default!;
+
+    /// <summary>
+    /// Handles mouse enter events on the tooltip trigger element.
+    /// </summary>
+    private async Task HandleMouseEnter()
+    {
+        if (Trigger == "hover")
+        {
+            _isVisible = true;
+            _isPositioned = false;
+            _initialized = false;
+            StateHasChanged();
+            await Task.Yield();
+            await InitializeFloatingAsync();
+            _isPositioned = true;
+            StateHasChanged();
+        }
+    }
+
+    /// <summary>
+    /// Handles mouse leave events on the tooltip trigger element.
+    /// </summary>
+    private async Task HandleMouseLeave()
+    {
+        if (Trigger == "hover" && _isVisible)
+        {
+            await HideTooltipAsync();
+        }
+    }
 
     /// <summary>
     /// Handles click events on the tooltip trigger element.
@@ -33,8 +72,21 @@ public partial class Tooltip : IDisposable
     {
         if (Trigger == "click")
         {
-            _isVisible = !_isVisible;
-            await Task.CompletedTask;
+            if (_isVisible)
+            {
+                await HideTooltipAsync();
+            }
+            else
+            {
+                _isVisible = true;
+                _isPositioned = false;
+                _initialized = false;
+                StateHasChanged();
+                await Task.Yield();
+                await InitializeFloatingAsync();
+                _isPositioned = true;
+                StateHasChanged();
+            }
         }
     }
 
@@ -53,15 +105,15 @@ public partial class Tooltip : IDisposable
         }
 
         _isFocusLeaving = true;
-        
+
         // Small delay to check if focus moved within tooltip
         await Task.Delay(10);
-        
-        if (_isFocusLeaving)
+
+        if (_isFocusLeaving && _isVisible)
         {
-            _isVisible = false;
+            await HideTooltipAsync();
         }
-        
+
         _isFocusLeaving = false;
     }
 
@@ -75,19 +127,60 @@ public partial class Tooltip : IDisposable
     {
         if (args.Key == "Escape" && _isVisible)
         {
-            _isVisible = false;
-            await Task.CompletedTask;
+            await HideTooltipAsync();
         }
     }
+
+    private async Task HideTooltipAsync()
+    {
+        _isVisible = false;
+        _isPositioned = false;
+        if (_initialized)
+        {
+            await FloatingService.DestroyAsync(_id);
+            _initialized = false;
+        }
+    }
+
+    private async Task InitializeFloatingAsync()
+    {
+        if (_initialized) return;
+
+        var placement = GetFloatingPlacement();
+        var options = new FloatingOptions(
+            Placement: placement,
+            Offset: 8,
+            EnableFlip: true,
+            EnableShift: true,
+            ShiftPadding: 8
+        );
+
+        _actualPlacement = await FloatingService.InitializeAsync(_id, options);
+        _initialized = true;
+    }
+
+    private string GetFloatingPlacement() => Placement switch
+    {
+        TooltipPlacement.Top => "top",
+        TooltipPlacement.Bottom => "bottom",
+        TooltipPlacement.Left => "left",
+        TooltipPlacement.Right => "right",
+        TooltipPlacement.Auto => "top", // Default to top for auto
+        _ => "top"
+    };
 
     /// <summary>
     /// Cleans up resources when the component is disposed.
     /// </summary>
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
         if (!_isDisposed)
         {
             _isDisposed = true;
+            if (_initialized)
+            {
+                await FloatingService.DestroyAsync(_id);
+            }
         }
     }
 
@@ -251,52 +344,41 @@ public partial class Tooltip : IDisposable
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private string GetVisibilityClasses()
+    private string GetTooltipClasses()
     {
-        var hasAnimation = Animation != null;
-        
-        if (Trigger == "click")
+        // Base classes - positioning is handled by Floating UI
+        // Start with absolute positioning to prevent layout shifts before Floating UI positions it
+        var baseClasses = "z-50 rounded-lg px-3 py-2 text-sm font-medium shadow-sm absolute";
+
+        var themeClasses = Theme switch
         {
-            if (!hasAnimation)
-                return _isVisible ? "block" : "hidden";
-                
-            return _isVisible ? "opacity-100 block" : "opacity-0 hidden";
-        }
-        
-        if (!hasAnimation)
-            return "hidden group-hover:block";
-            
-        return "opacity-0 group-hover:opacity-100 group-hover:block";
+            "light" => "border border-gray-200 bg-white text-gray-900",
+            _ => "bg-gray-900 text-white dark:bg-gray-700"
+        };
+
+        var animationClasses = Animation != null
+            ? $"transition-opacity motion-reduce:transition-none {Animation}"
+            : "";
+
+        // Use invisible + opacity-0 until Floating UI has positioned the tooltip
+        // invisible (visibility:hidden) completely hides the element preventing any flash
+        // The element starts at top-0 left-0 of the relative container until positioned
+        var visibilityClass = _isPositioned ? "visible opacity-100" : "invisible opacity-0 top-0 left-0";
+
+        return MergeClasses(baseClasses, themeClasses, animationClasses, visibilityClass);
     }
 
-    private string GetPlacementClasses() => Placement switch
+    private string GetArrowClasses()
     {
-        TooltipPlacement.Bottom => "top-full left-1/2 -translate-x-1/2 mt-2",
-        TooltipPlacement.Left => "right-full top-1/2 -translate-y-1/2 mr-2",
-        TooltipPlacement.Right => "left-full top-1/2 -translate-y-1/2 ml-2",
-        _ => "bottom-full left-1/2 -translate-x-1/2 mb-2" // Top is default
-    };
+        // Arrow positioning is handled by Floating UI's arrow middleware
+        var baseClasses = "absolute h-2 w-2 rotate-45";
 
-    private string GetThemeClasses() => Theme switch
-    {
-        "light" => "inline-block rounded-lg px-3 py-2 text-sm font-medium shadow-sm border border-gray-200 bg-white text-gray-900",
-        _ => "inline-block rounded-lg px-3 py-2 text-sm font-medium shadow-sm bg-gray-900 text-white dark:bg-gray-700"
-    };
+        var themeClasses = Theme switch
+        {
+            "light" => "bg-white",
+            _ => "bg-gray-900 dark:bg-gray-700"
+        };
 
-    private string GetAnimationClasses() =>
-        Animation == null ? "" : $"transition-opacity motion-reduce:transition-none {Animation}";
-
-    private string GetArrowClasses() => Placement switch
-    {
-        TooltipPlacement.Bottom => "left-1/2 -ml-2 -top-1",
-        TooltipPlacement.Left => "top-1/2 -m-1 right-0",
-        TooltipPlacement.Right => "top-1/2 -m-1 left-0",
-        _ => "left-1/2 -ml-4 -bottom-1"
-    };
-
-    private string GetArrowThemeClasses() => Theme switch
-    {
-        "light" => "bg-white",
-        _ => "bg-gray-900 dark:bg-gray-700"
-    };
+        return MergeClasses(baseClasses, themeClasses);
+    }
 }
