@@ -3,6 +3,13 @@
 ## 0.2.1-beta
 
 ### Added
+- Add `CollapseState` enum and animation state machine for SidebarCollapse component
+  - Four states: Collapsed, Expanding, Expanded, Collapsing
+  - Smooth height-based animations using CSS transitions
+  - Mid-animation toggle support (reverse direction on click during animation)
+  - `@ontransitionend` event to finalize state after CSS transition completes
+- Add `ElementReferenceExtensions.GetScrollHeightAsync()` extension method for JS interop height measurement
+- Add `flowbiteBlazor.getScrollHeight()` JavaScript function for element height measurement
 - Add keyboard navigation and focus management for Dropdown and Tooltip components
   - Dropdown: ArrowUp/Down navigation, Home/End, Enter/Space selection, Escape to close, type-ahead search
   - Dropdown: Focus ring styling with `ring-2 ring-primary-500` classes
@@ -47,9 +54,10 @@
   - Drawer, Modal, Sidebar, SidebarCollapse, Tooltip, Toast, Card, Combobox
   - CarouselIndicators, CarouselItem, PromptInput components, ToggleSwitch
   - Respects `prefers-reduced-motion: reduce` user preference
-- Add smooth animations to Sidebar and SidebarCollapse components
-  - SidebarCollapse expand/collapse with max-height + opacity transitions
-  - Chevron icon rotation animation on toggle
+- Rewrite SidebarCollapse animations with state machine architecture
+  - Replace max-height approach with explicit height-based transitions
+  - Use `transition-[height]` CSS property for smooth expand/collapse
+  - Chevron icon rotation animation on toggle (180° rotation)
 - Improve Carousel slide transitions with scale + opacity effect (500ms duration)
 
 ## 0.2.0-beta
