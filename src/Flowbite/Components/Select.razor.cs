@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Flowbite.Components;
 
@@ -14,22 +15,11 @@ public partial class Select
     private string BaseClasses => "block w-full text-sm border rounded-lg disabled:cursor-not-allowed disabled:opacity-50";
 
     /// <summary>
-    /// Gets or sets the selected value.
-    /// </summary>
-    [Parameter]
-    public string? Value { get; set; }
-
-    /// <summary>
-    /// Event callback for when the selected value changes.
-    /// </summary>
-    [Parameter]
-    public EventCallback<string> ValueChanged { get; set; }
-
-    /// <summary>
     /// Gets or sets the color variant of the select.
+    /// When not explicitly set, the color will automatically change to Failure when validation errors occur.
     /// </summary>
     [Parameter]
-    public SelectColor Color { get; set; } = SelectColor.Gray;
+    public SelectColor? Color { get; set; }
 
     /// <summary>
     /// Gets or sets the size variant of the select.
@@ -79,22 +69,22 @@ public partial class Select
     [Parameter]
     public string? Id { get; set; }
 
-    private string ThemeClass => string.Join(" ", new[]
-    {
-        "relative",
-        AdditionalAttributes?.ContainsKey("class") == true ? AdditionalAttributes["class"]?.ToString() : null
-    }.Where(c => !string.IsNullOrEmpty(c)));
+    /// <summary>
+    /// Gets the effective color for the select, considering validation state.
+    /// </summary>
+    private SelectColor EffectiveColor =>
+        Color ?? (HasValidationErrors ? SelectColor.Failure : SelectColor.Gray);
 
-    private string SelectClass => string.Join(" ", new[]
-    {
+    private string ThemeClass => "relative";
+
+    private string SelectClass => CombineClasses(
         BaseClasses,
         GetSizeClasses(),
         GetColorClasses(),
         Shadow ? "shadow-sm" : null,
         Icon != null ? "pl-10" : null,
-        Addon != null ? "rounded-l-none" : null,
-        AdditionalAttributes?.ContainsKey("class") == true ? AdditionalAttributes["class"]?.ToString() : null
-    }.Where(c => !string.IsNullOrEmpty(c)));
+        Addon != null ? "rounded-l-none" : null
+    );
 
     private string GetSizeClasses() => Size switch
     {
@@ -103,7 +93,7 @@ public partial class Select
         _ => "p-2.5 text-sm"
     };
 
-    private string GetColorClasses() => Color switch
+    private string GetColorClasses() => EffectiveColor switch
     {
         SelectColor.Info => "bg-blue-50 border-blue-500 text-blue-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-blue-100 dark:border-blue-400",
         SelectColor.Success => "bg-green-50 border-green-500 text-green-900 focus:ring-green-500 focus:border-green-500 dark:bg-green-100 dark:border-green-400",
@@ -112,7 +102,7 @@ public partial class Select
         _ => "bg-gray-50 border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
     };
 
-    private string GetHelperTextColorClass() => Color switch
+    private string GetHelperTextColorClass() => EffectiveColor switch
     {
         SelectColor.Info => "text-blue-600 dark:text-blue-500",
         SelectColor.Success => "text-green-600 dark:text-green-500",
@@ -120,4 +110,18 @@ public partial class Select
         SelectColor.Failure => "text-red-600 dark:text-red-500",
         _ => "text-gray-600 dark:text-gray-400"
     };
+
+    /// <summary>
+    /// Attempts to parse the provided value string.
+    /// For select, the value is always a string, so parsing always succeeds.
+    /// </summary>
+    protected override bool TryParseValueFromString(
+        string? value,
+        out string? result,
+        [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = null;
+        return true;
+    }
 }

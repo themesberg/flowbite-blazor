@@ -1,5 +1,5 @@
 @using Flowbite.Base
-@inherits FlowbiteComponentBase
+@inherits FlowbiteInputBase<string?>
 
 <div class="relative" style="@Style">
     @if (Addon != null)
@@ -15,9 +15,8 @@
                 <DynamicComponent Type="@Icon" Parameters="@(new Dictionary<string, object> { { "class", "w-5 h-5 text-gray-500 dark:text-gray-400" } })" />
             </div>
         }
-        <select value="@Value"
-               @onchange="@(async (ChangeEventArgs e) => await ValueChanged.InvokeAsync(e.Value?.ToString()))"
-               class="@SelectClass" 
+        <select @bind="CurrentValue"
+               class="@SelectClass"
                disabled="@Disabled"
                id="@Id"
                @attributes="@AdditionalAttributes">
