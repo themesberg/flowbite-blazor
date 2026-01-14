@@ -12,7 +12,8 @@
       "mcp__playwright__browser_wait_for",
       "mcp__playwright__browser_take_screenshot",
       "Bash(taskkill:*)",
-      "Bash(python build.py:*)"
+      "Bash(python build.py:*)",
+      "Bash(git stash show:*)"
     ],
     "deny": [],
     "ask": []

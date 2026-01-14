@@ -78,7 +78,7 @@ public partial class Textarea
             classes.Add("shadow-sm dark:shadow-sm-light");
         }
 
-        return CombineClasses(classes.ToArray());
+        return MergeClasses(classes.ToArray());
     }
 
     private string GetHelperTextClasses()
@@ -96,7 +96,7 @@ public partial class Textarea
 
         classes.Add(colorClasses);
 
-        return CombineClasses(classes.ToArray());
+        return MergeClasses(classes.ToArray());
     }
 
     /// <summary>

@@ -77,7 +77,7 @@ public partial class Select
 
     private string ThemeClass => "relative";
 
-    private string SelectClass => CombineClasses(
+    private string SelectClass => MergeClasses(
         BaseClasses,
         GetSizeClasses(),
         GetColorClasses(),
