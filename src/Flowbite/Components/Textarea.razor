@@ -2,8 +2,7 @@
 @inherits FlowbiteInputBase<string?>
 
 <textarea class="@GetTextareaClasses()"
-          @bind-Value="CurrentValue"
-          @bind-Value:event="oninput"
+          @bind="CurrentValue"
           placeholder="@Placeholder"
           rows="@Rows"
           disabled="@Disabled"

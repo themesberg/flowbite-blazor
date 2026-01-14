@@ -30,8 +30,7 @@
         }
         <input type="@Type"
                class="@GetInputClasses()"
-               @bind-Value="CurrentValue"
-               @bind-Value:event="oninput"
+               @bind="CurrentValue"
                placeholder="@Placeholder"
                disabled="@Disabled"
                required="@Required"
