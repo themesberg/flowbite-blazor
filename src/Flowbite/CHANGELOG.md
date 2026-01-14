@@ -28,6 +28,13 @@
 - Fix Tooltip positioning flash on show by using `invisible` + `absolute` positioning until Floating UI calculates position
 
 ### Changed
+- **Migrate to Tailwind CSS v4.1.18** - major infrastructure upgrade
+  - Build system now uses Tailwind v4 standalone CLI with built-in PostCSS
+  - CSS files converted to v4 syntax: `@import "tailwindcss"` replaces `@tailwind` directives
+  - Content paths now configured via `@source` directive in CSS
+  - Theme values defined in `@theme` blocks as CSS custom properties
+  - Flowbite plugin loaded via `@plugin "flowbite/plugin"` directive
+  - No breaking changes to component APIs - styling continues to work identically
 - Migrate all 30 components from `CombineClasses()` to `MergeClasses()` + `ElementClass` pattern
   - Enables TailwindMerge.NET intelligent CSS class conflict resolution
   - User-provided `Class` parameter now properly overrides component defaults

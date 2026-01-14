@@ -1,6 +1,53 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind CSS v4 - CSS-first configuration */
+@import "tailwindcss";
+
+/* Flowbite plugin for component styles */
+@plugin "flowbite/plugin";
+
+/* Source paths for class scanning */
+@source "../../../App.razor";
+@source "../**/*.{razor,html,cshtml,cs}";
+@source "../../Layout/**/*.{razor,html,cshtml,cs}";
+@source "../../Pages/**/*.{razor,html,cshtml,cs}";
+@source "../../Components/**/*.{razor,html,cshtml,cs}";
+/* Include Flowbite node_modules for component classes */
+@source "../../../../node_modules/flowbite";
+
+/* Theme configuration */
+@theme {
+    /* Primary brand color - Blue (Flowbite default) */
+    --color-primary-50: #eff6ff;
+    --color-primary-100: #dbeafe;
+    --color-primary-200: #bfdbfe;
+    --color-primary-300: #93c5fd;
+    --color-primary-400: #60a5fa;
+    --color-primary-500: #3b82f6;
+    --color-primary-600: #2563eb;
+    --color-primary-700: #1d4ed8;
+    --color-primary-800: #1e40af;
+    --color-primary-900: #1e3a8a;
+    --color-primary-950: #172554;
+
+    /* Custom max-width */
+    --max-width-8xl: 90rem;
+
+    /* Custom keyframes */
+    --animate-fade-in: fadeIn 200ms ease-in-out;
+
+    /* Custom shadow */
+    --shadow-lg-light: 0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -2px rgba(255, 255, 255, 0.05);
+
+    /* Font families */
+    --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-mono: ui-monospace, "SFMono-Regular", "MesloLGL Nerd Font Mono", "Cascadia Mono", "Courier New", monospace;
+}
+
+/* Custom keyframes for animations */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
 
 
 /* Microsoft Blazor  ------------------------------------------------------------------------------------------------------------------ */
