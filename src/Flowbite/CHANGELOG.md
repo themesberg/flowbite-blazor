@@ -7,7 +7,8 @@
   - Four states: Collapsed, Expanding, Expanded, Collapsing
   - Smooth height-based animations using CSS transitions
   - Mid-animation toggle support (reverse direction on click during animation)
-  - `@ontransitionend` event to finalize state after CSS transition completes
+  - Timer fallback ensures state transitions complete reliably
+  - Full support for deeply nested collapses (multi-level sidebars)
 - Add `ElementReferenceExtensions.GetScrollHeightAsync()` extension method for JS interop height measurement
 - Add `flowbiteBlazor.getScrollHeight()` JavaScript function for element height measurement
 - Add keyboard navigation and focus management for Dropdown and Tooltip components
@@ -37,6 +38,10 @@
   - `@custom-variant dark (&:where(.dark, .dark *))` generates zero-specificity selectors that get overridden
   - `@config` with `darkMode: 'class'` generates proper `:is(.dark *)` selectors with correct specificity
 - Fix Tooltip width being constrained to trigger element width by adding `w-max` class
+- Fix nested SidebarCollapse components not growing parent container
+  - Added timer fallback (350ms) to ensure animation state transitions complete even when CSS `transitionend` event doesn't fire
+  - Parent collapses now properly expand to accommodate nested child content
+  - Component implements `IDisposable` for proper timer cleanup
 
 ### Changed
 - **Migrate to Tailwind CSS v4.1.18** - major infrastructure upgrade
