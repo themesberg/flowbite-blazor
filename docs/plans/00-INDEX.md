@@ -72,7 +72,7 @@ Phase 5: Polish & DX (P2)
 | 2     | [02-PHASE-CORE-ARCHITECTURE.md](./02-PHASE-CORE-ARCHITECTURE.md) | P0       | COMPLETED   | L      | Slot system, Floating UI, Keyboard navigation          |
 | 3     | [03-PHASE-TAILWIND-V4.md](./03-PHASE-TAILWIND-V4.md)             | P1       | COMPLETED   | M      | Tailwind v4, @theme directive, dark mode               |
 | 4     | [04-PHASE-ANIMATION.md](./04-PHASE-ANIMATION.md)                 | P1       | COMPLETED   | M      | CollapseState enum, height animations                  |
-| 5     | [05-PHASE-POLISH.md](./05-PHASE-POLISH.md)                       | P2       | NOT STARTED | M      | Debouncing, lazy loading, documentation                |
+| 5     | [05-PHASE-POLISH.md](./05-PHASE-POLISH.md)                       | P2       | IN PROGRESS | M      | Debouncing, lazy loading, documentation                |
 
 **Priority Legend:**
 - **P0 (Critical):** Blocks quality features, must do first

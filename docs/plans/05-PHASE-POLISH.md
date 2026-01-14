@@ -1,6 +1,6 @@
 # Phase 5: Polish & Developer Experience
 
-**Status:** Not Started
+**Status:** In Progress (Task 5.1 Complete)
 **Prerequisites:** Phases 1-4 complete
 **Priority:** P2
 **Effort:** M (10-16 hours)
@@ -32,12 +32,12 @@ This causes excessive API calls in search/autocomplete scenarios, degrading perf
 
 ### Tasks
 
-- [ ] Create `InputBehavior` enum with XML documentation
-- [ ] Create `Debouncer` nested class with cancellation support
-- [ ] Add `DebounceDelay` parameter to `TextInput`
-- [ ] Add `Behavior` parameter to `TextInput`
-- [ ] Implement debouncing in `TextInput.razor.cs`
-- [ ] Ensure proper disposal to prevent memory leaks
+- [x] Create `InputBehavior` enum with XML documentation
+- [x] Create `Debouncer` class with cancellation support (standalone utility in `Utilities/`)
+- [x] Add `DebounceDelay` parameter to `TextInput`
+- [x] Add `Behavior` parameter to `TextInput`
+- [x] Implement debouncing in `TextInput.razor.cs`
+- [x] Ensure proper disposal to prevent memory leaks
 
 ### Code Examples
 
@@ -161,12 +161,12 @@ private sealed class Debouncer : IDisposable
 
 ### Acceptance Criteria
 
-- [ ] `DebounceDelay="300"` delays input by 300ms
-- [ ] Typing during delay cancels previous pending call
-- [ ] `Behavior="OnInput"` required for debouncing to work
-- [ ] `Behavior="OnChange"` (default) fires on blur only
-- [ ] Component disposes cleanly (no memory leaks)
-- [ ] Navigate away mid-debounce produces no errors
+- [x] `DebounceDelay="300"` delays input by 300ms
+- [x] Typing during delay cancels previous pending call
+- [x] `Behavior="OnInput"` required for debouncing to work
+- [x] `Behavior="OnChange"` (default) fires on blur only
+- [x] Component disposes cleanly (no memory leaks)
+- [x] Navigate away mid-debounce produces no errors
 
 ### Unit Test Example
 
