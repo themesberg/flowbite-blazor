@@ -284,5 +284,24 @@ window.flowbiteBlazor.cleanupElement = function (elementId) {
     return window.flowbiteBlazor.cleanup.cleanupElement(elementId);
 };
 
+/**
+ * Element utilities for animations and measurements
+ */
+window.flowbiteBlazor.element = {
+    /**
+     * Gets the scroll height of an element for smooth collapse/expand animations
+     * @param {HTMLElement} element - The element to measure
+     * @returns {number} The scroll height in pixels, or 0 if element is null
+     */
+    getScrollHeight: function (element) {
+        return element?.scrollHeight ?? 0;
+    }
+};
+
+// Shorthand for element utilities
+window.flowbiteBlazor.getScrollHeight = function (element) {
+    return window.flowbiteBlazor.element.getScrollHeight(element);
+};
+
 // Initialize Flowbite
 window.Flowbite.init();

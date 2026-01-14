@@ -3,6 +3,14 @@
 ## 0.2.1-beta
 
 ### Added
+- Add `CollapseState` enum and animation state machine for SidebarCollapse component
+  - Four states: Collapsed, Expanding, Expanded, Collapsing
+  - Smooth height-based animations using CSS transitions
+  - Mid-animation toggle support (reverse direction on click during animation)
+  - Timer fallback ensures state transitions complete reliably
+  - Full support for deeply nested collapses (multi-level sidebars)
+- Add `ElementReferenceExtensions.GetScrollHeightAsync()` extension method for JS interop height measurement
+- Add `flowbiteBlazor.getScrollHeight()` JavaScript function for element height measurement
 - Add keyboard navigation and focus management for Dropdown and Tooltip components
   - Dropdown: ArrowUp/Down navigation, Home/End, Enter/Space selection, Escape to close, type-ahead search
   - Dropdown: Focus ring styling with `ring-2 ring-primary-500` classes
@@ -30,6 +38,10 @@
   - `@custom-variant dark (&:where(.dark, .dark *))` generates zero-specificity selectors that get overridden
   - `@config` with `darkMode: 'class'` generates proper `:is(.dark *)` selectors with correct specificity
 - Fix Tooltip width being constrained to trigger element width by adding `w-max` class
+- Fix nested SidebarCollapse components not growing parent container
+  - Added timer fallback (350ms) to ensure animation state transitions complete even when CSS `transitionend` event doesn't fire
+  - Parent collapses now properly expand to accommodate nested child content
+  - Component implements `IDisposable` for proper timer cleanup
 
 ### Changed
 - **Migrate to Tailwind CSS v4.1.18** - major infrastructure upgrade
@@ -47,9 +59,10 @@
   - Drawer, Modal, Sidebar, SidebarCollapse, Tooltip, Toast, Card, Combobox
   - CarouselIndicators, CarouselItem, PromptInput components, ToggleSwitch
   - Respects `prefers-reduced-motion: reduce` user preference
-- Add smooth animations to Sidebar and SidebarCollapse components
-  - SidebarCollapse expand/collapse with max-height + opacity transitions
-  - Chevron icon rotation animation on toggle
+- Rewrite SidebarCollapse animations with state machine architecture
+  - Replace max-height approach with explicit height-based transitions
+  - Use `transition-[height]` CSS property for smooth expand/collapse
+  - Chevron icon rotation animation on toggle (180° rotation)
 - Improve Carousel slide transitions with scale + opacity effect (500ms duration)
 
 ## 0.2.0-beta
