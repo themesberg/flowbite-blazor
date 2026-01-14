@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
-using Flowbite.Utilities;
 
 namespace Flowbite.Components;
 
@@ -119,6 +117,7 @@ public partial class Select
                 .Add("rounded-lg", when: Addon == null)
                 .Add("shadow-sm dark:shadow-sm-light", when: Shadow)
                 .Add(Class)
+                .Add(CssClass)
         );
     }
 
@@ -134,7 +133,7 @@ public partial class Select
 
     private string GetHelperTextClasses()
     {
-        return MergeClasses(
+        return CombineClasses(
             ElementClass.Empty()
                 .Add(BaseHelperTextClasses)
                 .Add(GetHelperTextColorClasses())
