@@ -9,9 +9,9 @@ namespace Flowbite.Components;
 /// </summary>
 public partial class TextInput<TValue>
 {
-    private const string BaseWrapperClasses = "relative flex";
+    private const string BaseWrapperClasses = "flex";
     private const string BaseFieldClasses = "relative w-full";
-    private const string BaseInputClasses = "block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500";
+    private const string BaseInputClasses = "block w-full border focus:outline-none focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50";
     private const string BaseAddonClasses = "inline-flex items-center border border-gray-300 bg-gray-200 px-3 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400";
     private const string BaseIconClasses = "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3";
     private const string BaseRightIconClasses = "pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3";
@@ -130,25 +130,24 @@ public partial class TextInput<TValue>
         // Add size classes
         var sizeClasses = Size switch
         {
-            TextInputSize.Small => "p-2 text-sm",
-            TextInputSize.Large => "sm:text-md p-4",
-            _ => "p-2.5 text-sm" // Medium (default)
+            TextInputSize.Small => "p-2 sm:text-xs",
+            TextInputSize.Medium => "p-2.5 text-sm",
+            TextInputSize.Large => "p-4 sm:text-base",
+            _ => throw new ArgumentOutOfRangeException(nameof(Size), Size, "Invalid TextInputSize value")
         };
         classes.Add(sizeClasses);
 
         // Add color classes based on effective color (includes automatic validation state)
         var colorClasses = EffectiveColor switch
         {
-            TextInputColor.Success => "border-green-500 bg-green-50 text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100 dark:focus:border-green-500 dark:focus:ring-green-500",
+            TextInputColor.Gray => "border-gray-300 bg-gray-50 text-gray-900 placeholder-gray-500 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500",
+            TextInputColor.Info => "border-cyan-500 bg-cyan-50 text-cyan-900 placeholder-cyan-700 focus:border-cyan-500 focus:ring-cyan-500 dark:border-cyan-400 dark:bg-cyan-100 dark:focus:border-cyan-500 dark:focus:ring-cyan-500",
             TextInputColor.Failure => "border-red-500 bg-red-50 text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500 dark:border-red-400 dark:bg-red-100 dark:focus:border-red-500 dark:focus:ring-red-500",
             TextInputColor.Warning => "border-yellow-500 bg-yellow-50 text-yellow-900 placeholder-yellow-700 focus:border-yellow-500 focus:ring-yellow-500 dark:border-yellow-400 dark:bg-yellow-100 dark:focus:border-yellow-500 dark:focus:ring-yellow-500",
-            TextInputColor.Info => "border-primary-500 bg-primary-50 text-primary-900 placeholder-primary-700 focus:border-primary-500 focus:ring-primary-500 dark:border-primary-400 dark:bg-primary-100 dark:focus:border-primary-500 dark:focus:ring-primary-500",
-            _ => string.Empty // Gray (default) uses base classes
+            TextInputColor.Success => "border-green-500 bg-green-50 text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100 dark:focus:border-green-500 dark:focus:ring-green-500",
+            _ => throw new ArgumentOutOfRangeException(nameof(EffectiveColor), EffectiveColor, "Invalid TextInputColor value")
         };
-        if (!string.IsNullOrEmpty(colorClasses))
-        {
-            classes.Add(colorClasses);
-        }
+        classes.Add(colorClasses);
 
         // Add icon padding
         if (Icon != null)
@@ -195,11 +194,12 @@ public partial class TextInput<TValue>
         // Add color classes based on effective color (includes automatic validation state)
         var colorClasses = EffectiveColor switch
         {
-            TextInputColor.Success => "text-green-600 dark:text-green-500",
+            TextInputColor.Gray => "text-gray-500 dark:text-gray-400",
+            TextInputColor.Info => "text-cyan-600 dark:text-cyan-500",
             TextInputColor.Failure => "text-red-600 dark:text-red-500",
             TextInputColor.Warning => "text-yellow-600 dark:text-yellow-500",
-            TextInputColor.Info => "text-primary-600 dark:text-primary-500",
-            _ => "text-gray-500 dark:text-gray-400" // Gray (default)
+            TextInputColor.Success => "text-green-600 dark:text-green-500",
+            _ => throw new ArgumentOutOfRangeException(nameof(EffectiveColor), EffectiveColor, "Invalid TextInputColor value")
         };
         classes.Add(colorClasses);
 

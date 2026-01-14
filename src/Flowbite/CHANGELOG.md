@@ -3,6 +3,12 @@
 ## 0.2.1-beta
 
 ### Added
+- Add automatic validation color changes for form components (#17)
+  - TextInput, Textarea, and Select components now automatically change to Failure color when validation errors occur
+  - New `FlowbiteInputBase<TValue>` base class integrating with Blazor's EditForm validation
+  - Components subscribe to `EditContext.OnValidationStateChanged` to update styling when validation state changes
+  - `EffectiveColor` property automatically returns Failure when `HasValidationErrors` is true
+  - TailwindMerge integration ensures proper CSS class conflict resolution (e.g., bg-gray-50 vs bg-red-50)
 - Add `CollapseState` enum and animation state machine for SidebarCollapse component
   - Four states: Collapsed, Expanding, Expanded, Collapsing
   - Smooth height-based animations using CSS transitions
@@ -44,6 +50,21 @@
   - Component implements `IDisposable` for proper timer cleanup
 
 ### Changed
+- **BREAKING:** Form components now require `@bind-Value` instead of `Value`/`ValueChanged` parameters (#17)
+  - TextInput, Textarea, and Select components now inherit from `InputBase<TValue>` (via `FlowbiteInputBase<TValue>`)
+  - Use `@bind-Value="model.Property"` instead of `Value="@value" ValueChanged="@OnValueChanged"`
+  - `ValueExpression` is automatically provided by the `@bind-Value` directive
+  - Migration: Replace all `Value` and `ValueChanged` usages with `@bind-Value` in EditForm contexts
+- **BREAKING:** `TextInput.Color`, `Textarea.Color`, and `Select.Color` parameters are now nullable (#17)
+  - Changed from `TextInputColor`/`SelectColor` to `TextInputColor?`/`SelectColor?`
+  - When `Color` is `null` (default), components automatically use Failure color when validation errors occur
+  - Migration: Explicit `Color` assignments continue to work; `null` enables automatic validation colors
+- **BREAKING:** TextInput styling updated to match Flowbite React v2
+  - Info color changed from primary/blue to cyan colors
+  - Size Small changed from `p-2 text-sm` to `p-2 sm:text-xs`
+  - Size Large changed from `sm:text-md p-4` to `p-4 sm:text-base`
+  - Base classes now include `focus:outline-none focus:ring-1` for better focus styling
+  - Gray color classes moved from base to color switch for proper TailwindMerge conflict resolution
 - **Migrate to Tailwind CSS v4.1.18** - major infrastructure upgrade
   - Build system now uses Tailwind v4 standalone CLI with built-in PostCSS
   - CSS files converted to v4 syntax: `@import "tailwindcss"` replaces `@tailwind` directives

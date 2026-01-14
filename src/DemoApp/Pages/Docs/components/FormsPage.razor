@@ -37,13 +37,13 @@
                         <div class="mb-2 block">
                             <Label For="email" Value="Your email" />
                         </div>
-                        <TextInput TValue="string" Id="email" Type="email" Placeholder="name@flowbite.com" Required="true" />
+                        <TextInput @bind-Value="emailDemo" Id="email" Type="email" Placeholder="name@flowbite.com" Required="true" />
                     </div>
                     <div>
                         <div class="mb-2 block">
                             <Label For="password" Value="Your password" />
                         </div>
-                        <TextInput TValue="string" Id="password" Type="password" Required="true" />
+                        <TextInput @bind-Value="passwordDemo" Id="password" Type="password" Required="true" />
                     </div>
                     <div class="flex items-center gap-2">
                         <Checkbox Id="remember" />
@@ -64,43 +64,61 @@
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
-                    <TextInput TValue="string" Size="TextInputSize.Small" Placeholder="Small input" />
-                    <TextInput TValue="string" Size="TextInputSize.Medium" Placeholder="Default input" />
-                    <TextInput TValue="string" Size="TextInputSize.Large" Placeholder="Large input" />
+                    <TextInput @bind-Value="smallInputDemo" Size="TextInputSize.Small" Placeholder="Small input" />
+                    <TextInput @bind-Value="mediumInputDemo" Size="TextInputSize.Medium" Placeholder="Default input" />
+                    <TextInput @bind-Value="largeInputDemo" Size="TextInputSize.Large" Placeholder="Large input" />
                 </div>
             </PreviewContent>
         </ComponentExample>
 
-        <ComponentExample 
-            Title="Input States"
-            Description="Different states for input validation and feedback."
+        <ComponentExample
+            Title="Input Colors"
+            Description="Use different color variants to indicate different states or contexts."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
     <div>
-        <TextInput TValue=""string"" Color=""TextInputColor.Success"" @bind-Value=""successInput"" HelperText=""This is a success message"" />
+        <TextInput @bind-Value=""grayInput"" Color=""TextInputColor.Gray"" Placeholder=""Gray input (default)"" HelperText=""This is a gray input"" />
     </div>
     <div>
-        <TextInput TValue=""string"" Color=""TextInputColor.Failure"" @bind-Value=""errorInput"" HelperText=""This is an error message"" />
+        <TextInput @bind-Value=""infoInput"" Color=""TextInputColor.Info"" Placeholder=""Info input"" HelperText=""This is an info message"" />
     </div>
     <div>
-        <TextInput TValue=""string"" Disabled=""true"" @bind-Value=""disabledInput"" />
+        <TextInput @bind-Value=""successInput"" Color=""TextInputColor.Success"" Placeholder=""Success input"" HelperText=""This is a success message"" />
+    </div>
+    <div>
+        <TextInput @bind-Value=""warningInput"" Color=""TextInputColor.Warning"" Placeholder=""Warning input"" HelperText=""This is a warning message"" />
+    </div>
+    <div>
+        <TextInput @bind-Value=""errorInput"" Color=""TextInputColor.Failure"" Placeholder=""Error input"" HelperText=""This is an error message"" />
+    </div>
+    <div>
+        <TextInput @bind-Value=""disabledInput"" Disabled=""true"" Placeholder=""Disabled input"" />
     </div>
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
                     <div>
-                        <TextInput TValue="string" Color="TextInputColor.Success" @bind-Value="successInput" HelperText="This is a success message" />
+                        <TextInput @bind-Value="grayColorDemo" Color="TextInputColor.Gray" Placeholder="Gray input (default)" HelperText="This is a gray input" />
                     </div>
                     <div>
-                        <TextInput TValue="string" Color="TextInputColor.Failure" @bind-Value="errorInput" HelperText="This is an error message" />
+                        <TextInput @bind-Value="infoColorDemo" Color="TextInputColor.Info" Placeholder="Info input" HelperText="This is an info message" />
                     </div>
                     <div>
-                        <TextInput TValue="string" Disabled="true" @bind-Value="disabledInput" />
+                        <TextInput @bind-Value="successColorDemo" Color="TextInputColor.Success" Placeholder="Success input" HelperText="This is a success message" />
+                    </div>
+                    <div>
+                        <TextInput @bind-Value="warningColorDemo" Color="TextInputColor.Warning" Placeholder="Warning input" HelperText="This is a warning message" />
+                    </div>
+                    <div>
+                        <TextInput @bind-Value="errorColorDemo" Color="TextInputColor.Failure" Placeholder="Error input" HelperText="This is an error message" />
+                    </div>
+                    <div>
+                        <TextInput @bind-Value="disabledInput" Disabled="true" Placeholder="Disabled input" />
                     </div>
                 </div>
             </PreviewContent>
         </ComponentExample>
 
-        <ComponentExample 
+        <ComponentExample
             Title="Input with Shadow"
             Description="Add a subtle shadow effect to your input fields."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
@@ -110,9 +128,9 @@
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
-                    <TextInput TValue="string" Shadow="true" Placeholder="Input with shadow" />
-                    <TextInput TValue="string" Shadow="true" Color="TextInputColor.Success" Placeholder="Success input with shadow" />
-                    <TextInput TValue="string" Shadow="true" Color="TextInputColor.Info" Placeholder="Info input with shadow" />
+                    <TextInput @bind-Value="shadowInputDemo" Shadow="true" Placeholder="Input with shadow" />
+                    <TextInput @bind-Value="shadowSuccessDemo" Shadow="true" Color="TextInputColor.Success" Placeholder="Success input with shadow" />
+                    <TextInput @bind-Value="shadowInfoDemo" Shadow="true" Color="TextInputColor.Info" Placeholder="Info input with shadow" />
                 </div>
             </PreviewContent>
         </ComponentExample>
@@ -127,9 +145,9 @@
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
-                    <TextInput TValue="string" Placeholder="Your domain" AddonLeft="https://" />
-                    <TextInput TValue="string" Placeholder="Your domain" AddonRight=".com" />
-                    <TextInput TValue="string" Placeholder="Amount" AddonLeft="$" AddonRight=".00" />
+                    <TextInput @bind-Value="addonLeftDemo" Placeholder="Your domain" AddonLeft="https://" />
+                    <TextInput @bind-Value="addonRightDemo" Placeholder="Your domain" AddonRight=".com" />
+                    <TextInput @bind-Value="addonBothDemo" Placeholder="Amount" AddonLeft="$" AddonRight=".00" />
                 </div>
             </PreviewContent>
         </ComponentExample>
@@ -144,9 +162,9 @@
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
-                    <TextInput TValue="string" Icon="@(new EnvelopeOpenIcon())" Placeholder="Email with icon" />
-                    <TextInput TValue="string" RightIcon="@(new SearchIcon())" Placeholder="Search with icon" />
-                    <TextInput TValue="string" Icon="@(new UserIcon())" RightIcon="@(new CheckIcon())" Placeholder="Input with both icons" />
+                    <TextInput @bind-Value="iconLeftDemo" Icon="@(new EnvelopeOpenIcon())" Placeholder="Email with icon" />
+                    <TextInput @bind-Value="iconRightDemo" RightIcon="@(new SearchIcon())" Placeholder="Search with icon" />
+                    <TextInput @bind-Value="iconBothDemo" Icon="@(new UserIcon())" RightIcon="@(new CheckIcon())" Placeholder="Input with both icons" />
                 </div>
             </PreviewContent>
         </ComponentExample>
@@ -172,10 +190,11 @@
                         <div class="mb-2 block">
                             <Label For="comment" Value="Your message" />
                         </div>
-                        <Textarea 
-                            Id="comment" 
-                            Rows="4" 
-                            Placeholder="Write your thoughts here..." 
+                        <Textarea
+                            @bind-Value="commentDemo"
+                            Id="comment"
+                            Rows="4"
+                            Placeholder="Write your thoughts here..."
                             Required="true" />
                     </div>
                 </form>
@@ -206,7 +225,7 @@
                         <div class="mb-2 block">
                             <Label For="countries" Value="Select your country" />
                         </div>
-                        <Select Id="countries">
+                        <Select @bind-Value="_selectedCountry" Id="countries">
                             <option value="">Choose a country</option>
                             <option value="US">United States</option>
                             <option value="CA">Canada</option>
@@ -270,17 +289,17 @@
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
-                    <Select Size="TextInputSize.Small">
+                    <Select @bind-Value="selectSmallDemo" Size="TextInputSize.Small">
                         <option>Small select</option>
                         <option>Option 1</option>
                         <option>Option 2</option>
                     </Select>
-                    <Select Size="TextInputSize.Medium">
+                    <Select @bind-Value="selectMediumDemo" Size="TextInputSize.Medium">
                         <option>Default select</option>
                         <option>Option 1</option>
                         <option>Option 2</option>
                     </Select>
-                    <Select Size="TextInputSize.Large">
+                    <Select @bind-Value="selectLargeDemo" Size="TextInputSize.Large">
                         <option>Large select</option>
                         <option>Option 1</option>
                         <option>Option 2</option>
@@ -302,7 +321,7 @@
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
-                    <Select Icon="@(typeof(EnvelopeOpenIcon))">
+                    <Select @bind-Value="selectIconDemo" Icon="@(typeof(EnvelopeOpenIcon))">
                         <option>Choose an option</option>
                         <option>Option 1</option>
                         <option>Option 2</option>
@@ -312,21 +331,36 @@
             </PreviewContent>
         </ComponentExample>
 
-        <ComponentExample 
-            Title="Select States"
-            Description="Different states and validation styles for select dropdowns."
+        <ComponentExample
+            Title="Select Colors"
+            Description="Use different color variants to indicate different states or contexts for select dropdowns."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
-    <Select Color=""SelectColor.Success"" HelperText=""This is a success message"">
+    <Select @bind-Value=""graySelect"" Color=""SelectColor.Gray"" HelperText=""This is a gray select (default)"">
+        <option>Gray select (default)</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+    <Select @bind-Value=""infoSelect"" Color=""SelectColor.Info"" HelperText=""This is an info message"">
+        <option>Info select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+    <Select @bind-Value=""successSelect"" Color=""SelectColor.Success"" HelperText=""This is a success message"">
         <option>Success select</option>
         <option>Option 1</option>
         <option>Option 2</option>
     </Select>
-    <Select Color=""SelectColor.Failure"" HelperText=""This is an error message"">
+    <Select @bind-Value=""warningSelect"" Color=""SelectColor.Warning"" HelperText=""This is a warning message"">
+        <option>Warning select</option>
+        <option>Option 1</option>
+        <option>Option 2</option>
+    </Select>
+    <Select @bind-Value=""failureSelect"" Color=""SelectColor.Failure"" HelperText=""This is an error message"">
         <option>Error select</option>
         <option>Option 1</option>
         <option>Option 2</option>
     </Select>
-    <Select Disabled=""true"">
+    <Select @bind-Value=""disabledSelect"" Disabled=""true"">
         <option>Disabled select</option>
         <option>Option 1</option>
         <option>Option 2</option>
@@ -334,17 +368,32 @@
 </div>")">
             <PreviewContent>
                 <div class="flex flex-col gap-4">
-                    <Select Color="SelectColor.Success" HelperText="This is a success message">
+                    <Select @bind-Value="selectGrayDemo" Color="SelectColor.Gray" HelperText="This is a gray select (default)">
+                        <option>Gray select (default)</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                    <Select @bind-Value="selectInfoDemo" Color="SelectColor.Info" HelperText="This is an info message">
+                        <option>Info select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                    <Select @bind-Value="selectSuccessDemo" Color="SelectColor.Success" HelperText="This is a success message">
                         <option>Success select</option>
                         <option>Option 1</option>
                         <option>Option 2</option>
                     </Select>
-                    <Select Color="SelectColor.Failure" HelperText="This is an error message">
+                    <Select @bind-Value="selectWarningDemo" Color="SelectColor.Warning" HelperText="This is a warning message">
+                        <option>Warning select</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </Select>
+                    <Select @bind-Value="selectFailureDemo" Color="SelectColor.Failure" HelperText="This is an error message">
                         <option>Error select</option>
                         <option>Option 1</option>
                         <option>Option 2</option>
                     </Select>
-                    <Select Disabled="true">
+                    <Select @bind-Value="selectDisabledDemo" Disabled="true">
                         <option>Disabled select</option>
                         <option>Option 1</option>
                         <option>Option 2</option>
@@ -606,11 +655,44 @@
     private bool switch2 = true;
     private bool switch3 = true;
 
-    private string successInput = "Success input";
-    private string errorInput = "Error input";
+    // Demo input variables
+    private string? emailDemo;
+    private string? passwordDemo;
+    private string? smallInputDemo;
+    private string? mediumInputDemo;
+    private string? largeInputDemo;
+    private string? shadowInputDemo;
+    private string? shadowSuccessDemo;
+    private string? shadowInfoDemo;
+    private string? addonLeftDemo;
+    private string? addonRightDemo;
+    private string? addonBothDemo;
+    private string? iconLeftDemo;
+    private string? iconRightDemo;
+    private string? iconBothDemo;
+    private string? commentDemo;
+
     private string disabledInput = "Disabled input";
 
+    private string? _selectedCountry;
     private string? _comboboxCountry;
+    private string? selectSmallDemo;
+    private string? selectMediumDemo;
+    private string? selectLargeDemo;
+    private string? selectIconDemo;
+    private string? selectGrayDemo;
+    private string? selectInfoDemo;
+    private string? selectSuccessDemo;
+    private string? selectWarningDemo;
+    private string? selectFailureDemo;
+    private string? selectDisabledDemo;
+
+    // Color demo variables
+    private string? grayColorDemo;
+    private string? infoColorDemo;
+    private string? successColorDemo;
+    private string? warningColorDemo;
+    private string? errorColorDemo;
     private readonly List<(string Name, string Code)> _comboboxCountries = new()
     {
         ("United States", "US"),
