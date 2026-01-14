@@ -1129,10 +1129,6 @@
     border-top-left-radius: var(--radius-md);
     border-bottom-left-radius: var(--radius-md);
   }
-  .rounded-l-none {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
   .rounded-r-lg {
     border-top-right-radius: var(--radius-lg);
     border-bottom-right-radius: var(--radius-lg);
@@ -1631,8 +1627,17 @@
     --tw-gradient-to: var(--color-yellow-500);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
+  .bg-\[length\:0\.75em_0\.75em\] {
+    background-size: 0.75em 0.75em;
+  }
   .bg-clip-text {
     background-clip: text;
+  }
+  .bg-\[position\:right_12px_center\] {
+    background-position: right 12px center;
+  }
+  .bg-no-repeat {
+    background-repeat: no-repeat;
   }
   .mask-repeat {
     mask-repeat: repeat;
@@ -1993,9 +1998,6 @@
   }
   .text-blue-800 {
     color: var(--color-blue-800);
-  }
-  .text-blue-900 {
-    color: var(--color-blue-900);
   }
   .text-current {
     color: currentcolor;
@@ -3573,11 +3575,6 @@
       border-style: none;
     }
   }
-  .dark\:border-blue-400 {
-    &:is(.dark *) {
-      border-color: var(--color-blue-400);
-    }
-  }
   .dark\:border-blue-500 {
     &:is(.dark *) {
       border-color: var(--color-blue-500);
@@ -3700,11 +3697,6 @@
       @supports (color: color-mix(in lab, red, red)) {
         background-color: color-mix(in oklab, var(--color-amber-900) 40%, transparent);
       }
-    }
-  }
-  .dark\:bg-blue-100 {
-    &:is(.dark *) {
-      background-color: var(--color-blue-100);
     }
   }
   .dark\:bg-blue-200 {
@@ -5402,7 +5394,7 @@ pre[class^='language-diff-'] > code {
     color: var(--color-white);
   }
 }
-.quickgrid[theme=flowbite] .col-options input ,select, textarea {
+.quickgrid[theme=flowbite] .col-options input, .quickgrid[theme=flowbite] .col-options select, .quickgrid[theme=flowbite] .col-options textarea {
   font-size: var(--text-xs);
   line-height: var(--tw-leading, var(--text-xs--line-height));
 }

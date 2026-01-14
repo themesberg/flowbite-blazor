@@ -179,7 +179,9 @@ pre[class^='language-diff-'] > code {
     @apply dark:bg-gray-700 dark:text-white text-xs p-0;
 }
 
-.quickgrid[theme=flowbite] .col-options  input ,select, textarea {
+.quickgrid[theme=flowbite] .col-options input,
+.quickgrid[theme=flowbite] .col-options select,
+.quickgrid[theme=flowbite] .col-options textarea {
     @apply text-xs;
 }
 

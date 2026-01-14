@@ -1,30 +1,36 @@
 @using Flowbite.Base
 @inherits FlowbiteInputBase<string?>
 
-<div class="relative" style="@Style">
+<div class="@GetWrapperClasses()" style="@Style">
     @if (Addon != null)
     {
-        <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-lg dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+        <span class="@GetAddonClasses()">
             @Addon
         </span>
     }
-    <div class="relative">
+    <div class="@GetFieldClasses()">
         @if (Icon != null)
         {
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <DynamicComponent Type="@Icon" Parameters="@(new Dictionary<string, object> { { "class", "w-5 h-5 text-gray-500 dark:text-gray-400" } })" />
+            <div class="@GetIconClasses()">
+                <DynamicComponent Type="@Icon" Parameters="@(new Dictionary<string, object>
+                {
+                    { "class", "h-5 w-5 text-gray-500 dark:text-gray-400" },
+                    { "aria-hidden", true }
+                })" />
             </div>
         }
         <select @bind="CurrentValue"
-               class="@SelectClass"
+               class="@GetSelectClasses()"
                disabled="@Disabled"
                id="@Id"
                @attributes="@AdditionalAttributes">
             @ChildContent
         </select>
-        @if (!string.IsNullOrEmpty(HelperText))
-        {
-            <p class="mt-2 text-sm @GetHelperTextColorClass()" role="note">@HelperText</p>
-        }
     </div>
 </div>
+@if (!string.IsNullOrEmpty(HelperText))
+{
+    <p class="@GetHelperTextClasses()">
+        @HelperText
+    </p>
+}
