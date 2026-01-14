@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Flowbite.Components;
 
@@ -13,19 +13,10 @@ public partial class Textarea
     private string _elementId = Guid.NewGuid().ToString("N");
 
     /// <summary>
-    /// Gets or sets the value of the textarea.
-    /// </summary>
-    [Parameter] public string? Value { get; set; }
-
-    /// <summary>
-    /// Event callback for when the textarea value changes.
-    /// </summary>
-    [Parameter] public EventCallback<string> ValueChanged { get; set; }
-
-    /// <summary>
     /// Gets or sets the color variant of the textarea.
+    /// When not explicitly set, the color will automatically change to Failure when validation errors occur.
     /// </summary>
-    [Parameter] public TextInputColor Color { get; set; } = TextInputColor.Gray;
+    [Parameter] public TextInputColor? Color { get; set; }
 
     /// <summary>
     /// Gets or sets the placeholder text.
@@ -57,12 +48,18 @@ public partial class Textarea
     /// </summary>
     [Parameter] public int Rows { get; set; } = 4;
 
+    /// <summary>
+    /// Gets the effective color for the textarea, considering validation state.
+    /// </summary>
+    private TextInputColor EffectiveColor =>
+        Color ?? (HasValidationErrors ? TextInputColor.Failure : TextInputColor.Gray);
+
     private string GetTextareaClasses()
     {
         var classes = new List<string> { BaseTextareaClasses };
 
-        // Add color classes
-        var colorClasses = Color switch
+        // Add color classes based on effective color (includes automatic validation state)
+        var colorClasses = EffectiveColor switch
         {
             TextInputColor.Success => "border-green-500 bg-green-50 text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100 dark:focus:border-green-500 dark:focus:ring-green-500",
             TextInputColor.Failure => "border-red-500 bg-red-50 text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500 dark:border-red-400 dark:bg-red-100 dark:focus:border-red-500 dark:focus:ring-red-500",
@@ -81,23 +78,14 @@ public partial class Textarea
             classes.Add("shadow-sm dark:shadow-sm-light");
         }
 
-        return string.Join(" ", classes);
-    }
-
-    private async Task OnInputChanged(ChangeEventArgs e)
-    {
-        if (e.Value is string newValue)
-        {
-            Value = newValue;
-            await ValueChanged.InvokeAsync(Value);
-        }
+        return CombineClasses(classes.ToArray());
     }
 
     private string GetHelperTextClasses()
     {
         var classes = new List<string> { BaseHelperTextClasses };
 
-        var colorClasses = Color switch
+        var colorClasses = EffectiveColor switch
         {
             TextInputColor.Success => "text-green-500 dark:text-green-400",
             TextInputColor.Failure => "text-red-500 dark:text-red-400",
@@ -108,7 +96,20 @@ public partial class Textarea
 
         classes.Add(colorClasses);
 
-        return string.Join(" ", classes);
+        return CombineClasses(classes.ToArray());
     }
 
+    /// <summary>
+    /// Attempts to parse the provided value string.
+    /// For textarea, the value is always a string, so parsing always succeeds.
+    /// </summary>
+    protected override bool TryParseValueFromString(
+        string? value,
+        out string? result,
+        [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = null;
+        return true;
+    }
 }
