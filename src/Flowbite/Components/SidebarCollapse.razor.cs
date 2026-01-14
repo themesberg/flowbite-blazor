@@ -9,8 +9,11 @@ namespace Flowbite.Components;
 /// Represents a collapsible section in the sidebar that can contain nested items.
 /// Features smooth height-based animations for expand/collapse transitions.
 /// </summary>
-public partial class SidebarCollapse
+public partial class SidebarCollapse : IDisposable
 {
+    private System.Threading.Timer? _animationTimer;
+    private bool _disposed;
+
     /// <summary>
     /// Gets or sets the JavaScript runtime for interop calls.
     /// </summary>
@@ -46,12 +49,16 @@ public partial class SidebarCollapse
     /// </summary>
     private async Task ToggleStateAsync()
     {
+        // Cancel any pending animation timer
+        CancelAnimationTimer();
+
         switch (_state)
         {
             case CollapseState.Collapsed:
                 // Measure content height, then start expanding
                 _height = await _contentRef.GetScrollHeightAsync(JS);
                 _state = CollapseState.Expanding;
+                StartAnimationTimer();
                 break;
 
             case CollapseState.Expanded:
@@ -61,18 +68,21 @@ public partial class SidebarCollapse
                 await Task.Yield(); // Allow height to be rendered before collapse
                 _state = CollapseState.Collapsing;
                 _height = 0;
+                StartAnimationTimer();
                 break;
 
             case CollapseState.Expanding:
                 // Mid-animation: reverse to collapsing
                 _state = CollapseState.Collapsing;
                 _height = 0;
+                StartAnimationTimer();
                 break;
 
             case CollapseState.Collapsing:
                 // Mid-animation: reverse to expanding
                 _height = await _contentRef.GetScrollHeightAsync(JS);
                 _state = CollapseState.Expanding;
+                StartAnimationTimer();
                 break;
         }
 
@@ -85,17 +95,58 @@ public partial class SidebarCollapse
     }
 
     /// <summary>
-    /// Handles the CSS transition end event to finalize state.
+    /// Starts a fallback timer to finalize the animation state.
+    /// This ensures the animation completes even if transitionend doesn't fire.
     /// </summary>
-    private void HandleTransitionEnd()
+    private void StartAnimationTimer()
     {
-        _state = _state switch
+        // 350ms to give a small buffer beyond the 300ms CSS animation
+        _animationTimer = new System.Threading.Timer(
+            _ => _ = InvokeAsync(FinalizeTransition),
+            null,
+            350,
+            Timeout.Infinite
+        );
+    }
+
+    /// <summary>
+    /// Cancels any pending animation timer.
+    /// </summary>
+    private void CancelAnimationTimer()
+    {
+        _animationTimer?.Dispose();
+        _animationTimer = null;
+    }
+
+    /// <summary>
+    /// Finalizes the animation by transitioning to the target state.
+    /// Called by both the transitionend event and the fallback timer.
+    /// </summary>
+    private void FinalizeTransition()
+    {
+        CancelAnimationTimer();
+
+        var newState = _state switch
         {
             CollapseState.Expanding => CollapseState.Expanded,
             CollapseState.Collapsing => CollapseState.Collapsed,
             _ => _state
         };
-        StateHasChanged();
+
+        // Only update if state actually changed
+        if (newState != _state)
+        {
+            _state = newState;
+            StateHasChanged();
+        }
+    }
+
+    /// <summary>
+    /// Handles the CSS transition end event to finalize state.
+    /// </summary>
+    private void HandleTransitionEnd()
+    {
+        FinalizeTransition();
     }
 
     /// <summary>
@@ -109,4 +160,14 @@ public partial class SidebarCollapse
         CollapseState.Collapsed => "height: 0px",
         _ => "height: 0px"
     };
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        if (!_disposed)
+        {
+            CancelAnimationTimer();
+            _disposed = true;
+        }
+    }
 }
