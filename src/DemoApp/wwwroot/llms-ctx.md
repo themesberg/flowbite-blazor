@@ -2342,16 +2342,8 @@ static void ConfigureServices(IServiceCollection services, string baseAddress)
 
 
 /* Microsoft Blazor  ------------------------------------------------------------------------------------------------------------------ */
-.valid.modified:not([type=checkbox]) {
-    outline: 1px solid #26b050;
-}
-
-.invalid {
-    outline: 1px solid #e50000;
-}
-
 .validation-message {
-    color: #e50000;
+    @apply text-red-600 dark:text-red-500;
 }
 
 .blazor-error-boundary {
