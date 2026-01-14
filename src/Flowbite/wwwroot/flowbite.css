@@ -1,18 +1,37 @@
 /* Tailwind CSS v4 - CSS-first configuration */
 @import "tailwindcss";
 
+/*
+ * DARK MODE CONFIGURATION - IMPORTANT!
+ * ====================================
+ * We use @config to import the v3 tailwind.config.js which has `darkMode: 'class'`.
+ * This is the recommended approach per Flowbite's v4 upgrade guide:
+ * https://flowbite.com/docs/getting-started/quickstart/#tailwind-css-v3-to-v4
+ *
+ * WHY NOT @custom-variant?
+ * Using `@custom-variant dark (&:where(.dark, .dark *));` generates selectors with
+ * zero specificity due to :where(), causing dark mode classes like `dark:text-gray-200`
+ * to be overridden by base classes like `text-gray-700`.
+ *
+ * With @config, Tailwind v4 generates selectors using :is() which has proper specificity:
+ * - Before: .dark\:text-gray-200:where(.dark,.dark *) { ... }  (0 specificity from :where)
+ * - After:  .dark\:text-gray-200 { &:is(.dark *) { ... } }     (proper specificity from :is)
+ *
+ * The tailwind.config.js must have: darkMode: 'class'
+ */
+@config "../tailwind.config.js";
+
 /* Flowbite plugin for component styles */
 @plugin "flowbite/plugin";
 
-/* Source paths for class scanning */
-@source "../../Base/**/*.{razor,html,cshtml,cs}";
-@source "../../Components/**/*.{razor,html,cshtml,cs}";
-@source "../../Icons/**/*.{razor,html,cshtml,cs}";
-@source "../../Layout/**/*.{razor,html,cshtml,cs}";
-@source "../**/*.{razor,html,cshtml,cs}";
+/* Source paths for class scanning (relative to wwwroot/) */
+@source "../Base/**/*.{razor,html,cshtml,cs}";
+@source "../Components/**/*.{razor,html,cshtml,cs}";
+@source "../Icons/**/*.{razor,html,cshtml,cs}";
+@source "../Layout/**/*.{razor,html,cshtml,cs}";
 
 /* Theme configuration - primary color palette (can be overridden by consumers) */
-@theme {
+@theme static {
     /* Primary brand color - Blue (Flowbite default) */
     --color-primary-50: #eff6ff;
     --color-primary-100: #dbeafe;
