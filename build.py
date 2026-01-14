@@ -22,7 +22,7 @@ except ImportError:
     sys.exit(1)
 
 REQUIRED_DOTNET_VERSION = "9.0"
-TAILWIND_VERSION = "v3.4.15"
+TAILWIND_VERSION = "v4.1.18"
 TOOLS_DIR = Path("tools")
 SOLUTION_PATH = "FlowbiteBlazor.sln"
 PROJECT_PATH = "src/DemoApp/DemoApp.csproj"
@@ -35,7 +35,13 @@ DIST_DIR = Path("dist")
 
 
 def get_os_info() -> Dict[str, str]:
-    """Detect OS and return tailwindcss download info"""
+    """Detect OS and return tailwindcss download info
+
+    Tailwind v4 standalone CLI download URLs:
+    - Windows: tailwindcss-windows-x64.exe
+    - Linux: tailwindcss-linux-x64
+    - macOS: tailwindcss-macos-arm64 (Apple Silicon) or tailwindcss-macos-x64 (Intel)
+    """
     system = platform.system()
 
     if system == "Linux":
@@ -45,6 +51,7 @@ def get_os_info() -> Dict[str, str]:
             "os_name": "Linux"
         }
     elif system == "Darwin":
+        # Tailwind v4 uses same naming convention
         return {
             "url": f"https://github.com/tailwindlabs/tailwindcss/releases/download/{TAILWIND_VERSION}/tailwindcss-macos-arm64",
             "exec_name": "tailwindcss",
@@ -264,18 +271,24 @@ def stop_background() -> None:
 
 
 def run_tailwind_css() -> None:
-    """Run Tailwind CSS for both Flowbite and DemoApp projects"""
+    """Run Tailwind CSS v4 for both Flowbite and DemoApp projects
+
+    Tailwind v4 changes:
+    - No longer requires --postcss flag (built-in)
+    - Uses --minify flag for production builds
+    - CSS file contains @import, @source, @plugin, @theme directives
+    """
     os_info = get_os_info()
     tailwind_path = TOOLS_DIR / os_info["exec_name"]
-    
+
     if not tailwind_path.exists():
         print(f"Warning: Tailwind CSS not found at {tailwind_path}")
         return
-    
+
     # Build Flowbite CSS
-    print("Building Flowbite CSS with Tailwind...")
+    print("Building Flowbite CSS with Tailwind v4...")
     flowbite_result = subprocess.run(
-        [str(tailwind_path), "-i", "./wwwroot/flowbite.css", "-o", "./wwwroot/flowbite.min.css", "--postcss"],
+        [str(tailwind_path), "-i", "./wwwroot/flowbite.css", "-o", "./wwwroot/flowbite.min.css", "--minify"],
         cwd="src/Flowbite",
         capture_output=True,
         text=True
@@ -284,11 +297,11 @@ def run_tailwind_css() -> None:
         print("[OK] Flowbite CSS built")
     else:
         print(f"[WARN] Flowbite CSS build failed: {flowbite_result.stderr}")
-    
+
     # Build DemoApp CSS
-    print("Building DemoApp CSS with Tailwind...")
+    print("Building DemoApp CSS with Tailwind v4...")
     demoapp_result = subprocess.run(
-        [str(tailwind_path), "-i", "./wwwroot/css/app.css", "-o", "./wwwroot/css/app.min.css", "--postcss"],
+        [str(tailwind_path), "-i", "./wwwroot/css/app.css", "-o", "./wwwroot/css/app.min.css", "--minify"],
         cwd="src/DemoApp",
         capture_output=True,
         text=True

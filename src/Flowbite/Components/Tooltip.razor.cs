@@ -383,7 +383,8 @@ public partial class Tooltip : FlowbiteComponentBase, IAsyncDisposable
     {
         // Base classes - positioning is handled by Floating UI
         // Start with absolute positioning to prevent layout shifts before Floating UI positions it
-        var baseClasses = "z-50 rounded-lg px-3 py-2 text-sm font-medium shadow-sm absolute";
+        // w-max ensures the tooltip expands to fit content (not constrained by trigger width)
+        var baseClasses = "z-50 rounded-lg px-3 py-2 text-sm font-medium shadow-sm absolute w-max";
 
         var themeClasses = Theme switch
         {
