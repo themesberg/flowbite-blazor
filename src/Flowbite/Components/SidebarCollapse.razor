@@ -23,7 +23,8 @@
     <div @ref="_contentRef"
          class="@GetCollapseWrapperClasses()"
          style="@GetContentStyle()"
-         @ontransitionend="HandleTransitionEnd">
+         @ontransitionend="HandleTransitionEnd"
+         @ontransitionend:stopPropagation>
         <ul id="sidebar-collapse-@Id"
             class="@GetListClasses()"
             style="list-style-type: none;">
@@ -57,7 +58,8 @@
     );
 
     private string GetCollapseWrapperClasses() => CombineClasses(
-        "overflow-hidden transition-[height] duration-300 ease-in-out motion-reduce:transition-none"
+        "transition-[height] duration-300 ease-in-out motion-reduce:transition-none",
+        _state != CollapseState.Expanded ? "overflow-hidden" : ""
     );
 
     private string GetListClasses() => CombineClasses("py-2 space-y-2 ps-7");
