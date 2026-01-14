@@ -32,13 +32,13 @@ public abstract class FlowbiteInputBase<TValue> : InputBase<TValue>, IDisposable
     public string? Style { get; set; }
 
     /// <summary>
-    /// Combines multiple CSS class strings with additional user-provided classes.
+    /// Combines multiple CSS class strings into a single string.
     /// </summary>
     /// <param name="classes">The CSS classes to combine</param>
     /// <returns>A combined string of CSS classes</returns>
     protected string CombineClasses(params string?[] classes)
     {
-        var allClasses = classes.Concat(new[] { Class }).Where(c => !string.IsNullOrWhiteSpace(c));
+        var allClasses = classes.Where(c => !string.IsNullOrWhiteSpace(c));
         return string.Join(" ", allClasses).Trim();
     }
 
@@ -50,8 +50,7 @@ public abstract class FlowbiteInputBase<TValue> : InputBase<TValue>, IDisposable
     /// <returns>A merged string of CSS classes with conflicts resolved</returns>
     protected string MergeClasses(params string?[] classes)
     {
-        var combined = string.Join(" ", classes.Where(c => !string.IsNullOrWhiteSpace(c)));
-        return TwMerge.Merge(combined) ?? string.Empty;
+        return TwMerge.Merge(classes) ?? string.Empty;
     }
 
     /// <summary>
