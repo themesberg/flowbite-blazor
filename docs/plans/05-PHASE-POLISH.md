@@ -1,6 +1,6 @@
 # Phase 5: Polish & Developer Experience
 
-**Status:** In Progress (Task 5.1 Complete)
+**Status:** In Progress (Tasks 5.1, 5.2 Complete)
 **Prerequisites:** Phases 1-4 complete
 **Priority:** P2
 **Effort:** M (10-16 hours)
@@ -225,11 +225,11 @@ This increases initial bundle size and slows down page load, even when features 
 
 ### Tasks
 
-- [ ] Convert `flowbite.js` to ES module exports
-- [ ] Create wrapper services with `Lazy<Task<IJSObjectReference>>`
-- [ ] Update components to use lazy-loaded modules
-- [ ] Implement `IAsyncDisposable` for proper cleanup
-- [ ] Remove global `window.Flowbite` namespace
+- [x] Convert `flowbite.js` to ES module exports
+- [x] Create wrapper services with `Lazy<Task<IJSObjectReference>>`
+- [x] Update components to use lazy-loaded modules
+- [x] Implement `IAsyncDisposable` for proper cleanup
+- [x] Remove global `window.Flowbite` namespace (legacy kept for backward compatibility)
 
 ### Code Examples
 
@@ -300,11 +300,11 @@ public class ClipboardService : IAsyncDisposable
 
 ### Acceptance Criteria
 
-- [ ] JS modules loaded only when first used
-- [ ] No global `window.Flowbite` namespace required
-- [ ] Services properly dispose modules on app shutdown
-- [ ] No regression in functionality
-- [ ] Network tab shows on-demand module loading
+- [x] JS modules loaded only when first used
+- [x] No global `window.Flowbite` namespace required (legacy kept for backward compatibility)
+- [x] Services properly dispose modules on app shutdown
+- [x] No regression in functionality
+- [x] Network tab shows on-demand module loading
 
 ---
 
