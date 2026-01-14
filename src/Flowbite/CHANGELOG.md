@@ -26,6 +26,10 @@
 
 ### Fixed
 - Fix Tooltip positioning flash on show by using `invisible` + `absolute` positioning until Floating UI calculates position
+- Fix dark mode specificity issue in Tailwind v4 by using `@config` directive instead of `@custom-variant`
+  - `@custom-variant dark (&:where(.dark, .dark *))` generates zero-specificity selectors that get overridden
+  - `@config` with `darkMode: 'class'` generates proper `:is(.dark *)` selectors with correct specificity
+- Fix Tooltip width being constrained to trigger element width by adding `w-max` class
 
 ### Changed
 - **Migrate to Tailwind CSS v4.1.18** - major infrastructure upgrade
