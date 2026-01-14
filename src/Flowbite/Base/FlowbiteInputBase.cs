@@ -8,8 +8,10 @@ namespace Flowbite.Base;
 /// Inherits from <see cref="InputBase{TValue}"/> to provide automatic validation integration, EditContext support, and field identification.
 /// </summary>
 /// <typeparam name="TValue">The type of value the input component handles</typeparam>
-public abstract class FlowbiteInputBase<TValue> : InputBase<TValue>
+public abstract class FlowbiteInputBase<TValue> : InputBase<TValue>, IDisposable
 {
+    private EventHandler<ValidationStateChangedEventArgs>? _validationStateChangedHandler;
+
     /// <summary>
     /// Additional CSS classes to apply to the component.
     /// </summary>
@@ -38,4 +40,27 @@ public abstract class FlowbiteInputBase<TValue> : InputBase<TValue>
     /// </summary>
     protected bool HasValidationErrors =>
         EditContext?.GetValidationMessages(FieldIdentifier).Any() ?? false;
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if (EditContext != null)
+        {
+            _validationStateChangedHandler = (sender, args) => StateHasChanged();
+            EditContext.OnValidationStateChanged += _validationStateChangedHandler;
+        }
+    }
+
+    /// <summary>
+    /// Disposes the component and unsubscribes from validation state changes.
+    /// </summary>
+    public void Dispose()
+    {
+        if (EditContext != null && _validationStateChangedHandler != null)
+        {
+            EditContext.OnValidationStateChanged -= _validationStateChangedHandler;
+        }
+    }
 }
