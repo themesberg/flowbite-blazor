@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Web;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace Flowbite.Components;
 
 /// <summary>
 /// TextInput component for forms and user input.
 /// </summary>
-public partial class TextInput<TValue> : IDisposable
+public partial class TextInput<TValue>
 {
     private const string BaseWrapperClasses = "relative flex";
     private const string BaseFieldClasses = "relative w-full";
@@ -19,22 +18,10 @@ public partial class TextInput<TValue> : IDisposable
     private const string BaseHelperTextClasses = "mt-1 text-sm";
 
     /// <summary>
-    /// Gets or sets the value of the input.
-    /// </summary>
-    [Parameter] public TValue? Value { get; set; }
-
-    /// <summary>
-    /// Event callback for when the input value changes.
-    /// </summary>
-    [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
-
-    /// <summary>
     /// Gets or sets the color variant of the input.
+    /// When not explicitly set, the color will automatically change to Failure when validation errors occur.
     /// </summary>
-    [Parameter] public TextInputColor Color { get; set; } = TextInputColor.Gray;
-
-
-    [CascadingParameter] private EditContext? CurrentEditContext { get; set; }
+    [Parameter] public TextInputColor? Color { get; set; }
 
     /// <summary>
     /// Gets or sets the size variant of the input.
@@ -106,6 +93,12 @@ public partial class TextInput<TValue> : IDisposable
     /// </summary>
     [Parameter] public string? AddonRight { get; set; }
 
+    /// <summary>
+    /// Gets the effective color for the input, considering validation state.
+    /// </summary>
+    private TextInputColor EffectiveColor =>
+        Color ?? (HasValidationErrors ? TextInputColor.Failure : TextInputColor.Gray);
+
     private string GetWrapperClasses() => BaseWrapperClasses;
 
     private string GetFieldClasses() => BaseFieldClasses;
@@ -113,7 +106,7 @@ public partial class TextInput<TValue> : IDisposable
     private string GetAddonClasses(bool isLeft = true)
     {
         var classes = new List<string> { BaseAddonClasses };
-        
+
         if (isLeft)
         {
             classes.Add("rounded-l-md border-r-0");
@@ -130,27 +123,6 @@ public partial class TextInput<TValue> : IDisposable
 
     private string GetRightIconClasses() => BaseRightIconClasses;
 
-    protected override void OnInitialized()
-    {
-        if (CurrentEditContext != null)
-        {
-            CurrentEditContext.OnValidationStateChanged += ValidationStateChanged;
-        }
-    }
-
-    private void ValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
-    {
-        // Nothing to do for now.
-    }
-
-    public void Dispose()
-    {
-        if (CurrentEditContext != null)
-        {
-            CurrentEditContext.OnValidationStateChanged -= ValidationStateChanged;
-        }
-    }
-
     private string GetInputClasses()
     {
         var classes = new List<string> { BaseInputClasses };
@@ -164,8 +136,8 @@ public partial class TextInput<TValue> : IDisposable
         };
         classes.Add(sizeClasses);
 
-        // Add color classes
-        var colorClasses = Color switch
+        // Add color classes based on effective color (includes automatic validation state)
+        var colorClasses = EffectiveColor switch
         {
             TextInputColor.Success => "border-green-500 bg-green-50 text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100 dark:focus:border-green-500 dark:focus:ring-green-500",
             TextInputColor.Failure => "border-red-500 bg-red-50 text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500 dark:border-red-400 dark:bg-red-100 dark:focus:border-red-500 dark:focus:ring-red-500",
@@ -213,15 +185,15 @@ public partial class TextInput<TValue> : IDisposable
             classes.Add("shadow-sm dark:shadow-sm-light");
         }
 
-        return string.Join(" ", classes);
+        return CombineClasses(classes.ToArray());
     }
 
     private string GetHelperTextClasses()
     {
         var classes = new List<string> { BaseHelperTextClasses };
 
-        // Add color classes
-        var colorClasses = Color switch
+        // Add color classes based on effective color (includes automatic validation state)
+        var colorClasses = EffectiveColor switch
         {
             TextInputColor.Success => "text-green-600 dark:text-green-500",
             TextInputColor.Failure => "text-red-600 dark:text-red-500",
@@ -231,76 +203,26 @@ public partial class TextInput<TValue> : IDisposable
         };
         classes.Add(colorClasses);
 
-        return string.Join(" ", classes);
+        return CombineClasses(classes.ToArray());
     }
 
-    private string? CurrentValueAsString
+    /// <summary>
+    /// Attempts to parse the provided value string into the component's value type.
+    /// </summary>
+    protected override bool TryParseValueFromString(
+        string? value,
+        [MaybeNullWhen(false)] out TValue result,
+        [NotNullWhen(false)] out string? validationErrorMessage)
     {
-        get => Value switch
+        if (BindConverter.TryConvertTo(value, CultureInfo.InvariantCulture, out result))
         {
-            null => string.Empty,
-            _ => Value!.ToString()
-        };
-        set
-        {
-            var underlyingType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
-            var isNullable = Nullable.GetUnderlyingType(typeof(TValue)) != null || !underlyingType.IsValueType;
-
-            if (string.IsNullOrEmpty(value))
-            {
-                if (underlyingType == typeof(string))
-                {
-                    Value = (TValue)(object)string.Empty;
-                }
-                else if (isNullable)
-                {
-                    Value = default!;
-                }
-                else
-                {
-                    Value = default!;
-                }
-                return;
-            }
-
-            object? parsedValue = null;
-            var success = false;
-
-            if (underlyingType == typeof(int))
-            {
-                success = int.TryParse(value, out var result);
-                parsedValue = result;
-            }
-            else if (underlyingType == typeof(decimal))
-            {
-                success = decimal.TryParse(value, out var result);
-                parsedValue = result;
-            }
-            else if (underlyingType == typeof(double))
-            {
-                success = double.TryParse(value, out var result);
-                parsedValue = result;
-            }
-            else if (underlyingType == typeof(float))
-            {
-                success = float.TryParse(value, out var result);
-                parsedValue = result;
-            }
-            else if (underlyingType == typeof(string))
-            {
-                success = true;
-                parsedValue = value ?? string.Empty;
-            }
-
-            if (success)
-            {
-                Value = (TValue)(parsedValue ?? default!);
-            }
+            validationErrorMessage = null;
+            return true;
         }
-    }
-
-    private Task NotifyValueChangedAsync()
-    {
-        return ValueChanged.InvokeAsync(Value);
+        else
+        {
+            validationErrorMessage = $"The {FieldIdentifier.FieldName} field is not valid.";
+            return false;
+        }
     }
 }
