@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
@@ -105,105 +104,75 @@ public partial class TextInput<TValue>
 
     private string GetAddonClasses(bool isLeft = true)
     {
-        var classes = new List<string> { BaseAddonClasses };
-
-        if (isLeft)
-        {
-            classes.Add("rounded-l-md border-r-0");
-        }
-        else
-        {
-            classes.Add("rounded-r-md border-l-0");
-        }
-
-        return string.Join(" ", classes);
+        return ElementClass.Empty()
+            .Add(BaseAddonClasses)
+            .Add("rounded-l-md border-r-0", when: isLeft)
+            .Add("rounded-r-md border-l-0", when: !isLeft)
+            .ToString();
     }
 
     private string GetIconClasses() => BaseIconClasses;
 
     private string GetRightIconClasses() => BaseRightIconClasses;
 
+    private string GetSizeClasses() => Size switch
+    {
+        TextInputSize.Small => "p-2 sm:text-xs",
+        TextInputSize.Medium => "p-2.5 text-sm",
+        TextInputSize.Large => "p-4 sm:text-base",
+        _ => throw new ArgumentOutOfRangeException(nameof(Size), Size, "Invalid TextInputSize value")
+    };
+
+    private string GetColorClasses() => EffectiveColor switch
+    {
+        TextInputColor.Gray => "border-gray-300 bg-gray-50 text-gray-900 placeholder-gray-500 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500",
+        TextInputColor.Info => "border-cyan-500 bg-cyan-50 text-cyan-900 placeholder-cyan-700 focus:border-cyan-500 focus:ring-cyan-500 dark:border-cyan-400 dark:bg-cyan-100 dark:focus:border-cyan-500 dark:focus:ring-cyan-500",
+        TextInputColor.Failure => "border-red-500 bg-red-50 text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500 dark:border-red-400 dark:bg-red-100 dark:focus:border-red-500 dark:focus:ring-red-500",
+        TextInputColor.Warning => "border-yellow-500 bg-yellow-50 text-yellow-900 placeholder-yellow-700 focus:border-yellow-500 focus:ring-yellow-500 dark:border-yellow-400 dark:bg-yellow-100 dark:focus:border-yellow-500 dark:focus:ring-yellow-500",
+        TextInputColor.Success => "border-green-500 bg-green-50 text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100 dark:focus:border-green-500 dark:focus:ring-green-500",
+        _ => throw new ArgumentOutOfRangeException(nameof(EffectiveColor), EffectiveColor, "Invalid TextInputColor value")
+    };
+
     private string GetInputClasses()
     {
-        var classes = new List<string> { BaseInputClasses };
+        var hasLeftAddon = !string.IsNullOrEmpty(AddonLeft);
+        var hasRightAddon = !string.IsNullOrEmpty(AddonRight);
+        var hasBothAddons = hasLeftAddon && hasRightAddon;
 
-        // Add size classes
-        var sizeClasses = Size switch
-        {
-            TextInputSize.Small => "p-2 sm:text-xs",
-            TextInputSize.Medium => "p-2.5 text-sm",
-            TextInputSize.Large => "p-4 sm:text-base",
-            _ => throw new ArgumentOutOfRangeException(nameof(Size), Size, "Invalid TextInputSize value")
-        };
-        classes.Add(sizeClasses);
-
-        // Add color classes based on effective color (includes automatic validation state)
-        var colorClasses = EffectiveColor switch
-        {
-            TextInputColor.Gray => "border-gray-300 bg-gray-50 text-gray-900 placeholder-gray-500 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500",
-            TextInputColor.Info => "border-cyan-500 bg-cyan-50 text-cyan-900 placeholder-cyan-700 focus:border-cyan-500 focus:ring-cyan-500 dark:border-cyan-400 dark:bg-cyan-100 dark:focus:border-cyan-500 dark:focus:ring-cyan-500",
-            TextInputColor.Failure => "border-red-500 bg-red-50 text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500 dark:border-red-400 dark:bg-red-100 dark:focus:border-red-500 dark:focus:ring-red-500",
-            TextInputColor.Warning => "border-yellow-500 bg-yellow-50 text-yellow-900 placeholder-yellow-700 focus:border-yellow-500 focus:ring-yellow-500 dark:border-yellow-400 dark:bg-yellow-100 dark:focus:border-yellow-500 dark:focus:ring-yellow-500",
-            TextInputColor.Success => "border-green-500 bg-green-50 text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100 dark:focus:border-green-500 dark:focus:ring-green-500",
-            _ => throw new ArgumentOutOfRangeException(nameof(EffectiveColor), EffectiveColor, "Invalid TextInputColor value")
-        };
-        classes.Add(colorClasses);
-
-        // Add icon padding
-        if (Icon != null)
-        {
-            classes.Add("pl-10");
-        }
-        if (RightIcon != null)
-        {
-            classes.Add("pr-10");
-        }
-
-        // Add addon classes
-        if (!string.IsNullOrEmpty(AddonLeft) && !string.IsNullOrEmpty(AddonRight))
-        {
-            // No rounded corners when both addons are present
-            classes.Add("border-l-0 border-r-0");
-        }
-        else if (!string.IsNullOrEmpty(AddonLeft))
-        {
-            classes.Add("rounded-r-lg border-l-0");
-        }
-        else if (!string.IsNullOrEmpty(AddonRight))
-        {
-            classes.Add("rounded-l-lg border-r-0");
-        }
-        else
-        {
-            classes.Add("rounded-lg");
-        }
-
-        // Add shadow
-        if (Shadow)
-        {
-            classes.Add("shadow-sm dark:shadow-sm-light");
-        }
-
-        return MergeClasses(classes.ToArray());
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add(BaseInputClasses)
+                .Add(GetSizeClasses())
+                .Add(GetColorClasses())
+                .Add("pl-10", when: Icon != null)
+                .Add("pr-10", when: RightIcon != null)
+                .Add("border-l-0 border-r-0", when: hasBothAddons)
+                .Add("rounded-r-lg border-l-0", when: hasLeftAddon && !hasRightAddon)
+                .Add("rounded-l-lg border-r-0", when: hasRightAddon && !hasLeftAddon)
+                .Add("rounded-lg", when: !hasLeftAddon && !hasRightAddon)
+                .Add("shadow-sm dark:shadow-sm-light", when: Shadow)
+                .Add(Class)
+                .Add(CssClass)
+        );
     }
+
+    private string GetHelperTextColorClasses() => EffectiveColor switch
+    {
+        TextInputColor.Gray => "text-gray-500 dark:text-gray-400",
+        TextInputColor.Info => "text-cyan-600 dark:text-cyan-500",
+        TextInputColor.Failure => "text-red-600 dark:text-red-500",
+        TextInputColor.Warning => "text-yellow-600 dark:text-yellow-500",
+        TextInputColor.Success => "text-green-600 dark:text-green-500",
+        _ => throw new ArgumentOutOfRangeException(nameof(EffectiveColor), EffectiveColor, "Invalid TextInputColor value")
+    };
 
     private string GetHelperTextClasses()
     {
-        var classes = new List<string> { BaseHelperTextClasses };
-
-        // Add color classes based on effective color (includes automatic validation state)
-        var colorClasses = EffectiveColor switch
-        {
-            TextInputColor.Gray => "text-gray-500 dark:text-gray-400",
-            TextInputColor.Info => "text-cyan-600 dark:text-cyan-500",
-            TextInputColor.Failure => "text-red-600 dark:text-red-500",
-            TextInputColor.Warning => "text-yellow-600 dark:text-yellow-500",
-            TextInputColor.Success => "text-green-600 dark:text-green-500",
-            _ => throw new ArgumentOutOfRangeException(nameof(EffectiveColor), EffectiveColor, "Invalid TextInputColor value")
-        };
-        classes.Add(colorClasses);
-
-        return MergeClasses(classes.ToArray());
+        return CombineClasses(
+            ElementClass.Empty()
+                .Add(BaseHelperTextClasses)
+                .Add(GetHelperTextColorClasses())
+        );
     }
 
     /// <summary>
