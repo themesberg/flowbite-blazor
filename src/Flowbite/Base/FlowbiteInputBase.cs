@@ -74,7 +74,7 @@ public abstract class FlowbiteInputBase<TValue> : InputBase<TValue>, IDisposable
     /// <summary>
     /// Disposes the component and unsubscribes from validation state changes.
     /// </summary>
-    public void Dispose()
+    public virtual void Dispose()
     {
         if (EditContext != null && _validationStateChangedHandler != null)
         {

@@ -1,5 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using Flowbite.Common;
+using Flowbite.Utilities;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Flowbite.Components;
 
@@ -83,6 +86,20 @@ public partial class TextInput<TValue>
     [Parameter] public IconBase? RightIcon { get; set; }
 
     /// <summary>
+    /// Gets or sets when the ValueChanged event fires.
+    /// Default is OnChange (fires on blur or Enter).
+    /// Set to OnInput for real-time updates (useful for search-as-you-type).
+    /// </summary>
+    [Parameter] public InputBehavior Behavior { get; set; } = InputBehavior.OnChange;
+
+    /// <summary>
+    /// Gets or sets the debounce delay in milliseconds.
+    /// Only applies when Behavior is OnInput. Set to 0 to disable debouncing.
+    /// Useful for reducing API calls in search scenarios.
+    /// </summary>
+    [Parameter] public int DebounceDelay { get; set; }
+
+    /// <summary>
     /// Gets or sets the text to display before the input.
     /// </summary>
     [Parameter] public string? AddonLeft { get; set; }
@@ -91,6 +108,11 @@ public partial class TextInput<TValue>
     /// Gets or sets the text to display after the input.
     /// </summary>
     [Parameter] public string? AddonRight { get; set; }
+
+    private readonly Debouncer _debouncer = new();
+
+    // Track the internal display value separately for OnInput mode
+    private string? _internalValue;
 
     /// <summary>
     /// Gets the effective color for the input, considering validation state.
@@ -122,6 +144,22 @@ public partial class TextInput<TValue>
         TextInputSize.Large => "p-4 sm:text-base",
         _ => throw new ArgumentOutOfRangeException(nameof(Size), Size, "Invalid TextInputSize value")
     };
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        // Sync internal value with external Value when it changes from outside
+        // but only if we're not in the middle of debouncing user input
+        if (Behavior == InputBehavior.OnInput)
+        {
+            var externalValue = CurrentValueAsString;
+            if (_internalValue != externalValue)
+            {
+                _internalValue = externalValue;
+            }
+        }
+    }
 
     private string GetColorClasses() => EffectiveColor switch
     {
@@ -193,5 +231,62 @@ public partial class TextInput<TValue>
             validationErrorMessage = $"The {FieldIdentifier.FieldName} field is not valid.";
             return false;
         }
+    }
+
+    /// <summary>
+    /// Gets the display value for the input element.
+    /// In OnInput mode, uses internal value to avoid cursor jumping.
+    /// </summary>
+    private string? GetDisplayValue()
+    {
+        // In OnInput mode with debouncing, use the internal value
+        // to prevent cursor position issues during typing
+        if (Behavior == InputBehavior.OnInput && _internalValue != null)
+        {
+            return _internalValue;
+        }
+
+        return CurrentValueAsString;
+    }
+
+    /// <summary>
+    /// Called when input event fires (on every keystroke).
+    /// Only used in OnInput behavior mode.
+    /// </summary>
+    private async Task HandleInputAsync(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString();
+        _internalValue = value;
+
+        if (DebounceDelay > 0)
+        {
+            await _debouncer.DebounceAsync(
+                () =>
+                {
+                    CurrentValueAsString = value;
+                    return Task.CompletedTask;
+                },
+                DebounceDelay);
+        }
+        else
+        {
+            CurrentValueAsString = value;
+        }
+    }
+
+    /// <summary>
+    /// Called when change event fires (on blur or Enter).
+    /// Used in OnChange behavior mode.
+    /// </summary>
+    private Task HandleChangeAsync(ChangeEventArgs e)
+    {
+        CurrentValueAsString = e.Value?.ToString();
+        return Task.CompletedTask;
+    }
+
+    public override void Dispose()
+    {
+        _debouncer.Dispose();
+        base.Dispose();
     }
 }

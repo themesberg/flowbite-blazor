@@ -123,7 +123,36 @@ else
                             </TabPanelsContent>
                         </Tabs>
 
-                        
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8">Required Configuration</h2>
+
+                        <div class="mt-4 space-y-4">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Service Registration</h3>
+                            <p class="text-base text-gray-600 dark:text-gray-400">
+                                Register Flowbite services in your <code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">Program.cs</code>:
+                            </p>
+                            @{ var serviceCode = @"using Flowbite.Services;
+
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+// ... other configuration
+
+builder.Services.AddFlowbite();
+
+await builder.Build().RunAsync();"; }
+                            <CodeBlock Language="csharp" class="text-xs dark:bg-gray-800" Code="@serviceCode" CopyToClipboard FullWidth/>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">
+                                This registers TailwindMerge, Floating UI, clipboard, focus management, modal, drawer, and toast services.
+                            </p>
+                        </div>
+
+                        <div class="mt-4 space-y-4">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Floating UI Script</h3>
+                            <p class="text-base text-gray-600 dark:text-gray-400">
+                                For Dropdown, Tooltip, and Popover positioning, add the Floating UI script to your <code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">index.html</code> before the closing <code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">&lt;/body&gt;</code> tag:
+                            </p>
+                            @{ var floatingUiScript = @"<script src=""https://cdn.jsdelivr.net/npm/@@floating-ui/dom@@1.6.13/dist/floating-ui.dom.umd.min.js""></script>"; }
+                            <CodeBlock Language="html" class="text-xs dark:bg-gray-800" Code="@floatingUiScript" CopyToClipboard FullWidth/>
+                        </div>
+
                         <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
                             <h3 class="text-lg font-semibold text-blue-900 dark:text-blue-100">What's Next?</h3>
                             <p class="text-blue-800 dark:text-blue-200">
@@ -171,8 +200,9 @@ else
 {
     private bool _isWindows;
     private bool _isLoading = true;
-    private string _tailwindUtilUrlMacOsArm64 = "https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-macos-arm64";
-    private string _tailwindUtilUrlWinX64 = "https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-windows-x64.exe";
+    // Tailwind CSS v4 standalone CLI binaries
+    private string _tailwindUtilUrlMacOsArm64 = "https://github.com/tailwindlabs/tailwindcss/releases/download/v4.1.8/tailwindcss-macos-arm64";
+    private string _tailwindUtilUrlWinX64 = "https://github.com/tailwindlabs/tailwindcss/releases/download/v4.1.8/tailwindcss-windows-x64.exe";
 
     protected override async Task OnInitializedAsync()
     {

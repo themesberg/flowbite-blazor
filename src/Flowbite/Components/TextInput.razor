@@ -1,4 +1,5 @@
 @using Flowbite.Base
+@using Flowbite.Common
 @inherits FlowbiteInputBase<TValue>
 @typeparam TValue
 
@@ -30,7 +31,9 @@
         }
         <input type="@Type"
                class="@GetInputClasses()"
-               @bind="CurrentValue"
+               value="@GetDisplayValue()"
+               @oninput="@(Behavior == InputBehavior.OnInput ? HandleInputAsync : null)"
+               @onchange="@(Behavior == InputBehavior.OnChange ? HandleChangeAsync : null)"
                placeholder="@Placeholder"
                disabled="@Disabled"
                required="@Required"

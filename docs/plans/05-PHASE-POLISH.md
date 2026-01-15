@@ -1,6 +1,6 @@
 # Phase 5: Polish & Developer Experience
 
-**Status:** Not Started
+**Status:** In Progress (Tasks 5.1, 5.2, 5.3 Complete; Tasks 5.4, 5.5 Pending)
 **Prerequisites:** Phases 1-4 complete
 **Priority:** P2
 **Effort:** M (10-16 hours)
@@ -32,12 +32,12 @@ This causes excessive API calls in search/autocomplete scenarios, degrading perf
 
 ### Tasks
 
-- [ ] Create `InputBehavior` enum with XML documentation
-- [ ] Create `Debouncer` nested class with cancellation support
-- [ ] Add `DebounceDelay` parameter to `TextInput`
-- [ ] Add `Behavior` parameter to `TextInput`
-- [ ] Implement debouncing in `TextInput.razor.cs`
-- [ ] Ensure proper disposal to prevent memory leaks
+- [x] Create `InputBehavior` enum with XML documentation
+- [x] Create `Debouncer` class with cancellation support (standalone utility in `Utilities/`)
+- [x] Add `DebounceDelay` parameter to `TextInput`
+- [x] Add `Behavior` parameter to `TextInput`
+- [x] Implement debouncing in `TextInput.razor.cs`
+- [x] Ensure proper disposal to prevent memory leaks
 
 ### Code Examples
 
@@ -161,12 +161,12 @@ private sealed class Debouncer : IDisposable
 
 ### Acceptance Criteria
 
-- [ ] `DebounceDelay="300"` delays input by 300ms
-- [ ] Typing during delay cancels previous pending call
-- [ ] `Behavior="OnInput"` required for debouncing to work
-- [ ] `Behavior="OnChange"` (default) fires on blur only
-- [ ] Component disposes cleanly (no memory leaks)
-- [ ] Navigate away mid-debounce produces no errors
+- [x] `DebounceDelay="300"` delays input by 300ms
+- [x] Typing during delay cancels previous pending call
+- [x] `Behavior="OnInput"` required for debouncing to work
+- [x] `Behavior="OnChange"` (default) fires on blur only
+- [x] Component disposes cleanly (no memory leaks)
+- [x] Navigate away mid-debounce produces no errors
 
 ### Unit Test Example
 
@@ -225,11 +225,11 @@ This increases initial bundle size and slows down page load, even when features 
 
 ### Tasks
 
-- [ ] Convert `flowbite.js` to ES module exports
-- [ ] Create wrapper services with `Lazy<Task<IJSObjectReference>>`
-- [ ] Update components to use lazy-loaded modules
-- [ ] Implement `IAsyncDisposable` for proper cleanup
-- [ ] Remove global `window.Flowbite` namespace
+- [x] Convert `flowbite.js` to ES module exports
+- [x] Create wrapper services with `Lazy<Task<IJSObjectReference>>`
+- [x] Update components to use lazy-loaded modules
+- [x] Implement `IAsyncDisposable` for proper cleanup
+- [x] Remove global `window.Flowbite` namespace (legacy kept for backward compatibility)
 
 ### Code Examples
 
@@ -300,11 +300,11 @@ public class ClipboardService : IAsyncDisposable
 
 ### Acceptance Criteria
 
-- [ ] JS modules loaded only when first used
-- [ ] No global `window.Flowbite` namespace required
-- [ ] Services properly dispose modules on app shutdown
-- [ ] No regression in functionality
-- [ ] Network tab shows on-demand module loading
+- [x] JS modules loaded only when first used
+- [x] No global `window.Flowbite` namespace required (legacy kept for backward compatibility)
+- [x] Services properly dispose modules on app shutdown
+- [x] No regression in functionality
+- [x] Network tab shows on-demand module loading
 
 ---
 
@@ -316,14 +316,14 @@ Update README and create supplementary documentation covering all new features.
 
 ### README Updates Checklist
 
-- [ ] Tailwind v4 requirements documented
-- [ ] Installation instructions updated
-- [ ] Primary color customization with `@theme` examples
-- [ ] Slot system documented with clear examples
-- [ ] Debounced input usage examples
-- [ ] @floating-ui behavior explained (auto-flip, shift)
-- [ ] Animation state machine behavior explained
-- [ ] Breaking changes highlighted
+- [x] Tailwind v4 requirements documented
+- [x] Installation instructions updated
+- [x] Primary color customization with `@theme` examples
+- [x] Slot system documented with clear examples
+- [x] Debounced input usage examples
+- [x] @floating-ui behavior explained (auto-flip, shift)
+- [x] Animation state machine behavior explained
+- [x] Breaking changes highlighted
 
 ### Customization Guide Content
 
@@ -383,7 +383,129 @@ are NOT customizable to ensure design consistency:
 
 ---
 
-## 5.4 Integration Tests
+## 5.4 AI Documentation Updates (llms-docs)
+
+### Problem Statement
+
+The `llms-ctx.md` file (generated from files in `src/DemoApp/wwwroot/llms-docs/`) provides AI assistants with context about Flowbite Blazor. This context is outdated and doesn't reflect the new features from Phases 1-5:
+
+- TailwindMerge integration and `MergeClasses()` pattern
+- Slot system for component customization
+- Floating UI positioning for Dropdown/Tooltip/Combobox
+- Debounced input for TextInput
+- Animation state machine for collapse components
+- Lazy-loaded JavaScript services
+- Tailwind v4 configuration
+
+### Tasks
+
+- [ ] Update `project.md` with current version and new features overview
+- [ ] Update `04-quickstart.md` with Tailwind v4 setup and service registration
+- [ ] Update `03-patterns.md` with new patterns:
+  - [ ] TailwindMerge and `MergeClasses()` pattern
+  - [ ] Slot system usage pattern
+  - [ ] Debounced input pattern
+  - [ ] Lazy service injection pattern
+- [ ] Update component sections with new parameters:
+  - [ ] `01-07-dropdown.md` - Slots, Floating UI behavior, keyboard navigation
+  - [ ] `01-12-tooltip.md` - Floating UI, keyboard navigation, Theme parameter
+  - [ ] `01-14-forms.md` - TextInput debouncing (Behavior, DebounceDelay)
+  - [ ] `01-09-sidebar.md` - SidebarCollapse animation states
+  - [ ] `01-06-card.md` - CardSlots
+  - [ ] `01-16-modal.md` - ModalSlots
+- [ ] Update `01-05-button.md` with Variant parameter (renamed from Style)
+- [ ] Verify `llms-ctx.md` regenerates correctly on build
+
+### Files to Modify
+
+| File | Changes |
+|------|---------|
+| `llms-docs/project.md` | Version, features list, Tailwind v4 requirement |
+| `llms-docs/sections/03-patterns.md` | TailwindMerge, Slots, debouncing patterns |
+| `llms-docs/sections/04-quickstart.md` | Tailwind v4 setup, AddFlowbite() services |
+| `llms-docs/sections/01-05-button.md` | Variant parameter (was Style) |
+| `llms-docs/sections/01-06-card.md` | CardSlots parameter |
+| `llms-docs/sections/01-07-dropdown.md` | DropdownSlots, Floating UI, keyboard nav |
+| `llms-docs/sections/01-09-sidebar.md` | CollapseState, animation behavior |
+| `llms-docs/sections/01-12-tooltip.md` | Theme parameter, Floating UI |
+| `llms-docs/sections/01-14-forms.md` | TextInput Behavior, DebounceDelay |
+| `llms-docs/sections/01-16-modal.md` | ModalSlots parameter |
+
+### Acceptance Criteria
+
+- [ ] All new Phase 1-5 features documented in llms-docs
+- [ ] Code examples use current API (not deprecated Style parameter)
+- [ ] Tailwind v4 configuration clearly explained
+- [ ] Service registration includes all new services
+- [ ] `llms-ctx.md` regenerates without errors
+- [ ] AI assistants can use new features from context alone
+
+---
+
+## 5.5 DemoApp Getting-Started Pages Update
+
+### Problem Statement
+
+The DemoApp getting-started pages (`IntroductionPage.razor` and `QuickstartPage.razor`) contain outdated information that doesn't reflect the current Flowbite Blazor setup:
+
+**IntroductionPage.razor issues:**
+- Shows Tailwind v3 `tailwind.config.js` configuration instead of v4 CSS-first approach
+- Missing new features (Slots, debouncing, Floating UI, animation state machine, lazy services)
+- Outdated feature descriptions
+
+**QuickstartPage.razor issues:**
+- Uses Tailwind v3.4.15 download URLs (should be v4.x)
+- Missing `AddFlowbite()` service registration in Program.cs example
+- Missing Floating UI script reference
+- Tailwind configuration shows v3 JavaScript syntax instead of v4 CSS
+
+### Tasks
+
+#### IntroductionPage.razor
+- [ ] Update Tailwind configuration example from v3 JS to v4 CSS-first
+- [ ] Update features list to include new Phase 1-5 features:
+  - [ ] TailwindMerge class conflict resolution
+  - [ ] Slot system for component customization
+  - [ ] Floating UI positioning
+  - [ ] Debounced input for TextInput
+  - [ ] Animation state machine for collapse
+  - [ ] Lazy-loaded JavaScript services
+- [ ] Update any version references to current v0.2.x-beta
+- [ ] Ensure code examples use current API
+
+#### QuickstartPage.razor
+- [ ] Update Tailwind CSS download URL to v4.x
+- [ ] Add `AddFlowbite()` service registration to Program.cs example
+- [ ] Add Floating UI CDN script reference
+- [ ] Update Tailwind configuration from v3 JS to v4 CSS-first approach:
+  - [ ] Show `@import "tailwindcss"` directive
+  - [ ] Show `@theme` block for primary color
+  - [ ] Show `@source` directive for content paths
+  - [ ] Show `@plugin` directive for flowbite
+- [ ] Update `tailwind.config.js` to minimal v4 version (just `darkMode: 'class'`)
+- [ ] Update any version references
+
+### Files to Modify
+
+| File | Changes |
+|------|---------|
+| `src/DemoApp/Pages/Docs/getting-started/IntroductionPage.razor` | Tailwind v4 config, new features list |
+| `src/DemoApp/Pages/Docs/getting-started/QuickstartPage.razor` | Tailwind v4 URLs, AddFlowbite(), Floating UI |
+
+### Acceptance Criteria
+
+- [ ] IntroductionPage shows Tailwind v4 CSS-first configuration
+- [ ] IntroductionPage lists all Phase 1-5 features
+- [ ] QuickstartPage uses Tailwind v4 download URLs
+- [ ] QuickstartPage includes `builder.Services.AddFlowbite()` in Program.cs example
+- [ ] QuickstartPage includes Floating UI script reference
+- [ ] QuickstartPage shows v4 CSS `@theme` configuration instead of v3 JS
+- [ ] Both pages render correctly in DemoApp
+- [ ] Code examples compile and match current API
+
+---
+
+## 5.6 Integration Tests
 
 ### Test Examples
 
@@ -488,9 +610,23 @@ public class CollapseStateTests : TestContext
 
 ---
 
-## 5.5 Migration Guide
+## 5.7 Migration Guide Review
 
-Create `MIGRATION.md` in repository root with the following content:
+### Purpose
+
+Review and finalize the MIGRATION.md file created during Task 5.3 to ensure it is complete and accurate.
+
+### Checklist
+
+- [ ] All breaking changes documented
+- [ ] Migration steps are clear and actionable
+- [ ] Code examples compile and work
+- [ ] FAQ covers common questions
+- [ ] Version numbers are correct
+
+### Content Reference
+
+The MIGRATION.md file should include:
 
 ```markdown
 # Migration Guide: v0.1.x to v1.0.0
@@ -620,7 +756,7 @@ A: Standard Tailwind classes work the same. Only conflicting classes (like `p-2 
 
 ---
 
-## 5.6 Release Preparation
+## 5.8 Release Preparation
 
 ### Pre-Release Checklist
 
@@ -692,14 +828,17 @@ A: Standard Tailwind classes work the same. Only conflicting classes (like `p-2 
 
 Phase 5 is complete when:
 
-1. [ ] Debounced input working with cancellation
-2. [ ] JS modules lazy-loaded
-3. [ ] All services implement `IAsyncDisposable`
-4. [ ] MIGRATION.md complete and accurate
-5. [ ] README updated with all new features
-6. [ ] All tests passing (unit and integration)
-7. [ ] Release checklist completed
-8. [ ] Sample application demonstrates all features
+1. [x] Debounced input working with cancellation
+2. [x] JS modules lazy-loaded
+3. [x] All services implement `IAsyncDisposable`
+4. [x] MIGRATION.md complete and accurate
+5. [x] README updated with all new features
+6. [ ] AI documentation (llms-docs) updated with Phase 1-5 features
+7. [ ] DemoApp getting-started pages updated with Tailwind v4 and new features
+8. [ ] All tests passing (unit and integration)
+9. [ ] Migration guide reviewed and finalized
+10. [ ] Release checklist completed
+11. [ ] Sample application demonstrates all features
 
 ---
 

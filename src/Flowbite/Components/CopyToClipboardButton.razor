@@ -1,5 +1,5 @@
 @inherits Flowbite.Base.FlowbiteComponentBase
-@using Microsoft.JSInterop
+@using Flowbite.Services
 
 
 <button @onclick="CopyToClipboard" class="@CombineClasses(Class, "p-2 flex items-center space-x-2 text-gray-200 hover:text-gray-100 dark:text-gray-400 dark:hover:text-white")">
@@ -11,7 +11,7 @@
 </button>
 
 
-@code 
+@code
 {
     [Parameter]
     public bool ShowTitle { get; set; } = false;
@@ -20,36 +20,41 @@
     public string? TextToCopy { get; set; }
 
     [Inject]
-    private IJSRuntime? JSRuntime { get; set; }
+    private IClipboardService? ClipboardService { get; set; }
 
     public async Task CopyToClipboard()
     {
-        if (JSRuntime is null)
+        if (ClipboardService is null)
         {
-            Console.WriteLine("[Flowbite.Components.CopyToClipboardButton] JSRuntime is null");
+            Console.WriteLine("[Flowbite.Components.CopyToClipboardButton] ClipboardService is null");
             return;
         }
 
-        if (TextToCopy is null)
+        if (string.IsNullOrEmpty(TextToCopy))
         {
-            Console.WriteLine("[Flowbite.Components.CopyToClipboardButton] TextToCopy is null");
+            Console.WriteLine("[Flowbite.Components.CopyToClipboardButton] TextToCopy is null or empty");
             return;
         }
 
         try
         {
-            var success = await JSRuntime.InvokeAsync<bool>("Flowbite.copyToClipboard", TextToCopy);
+            var success = await ClipboardService.CopyToClipboardAsync(TextToCopy);
+            if (success)
+            {
+                _copyButtonTitle = "Copied!";
+                StateHasChanged();
+
+                // Reset button text after 2 seconds
+                await Task.Delay(2000);
+                _copyButtonTitle = "Copy";
+                StateHasChanged();
+            }
         }
         catch (Exception ex)
         {
             // Log the exception for debugging
             Console.WriteLine($"Error copying to clipboard: {ex.Message}");
         }
-    }
-
-    private async Task HandleButtonClick()
-    {
-        await CopyToClipboard();
     }
 
     private string _copyButtonTitle = "Copy";

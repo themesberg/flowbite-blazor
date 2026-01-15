@@ -1,21 +1,57 @@
-<project title="Flowbite Blazor" summary="A comprehensive Blazor component library that ports the Flowbite React component library to ASP.NET Blazor 8.0. Built on TailwindCSS, it provides strongly-typed Blazor components that implement Flowbite design patterns while maintaining consistency with the React implementation. The library offers a rich set of accessible, dark-mode compatible components with built-in ARIA support.">
+<project title="Flowbite Blazor" summary="A comprehensive Blazor component library that ports the Flowbite React component library to ASP.NET Blazor 8.0/9.0. Built on Tailwind CSS v4, it provides strongly-typed Blazor components that implement Flowbite design patterns while maintaining consistency with the React implementation. The library offers a rich set of accessible, dark-mode compatible components with built-in ARIA support, smart positioning via Floating UI, and TailwindMerge-powered class conflict resolution.">
 
 ## Project Links
 
 - [Github Repository](https://github.com/peakflames/flowbite-blazor)
-- [Documenation Site](https://flowbite-blazor.peakflames.org/docs/components/{{COMPONENT_NAME}})
+- [Documentation Site](https://flowbite-blazor.peakflames.org/docs/components/{{COMPONENT_NAME}})
 
+## Current Version
+
+**v0.2.1-beta** - Requires Tailwind CSS v4 and .NET 8 or .NET 9
 
 ## Features
 
-- TailwindCSS Integration - Beautiful, responsive designs out of the box
-- Dark Mode Support - Automatic dark mode through TailwindCSS classes
-- Built-in Accessibility - ARIA attributes and keyboard navigation included
-- Responsive Design - Mobile-first components that work everywhere
-- Native Blazor Events - Seamless integration with Blazor's event system
-- Strong Typing - Full type safety and IntelliSense support
-- No Node.js Required - Simple MSBuild integration for TailwindCSS
-- Extended Icons - Optional package for additional icon components
+### Core Features
+- **Tailwind CSS v4 Integration** - CSS-first configuration with `@theme` directive
+- **Dark Mode Support** - Automatic dark mode through Tailwind CSS classes
+- **Built-in Accessibility** - ARIA attributes and full keyboard navigation support
+- **Responsive Design** - Mobile-first components that work everywhere
+- **Native Blazor Events** - Seamless integration with Blazor's event system
+- **Strong Typing** - Full type safety and IntelliSense support
+- **No Node.js Required** - Simple MSBuild integration for Tailwind CSS
+- **Extended Icons** - Optional package for additional icon components
+
+### New in v0.2.x
+
+- **TailwindMerge Integration** - Automatic class conflict resolution via `MergeClasses()`
+- **Slot System** - Fine-grained component customization with typed slot classes
+- **Floating UI Positioning** - Smart viewport-aware positioning for Dropdown, Tooltip, and Popover
+- **Debounced Input** - Built-in debouncing for TextInput search scenarios
+- **Animation State Machine** - Smooth height-based animations for SidebarCollapse
+- **Lazy JavaScript Modules** - On-demand loading of JS modules for better performance
+- **motion-reduce Support** - Respects user's reduced motion preferences
+
+## Service Registration
+
+Register Flowbite services in your `Program.cs`:
+
+```csharp
+using Flowbite.Services;
+
+builder.Services.AddFlowbite();
+```
+
+This registers:
+- `TwMerge` - TailwindMerge service for class conflict resolution
+- `IFloatingService` - Floating UI positioning for dropdowns/tooltips
+- `IClipboardService` - Lazy-loaded clipboard operations
+- `IElementService` - Lazy-loaded DOM element utilities
+- `IFocusManagementService` - Lazy-loaded focus trap and management
+- `IModalService` - Programmatic modal control
+- `IDrawerService` - Programmatic drawer control
+- `IToastService` - Programmatic toast notifications
+
+</project>
 
 
 <docs>
@@ -213,9 +249,9 @@ The available Badge sizes are:
 #### Button Examples
 
 The available Button colors are:
-- None specified is the same as ButtonColor.Default
+- ButtonColor.Default (blue)
+- ButtonColor.Primary (customizable via @theme)
 - ButtonColor.Gray
-- ButtonColor.Primary
 - ButtonColor.Dark
 - ButtonColor.Light
 - ButtonColor.Green
@@ -224,9 +260,13 @@ The available Button colors are:
 - ButtonColor.Purple
 
 The available Button sizes are:
-- ButtonSize.Small,
-- ButtonSize.Medium,
+- ButtonSize.Small
+- ButtonSize.Medium
 - ButtonSize.Large
+
+The available Button variants are:
+- ButtonVariant.Default (filled)
+- ButtonVariant.Outline (bordered)
 
 ```razor
 <!-- Default button with color -->
@@ -235,12 +275,12 @@ The available Button sizes are:
 </Button>
 
 <!-- Outline button with icon -->
-<Button Variant="ButtonVariant.Outline" Color="ButtonColor.Info" Icon="@(new InfoIcon())">
+<Button Variant="ButtonVariant.Outline" Color="ButtonColor.Primary" Icon="@(new InfoIcon())">
     Info with icon
 </Button>
 
 <!-- Loading state -->
-<Button Loading="true" Color="ButtonColor.Success">
+<Button Loading="true" Color="ButtonColor.Green">
     Processing...
 </Button>
 
@@ -250,10 +290,37 @@ The available Button sizes are:
 </Button>
 
 <!-- Full-width button -->
-<Button Color="ButtonColor.Dark" class="w-full">
+<Button Color="ButtonColor.Dark" Class="w-full">
     Block Button
 </Button>
+
+<!-- Pill-shaped button -->
+<Button Color="ButtonColor.Primary" Pill="true">
+    Rounded Button
+</Button>
+
+<!-- Primary color (uses @theme customization) -->
+<Button Color="ButtonColor.Primary">
+    Brand Color
+</Button>
 ```
+
+### Button Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `Color` | `ButtonColor` | `Default` | Color variant |
+| `Size` | `ButtonSize` | `Medium` | Size variant |
+| `Variant` | `ButtonVariant` | `Default` | Visual style (Default or Outline) |
+| `Disabled` | `bool` | `false` | Disables the button |
+| `Loading` | `bool` | `false` | Shows loading state |
+| `Pill` | `bool` | `false` | Fully rounded corners |
+| `Icon` | `IconBase?` | `null` | Icon to display |
+| `Href` | `string?` | `null` | Renders as link when set |
+| `Target` | `string?` | `null` | Link target (_blank, _self) |
+| `Type` | `string` | `"button"` | HTML button type |
+| `Class` | `string?` | `null` | Additional CSS classes |
+| `OnClick` | `EventCallback<MouseEventArgs>` | - | Click handler |
 
 
 
@@ -262,7 +329,7 @@ The available Button sizes are:
 
 ```razor
 <!-- Basic card with CTA button -->
-<Card class="max-w-sm">
+<Card Class="max-w-sm">
     <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         Noteworthy technology acquisitions 2021
     </h5>
@@ -280,7 +347,7 @@ The available Button sizes are:
 </Card>
 
 <!-- Card with image -->
-<Card class="max-w-sm"
+<Card Class="max-w-sm"
       ImgSrc="path/to/image.jpg"
       ImgAlt="Meaningful alt text">
     <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -292,7 +359,7 @@ The available Button sizes are:
 </Card>
 
 <!-- Horizontal card layout -->
-<Card class="max-w-sm"
+<Card Class="max-w-sm"
       ImgSrc="path/to/image.jpg"
       ImgAlt="Meaningful alt text"
       Horizontal="true">
@@ -304,35 +371,54 @@ The available Button sizes are:
     </p>
 </Card>
 
-<!-- E-commerce product card -->
-<Card class="max-w-sm"
-      ImgSrc="path/to/product.jpg"
-      ImgAlt="Product image">
-    <div class="px-5 pb-5">
-        <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-            Apple Watch Series 7 GPS
-        </h5>
-        <div class="mt-2.5 mb-5 flex items-center">
-            <span class="ml-3 rounded bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-800 dark:bg-blue-200 dark:text-blue-800">
-                5.0
-            </span>
-        </div>
-        <div class="flex items-center justify-between">
-            <span class="text-3xl font-bold text-gray-900 dark:text-white">$599</span>
-            <Button Color="ButtonColor.Default">
-                Add to cart
-            </Button>
-        </div>
-    </div>
+<!-- Card with Slots for custom styling -->
+<Card Slots="@(new CardSlots {
+    Base = "shadow-xl rounded-xl",
+    Image = "object-top",
+    Body = "p-8"
+})">
+    <h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        Custom styled card
+    </h5>
+    <p class="font-normal text-gray-700 dark:text-gray-400">
+        Using CardSlots for fine-grained styling control.
+    </p>
+</Card>
+
+<!-- Clickable card -->
+<Card Href="/products/123" Class="max-w-sm">
+    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+        Click to view product
+    </h5>
 </Card>
 ```
 
+### Card Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `ImgSrc` | `string?` | `null` | Image source URL |
+| `ImgAlt` | `string?` | `null` | Image alt text |
+| `Horizontal` | `bool` | `false` | Horizontal layout on larger screens |
+| `Href` | `string?` | `null` | Makes card clickable |
+| `Slots` | `CardSlots?` | `null` | Per-element class customization |
+| `Class` | `string?` | `null` | Additional CSS classes |
+
+### CardSlots Properties
+
+| Slot | Description |
+|------|-------------|
+| `Base` | The card container |
+| `Image` | The card's image element |
+| `Body` | The content wrapper |
 
 
 
 
 
 #### Dropdown Examples
+
+Dropdown uses Floating UI for smart viewport-aware positioning with automatic flip and shift behavior.
 
 ```razor
 <!-- Default dropdown -->
@@ -355,8 +441,8 @@ The available Button sizes are:
 <!-- Dropdown with custom trigger -->
 <Dropdown>
     <CustomTrigger>
-        <Avatar Alt="User settings" 
-                ImageUrl="https://flowbite.com/docs/images/people/profile-picture-5.jpg" 
+        <Avatar Alt="User settings"
+                ImageUrl="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                 Rounded="true" />
     </CustomTrigger>
     <ChildContent>
@@ -364,7 +450,81 @@ The available Button sizes are:
         <DropdownItem>Settings</DropdownItem>
     </ChildContent>
 </Dropdown>
+
+<!-- Dropdown with Slots for custom styling -->
+<Dropdown Slots="@(new DropdownSlots {
+    Trigger = "bg-blue-600 hover:bg-blue-700",
+    Menu = "w-64 shadow-xl",
+    Item = "hover:bg-blue-50"
+})">
+    <Label>Styled Dropdown</Label>
+    <ChildContent>
+        <DropdownItem>Option 1</DropdownItem>
+        <DropdownItem>Option 2</DropdownItem>
+    </ChildContent>
+</Dropdown>
+
+<!-- Dropdown with placement and offset -->
+<Dropdown Placement="DropdownPlacement.TopEnd" Offset="12">
+    <Label>Top End</Label>
+    <ChildContent>
+        <DropdownItem>Item 1</DropdownItem>
+    </ChildContent>
+</Dropdown>
+
+<!-- Dropdown with disabled auto-positioning -->
+<Dropdown
+    Placement="DropdownPlacement.Bottom"
+    DisableFlip="true"
+    DisableShift="true">
+    <Label>Fixed Position</Label>
+    <ChildContent>
+        <DropdownItem>Fixed at bottom</DropdownItem>
+    </ChildContent>
+</Dropdown>
 ```
+
+### Dropdown Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `Size` | `DropdownSize` | `Medium` | Trigger and menu size |
+| `Placement` | `DropdownPlacement` | `Bottom` | Menu placement |
+| `Inline` | `bool` | `false` | Inline trigger styling |
+| `ArrowIcon` | `bool` | `true` | Show dropdown arrow |
+| `DismissOnClick` | `bool` | `true` | Close on item click |
+| `DisableFlip` | `bool` | `false` | Disable viewport flip |
+| `DisableShift` | `bool` | `false` | Disable viewport shift |
+| `Offset` | `int` | `8` | Distance from trigger |
+| `Slots` | `DropdownSlots?` | `null` | Per-element classes |
+| `MenuClass` | `string?` | `null` | Menu CSS classes |
+| `IsOpenChanged` | `EventCallback<bool>` | - | Open state changed |
+| `OnTriggerClick` | `EventCallback<MouseEventArgs>` | - | Trigger click |
+
+### DropdownSlots Properties
+
+| Slot | Description |
+|------|-------------|
+| `Base` | The dropdown container |
+| `Trigger` | The trigger button |
+| `Menu` | The dropdown menu panel |
+| `Item` | Classes passed to DropdownItem components |
+
+### Keyboard Navigation
+
+- **Enter/Space**: Open dropdown, select item
+- **ArrowDown/ArrowUp**: Navigate items
+- **Home/End**: Jump to first/last item
+- **Escape**: Close dropdown
+- **Tab**: Close and move focus
+- **Type-ahead**: Type to jump to matching item
+
+### Floating UI Behavior
+
+The dropdown automatically:
+- **Flips** to opposite side when near viewport edge
+- **Shifts** along axis to stay visible
+- Updates position on scroll/resize
 
 
 
@@ -430,149 +590,158 @@ The available Button sizes are:
 
 #### Sidebar Examples
 
+SidebarCollapse uses a CSS animation state machine for smooth height-based transitions.
+
 ```razor
-<!-- Sidebar example that comprehensively demonstration the majority of features. This includes logos, icons, dropdowns, item grouping, responsiveness, CTA region with a button -->
+<!-- Sidebar example that comprehensively demonstrates the majority of features -->
 <div class="flex">
-        <!-- Mobile menu button -->
-        <Button Color="ButtonColor.Dark" class="lg:hidden mb-3">
-            <BarsIcon class="w-5 h-5" />
-        </Button>
-    </div>
+    <!-- Mobile menu button -->
+    <Button Color="ButtonColor.Dark" Class="lg:hidden mb-3">
+        <BarsIcon Class="w-5 h-5" />
+    </Button>
+</div>
 
-    <Sidebar CollapseMode="SidebarCollapseMode.Responsive">
-        <SidebarLogo 
+<Sidebar CollapseMode="SidebarCollapseMode.Responsive">
+    <SidebarLogo
+        Href="#"
+        ImgSrc="/images/logo.svg">
+        Flowbite
+    </SidebarLogo>
+
+    <SidebarItemGroup>
+        <SidebarItem
             Href="#"
-            ImgSrc="/images/logo.svg">
-            Flowbite
-        </SidebarLogo>
+            Icon="@(new HomeIcon())">
+            Dashboard
+        </SidebarItem>
 
-        <SidebarItemGroup>
-            <SidebarItem 
+        <SidebarCollapse
+            Label="Analytics"
+            Icon="@(new ChartPieIcon())"
+            InitiallyOpen="true">
+            <SidebarItem
                 Href="#"
-                Icon="@(new HomeIcon())">
-                Dashboard
+                Icon="@(new ChartLineUpIcon())">
+                Overview
             </SidebarItem>
-            
-            <SidebarCollapse 
-                Label="Analytics"
-                Icon="@(new ChartPieIcon())">
-                <SidebarItem 
-                    Href="#"
-                    Icon="@(new ChartLineUpIcon())">
-                    Overview
-                </SidebarItem>
-                <SidebarItem 
-                    Href="#"
-                    Icon="@(new ChartMixedIcon())">
-                    Reports
-                </SidebarItem>
-            </SidebarCollapse>
-            
-            <SidebarItem 
+            <SidebarItem
                 Href="#"
-                Icon="@(new BriefcaseIcon())">
-                Users
+                Icon="@(new ChartMixedIcon())">
+                Reports
             </SidebarItem>
-            
-            <SidebarItem 
-                Href="#"
-                Icon="@(new CartIcon())">
-                Products
-            </SidebarItem>
-        </SidebarItemGroup>
+        </SidebarCollapse>
 
-        <SidebarItemGroup>
-            <SidebarItem 
-                Href="#"
-                Icon="@(new CogIcon())">
-                Settings
-            </SidebarItem>
-            
-            <SidebarItem 
-                Href="#"
-                Icon="@(new BellIcon())">
-                Help Center
-            </SidebarItem>
-        </SidebarItemGroup>
+        <SidebarItem
+            Href="#"
+            Icon="@(new BriefcaseIcon())">
+            Users
+        </SidebarItem>
 
-        <SidebarCTA>
-            <div class="mb-3 text-sm text-blue-900 dark:text-blue-400">
-                Preview the new Flowbite dashboard navigation! You can turn the new navigation off for a limited time in your profile.
-            </div>
-            <Button Color="ButtonColor.Default" class="w-full">
-                Upgrade to Pro
-            </Button>
-        </SidebarCTA>
-    </Sidebar>
+        <SidebarItem
+            Href="#"
+            Icon="@(new CartIcon())">
+            Products
+        </SidebarItem>
+    </SidebarItemGroup>
+
+    <SidebarItemGroup>
+        <SidebarItem
+            Href="#"
+            Icon="@(new CogIcon())">
+            Settings
+        </SidebarItem>
+
+        <SidebarItem
+            Href="#"
+            Icon="@(new BellIcon())">
+            Help Center
+        </SidebarItem>
+    </SidebarItemGroup>
+
+    <SidebarCTA>
+        <div class="mb-3 text-sm text-blue-900 dark:text-blue-400">
+            Preview the new Flowbite dashboard navigation!
+        </div>
+        <Button Color="ButtonColor.Default" Class="w-full">
+            Upgrade to Pro
+        </Button>
+    </SidebarCTA>
+</Sidebar>
 
 
-<!-- Mulit-Level Sidebar  that demonstrates deep nested navigation with multiple levels of dropdowns, perfect for complex application hierarchies. -->
+<!-- Multi-Level Sidebar with deep nested navigation -->
 <Sidebar>
-    <SidebarItem 
+    <SidebarItem
         Href="/dashboard"
         Icon="@(new HomeIcon())">
         Dashboard
     </SidebarItem>
-    
-    <SidebarCollapse 
+
+    <SidebarCollapse
         Label="Settings"
         Icon="@(new CogIcon())">
-        <SidebarItem 
+        <SidebarItem
             Href="/settings/profile"
             Icon="@(new BriefcaseIcon())">
             Profile
         </SidebarItem>
-        <SidebarCollapse 
+        <SidebarCollapse
             Label="System"
             Icon="@(new ServerIcon())">
-            <SidebarItem 
+            <SidebarItem
                 Href="/settings/system/general"
                 Icon="@(new AdjustmentsHorizontalIcon())">
                 General
             </SidebarItem>
-            <SidebarCollapse 
+            <SidebarCollapse
                 Label="Security"
                 Icon="@(new ShieldCheckIcon())">
-                <SidebarItem 
-                    Href="/settings/system/security/permissions"
-                    Icon="@(new BadgeCheckIcon())">
+                <SidebarItem Href="/settings/system/security/permissions">
                     Permissions
                 </SidebarItem>
-                <SidebarItem 
-                    Href="/settings/system/security/authentication"
-                    Icon="@(new BellIcon())">
+                <SidebarItem Href="/settings/system/security/authentication">
                     Authentication
                 </SidebarItem>
-                <SidebarItem 
-                    Href="/settings/system/security/encryption"
-                    Icon="@(new ShieldCheckIcon())">
-                    Encryption
-                </SidebarItem>
             </SidebarCollapse>
-            <SidebarItem 
-                Href="/settings/system/backup"
-                Icon="@(new CloudArrowUpIcon())">
-                Backup
-            </SidebarItem>
         </SidebarCollapse>
-        <SidebarItem 
-            Href="/settings/notifications"
-            Icon="@(new BellIcon())">
-            Notifications
-        </SidebarItem>
     </SidebarCollapse>
-    
-    <SidebarItem 
+
+    <SidebarItem
         Href="/help"
         Icon="@(new BellIcon())">
         Help
     </SidebarItem>
 </Sidebar>
-
 ```
 
+### SidebarCollapse Animation
 
+SidebarCollapse uses a 4-state animation machine for smooth transitions:
 
+| State | Description |
+|-------|-------------|
+| `Collapsed` | Height = 0, content hidden |
+| `Expanding` | Height animating from 0 to scrollHeight |
+| `Expanded` | Height = auto, content visible |
+| `Collapsing` | Height animating from scrollHeight to 0 |
+
+The animation respects `prefers-reduced-motion` for accessibility.
+
+### SidebarCollapse Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `Label` | `string` | - | Display text |
+| `Icon` | `IconBase?` | `null` | Icon component |
+| `InitiallyOpen` | `bool` | `false` | Start expanded |
+| `OnStateChanged` | `EventCallback<bool>` | - | State change callback |
+
+### Sidebar Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `CollapseMode` | `SidebarCollapseMode` | - | Responsive behavior |
+| `Class` | `string?` | `null` | Additional CSS classes |
 
 
 
@@ -726,6 +895,8 @@ The available Button sizes are:
 
 #### Tooltip Examples
 
+Tooltip uses Floating UI for smart viewport-aware positioning with automatic flip and shift behavior.
+
 ```razor
 <!-- Basic tooltip -->
 <Tooltip Content="This is a basic tooltip">
@@ -748,16 +919,13 @@ The available Button sizes are:
     </Tooltip>
 </div>
 
-<!-- Style variations -->
+<!-- Theme variations -->
 <div class="flex items-center gap-4">
-    <Tooltip Content="Dark style" Style="dark">
+    <Tooltip Content="Dark theme" Theme="dark">
         <Button>Dark</Button>
     </Tooltip>
-    <Tooltip Content="Light style" Style="light">
+    <Tooltip Content="Light theme" Theme="light">
         <Button Color="ButtonColor.Light">Light</Button>
-    </Tooltip>
-    <Tooltip Content="Auto style (adapts to dark mode)" Style="auto">
-        <Button>Auto</Button>
     </Tooltip>
 </div>
 
@@ -792,6 +960,40 @@ The available Button sizes are:
     </Tooltip>
 </div>
 ```
+
+### Tooltip Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `Content` | `string` | **Required** | Tooltip text |
+| `Placement` | `TooltipPlacement` | `Top` | Position relative to trigger |
+| `Theme` | `string` | `"dark"` | Visual theme (dark, light) |
+| `Trigger` | `string` | `"hover"` | Trigger mode (hover, click) |
+| `Arrow` | `bool` | `true` | Show arrow pointer |
+| `Animation` | `string?` | `"duration-300"` | CSS transition duration |
+| `Class` | `string?` | `null` | Additional CSS classes |
+
+### TooltipPlacement Options
+
+| Value | Description |
+|-------|-------------|
+| `Auto` | Auto-select best placement |
+| `Top` | Above the trigger |
+| `Bottom` | Below the trigger |
+| `Left` | To the left of trigger |
+| `Right` | To the right of trigger |
+
+### Floating UI Behavior
+
+The tooltip automatically:
+- **Flips** to opposite side when near viewport edge
+- **Shifts** along axis to stay visible
+- Updates position on scroll/resize
+
+### Keyboard Support
+
+- **Escape**: Close tooltip (when visible)
+- Shows on focus for keyboard accessibility
 
 
 
@@ -889,7 +1091,7 @@ The available Button sizes are:
 
 The available form components are:
 - Label - For form field labels with required/disabled states
-- TextInput - Text input with sizes, states, and addons
+- TextInput - Text input with sizes, states, addons, and debouncing
 - Textarea - Multi-line text input
 - Select - Dropdown selection with sizes and states
 - Checkbox - Single checkbox with label
@@ -914,101 +1116,99 @@ The available form components are:
      - Id: string - Input identifier
      - Type: string - Input type (text, email, password, etc)
      - Size: TextInputSize - Small, Medium, Large
-     - Color: TextInputColor - Success, Failure, etc for validation
+     - Color: TextInputColor - Gray, Success, Failure, Warning, Info
      - Placeholder: string - Placeholder text
      - Required: bool - Makes field required
      - Disabled: bool - Disables the input
      - HelperText: string - Help text below input
      - AddonLeft/Right: string - Text addons
-     - Icon/RightIcon: Component - Icon components
-     - Shadow: bool - Adds shadow effect -->
+     - Icon/RightIcon: IconBase - Icon components
+     - Shadow: bool - Adds shadow effect
+     - Behavior: InputBehavior - OnChange (default) or OnInput
+     - DebounceDelay: int - Debounce delay in milliseconds -->
 <TextInput Id="email" Type="email" Placeholder="name@flowbite.com" Required="true" />
 <TextInput Size="TextInputSize.Small" Placeholder="Small input" />
 <TextInput Color="TextInputColor.Success" Value="Success input" HelperText="Success message" />
 <TextInput AddonLeft="https://" AddonRight=".com" Placeholder="flowbite" />
+```
 
-<!-- Textarea Component
-     Parameters:
-     - Id: string - Textarea identifier
-     - Rows: int - Number of visible text rows
-     - Placeholder: string - Placeholder text
-     - Required: bool - Makes field required
-     - Disabled: bool - Disables the textarea
-     - HelperText: string - Help text below textarea
-     - Shadow: bool - Adds shadow effect -->
-<Textarea Id="comment" 
-          Rows="4" 
-          Placeholder="Write your thoughts here..." 
+### TextInput Debouncing
+
+For search-as-you-type scenarios, use the `Behavior` and `DebounceDelay` parameters:
+
+```razor
+<!-- Standard form input (fires on blur/Enter) -->
+<TextInput @bind-Value="Username" Placeholder="Username" />
+
+<!-- Search with debouncing (fires 300ms after typing stops) -->
+<TextInput
+    @bind-Value="SearchQuery"
+    Behavior="InputBehavior.OnInput"
+    DebounceDelay="300"
+    Placeholder="Search products..."
+    Icon="@(new SearchIcon())" />
+
+@code {
+    private string SearchQuery { get; set; } = "";
+
+    // ValueChanged fires 300ms after user stops typing
+    // Previous pending calls are automatically cancelled
+}
+
+<!-- Instant validation without debounce -->
+<TextInput
+    @bind-Value="Email"
+    Behavior="InputBehavior.OnInput"
+    DebounceDelay="0"
+    Type="email"
+    Color="@GetEmailValidationColor()" />
+```
+
+### InputBehavior Options
+
+| Value | Description |
+|-------|-------------|
+| `OnChange` (default) | Fire on blur or Enter key - standard form behavior |
+| `OnInput` | Fire on every keystroke (subject to DebounceDelay) |
+
+```razor
+<!-- Textarea Component -->
+<Textarea Id="comment"
+          Rows="4"
+          Placeholder="Write your thoughts here..."
           Required="true" />
 
-<!-- Select Component
-     Parameters:
-     - Id: string - Select identifier
-     - Size: TextInputSize - Small, Medium, Large
-     - Color: SelectColor - Success, Failure, etc
-     - Disabled: bool - Disables the select
-     - HelperText: string - Help text below select
-     - Icon: Type - Icon component type
-     - Shadow: bool - Adds shadow effect -->
+<!-- Select Component -->
 <Select Id="countries" @bind-Value="selectedCountry">
     <option value="">Choose a country</option>
     <option value="US">United States</option>
     <option value="CA">Canada</option>
 </Select>
 
-<!-- Checkbox Component
-     Parameters:
-     - Id: string - Checkbox identifier
-     - Checked: bool - Checked state
-     - Disabled: bool - Disables the checkbox
-     - Required: bool - Makes field required -->
+<!-- Checkbox Component -->
 <div class="flex items-center gap-2">
     <Checkbox Id="remember" />
     <Label For="remember">Remember me</Label>
 </div>
 
-<!-- Radio Component
-     Parameters:
-     - Id: string - Radio identifier
-     - Name: string - Groups radio buttons
-     - Value: bool - Selected state
-     - Disabled: bool - Disables the radio
-     - Required: bool - Makes field required -->
+<!-- Radio Component -->
 <div class="flex items-center gap-2">
     <Radio Id="option1" Name="group" Value="true" />
     <Label For="option1">Option 1</Label>
 </div>
 
-<!-- FileInput Component
-     Parameters:
-     - Id: string - Input identifier
-     - HelperText: string - Help text below input
-     - Color: FileInputColor - Success, Failure, etc
-     - Disabled: bool - Disables the input
-     - Shadow: bool - Adds shadow effect -->
-<FileInput Id="file" 
+<!-- FileInput Component -->
+<FileInput Id="file"
            HelperText="Upload your profile picture" />
 
-<!-- ToggleSwitch Component
-     Parameters:
-     - Checked: bool - Toggle state
-     - Label: string - Label text
-     - Disabled: bool - Disables the toggle
-     - Name: string - Form field name -->
-<ToggleSwitch @bind-Checked="isEnabled" 
+<!-- ToggleSwitch Component -->
+<ToggleSwitch @bind-Checked="isEnabled"
               Label="Enable notifications" />
 
-<!-- RangeSlider Component
-     Parameters:
-     - Id: string - Slider identifier
-     - Size: RangeSliderSize - Small, Medium, Large
-     - Value: double - Current value
-     - Min: double - Minimum value (default: 0)
-     - Max: double - Maximum value (default: 100)
-     - Step: double - Step increment (default: 1)
-     - Disabled: bool - Disables the slider -->
+<!-- RangeSlider Component -->
 <RangeSlider Id="default-range"
              Size="RangeSliderSize.Medium" />
+```
 
 #### Form Validation Examples
 
@@ -1017,12 +1217,7 @@ The Flowbite Blazor library supports both built-in DataAnnotations validation an
 ##### Basic Form Validation with DataAnnotations
 
 ```razor
-<!-- Basic form with DataAnnotations validation
-     Features:
-     - Uses EditForm for form handling
-     - DataAnnotationsValidator for validation
-     - ValidationMessage for error display
-     - Real-time validation feedback -->
+<!-- Basic form with DataAnnotations validation -->
 <EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <div class="flex max-w-md flex-col gap-4">
@@ -1030,9 +1225,9 @@ The Flowbite Blazor library supports both built-in DataAnnotations validation an
             <div class="mb-2 block">
                 <Label For="email" Value="Email address" />
             </div>
-            <TextInput TValue="string" 
-                      Id="email" 
-                      @bind-Value="model.Email" 
+            <TextInput TValue="string"
+                      Id="email"
+                      @bind-Value="model.Email"
                       Type="email" />
             <ValidationMessage For="@(() => model.Email)" />
         </div>
@@ -1040,9 +1235,9 @@ The Flowbite Blazor library supports both built-in DataAnnotations validation an
             <div class="mb-2 block">
                 <Label For="password" Value="Password" />
             </div>
-            <TextInput TValue="string" 
-                      Id="password" 
-                      @bind-Value="model.Password" 
+            <TextInput TValue="string"
+                      Id="password"
+                      @bind-Value="model.Password"
                       Type="password" />
             <ValidationMessage For="@(() => model.Password)" />
         </div>
@@ -1064,55 +1259,10 @@ The Flowbite Blazor library supports both built-in DataAnnotations validation an
 }
 ```
 
-##### Custom Validation
-
-```razor
-<!-- Custom validation example
-     Features:
-     - Custom validator component
-     - Field-level validation
-     - Custom validation messages -->
-<EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
-    <CustomValidator @ref="customValidator" />
-    <div class="flex max-w-md flex-col gap-4">
-        <div>
-            <div class="mb-2 block">
-                <Label For="username" Value="Username" />
-            </div>
-            <TextInput TValue="string" 
-                      Id="username" 
-                      @bind-Value="model.Username" />
-            <ValidationMessage For="@(() => model.Username)" />
-        </div>
-        <Button Type="submit">Submit</Button>
-    </div>
-</EditForm>
-
-@code {
-    private CustomValidator? customValidator;
-
-    private async Task HandleValidSubmit()
-    {
-        // Example of custom validation logic
-        if (customModel.Username.Contains(" "))
-        {
-            customValidator?.DisplayError("Username", "Username cannot contain spaces");
-            return;
-        }
-        await SubmitForm();
-    }
-}
-```
-
 ##### Form State Management
 
 ```razor
-<!-- Form state management example
-     Features:
-     - Dirty state tracking
-     - Change tracking
-     - Reset functionality
-     - EditContext integration -->
+<!-- Form state management example -->
 <EditForm EditContext="@editContext" OnValidSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
     <div class="flex max-w-md flex-col gap-4">
@@ -1120,18 +1270,18 @@ The Flowbite Blazor library supports both built-in DataAnnotations validation an
             <div class="mb-2 block">
                 <Label For="name" Value="Name" />
             </div>
-            <TextInput TValue="string" 
-                      Id="name" 
-                      Value="@name" 
+            <TextInput TValue="string"
+                      Id="name"
+                      Value="@name"
                       ValueChanged="@OnNameChanged" />
             <ValidationMessage For="@(() => model.Name)" />
         </div>
         <div class="flex gap-2">
-            <Button Type="submit" 
+            <Button Type="submit"
                     Disabled="@(!editContext?.IsModified() ?? true)">
                 Submit
             </Button>
-            <Button Color="ButtonColor.Light" 
+            <Button Color="ButtonColor.Light"
                     OnClick="@ResetForm">
                 Reset
             </Button>
@@ -1168,7 +1318,31 @@ The Flowbite Blazor library supports both built-in DataAnnotations validation an
 }
 ```
 
-The form validation system integrates seamlessly with Blazor's built-in form handling while providing additional features for custom validation scenarios and state management. All form components support validation states through their Color properties and automatically integrate with ValidationMessage components.
+### TextInput Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `Value` | `TValue?` | `null` | Bound value |
+| `ValueChanged` | `EventCallback<TValue>` | - | Value change callback |
+| `Type` | `string` | `"text"` | HTML input type |
+| `Size` | `TextInputSize` | `Medium` | Size variant |
+| `Color` | `TextInputColor` | `Gray` | Color/state variant |
+| `Placeholder` | `string?` | `null` | Placeholder text |
+| `Disabled` | `bool` | `false` | Disabled state |
+| `Required` | `bool` | `false` | Required field |
+| `Shadow` | `bool` | `false` | Shadow effect |
+| `HelperText` | `string?` | `null` | Help text below input |
+| `Icon` | `IconBase?` | `null` | Left icon |
+| `RightIcon` | `IconBase?` | `null` | Right icon |
+| `AddonLeft` | `string?` | `null` | Left text addon |
+| `AddonRight` | `string?` | `null` | Right text addon |
+| `Behavior` | `InputBehavior` | `OnChange` | When to fire ValueChanged |
+| `DebounceDelay` | `int` | `0` | Debounce delay (ms) |
+| `Pattern` | `string?` | `null` | Regex validation pattern |
+| `InputMode` | `string?` | `null` | Mobile keyboard hint |
+| `Class` | `string?` | `null` | Additional CSS classes |
+
+The form validation system integrates seamlessly with Blazor's built-in form handling while providing additional features for debouncing, custom validation scenarios, and state management. All form components support validation states through their Color properties and automatically integrate with ValidationMessage components.
 
 
 
@@ -1217,7 +1391,7 @@ __Default Modal:__
 <div class="space-y-4">
     <div class="flex items-center gap-4">
         <Button OnClick="@(() => showDefaultModal = true)">Open Modal</Button>
-        
+
         @if (termsAccepted != null)
         {
             <div class="@GetChoiceAlertClass()" role="alert">
@@ -1225,7 +1399,7 @@ __Default Modal:__
             </div>
         }
     </div>
-    
+
     <Modal Show="showDefaultModal" ShowChanged="(value) => showDefaultModal = value">
         <ModalHeader>
             <h3>Terms of Service</h3>
@@ -1233,19 +1407,13 @@ __Default Modal:__
         <ModalBody>
             <div class="space-y-6">
                 <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens,
-                    companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union's General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant
-                    to ensure a common set of data rights in the European Union. It requires organizations to notify users as
-                    soon as possible of high-risk data breaches that could personally affect them.
+                    With less than a month to go before the European Union enacts new consumer privacy laws...
                 </p>
             </div>
         </ModalBody>
         <ModalFooter>
             <div class="flex justify-end w-full">
-                <Button OnClick="@(() => HandleTermsChoice(false))" Color="ButtonColor.Gray" class="mr-2">Decline</Button>
+                <Button OnClick="@(() => HandleTermsChoice(false))" Color="ButtonColor.Gray" Class="mr-2">Decline</Button>
                 <Button OnClick="@(() => HandleTermsChoice(true))">Accept</Button>
             </div>
         </ModalFooter>
@@ -1255,24 +1423,36 @@ __Default Modal:__
 @code {
     private bool showDefaultModal = false;
     private bool? termsAccepted = null;
-    
+
     private void HandleTermsChoice(bool accepted)
     {
         termsAccepted = accepted;
         showDefaultModal = false;
     }
-    
-    private string GetChoiceAlertClass()
-    {
-        return termsAccepted == true
-            ? "p-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-            : "p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400";
-    }
 }
-
 ```
 
-__Model Options:__
+__Modal with Slots:__
+
+```razor
+<Modal Show="@show" Slots="@(new ModalSlots {
+    Backdrop = "bg-gray-900/70",
+    Content = "rounded-xl shadow-2xl",
+    Header = "border-b-2 border-blue-500",
+    Body = "p-8",
+    Footer = "bg-gray-50 dark:bg-gray-800"
+})">
+    <ModalHeader>Custom Styled Header</ModalHeader>
+    <ModalBody>
+        Content with extra padding from slot customization.
+    </ModalBody>
+    <ModalFooter>
+        <Button OnClick="@(() => show = false)">Close</Button>
+    </ModalFooter>
+</Modal>
+```
+
+__Modal Options:__
 
 ```csharp
 public enum ModalSize
@@ -1304,40 +1484,59 @@ public enum ModalPosition
 }
 ```
 
-```razor
-<div class="space-y-4">
-        
-    <Modal Show="showDefaultModal" ShowChanged="(value) => showDefaultModal = value" Size="ModalSize.FourExtraLarge" Position="ModalPosition.TopCenter">
-        <ModalHeader>
-            <h3>Terms of Service</h3>
-        </ModalHeader>
-        <ModalBody>
-            <div class="space-y-6">
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens,
-                    companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union's General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant
-                    to ensure a common set of data rights in the European Union. It requires organizations to notify users as
-                    soon as possible of high-risk data breaches that could personally affect them.
-                </p>
-            </div>
-        </ModalBody>
-        <ModalFooter>
-            <div class="flex justify-end w-full">
-                <Button OnClick="@(() => showSizedModal = false)" Color="ButtonColor.Gray" class="mr-2">Decline</Button>
-                <Button OnClick="@(() => showSizedModal = false)">Accept</Button>
-            </div>
-        </ModalFooter>
-    </Modal>
-</div>
+__Sized and Positioned Modal:__
 
-@code {
-    private bool showDefaultModal = false;
-}
+```razor
+<Modal Show="showModal"
+       ShowChanged="(value) => showModal = value"
+       Size="ModalSize.FourExtraLarge"
+       Position="ModalPosition.TopCenter">
+    <ModalHeader>
+        <h3>Large Top-Center Modal</h3>
+    </ModalHeader>
+    <ModalBody>
+        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+            Content here...
+        </p>
+    </ModalBody>
+    <ModalFooter>
+        <div class="flex justify-end w-full">
+            <Button OnClick="@(() => showModal = false)">Close</Button>
+        </div>
+    </ModalFooter>
+</Modal>
 ```
 
+### Modal Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `Show` | `bool` | `false` | Visibility state |
+| `ShowChanged` | `EventCallback<bool>` | - | State change callback |
+| `OnClose` | `EventCallback` | - | Close callback |
+| `Title` | `string?` | `null` | Modal title |
+| `Size` | `ModalSize` | `Default` | Size variant |
+| `Position` | `ModalPosition` | `Center` | Screen position |
+| `Dismissible` | `bool` | `true` | Close on Escape/backdrop |
+| `Slots` | `ModalSlots?` | `null` | Per-element classes |
+| `BackdropClass` | `string?` | `null` | Backdrop CSS classes |
+| `ModalClass` | `string?` | `null` | Modal container CSS |
+
+### ModalSlots Properties
+
+| Slot | Description |
+|------|-------------|
+| `Base` | The modal root (same as ModalClass) |
+| `Backdrop` | The background overlay |
+| `Content` | The modal dialog container |
+| `Header` | Passed to ModalHeader components |
+| `Body` | Passed to ModalBody components |
+| `Footer` | Passed to ModalFooter components |
+
+### Keyboard Support
+
+- **Escape**: Close modal (when Dismissible="true")
+- Focus trap: Tab cycles within modal
 
 
 
@@ -2075,11 +2274,191 @@ Flowbite Blazor provides two icon packages:
 
 
 
-<doc title="Common Patterns" description="Common patterns and best practices">
+<doc title="Common Patterns" description="Common patterns and best practices for Flowbite Blazor">
 
-## Best Practices
+## TailwindMerge Integration
 
-### Event Handling
+Flowbite Blazor uses TailwindMerge.NET to intelligently resolve conflicting Tailwind CSS classes. User-provided classes override component defaults.
+
+### How It Works
+
+Components use `MergeClasses()` in their code-behind to combine base classes with user overrides:
+
+```csharp
+// Component internal pattern
+private string GetButtonClasses() =>
+    MergeClasses(
+        ElementClass.Empty()
+            .Add("px-4 py-2 rounded-lg")  // Component defaults
+            .Add("bg-blue-500", when: Color == ButtonColor.Primary)
+            .Add(Class)  // User's Class parameter wins
+    );
+```
+
+### Usage in Your Code
+
+When you add a `Class` parameter, TailwindMerge resolves conflicts:
+
+```razor
+<!-- Component default: p-4 -->
+<!-- Your override: p-8 -->
+<!-- Result: p-8 (user wins, no duplicate padding) -->
+<Card Class="p-8">
+    Content with larger padding
+</Card>
+
+<!-- Spacing conflict resolved -->
+<Button Class="px-6 py-3">
+    Custom padded button
+</Button>
+```
+
+### ElementClass Fluent Builder
+
+For custom components, use `ElementClass` for readable conditional classes:
+
+```csharp
+// In your component's code-behind
+private string GetClasses() => MergeClasses(
+    ElementClass.Empty()
+        .Add("base-class")
+        .Add("conditional-class", when: SomeCondition)
+        .Add("another-class", when: !SomeCondition)
+        .Add(Class)
+);
+```
+
+---
+
+## Slot System
+
+Slots provide fine-grained control over component styling without modifying component source code.
+
+### Available Slot Types
+
+| Component | Slot Class | Available Slots |
+|-----------|-----------|-----------------|
+| Card | `CardSlots` | Base, Image, Body |
+| Dropdown | `DropdownSlots` | Base, Trigger, Menu, Item |
+| Modal | `ModalSlots` | Base, Backdrop, Content, Header, Body, Footer |
+| AccordionItem | `AccordionItemSlots` | Trigger, Content |
+
+### Usage Pattern
+
+```razor
+<!-- Card with custom slots -->
+<Card Slots="@(new CardSlots {
+    Base = "shadow-xl rounded-xl",
+    Image = "object-top",
+    Body = "p-8"
+})">
+    <h5>Card Title</h5>
+    <p>Card content with extra padding</p>
+</Card>
+
+<!-- Dropdown with custom trigger and menu -->
+<Dropdown Slots="@(new DropdownSlots {
+    Trigger = "bg-blue-600 hover:bg-blue-700",
+    Menu = "w-64 shadow-xl",
+    Item = "hover:bg-blue-50"
+})">
+    <Label>Actions</Label>
+    <ChildContent>
+        <DropdownItem>Edit</DropdownItem>
+        <DropdownItem>Delete</DropdownItem>
+    </ChildContent>
+</Dropdown>
+
+<!-- Modal with custom styling -->
+<Modal Show="@show" Slots="@(new ModalSlots {
+    Backdrop = "bg-gray-900/70",
+    Content = "rounded-xl shadow-2xl",
+    Header = "border-b-2 border-blue-500",
+    Body = "p-8"
+})">
+    <ModalHeader>Custom Header</ModalHeader>
+    <ModalBody>Content here</ModalBody>
+    <ModalFooter>Footer content</ModalFooter>
+</Modal>
+```
+
+---
+
+## Debounced Input Pattern
+
+For search-as-you-type scenarios, use the `Behavior` and `DebounceDelay` parameters to reduce API calls.
+
+### Basic Usage
+
+```razor
+<!-- Standard input (fires on blur/Enter) -->
+<TextInput @bind-Value="username" />
+
+<!-- Search input with debouncing (fires 300ms after typing stops) -->
+<TextInput
+    @bind-Value="SearchQuery"
+    Behavior="InputBehavior.OnInput"
+    DebounceDelay="300"
+    Placeholder="Search..." />
+
+@code {
+    private string SearchQuery { get; set; } = "";
+
+    // Called 300ms after user stops typing
+    // Previous pending calls are cancelled automatically
+}
+```
+
+### InputBehavior Options
+
+| Value | Description |
+|-------|-------------|
+| `OnChange` (default) | Fire on blur or Enter key - standard form behavior |
+| `OnInput` | Fire on every keystroke (subject to DebounceDelay) |
+
+### Best Practices
+
+```razor
+<!-- Search with debouncing -->
+<TextInput
+    @bind-Value="SearchQuery"
+    Behavior="InputBehavior.OnInput"
+    DebounceDelay="300"
+    Placeholder="Search products..." />
+
+<!-- Instant validation (no debounce needed) -->
+<TextInput
+    @bind-Value="Email"
+    Behavior="InputBehavior.OnInput"
+    DebounceDelay="0"
+    Color="@GetValidationColor()" />
+
+<!-- Form field (default - fires on blur) -->
+<TextInput @bind-Value="Username" />
+```
+
+---
+
+## Lazy Service Injection
+
+Flowbite services are lazy-loaded for better performance. Inject them as needed:
+
+```csharp
+@inject ClipboardService Clipboard
+@inject IFloatingService Floating
+
+@code {
+    private async Task CopyToClipboard(string text)
+    {
+        // Module loads on first use
+        var success = await Clipboard.CopyToClipboardAsync(text);
+    }
+}
+```
+
+---
+
+## Event Handling
 
 Components use standard Blazor event handling:
 
@@ -2097,6 +2476,7 @@ Components use standard Blazor event handling:
 
 <!-- With parameters -->
 <Dropdown>
+    <Label>Actions</Label>
     <ChildContent>
         <DropdownItem OnClick="@(() => HandleItemClick(item.Id))">
             @item.Name
@@ -2105,7 +2485,9 @@ Components use standard Blazor event handling:
 </Dropdown>
 ```
 
-### Dark Mode
+---
+
+## Dark Mode
 
 Enable dark mode by adding the 'dark' class to any parent element:
 
@@ -2116,7 +2498,7 @@ Enable dark mode by adding the 'dark' class to any parent element:
     <Alert Color="AlertColor.Info">
         This alert uses dark mode styles
     </Alert>
-    
+
     <Card>
         <h5 class="text-gray-900 dark:text-white">
             Dark mode card
@@ -2128,11 +2510,83 @@ Enable dark mode by adding the 'dark' class to any parent element:
 </div>
 ```
 
+---
+
+## Floating UI Positioning
+
+Dropdown, Tooltip, and Popover components use Floating UI for smart positioning:
+
+```razor
+<!-- Dropdown auto-flips when near viewport edge -->
+<Dropdown Placement="DropdownPlacement.Bottom">
+    <Label>Menu</Label>
+    <ChildContent>
+        <DropdownItem>Option 1</DropdownItem>
+    </ChildContent>
+</Dropdown>
+
+<!-- Disable auto-positioning for fixed placement -->
+<Dropdown
+    Placement="DropdownPlacement.Top"
+    DisableFlip="true"
+    DisableShift="true">
+    ...
+</Dropdown>
+
+<!-- Tooltip with offset -->
+<Tooltip Content="Help text" Placement="TooltipPlacement.Right">
+    <Button>Hover me</Button>
+</Tooltip>
+```
+
+### Floating UI Features
+
+| Feature | Description |
+|---------|-------------|
+| Flip | Auto-flips placement when near viewport edge |
+| Shift | Shifts along axis to stay in viewport |
+| Offset | Configurable distance from trigger |
+| Auto-update | Recalculates position on scroll/resize |
+
+---
+
+## Keyboard Navigation
+
+Interactive components support full keyboard navigation:
+
+### Dropdown
+- `Enter`/`Space`: Open dropdown, select item
+- `ArrowDown`/`ArrowUp`: Navigate items
+- `Home`/`End`: Jump to first/last item
+- `Escape`: Close dropdown
+- `Tab`: Close and move focus
+- Type-ahead: Type to jump to matching item
+
+### Tooltip
+- `Escape`: Close tooltip
+
+### Modal
+- `Escape`: Close modal (when Dismissible="true")
+- Focus trap: Tab cycles within modal
+
+---
+
+## motion-reduce Support
+
+Components respect the user's reduced motion preference:
+
+```css
+/* Applied automatically via Tailwind */
+.motion-reduce:transition-none { }
+```
+
+Animations are disabled for users with `prefers-reduced-motion: reduce` in their OS settings.
+
 </doc>
 
 
 
-<doc title="Quick Start" description="Zero to Hero to get setup, configured, and running">
+<doc title="Quick Start" description="Zero to Hero guide for setup, configuration, and running Flowbite Blazor with Tailwind v4">
 
 # Scaffold a Flowbite Blazor WebAssembly Standalone App
 
@@ -2158,19 +2612,18 @@ PROJECT_DIR_ROOT
 
 This is an overview with more details in the below sections.
 
-1. Create a new project using dotnet new and add some packages
-2. Download the tailwindcss cli exe to the tools folder
-3. Tweak the csproj file for flowbite, tailwindcss, and use of preferred pre-rendering package
-4. Tweak the Program.cs
-5. Tweak the wwwroot/index.html
-6. Tweak the wwwroot/css/app.css
-7. Tweak the _Imports.razor
-8. Tweak the tailwind.config.js
-9. Determine what do with the Pages/Home.razor
-
-The sections below provide the exact details.
+1. Create a new project using dotnet new and add packages
+2. Download the Tailwind CSS v4 CLI to the tools folder
+3. Configure the csproj file for Flowbite and Tailwind CSS
+4. Configure Program.cs with Flowbite services
+5. Configure wwwroot/index.html with scripts and styles
+6. Configure wwwroot/css/app.css with Tailwind v4 directives
+7. Configure _Imports.razor with Flowbite namespaces
+8. Configure tailwind.config.js (minimal v4 config)
+9. Determine what to do with Pages/Home.razor
 
 ## 1. Create a new project
+
 ```sh
 # pwd is the {{PROJECT_DIR_ROOT}}
 dotnet new blazorwasm --empty -o {{PROJECT_NAME}}
@@ -2181,12 +2634,13 @@ cd ..
 # pwd is the {{PROJECT_DIR_ROOT}}
 ```
 
-## 2. Download the tailwindcss cli
-__For Window Platform:__
+## 2. Download the Tailwind CSS v4 CLI
+
+__For Windows Platform:__
 ```sh
 # pwd is the {{PROJECT_DIR_ROOT}}
-cd {{PROJECT_NAME}}; mkdir {{PROJECT_NAME}}/tools; cd tools
-Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing
+cd {{PROJECT_NAME}}; mkdir tools; cd tools
+Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing
 cd ../..
 # pwd is the {{PROJECT_DIR_ROOT}}
 ```
@@ -2194,44 +2648,41 @@ cd ../..
 __For MacOS:__
 ```sh
 # pwd is the {{PROJECT_DIR_ROOT}}
-cd {{PROJECT_NAME}} && mkdir {{PROJECT_NAME}}/tools && cd tools
-curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-macos-arm64
-chmod +x tailwindcss-macos-arm64 
+cd {{PROJECT_NAME}} && mkdir tools && cd tools
+curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64
+chmod +x tailwindcss-macos-arm64
 mv tailwindcss-macos-arm64 tailwindcss
 cd ../..
 # pwd is the {{PROJECT_DIR_ROOT}}
 ```
 
-## 3. Tweak the csproj file
+## 3. Configure the csproj file
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>{{leave as what the user has chosen}}</TargetFramework>
+    <TargetFramework>{{leave as what the user has chosen, net8.0 or net9.0}}</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
     <BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
-    <PostCSSConfig>postcss.config.js</PostCSSConfig>
-    <TailwindConfig>tailwind.config.js</TailwindConfig>
     <Version>0.0.1-alpha.1</Version>
   </PropertyGroup>
 
   <PropertyGroup>
-    <!-- Requird part of using the BlazorWasmPrerending.Build package. Peforms static site generation to be used on first render making lightning fast initial loads -->
+    <!-- Required for BlazorWasmPrerendering.Build package -->
     <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents>
   </PropertyGroup>
 
   <ItemGroup>
-
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0" PrivateAssets="all" />
-    <PackageReference Include="Flowbite" Version="0.0.*-*" />
-    <!-- Peforms static site generation to be used on first render making lightning fast initial loads -->
+    <PackageReference Include="Flowbite" Version="0.2.*-*" />
     <PackageReference Include="BlazorWasmPreRendering.Build" Version="5.0.0" />
   </ItemGroup>
 
+  <!-- Tailwind CSS v4 Build Target -->
   <Target Name="Tailwind" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
     <Exec Command=".\tools\tailwindcss.exe -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css" />
   </Target>
@@ -2248,7 +2699,6 @@ cd ../..
     <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
   </ItemGroup>
 
-
   <ItemGroup>
     <None Remove="wwwroot\css\app.css" />
     <None Remove="wwwroot\css\app.min.css" />
@@ -2258,7 +2708,7 @@ cd ../..
 </Project>
 ```
 
-## 4. Tweak the Program.cs
+## 4. Configure Program.cs
 
 ```csharp
 using Microsoft.AspNetCore.Components.Web;
@@ -2275,15 +2725,17 @@ ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress);
 
 await builder.Build().RunAsync();
 
-// Required for prerendering (BlazorWasmPreRendering.Build)
-// extract the service-registration process to the static local function.
+// Extract service-registration to static local function for prerendering
 static void ConfigureServices(IServiceCollection services, string baseAddress)
 {
-  services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
-  services.AddFlowbite();
-}
+    services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
 
-## 5. Tweak the wwwroot/index.html
+    // Register Flowbite services (TailwindMerge, FloatingService, etc.)
+    services.AddFlowbite();
+}
+```
+
+## 5. Configure wwwroot/index.html
 
 ```html
 <!DOCTYPE html>
@@ -2299,13 +2751,14 @@ static void ConfigureServices(IServiceCollection services, string baseAddress)
         <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
 
         <script>
-
-            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            // Dark mode initialization
+            if (localStorage.getItem('color-theme') === 'dark' ||
+                (!('color-theme' in localStorage) &&
+                 window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark');
             } else {
                 document.documentElement.classList.remove('dark')
             }
-
         </script>
 
     </head>
@@ -2325,29 +2778,59 @@ static void ConfigureServices(IServiceCollection services, string baseAddress)
             <a href="." class="reload">Reload</a>
             <span class="dismiss">🗙</span>
         </div>
+
+        <!-- Blazor WebAssembly -->
         <script src="_framework/blazor.webassembly.js"></script>
-        <script src="/js/app.js"></script>
+
+        <!-- Floating UI (required for Dropdown, Tooltip positioning) -->
+        <script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.6.9"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.13"></script>
+
+        <!-- Flowbite Blazor JS -->
         <script src="_content/Flowbite/flowbite.js"></script>
+
+        <!-- Optional: Your app-specific JS -->
+        <script src="/js/app.js"></script>
     </body>
 
 </html>
 ```
 
-### 6. Tweak the wwwroot/css/app.css
+## 6. Configure wwwroot/css/app.css (Tailwind v4)
+
+**IMPORTANT:** Tailwind v4 uses CSS-first configuration with `@import` and `@theme` directives.
 
 ```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind v4 CSS-first configuration */
+@import "tailwindcss";
 
+/* Configure content sources for class scanning */
+@source "../**/*.razor";
+@source "../**/*.html";
+@source "../**/*.cshtml";
 
-/* Microsoft Blazor  ------------------------------------------------------------------------------------------------------------------ */
+/* Primary color customization via @theme */
+@theme {
+    --color-primary-50: #eff6ff;
+    --color-primary-100: #dbeafe;
+    --color-primary-200: #bfdbfe;
+    --color-primary-300: #93c5fd;
+    --color-primary-400: #60a5fa;
+    --color-primary-500: #3b82f6;
+    --color-primary-600: #2563eb;
+    --color-primary-700: #1d4ed8;
+    --color-primary-800: #1e40af;
+    --color-primary-900: #1e3a8a;
+    --color-primary-950: #172554;
+}
+
+/* Microsoft Blazor validation styles */
 .validation-message {
     @apply text-red-600 dark:text-red-500;
 }
 
 .blazor-error-boundary {
-    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, #b32121;
+    background: url(data:image/svg+xml;base64,...) no-repeat 1rem/1.8rem, #b32121;
     padding: 1rem 1rem 1rem 3.7rem;
     color: white;
 }
@@ -2378,7 +2861,7 @@ static void ConfigureServices(IServiceCollection services, string baseAddress)
 }
 ```
 
-### 7. Tweak the _Imports.razor
+## 7. Configure _Imports.razor
 
 ```razor
 @using System.Net.Http
@@ -2390,85 +2873,58 @@ static void ConfigureServices(IServiceCollection services, string baseAddress)
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.AspNetCore.Components.WebAssembly.Http
 @using Microsoft.JSInterop
+
+@* Flowbite namespaces *@
 @using Flowbite.Base
 @using Flowbite.Components
 @using Flowbite.Components.Tabs
 @using Flowbite.Components.Table
 @using Flowbite.Icons
 @using Flowbite.Services
+@using Flowbite.Common
+
+@* Static imports for component enums *@
 @using static Flowbite.Components.Button
 @using static Flowbite.Components.Tooltip
 @using static Flowbite.Components.Avatar
 @using static Flowbite.Components.Sidebar
 @using static Flowbite.Components.SidebarCTA
 @using static Flowbite.Components.Dropdown
+
+@* Project namespaces *@
 @using PROJECT_NAME
 @using PROJECT_NAME.Layout
 
-# if the project creates it's own components uncomment this out
-# @using PROJECT_NAME.Components
+@* Uncomment if project has custom components *@
+@* @using PROJECT_NAME.Components *@
 ```
 
-### 8. Tweak the tailwind.config.js (v3)
+## 8. Configure tailwind.config.js (Tailwind v4)
 
-ULTRA IMPORTANT: Flowbite Blazor is compatible only with Tailwind v3
+**Note:** Tailwind v4 uses CSS-first configuration. The JS config is minimal:
 
 ```js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: [
-        "App.razor",
-        "./wwwroot/**/*.{razor,html,cshtml,cs}",
-        "./Layout/**/*.{razor,html,cshtml,cs}",
-        "./Pages/**/*.{razor,html,cshtml,cs}",
-        "./Components/**/*.{razor,html,cshtml,cs}"
-    ],
-    darkMode: 'class',
-    safelist: [
-        "md:bg-transparent",
-        "md:block",
-        "md:border-0",
-        "md:dark:hover:bg-transparent",
-        "md:dark:hover:text-white",
-        "md:flex-row",
-        "md:font-medium",
-        "md:hidden",
-        "md:hover:bg-transparent",
-        "md:hover:text-primary-700",
-        "md:mt-0",
-        "md:p-0",
-        "md:space-x-8",
-        "md:text-primary-700",
-        "md:text-sm",
-        "md:w-auto"
-    ],
-    theme: {
-        extend: {
-            colors: {
-                primary: { "50": "#eff6ff", "100": "#dbeafe", "200": "#bfdbfe", "300": "#93c5fd", "400": "#60a5fa", "500": "#3b82f6", "600": "#2563eb", "700": "#1d4ed8", "800": "#1e40af", "900": "#1e3a8a", "950": "#172554" }
-            },
-            maxHeight: {
-                'table-xl': '60rem',
-            }
-        },
-        fontFamily: {
-            'body': [
-                ... font names ...
-            ],
-            'sans': [
-                ... font names ...
-            ],
-            'mono': [
-                ... font names ...
-            ]
-        }
-    }
+    darkMode: 'class'
 }
 ```
 
-### 9. Determine where to place the `/` route
+Most configuration is now done in your CSS file using `@theme`, `@source`, and other directives.
 
-You MUST decide where to place the `/` route. The `dotnet new` generates a `Pages/Home.razor` file that contains the `/` route. You MUST decide whether to keep and replace the contents of this file or DELETE th Home.razor file and create a new file for the `/` route.
+## 9. Determine where to place the `/` route
+
+You MUST decide where to place the `/` route. The `dotnet new` generates a `Pages/Home.razor` file that contains the `/` route. You MUST decide whether to keep and replace the contents of this file or DELETE the Home.razor file and create a new file for the `/` route.
+
+## Key Differences from Tailwind v3
+
+| Aspect | Tailwind v3 | Tailwind v4 |
+|--------|-------------|-------------|
+| Config | `tailwind.config.js` (JavaScript) | CSS `@theme` directive |
+| Content | `content: [...]` in JS | `@source` directive in CSS |
+| Plugins | `require('flowbite/plugin')` | `@plugin "flowbite"` |
+| Colors | `theme.extend.colors` | CSS custom properties in `@theme` |
+| Import | `@tailwind base/components/utilities` | `@import "tailwindcss"` |
 
 </doc>
 

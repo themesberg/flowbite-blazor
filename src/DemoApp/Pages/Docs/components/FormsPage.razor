@@ -1,6 +1,7 @@
 @page "/docs/components/forms"
 @using Flowbite.Icons
 @using Flowbite.Components
+@using Flowbite.Common
 @using System.Collections.Generic
 
 <PageTitle>Forms - Flowbite Blazor</PageTitle>
@@ -54,7 +55,7 @@
             </PreviewContent>
         </ComponentExample>
 
-        <ComponentExample 
+        <ComponentExample
             Title="Input Sizing"
             Description="Use different sizes for your input fields based on your needs."
             RazorCode="@(@"<div class=""flex flex-col gap-4"">
@@ -67,6 +68,85 @@
                     <TextInput @bind-Value="smallInputDemo" Size="TextInputSize.Small" Placeholder="Small input" />
                     <TextInput @bind-Value="mediumInputDemo" Size="TextInputSize.Medium" Placeholder="Default input" />
                     <TextInput @bind-Value="largeInputDemo" Size="TextInputSize.Large" Placeholder="Large input" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample
+            Title="Debounced Input"
+            Description="Use debouncing to delay ValueChanged events until the user stops typing. Useful for search-as-you-type scenarios to reduce API calls."
+            RazorCode="@(@"<div class=""flex flex-col gap-4"">
+    <div>
+        <div class=""mb-2 block"">
+            <Label For=""search"" Value=""Search with 300ms debounce"" />
+        </div>
+        <TextInput TValue=""string""
+                   @bind-Value=""SearchQuery""
+                   Behavior=""InputBehavior.OnInput""
+                   DebounceDelay=""300""
+                   Placeholder=""Type to search...""
+                   Icon=""@@(new SearchIcon())"" />
+        <p class=""mt-2 text-sm text-gray-500 dark:text-gray-400"">
+            Search query: @SearchQuery
+        </p>
+        <p class=""text-xs text-gray-400 dark:text-gray-500"">
+            ValueChanged count: @_searchChangeCount
+        </p>
+    </div>
+    <div>
+        <div class=""mb-2 block"">
+            <Label For=""instant"" Value=""Instant input (no debounce)"" />
+        </div>
+        <TextInput TValue=""string""
+                   @bind-Value=""InstantQuery""
+                   Behavior=""InputBehavior.OnInput""
+                   Placeholder=""Type for instant updates..."" />
+        <p class=""mt-2 text-sm text-gray-500 dark:text-gray-400"">
+            Instant query: @InstantQuery
+        </p>
+        <p class=""text-xs text-gray-400 dark:text-gray-500"">
+            ValueChanged count: @_instantChangeCount
+        </p>
+    </div>
+</div>")">
+            <PreviewContent>
+                <div class="flex flex-col gap-6">
+                    <div>
+                        <div class="mb-2 block">
+                            <Label For="search" Value="Search with 300ms debounce" />
+                        </div>
+                        <TextInput TValue="string"
+                                   Value="@_searchQuery"
+                                   ValueChanged="OnSearchQueryChanged"
+                                   ValueExpression="@(() => _searchQuery)"
+                                   Behavior="InputBehavior.OnInput"
+                                   DebounceDelay="300"
+                                   Placeholder="Type to search..."
+                                   Icon="@(new SearchIcon())" />
+                        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                            Search query: @_searchQuery
+                        </p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500">
+                            ValueChanged count: @_searchChangeCount
+                        </p>
+                    </div>
+                    <div>
+                        <div class="mb-2 block">
+                            <Label For="instant" Value="Instant input (no debounce)" />
+                        </div>
+                        <TextInput TValue="string"
+                                   Value="@_instantQuery"
+                                   ValueChanged="OnInstantQueryChanged"
+                                   ValueExpression="@(() => _instantQuery)"
+                                   Behavior="InputBehavior.OnInput"
+                                   Placeholder="Type for instant updates..." />
+                        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                            Instant query: @_instantQuery
+                        </p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500">
+                            ValueChanged count: @_instantChangeCount
+                        </p>
+                    </div>
                 </div>
             </PreviewContent>
         </ComponentExample>
@@ -675,6 +755,25 @@
     private string disabledInput = "Disabled input";
 
     private string? _selectedCountry;
+
+    // Debounced input demo fields
+    private string? _searchQuery;
+    private string? _instantQuery;
+    private int _searchChangeCount;
+    private int _instantChangeCount;
+
+    private void OnSearchQueryChanged(string? value)
+    {
+        _searchQuery = value;
+        _searchChangeCount++;
+    }
+
+    private void OnInstantQueryChanged(string? value)
+    {
+        _instantQuery = value;
+        _instantChangeCount++;
+    }
+
     private string? _comboboxCountry;
     private string? selectSmallDemo;
     private string? selectMediumDemo;

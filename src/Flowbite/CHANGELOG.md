@@ -9,6 +9,13 @@
   - Components subscribe to `EditContext.OnValidationStateChanged` to update styling when validation state changes
   - `EffectiveColor` property automatically returns Failure when `HasValidationErrors` is true
   - TailwindMerge integration ensures proper CSS class conflict resolution (e.g., bg-gray-50 vs bg-red-50)
+- Add lazy-loaded JavaScript module services for improved initial load performance
+  - `IClipboardService` - lazy-loaded clipboard operations via `clipboard.js` ES module
+  - `IElementService` - lazy-loaded element utilities (scroll height, focus, etc.) via `element.module.js`
+  - `IFocusManagementService` - lazy-loaded focus trap and body scroll management via `focus-management.module.js`
+  - All services use `Lazy<Task<IJSObjectReference>>` pattern for on-demand module loading
+  - Register via `AddFlowbiteLazyServices()` or individually
+  - `CopyToClipboardButton` now uses `IClipboardService` for clipboard operations
 - Add `CollapseState` enum and animation state machine for SidebarCollapse component
   - Four states: Collapsed, Expanding, Expanded, Collapsing
   - Smooth height-based animations using CSS transitions
