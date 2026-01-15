@@ -1,6 +1,6 @@
 # Phase 5: Polish & Developer Experience
 
-**Status:** In Progress (Tasks 5.1, 5.2, 5.3 Complete)
+**Status:** In Progress (Tasks 5.1, 5.2, 5.3 Complete; Tasks 5.7, 5.8 Pending)
 **Prerequisites:** Phases 1-4 complete
 **Priority:** P2
 **Effort:** M (10-16 hours)
@@ -719,6 +719,69 @@ The `llms-ctx.md` file (generated from files in `src/DemoApp/wwwroot/llms-docs/`
 
 ---
 
+## 5.8 DemoApp Getting-Started Pages Update
+
+### Problem Statement
+
+The DemoApp getting-started pages (`IntroductionPage.razor` and `QuickstartPage.razor`) contain outdated information that doesn't reflect the current Flowbite Blazor setup:
+
+**IntroductionPage.razor issues:**
+- Shows Tailwind v3 `tailwind.config.js` configuration instead of v4 CSS-first approach
+- Missing new features (Slots, debouncing, Floating UI, animation state machine, lazy services)
+- Outdated feature descriptions
+
+**QuickstartPage.razor issues:**
+- Uses Tailwind v3.4.15 download URLs (should be v4.x)
+- Missing `AddFlowbite()` service registration in Program.cs example
+- Missing Floating UI script reference
+- Tailwind configuration shows v3 JavaScript syntax instead of v4 CSS
+
+### Tasks
+
+#### IntroductionPage.razor
+- [ ] Update Tailwind configuration example from v3 JS to v4 CSS-first
+- [ ] Update features list to include new Phase 1-5 features:
+  - [ ] TailwindMerge class conflict resolution
+  - [ ] Slot system for component customization
+  - [ ] Floating UI positioning
+  - [ ] Debounced input for TextInput
+  - [ ] Animation state machine for collapse
+  - [ ] Lazy-loaded JavaScript services
+- [ ] Update any version references to current v0.2.x-beta
+- [ ] Ensure code examples use current API
+
+#### QuickstartPage.razor
+- [ ] Update Tailwind CSS download URL to v4.x
+- [ ] Add `AddFlowbite()` service registration to Program.cs example
+- [ ] Add Floating UI CDN script reference
+- [ ] Update Tailwind configuration from v3 JS to v4 CSS-first approach:
+  - [ ] Show `@import "tailwindcss"` directive
+  - [ ] Show `@theme` block for primary color
+  - [ ] Show `@source` directive for content paths
+  - [ ] Show `@plugin` directive for flowbite
+- [ ] Update `tailwind.config.js` to minimal v4 version (just `darkMode: 'class'`)
+- [ ] Update any version references
+
+### Files to Modify
+
+| File | Changes |
+|------|---------|
+| `src/DemoApp/Pages/Docs/getting-started/IntroductionPage.razor` | Tailwind v4 config, new features list |
+| `src/DemoApp/Pages/Docs/getting-started/QuickstartPage.razor` | Tailwind v4 URLs, AddFlowbite(), Floating UI |
+
+### Acceptance Criteria
+
+- [ ] IntroductionPage shows Tailwind v4 CSS-first configuration
+- [ ] IntroductionPage lists all Phase 1-5 features
+- [ ] QuickstartPage uses Tailwind v4 download URLs
+- [ ] QuickstartPage includes `builder.Services.AddFlowbite()` in Program.cs example
+- [ ] QuickstartPage includes Floating UI script reference
+- [ ] QuickstartPage shows v4 CSS `@theme` configuration instead of v3 JS
+- [ ] Both pages render correctly in DemoApp
+- [ ] Code examples compile and match current API
+
+---
+
 ## Testing Checklist
 
 ### Debouncing
@@ -758,8 +821,9 @@ Phase 5 is complete when:
 5. [x] README updated with all new features
 6. [ ] All tests passing (unit and integration)
 7. [ ] AI documentation (llms-docs) updated with Phase 1-5 features
-8. [ ] Release checklist completed
-9. [ ] Sample application demonstrates all features
+8. [ ] DemoApp getting-started pages updated with Tailwind v4 and new features
+9. [ ] Release checklist completed
+10. [ ] Sample application demonstrates all features
 
 ---
 
