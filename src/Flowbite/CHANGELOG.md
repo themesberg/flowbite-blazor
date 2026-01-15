@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.2.2-beta
+
+### Added
+- Add `Flowbite.Tests` project with automated testing infrastructure (Phase 5.6)
+  - bUnit for Blazor component unit tests
+  - Playwright for end-to-end integration tests
+  - 45 unit tests covering Debouncer, ElementClass, TailwindMerge, CollapseState, TextInput, TextArea, Select
+  - 2 Playwright smoke tests as golden examples for future E2E tests
+  - `python build.py test` command for running unit tests
+  - `python build.py test-integration` command for running E2E tests
+  - `FlowbiteTestContext` base class for component tests with pre-configured services
+  - `PlaywrightFixture` for browser lifecycle management
+  - Comprehensive `CLAUDE.md` AI guidance for test development
+
+### Changed
+- Update `CONTRIBUTING.md` with Testing section and test requirements
+- Simplify development setup in `CONTRIBUTING.md` to use `build.py` commands
+
 ## 0.2.1-beta
 
 ### Added
