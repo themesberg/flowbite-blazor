@@ -38,11 +38,8 @@ jobs:
       - name: Create nuget-local directory
         run: mkdir -p nuget-local
 
-      - name: Restore dependencies
-        run: dotnet restore FlowbiteBlazor.sln
-
-      - name: Build solution
-        run: dotnet build FlowbiteBlazor.sln --configuration Release --no-restore -p:DisableTailwind=true
+      - name: Build
+        run: python build.py build
 
       - name: Run unit tests
         run: python build.py test
@@ -68,14 +65,11 @@ jobs:
       - name: Create nuget-local directory
         run: mkdir -p nuget-local
 
-      - name: Restore dependencies
-        run: dotnet restore FlowbiteBlazor.sln
-
-      - name: Build solution
-        run: dotnet build FlowbiteBlazor.sln --configuration Release --no-restore -p:DisableTailwind=true
+      - name: Build
+        run: python build.py build
 
       - name: Install Playwright browsers
-        run: pwsh tests/Flowbite.Integration.Tests/bin/Release/net8.0/playwright.ps1 install --with-deps chromium
+        run: pwsh tests/Flowbite.Integration.Tests/bin/Debug/net8.0/playwright.ps1 install --with-deps chromium
 
       - name: Run integration tests
         run: python build.py test-integration
