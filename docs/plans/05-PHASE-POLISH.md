@@ -1,6 +1,6 @@
 # Phase 5: Polish & Developer Experience
 
-**Status:** In Progress (Tasks 5.1, 5.2, 5.3 Complete; Tasks 5.4, 5.5 Pending)
+**Status:** In Progress (Tasks 5.1, 5.2, 5.3, 5.6 Complete; Tasks 5.4, 5.5 Pending)
 **Prerequisites:** Phases 1-4 complete
 **Priority:** P2
 **Effort:** M (10-16 hours)
@@ -507,106 +507,173 @@ The DemoApp getting-started pages (`IntroductionPage.razor` and `QuickstartPage.
 
 ## 5.6 Integration Tests
 
-### Test Examples
+### Overview
 
-#### TailwindMergeTests
+This task introduces automated testing to the Flowbite Blazor project, establishing the test infrastructure for both unit tests (bUnit) and E2E integration tests (Playwright).
 
-```csharp
-// TailwindMergeTests.cs
-public class TailwindMergeTests : TestContext
-{
-    public TailwindMergeTests()
-    {
-        Services.AddTailwindMerge();
-    }
+### Test Project Structure
 
-    [Fact]
-    public void MergeClasses_ResolvesConflicts()
-    {
-        var twMerge = Services.GetRequiredService<TwMerge>();
-
-        var result = twMerge.Merge("p-2 p-4 text-red-500 text-blue-500");
-
-        result.Should().Be("p-4 text-blue-500");
-    }
-
-    [Fact]
-    public void MergeClasses_PreservesNonConflicting()
-    {
-        var twMerge = Services.GetRequiredService<TwMerge>();
-
-        var result = twMerge.Merge("p-2 m-4 text-red-500");
-
-        result.Should().Contain("p-2");
-        result.Should().Contain("m-4");
-        result.Should().Contain("text-red-500");
-    }
-}
 ```
+src/Flowbite.Tests/
+├── Flowbite.Tests.csproj          # Test project (net9.0 only)
+├── CLAUDE.md                       # AI guidance for test development
+├── GlobalUsings.cs
+├── TestSetup/
+│   └── FlowbiteTestContext.cs     # Base test context with service setup
+├── Utilities/
+│   ├── DebouncerTests.cs          # Debouncer class tests
+│   └── ElementClassTests.cs       # ElementClass builder tests
+├── Services/
+│   └── TailwindMergeTests.cs      # TailwindMerge integration tests
+├── Components/
+│   ├── CollapseStateTests.cs      # Collapse animation state tests
+│   └── Forms/
+│       ├── TextInputTests.cs      # TextInput happy-path tests
+│       ├── TextAreaTests.cs       # TextArea happy-path tests
+│       └── SelectTests.cs         # Select happy-path tests
+└── Integration/
+    ├── PlaywrightFixture.cs       # Shared Playwright setup/teardown
+    └── DemoAppSmokeTests.cs       # Golden example E2E test
+```
+
+### Dependencies
+
+| Package | Purpose | Version |
+|---------|---------|---------|
+| `Microsoft.NET.Test.Sdk` | Test SDK runner | 17.11.1 |
+| `xunit` | Testing framework | 2.9.2 |
+| `xunit.runner.visualstudio` | VS Test Explorer | 2.8.2 |
+| `bunit` | Blazor component testing | 1.35.10 |
+| `FluentAssertions` | Readable assertions | 6.12.2 |
+| `coverlet.collector` | Code coverage | 6.0.2 |
+| `Microsoft.Playwright` | E2E browser testing | 1.49.0 |
+
+### Tasks
+
+- [x] Create `src/Flowbite.Tests/Flowbite.Tests.csproj` targeting net9.0
+- [x] Add test project to `FlowbiteBlazor.sln`
+- [x] Create `CLAUDE.md` with AI guidance for future test development
+- [x] Create `GlobalUsings.cs` with common imports
+- [x] Create `FlowbiteTestContext.cs` base class with Flowbite services pre-configured
+- [x] Create `PlaywrightFixture.cs` for E2E test infrastructure
+
+#### Unit Tests - Utilities
+- [x] Implement `DebouncerTests.cs` (4 test cases)
+- [x] Implement `ElementClassTests.cs` (8 test cases - expanded)
+
+#### Unit Tests - Services
+- [x] Implement `TailwindMergeTests.cs` (4 test cases - expanded)
+
+#### Unit Tests - Components
+- [x] Implement `CollapseStateTests.cs` (3 test cases - expanded)
+
+#### Unit Tests - Form Components (Happy Path)
+- [x] Implement `TextInputTests.cs` (9 test cases - expanded)
+- [x] Implement `TextAreaTests.cs` (8 test cases - expanded)
+- [x] Implement `SelectTests.cs` (6 test cases - expanded)
+
+#### Integration Tests - Playwright
+- [x] Implement `DemoAppSmokeTests.cs` - Golden example E2E test (2 tests)
+
+#### Build Integration
+- [x] Add `python build.py test` command for unit tests
+- [x] Add `python build.py test-integration` command for E2E tests
+
+### Test Case Details
 
 #### DebouncerTests
+| Test | Description |
+|------|-------------|
+| `Debounce_FiresOnceAfterDelay` | Rapid calls → only 1 callback after delay |
+| `Debounce_CancelsOnDispose` | Dispose mid-delay → no callback fires |
+| `Debounce_CancelsPreviousCallOnRapidCalls` | New call cancels pending call |
+| `Debounce_DoesNotFireWhenDisposedBeforeDelay` | Early dispose prevents execution |
 
-```csharp
-// DebouncerTests.cs
-public class DebouncerTests
-{
-    [Fact]
-    public async Task Debounce_FiresOnceAfterDelay()
-    {
-        var callCount = 0;
-        var debouncer = new Debouncer();
+#### ElementClassTests
+| Test | Description |
+|------|-------------|
+| `Empty_ReturnsEmptyString` | Fresh instance → empty string |
+| `Add_SingleClass_ReturnsClass` | Single add works |
+| `Add_MultipleClasses_CombinesClasses` | Chained adds combine |
+| `Add_ConditionalTrue_IncludesClass` | `when: true` includes class |
+| `Add_ConditionalFalse_ExcludesClass` | `when: false` excludes class |
+| `ImplicitConversion_WorksCorrectly` | Assigns to string variable |
 
-        // Rapid calls
-        await debouncer.DebounceAsync(_ => { callCount++; return Task.CompletedTask; }, "a", 50);
-        await debouncer.DebounceAsync(_ => { callCount++; return Task.CompletedTask; }, "b", 50);
-        await debouncer.DebounceAsync(_ => { callCount++; return Task.CompletedTask; }, "c", 50);
-
-        await Task.Delay(100);
-
-        callCount.Should().Be(1);
-    }
-}
-```
+#### TailwindMergeTests
+| Test | Description |
+|------|-------------|
+| `MergeClasses_ResolvesConflicts` | `p-2 p-4` → `p-4` |
+| `MergeClasses_PreservesNonConflicting` | `p-2 m-4` → both preserved |
+| `MergeClasses_HandlesNullAndEmpty` | Graceful handling of edge cases |
 
 #### CollapseStateTests
+| Test | Description |
+|------|-------------|
+| `CollapseState_HasAllRequiredValues` | Enum has Collapsed, Expanding, Expanded, Collapsing |
 
-```csharp
-// CollapseStateTests.cs
-public class CollapseStateTests : TestContext
-{
-    [Fact]
-    public void Collapse_TransitionsToExpanding_WhenExpandedTrue()
-    {
-        var cut = RenderComponent<Collapse>(p => p
-            .Add(c => c.Expanded, false));
+#### TextInputTests (Happy Path)
+| Test | Description |
+|------|-------------|
+| `TextInput_RendersWithDefaultAttributes` | Basic rendering works |
+| `TextInput_BindsValueCorrectly` | Two-way binding works |
+| `TextInput_AppliesCustomClass` | Class parameter merges |
+| `TextInput_SupportsPlaceholder` | Placeholder renders |
+| `TextInput_SupportsDisabledState` | Disabled attribute renders |
 
-        cut.SetParametersAndRender(p => p.Add(c => c.Expanded, true));
+#### TextAreaTests (Happy Path)
+| Test | Description |
+|------|-------------|
+| `TextArea_RendersWithDefaultAttributes` | Basic rendering works |
+| `TextArea_BindsValueCorrectly` | Two-way binding works |
+| `TextArea_AppliesCustomClass` | Class parameter merges |
+| `TextArea_SupportsRows` | Rows attribute works |
 
-        cut.Instance.State.Should().Be(CollapseState.Expanding);
-    }
+#### SelectTests (Happy Path)
+| Test | Description |
+|------|-------------|
+| `Select_RendersWithOptions` | Options render correctly |
+| `Select_BindsSelectedValue` | Selection binding works |
+| `Select_AppliesCustomClass` | Class parameter merges |
 
-    [Fact]
-    public void Collapse_TransitionsToCollapsing_WhenExpandedFalse()
-    {
-        var cut = RenderComponent<Collapse>(p => p
-            .Add(c => c.Expanded, true));
+#### DemoAppSmokeTests (Golden Example)
+| Test | Description |
+|------|-------------|
+| `HomePage_LoadsSuccessfully` | Navigate to `/`, verify title and key elements |
 
-        cut.SetParametersAndRender(p => p.Add(c => c.Expanded, false));
+This test serves as the **template** for future Playwright tests, demonstrating:
+- Fixture-based DemoApp lifecycle management
+- Page navigation pattern
+- Element assertion pattern
+- Screenshot capture for debugging
 
-        cut.Instance.State.Should().Be(CollapseState.Collapsing);
-    }
-}
-```
+### Acceptance Criteria
 
-### Test Scenarios
+- [x] Test project compiles without warnings
+- [x] Test project added to FlowbiteBlazor.sln
+- [x] `python build.py test` runs unit tests successfully
+- [x] All DebouncerTests pass (4 tests)
+- [x] All ElementClassTests pass (8 tests)
+- [x] All TailwindMergeTests pass (4 tests)
+- [x] CollapseStateTests pass (3 tests)
+- [x] All TextInputTests pass (9 tests)
+- [x] All TextAreaTests pass (8 tests)
+- [x] All SelectTests pass (6 tests)
+- [x] DemoAppSmokeTests passes when DemoApp is running (2 tests)
+- [x] `CLAUDE.md` provides comprehensive guidance for future test development
+- [x] `python build.py test-integration` command works correctly
 
-| Scenario | Test | Expected Result |
-|----------|------|-----------------|
-| Class conflict | `p-2 p-4` merge | `p-4` only |
-| Debounce rapid | 3 calls in 50ms | 1 callback |
-| Debounce dispose | Dispose mid-delay | No callback |
-| Collapse expand | Set Expanded=true | State = Expanding |
-| motion-reduce | prefers-reduced-motion | No animation |
+### Test Scenarios Summary
+
+| Category | Scenario | Test | Expected Result |
+|----------|----------|------|-----------------|
+| Utilities | Class conflict | `p-2 p-4` merge | `p-4` only |
+| Utilities | Debounce rapid | 3 calls in 50ms | 1 callback |
+| Utilities | Debounce dispose | Dispose mid-delay | No callback |
+| Utilities | ElementClass conditional | `Add("x", false)` | Class excluded |
+| Forms | TextInput binding | Set value | Value reflected in input |
+| Forms | TextArea rows | `Rows="5"` | textarea has rows="5" |
+| Forms | Select binding | Select option | Value bound correctly |
+| E2E | DemoApp smoke | Navigate to `/` | Page loads, title correct |
 
 ---
 
@@ -835,7 +902,7 @@ Phase 5 is complete when:
 5. [x] README updated with all new features
 6. [ ] AI documentation (llms-docs) updated with Phase 1-5 features
 7. [ ] DemoApp getting-started pages updated with Tailwind v4 and new features
-8. [ ] All tests passing (unit and integration)
+8. [x] All tests passing (unit and integration) - 45 unit tests, 2 integration tests
 9. [ ] Migration guide reviewed and finalized
 10. [ ] Release checklist completed
 11. [ ] Sample application demonstrates all features
