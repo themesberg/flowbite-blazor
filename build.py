@@ -280,7 +280,8 @@ def run_tailwind_css() -> None:
     - CSS file contains @import, @source, @plugin, @theme directives
     """
     os_info = get_os_info()
-    tailwind_path = TOOLS_DIR / os_info["exec_name"]
+    # Use absolute path so it works when subprocess uses different cwd
+    tailwind_path = (TOOLS_DIR / os_info["exec_name"]).resolve()
 
     if not tailwind_path.exists():
         print(f"Warning: Tailwind CSS not found at {tailwind_path}")
