@@ -95,7 +95,7 @@ public partial class Span
         var classes = ElementClass.Empty()
             .Add(colorClasses, when: !string.IsNullOrEmpty(colorClasses))
             .Add(GetTextSizeClass(Size))
-            .Add(GetFontWeightClass(Weight.Value), when: Weight.HasValue)
+            .Add(GetFontWeightClass(Weight ?? FontWeight.Normal), when: Weight.HasValue)
             .Add("italic", when: Italic)
             .Add("underline", when: Underline)
             .Add("line-through", when: LineThrough)

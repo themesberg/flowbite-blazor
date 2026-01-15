@@ -1,4 +1,4 @@
-<doc title="Quick Start" description="Zero to Hero to get setup, configured, and running">
+<doc title="Quick Start" description="Zero to Hero guide for setup, configuration, and running Flowbite Blazor with Tailwind v4">
 
 # Scaffold a Flowbite Blazor WebAssembly Standalone App
 
@@ -24,19 +24,18 @@ PROJECT_DIR_ROOT
 
 This is an overview with more details in the below sections.
 
-1. Create a new project using dotnet new and add some packages
-2. Download the tailwindcss cli exe to the tools folder
-3. Tweak the csproj file for flowbite, tailwindcss, and use of preferred pre-rendering package
-4. Tweak the Program.cs
-5. Tweak the wwwroot/index.html
-6. Tweak the wwwroot/css/app.css
-7. Tweak the _Imports.razor
-8. Tweak the tailwind.config.js
-9. Determine what do with the Pages/Home.razor
-
-The sections below provide the exact details.
+1. Create a new project using dotnet new and add packages
+2. Download the Tailwind CSS v4 CLI to the tools folder
+3. Configure the csproj file for Flowbite and Tailwind CSS
+4. Configure Program.cs with Flowbite services
+5. Configure wwwroot/index.html with scripts and styles
+6. Configure wwwroot/css/app.css with Tailwind v4 directives
+7. Configure _Imports.razor with Flowbite namespaces
+8. Configure tailwind.config.js (minimal v4 config)
+9. Determine what to do with Pages/Home.razor
 
 ## 1. Create a new project
+
 ```sh
 # pwd is the {{PROJECT_DIR_ROOT}}
 dotnet new blazorwasm --empty -o {{PROJECT_NAME}}
@@ -47,12 +46,13 @@ cd ..
 # pwd is the {{PROJECT_DIR_ROOT}}
 ```
 
-## 2. Download the tailwindcss cli
-__For Window Platform:__
+## 2. Download the Tailwind CSS v4 CLI
+
+__For Windows Platform:__
 ```sh
 # pwd is the {{PROJECT_DIR_ROOT}}
-cd {{PROJECT_NAME}}; mkdir {{PROJECT_NAME}}/tools; cd tools
-Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing
+cd {{PROJECT_NAME}}; mkdir tools; cd tools
+Invoke-WebRequest -Uri https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe -OutFile tailwindcss.exe -UseBasicParsing
 cd ../..
 # pwd is the {{PROJECT_DIR_ROOT}}
 ```
@@ -60,44 +60,41 @@ cd ../..
 __For MacOS:__
 ```sh
 # pwd is the {{PROJECT_DIR_ROOT}}
-cd {{PROJECT_NAME}} && mkdir {{PROJECT_NAME}}/tools && cd tools
-curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-macos-arm64
-chmod +x tailwindcss-macos-arm64 
+cd {{PROJECT_NAME}} && mkdir tools && cd tools
+curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64
+chmod +x tailwindcss-macos-arm64
 mv tailwindcss-macos-arm64 tailwindcss
 cd ../..
 # pwd is the {{PROJECT_DIR_ROOT}}
 ```
 
-## 3. Tweak the csproj file
+## 3. Configure the csproj file
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>{{leave as what the user has chosen}}</TargetFramework>
+    <TargetFramework>{{leave as what the user has chosen, net8.0 or net9.0}}</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
     <BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
-    <PostCSSConfig>postcss.config.js</PostCSSConfig>
-    <TailwindConfig>tailwind.config.js</TailwindConfig>
     <Version>0.0.1-alpha.1</Version>
   </PropertyGroup>
 
   <PropertyGroup>
-    <!-- Requird part of using the BlazorWasmPrerending.Build package. Peforms static site generation to be used on first render making lightning fast initial loads -->
+    <!-- Required for BlazorWasmPrerendering.Build package -->
     <BlazorWasmPrerenderingDeleteLoadingContents>true</BlazorWasmPrerenderingDeleteLoadingContents>
   </PropertyGroup>
 
   <ItemGroup>
-
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0" PrivateAssets="all" />
-    <PackageReference Include="Flowbite" Version="0.0.*-*" />
-    <!-- Peforms static site generation to be used on first render making lightning fast initial loads -->
+    <PackageReference Include="Flowbite" Version="0.2.*-*" />
     <PackageReference Include="BlazorWasmPreRendering.Build" Version="5.0.0" />
   </ItemGroup>
 
+  <!-- Tailwind CSS v4 Build Target -->
   <Target Name="Tailwind" BeforeTargets="Build" Condition="'$(OS)' == 'Windows_NT'">
     <Exec Command=".\tools\tailwindcss.exe -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css" />
   </Target>
@@ -114,7 +111,6 @@ cd ../..
     <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
   </ItemGroup>
 
-
   <ItemGroup>
     <None Remove="wwwroot\css\app.css" />
     <None Remove="wwwroot\css\app.min.css" />
@@ -124,7 +120,7 @@ cd ../..
 </Project>
 ```
 
-## 4. Tweak the Program.cs
+## 4. Configure Program.cs
 
 ```csharp
 using Microsoft.AspNetCore.Components.Web;
@@ -141,15 +137,17 @@ ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress);
 
 await builder.Build().RunAsync();
 
-// Required for prerendering (BlazorWasmPreRendering.Build)
-// extract the service-registration process to the static local function.
+// Extract service-registration to static local function for prerendering
 static void ConfigureServices(IServiceCollection services, string baseAddress)
 {
-  services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
-  services.AddFlowbite();
-}
+    services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
 
-## 5. Tweak the wwwroot/index.html
+    // Register Flowbite services (TailwindMerge, FloatingService, etc.)
+    services.AddFlowbite();
+}
+```
+
+## 5. Configure wwwroot/index.html
 
 ```html
 <!DOCTYPE html>
@@ -165,13 +163,14 @@ static void ConfigureServices(IServiceCollection services, string baseAddress)
         <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
 
         <script>
-
-            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            // Dark mode initialization
+            if (localStorage.getItem('color-theme') === 'dark' ||
+                (!('color-theme' in localStorage) &&
+                 window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark');
             } else {
                 document.documentElement.classList.remove('dark')
             }
-
         </script>
 
     </head>
@@ -191,23 +190,53 @@ static void ConfigureServices(IServiceCollection services, string baseAddress)
             <a href="." class="reload">Reload</a>
             <span class="dismiss">🗙</span>
         </div>
+
+        <!-- Blazor WebAssembly -->
         <script src="_framework/blazor.webassembly.js"></script>
-        <script src="/js/app.js"></script>
+
+        <!-- Floating UI (required for Dropdown, Tooltip positioning) -->
+        <script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.6.9"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.13"></script>
+
+        <!-- Flowbite Blazor JS -->
         <script src="_content/Flowbite/flowbite.js"></script>
+
+        <!-- Optional: Your app-specific JS -->
+        <script src="/js/app.js"></script>
     </body>
 
 </html>
 ```
 
-### 6. Tweak the wwwroot/css/app.css
+## 6. Configure wwwroot/css/app.css (Tailwind v4)
+
+**IMPORTANT:** Tailwind v4 uses CSS-first configuration with `@import` and `@theme` directives.
 
 ```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind v4 CSS-first configuration */
+@import "tailwindcss";
 
+/* Configure content sources for class scanning */
+@source "../**/*.razor";
+@source "../**/*.html";
+@source "../**/*.cshtml";
 
-/* Microsoft Blazor  ------------------------------------------------------------------------------------------------------------------ */
+/* Primary color customization via @theme */
+@theme {
+    --color-primary-50: #eff6ff;
+    --color-primary-100: #dbeafe;
+    --color-primary-200: #bfdbfe;
+    --color-primary-300: #93c5fd;
+    --color-primary-400: #60a5fa;
+    --color-primary-500: #3b82f6;
+    --color-primary-600: #2563eb;
+    --color-primary-700: #1d4ed8;
+    --color-primary-800: #1e40af;
+    --color-primary-900: #1e3a8a;
+    --color-primary-950: #172554;
+}
+
+/* Microsoft Blazor validation styles */
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
 }
@@ -221,7 +250,7 @@ static void ConfigureServices(IServiceCollection services, string baseAddress)
 }
 
 .blazor-error-boundary {
-    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, #b32121;
+    background: url(data:image/svg+xml;base64,...) no-repeat 1rem/1.8rem, #b32121;
     padding: 1rem 1rem 1rem 3.7rem;
     color: white;
 }
@@ -252,7 +281,7 @@ static void ConfigureServices(IServiceCollection services, string baseAddress)
 }
 ```
 
-### 7. Tweak the _Imports.razor
+## 7. Configure _Imports.razor
 
 ```razor
 @using System.Net.Http
@@ -264,84 +293,57 @@ static void ConfigureServices(IServiceCollection services, string baseAddress)
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.AspNetCore.Components.WebAssembly.Http
 @using Microsoft.JSInterop
+
+@* Flowbite namespaces *@
 @using Flowbite.Base
 @using Flowbite.Components
 @using Flowbite.Components.Tabs
 @using Flowbite.Components.Table
 @using Flowbite.Icons
 @using Flowbite.Services
+@using Flowbite.Common
+
+@* Static imports for component enums *@
 @using static Flowbite.Components.Button
 @using static Flowbite.Components.Tooltip
 @using static Flowbite.Components.Avatar
 @using static Flowbite.Components.Sidebar
 @using static Flowbite.Components.SidebarCTA
 @using static Flowbite.Components.Dropdown
+
+@* Project namespaces *@
 @using PROJECT_NAME
 @using PROJECT_NAME.Layout
 
-# if the project creates it's own components uncomment this out
-# @using PROJECT_NAME.Components
+@* Uncomment if project has custom components *@
+@* @using PROJECT_NAME.Components *@
 ```
 
-### 8. Tweak the tailwind.config.js (v3)
+## 8. Configure tailwind.config.js (Tailwind v4)
 
-ULTRA IMPORTANT: Flowbite Blazor is compatible only with Tailwind v3
+**Note:** Tailwind v4 uses CSS-first configuration. The JS config is minimal:
 
 ```js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: [
-        "App.razor",
-        "./wwwroot/**/*.{razor,html,cshtml,cs}",
-        "./Layout/**/*.{razor,html,cshtml,cs}",
-        "./Pages/**/*.{razor,html,cshtml,cs}",
-        "./Components/**/*.{razor,html,cshtml,cs}"
-    ],
-    darkMode: 'class',
-    safelist: [
-        "md:bg-transparent",
-        "md:block",
-        "md:border-0",
-        "md:dark:hover:bg-transparent",
-        "md:dark:hover:text-white",
-        "md:flex-row",
-        "md:font-medium",
-        "md:hidden",
-        "md:hover:bg-transparent",
-        "md:hover:text-primary-700",
-        "md:mt-0",
-        "md:p-0",
-        "md:space-x-8",
-        "md:text-primary-700",
-        "md:text-sm",
-        "md:w-auto"
-    ],
-    theme: {
-        extend: {
-            colors: {
-                primary: { "50": "#eff6ff", "100": "#dbeafe", "200": "#bfdbfe", "300": "#93c5fd", "400": "#60a5fa", "500": "#3b82f6", "600": "#2563eb", "700": "#1d4ed8", "800": "#1e40af", "900": "#1e3a8a", "950": "#172554" }
-            },
-            maxHeight: {
-                'table-xl': '60rem',
-            }
-        },
-        fontFamily: {
-            'body': [
-                ... font names ...
-            ],
-            'sans': [
-                ... font names ...
-            ],
-            'mono': [
-                ... font names ...
-            ]
-        }
-    }
+    darkMode: 'class'
 }
 ```
 
-### 9. Determine where to place the `/` route
+Most configuration is now done in your CSS file using `@theme`, `@source`, and other directives.
 
-You MUST decide where to place the `/` route. The `dotnet new` generates a `Pages/Home.razor` file that contains the `/` route. You MUST decide whether to keep and replace the contents of this file or DELETE th Home.razor file and create a new file for the `/` route.
+## 9. Determine where to place the `/` route
+
+You MUST decide where to place the `/` route. The `dotnet new` generates a `Pages/Home.razor` file that contains the `/` route. You MUST decide whether to keep and replace the contents of this file or DELETE the Home.razor file and create a new file for the `/` route.
+
+## Key Differences from Tailwind v3
+
+| Aspect | Tailwind v3 | Tailwind v4 |
+|--------|-------------|-------------|
+| Config | `tailwind.config.js` (JavaScript) | CSS `@theme` directive |
+| Content | `content: [...]` in JS | `@source` directive in CSS |
+| Plugins | `require('flowbite/plugin')` | `@plugin "flowbite"` |
+| Colors | `theme.extend.colors` | CSS custom properties in `@theme` |
+| Import | `@tailwind base/components/utilities` | `@import "tailwindcss"` |
 
 </doc>
