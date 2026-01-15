@@ -41,6 +41,14 @@ jobs:
       - name: Install Python dependencies
         run: pip install psutil
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install npm dependencies
+        run: npm ci
+
       - name: Build
         run: python build.py build
 
@@ -70,6 +78,14 @@ jobs:
 
       - name: Install Python dependencies
         run: pip install psutil
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install npm dependencies
+        run: npm ci
 
       - name: Build
         run: python build.py build
