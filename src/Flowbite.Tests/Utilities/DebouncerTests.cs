@@ -18,15 +18,16 @@ public class DebouncerTests
         var debouncer = new Debouncer();
 
         // Act - Make rapid calls
-        // Using longer delays for CI reliability
-        _ = debouncer.DebounceAsync(() => { callCount++; return Task.CompletedTask; }, 100);
-        await Task.Delay(20);
-        _ = debouncer.DebounceAsync(() => { callCount++; return Task.CompletedTask; }, 100);
-        await Task.Delay(20);
-        _ = debouncer.DebounceAsync(() => { callCount++; return Task.CompletedTask; }, 100);
+        // Use longer debounce delay (500ms) and short intervals (5ms) to ensure
+        // each call arrives well before the timer expires, even on slow CI runners
+        _ = debouncer.DebounceAsync(() => { callCount++; return Task.CompletedTask; }, 500);
+        await Task.Delay(5);
+        _ = debouncer.DebounceAsync(() => { callCount++; return Task.CompletedTask; }, 500);
+        await Task.Delay(5);
+        _ = debouncer.DebounceAsync(() => { callCount++; return Task.CompletedTask; }, 500);
 
         // Wait for debounce to complete (extra margin for CI)
-        await Task.Delay(200);
+        await Task.Delay(700);
 
         // Assert
         callCount.Should().Be(1, because: "only the last debounced call should execute");
@@ -67,15 +68,16 @@ public class DebouncerTests
         var debouncer = new Debouncer();
 
         // Act - Make rapid calls with different values
-        // Using longer delays for CI reliability
-        _ = debouncer.DebounceAsync(() => { executedValues.Add("first"); return Task.CompletedTask; }, 100);
-        await Task.Delay(30);
-        _ = debouncer.DebounceAsync(() => { executedValues.Add("second"); return Task.CompletedTask; }, 100);
-        await Task.Delay(30);
-        _ = debouncer.DebounceAsync(() => { executedValues.Add("third"); return Task.CompletedTask; }, 100);
+        // Use longer debounce delay (500ms) and short intervals (5ms) to ensure
+        // each call arrives well before the timer expires, even on slow CI runners
+        _ = debouncer.DebounceAsync(() => { executedValues.Add("first"); return Task.CompletedTask; }, 500);
+        await Task.Delay(5);
+        _ = debouncer.DebounceAsync(() => { executedValues.Add("second"); return Task.CompletedTask; }, 500);
+        await Task.Delay(5);
+        _ = debouncer.DebounceAsync(() => { executedValues.Add("third"); return Task.CompletedTask; }, 500);
 
         // Wait for debounce to complete (extra margin for CI)
-        await Task.Delay(200);
+        await Task.Delay(700);
 
         // Assert
         executedValues.Should().HaveCount(1);
