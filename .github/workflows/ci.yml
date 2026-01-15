@@ -63,10 +63,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup .NET 8.0
+      - name: Setup .NET 9.0
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '9.0.x'
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -91,7 +91,7 @@ jobs:
         run: python build.py build
 
       - name: Install Playwright browsers
-        run: pwsh tests/Flowbite.Integration.Tests/bin/Debug/net8.0/playwright.ps1 install --with-deps chromium
+        run: pwsh src/Flowbite.Tests/bin/Debug/net9.0/playwright.ps1 install --with-deps chromium
 
       - name: Run integration tests
         run: python build.py test-integration
