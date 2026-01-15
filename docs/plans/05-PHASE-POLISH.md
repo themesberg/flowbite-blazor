@@ -660,6 +660,65 @@ A: Standard Tailwind classes work the same. Only conflicting classes (like `p-2 
 
 ---
 
+## 5.7 AI Documentation Updates (llms-docs)
+
+### Problem Statement
+
+The `llms-ctx.md` file (generated from files in `src/DemoApp/wwwroot/llms-docs/`) provides AI assistants with context about Flowbite Blazor. This context is outdated and doesn't reflect the new features from Phases 1-5:
+
+- TailwindMerge integration and `MergeClasses()` pattern
+- Slot system for component customization
+- Floating UI positioning for Dropdown/Tooltip/Combobox
+- Debounced input for TextInput
+- Animation state machine for collapse components
+- Lazy-loaded JavaScript services
+- Tailwind v4 configuration
+
+### Tasks
+
+- [ ] Update `project.md` with current version and new features overview
+- [ ] Update `04-quickstart.md` with Tailwind v4 setup and service registration
+- [ ] Update `03-patterns.md` with new patterns:
+  - [ ] TailwindMerge and `MergeClasses()` pattern
+  - [ ] Slot system usage pattern
+  - [ ] Debounced input pattern
+  - [ ] Lazy service injection pattern
+- [ ] Update component sections with new parameters:
+  - [ ] `01-07-dropdown.md` - Slots, Floating UI behavior, keyboard navigation
+  - [ ] `01-12-tooltip.md` - Floating UI, keyboard navigation, Theme parameter
+  - [ ] `01-14-forms.md` - TextInput debouncing (Behavior, DebounceDelay)
+  - [ ] `01-09-sidebar.md` - SidebarCollapse animation states
+  - [ ] `01-06-card.md` - CardSlots
+  - [ ] `01-16-modal.md` - ModalSlots
+- [ ] Update `01-05-button.md` with Variant parameter (renamed from Style)
+- [ ] Verify `llms-ctx.md` regenerates correctly on build
+
+### Files to Modify
+
+| File | Changes |
+|------|---------|
+| `llms-docs/project.md` | Version, features list, Tailwind v4 requirement |
+| `llms-docs/sections/03-patterns.md` | TailwindMerge, Slots, debouncing patterns |
+| `llms-docs/sections/04-quickstart.md` | Tailwind v4 setup, AddFlowbite() services |
+| `llms-docs/sections/01-05-button.md` | Variant parameter (was Style) |
+| `llms-docs/sections/01-06-card.md` | CardSlots parameter |
+| `llms-docs/sections/01-07-dropdown.md` | DropdownSlots, Floating UI, keyboard nav |
+| `llms-docs/sections/01-09-sidebar.md` | CollapseState, animation behavior |
+| `llms-docs/sections/01-12-tooltip.md` | Theme parameter, Floating UI |
+| `llms-docs/sections/01-14-forms.md` | TextInput Behavior, DebounceDelay |
+| `llms-docs/sections/01-16-modal.md` | ModalSlots parameter |
+
+### Acceptance Criteria
+
+- [ ] All new Phase 1-5 features documented in llms-docs
+- [ ] Code examples use current API (not deprecated Style parameter)
+- [ ] Tailwind v4 configuration clearly explained
+- [ ] Service registration includes all new services
+- [ ] `llms-ctx.md` regenerates without errors
+- [ ] AI assistants can use new features from context alone
+
+---
+
 ## Testing Checklist
 
 ### Debouncing
@@ -692,14 +751,15 @@ A: Standard Tailwind classes work the same. Only conflicting classes (like `p-2 
 
 Phase 5 is complete when:
 
-1. [ ] Debounced input working with cancellation
-2. [ ] JS modules lazy-loaded
-3. [ ] All services implement `IAsyncDisposable`
-4. [ ] MIGRATION.md complete and accurate
-5. [ ] README updated with all new features
+1. [x] Debounced input working with cancellation
+2. [x] JS modules lazy-loaded
+3. [x] All services implement `IAsyncDisposable`
+4. [x] MIGRATION.md complete and accurate
+5. [x] README updated with all new features
 6. [ ] All tests passing (unit and integration)
-7. [ ] Release checklist completed
-8. [ ] Sample application demonstrates all features
+7. [ ] AI documentation (llms-docs) updated with Phase 1-5 features
+8. [ ] Release checklist completed
+9. [ ] Sample application demonstrates all features
 
 ---
 
