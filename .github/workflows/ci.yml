@@ -35,6 +35,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Create nuget-local directory
+        run: mkdir -p nuget-local
+
       - name: Restore dependencies
         run: dotnet restore FlowbiteBlazor.sln
 
@@ -61,6 +64,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Create nuget-local directory
+        run: mkdir -p nuget-local
 
       - name: Restore dependencies
         run: dotnet restore FlowbiteBlazor.sln
