@@ -38,6 +38,9 @@ jobs:
       - name: Create nuget-local directory
         run: mkdir -p nuget-local
 
+      - name: Install Python dependencies
+        run: pip install psutil
+
       - name: Build
         run: python build.py build
 
@@ -64,6 +67,9 @@ jobs:
 
       - name: Create nuget-local directory
         run: mkdir -p nuget-local
+
+      - name: Install Python dependencies
+        run: pip install psutil
 
       - name: Build
         run: python build.py build
