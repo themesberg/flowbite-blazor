@@ -2,9 +2,9 @@
 #### Button Examples
 
 The available Button colors are:
-- None specified is the same as ButtonColor.Default
+- ButtonColor.Default (blue)
+- ButtonColor.Primary (customizable via @theme)
 - ButtonColor.Gray
-- ButtonColor.Primary
 - ButtonColor.Dark
 - ButtonColor.Light
 - ButtonColor.Green
@@ -13,9 +13,13 @@ The available Button colors are:
 - ButtonColor.Purple
 
 The available Button sizes are:
-- ButtonSize.Small,
-- ButtonSize.Medium,
+- ButtonSize.Small
+- ButtonSize.Medium
 - ButtonSize.Large
+
+The available Button variants are:
+- ButtonVariant.Default (filled)
+- ButtonVariant.Outline (bordered)
 
 ```razor
 <!-- Default button with color -->
@@ -24,12 +28,12 @@ The available Button sizes are:
 </Button>
 
 <!-- Outline button with icon -->
-<Button Variant="ButtonVariant.Outline" Color="ButtonColor.Info" Icon="@(new InfoIcon())">
+<Button Variant="ButtonVariant.Outline" Color="ButtonColor.Primary" Icon="@(new InfoIcon())">
     Info with icon
 </Button>
 
 <!-- Loading state -->
-<Button Loading="true" Color="ButtonColor.Success">
+<Button Loading="true" Color="ButtonColor.Green">
     Processing...
 </Button>
 
@@ -39,7 +43,34 @@ The available Button sizes are:
 </Button>
 
 <!-- Full-width button -->
-<Button Color="ButtonColor.Dark" class="w-full">
+<Button Color="ButtonColor.Dark" Class="w-full">
     Block Button
 </Button>
+
+<!-- Pill-shaped button -->
+<Button Color="ButtonColor.Primary" Pill="true">
+    Rounded Button
+</Button>
+
+<!-- Primary color (uses @theme customization) -->
+<Button Color="ButtonColor.Primary">
+    Brand Color
+</Button>
 ```
+
+### Button Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `Color` | `ButtonColor` | `Default` | Color variant |
+| `Size` | `ButtonSize` | `Medium` | Size variant |
+| `Variant` | `ButtonVariant` | `Default` | Visual style (Default or Outline) |
+| `Disabled` | `bool` | `false` | Disables the button |
+| `Loading` | `bool` | `false` | Shows loading state |
+| `Pill` | `bool` | `false` | Fully rounded corners |
+| `Icon` | `IconBase?` | `null` | Icon to display |
+| `Href` | `string?` | `null` | Renders as link when set |
+| `Target` | `string?` | `null` | Link target (_blank, _self) |
+| `Type` | `string` | `"button"` | HTML button type |
+| `Class` | `string?` | `null` | Additional CSS classes |
+| `OnClick` | `EventCallback<MouseEventArgs>` | - | Click handler |
