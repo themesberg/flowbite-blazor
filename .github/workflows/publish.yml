@@ -1,0 +1,97 @@
+name: Publish to NuGet
+
+on:
+  push:
+    tags:
+      - 'flowbite/v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    # Only run if the tag is on main branch
+    if: github.ref_type == 'tag'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for branch verification
+
+      - name: Verify tag is on main branch
+        run: |
+          # Get the commit the tag points to
+          TAG_COMMIT=$(git rev-list -n 1 ${{ github.ref }})
+
+          # Check if this commit is reachable from main
+          if git merge-base --is-ancestor $TAG_COMMIT origin/main; then
+            echo "✅ Tag is on main branch"
+          else
+            echo "❌ Tag is NOT on main branch. Publishing is only allowed from main."
+            exit 1
+          fi
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          # Extract version from tag (e.g., flowbite/v0.2.2-beta -> 0.2.2-beta)
+          VERSION=${GITHUB_REF_NAME#flowbite/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "📦 Version: $VERSION"
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install psutil
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Create nuget-local directory
+        run: mkdir -p nuget-local
+
+      - name: Build and Pack
+        run: |
+          python build.py build
+          python build.py pack
+
+      - name: Publish to NuGet.org
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          echo "📤 Publishing packages to NuGet.org..."
+          dotnet nuget push ./nuget-local/Flowbite.*.nupkg \
+            --source https://api.nuget.org/v3/index.json \
+            --api-key $NUGET_API_KEY \
+            --skip-duplicate
+
+          dotnet nuget push ./nuget-local/Flowbite.ExtendedIcons.*.nupkg \
+            --source https://api.nuget.org/v3/index.json \
+            --api-key $NUGET_API_KEY \
+            --skip-duplicate
+
+          echo "✅ Published successfully!"
+
+      - name: Summary
+        run: |
+          echo "## 📦 NuGet Publish Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Tag:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Packages Published:" >> $GITHUB_STEP_SUMMARY
+          echo "- [Flowbite](https://www.nuget.org/packages/Flowbite)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Flowbite.ExtendedIcons](https://www.nuget.org/packages/Flowbite.ExtendedIcons)" >> $GITHUB_STEP_SUMMARY
