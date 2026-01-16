@@ -1,7 +1,7 @@
 
 @inherits FlowbiteComponentBase
 
-<div class="@ComponentClasses" @attributes="AdditionalAttributes">
+<div class="@ComponentClasses" style="@Style" @attributes="AdditionalAttributes">
     <CascadingValue Value="@_context" IsFixed="false">
         <TabList>
             @TabListContent
@@ -45,12 +45,6 @@
     /// </summary>
     [Parameter]
     public RenderFragment? TabPanelsContent { get; set; }
-
-    /// <summary>
-    /// Additional attributes to be applied to the tabs container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private string ComponentClasses => CombineClasses(BaseClasses);
 

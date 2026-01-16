@@ -1,5 +1,113 @@
 # Changelog
 
+## 0.2.2-beta
+
+### Added
+- Add `Flowbite.Tests` project with automated testing infrastructure (Phase 5.6)
+  - bUnit for Blazor component unit tests
+  - Playwright for end-to-end integration tests
+  - 45 unit tests covering Debouncer, ElementClass, TailwindMerge, CollapseState, TextInput, TextArea, Select
+  - 2 Playwright smoke tests as golden examples for future E2E tests
+  - `python build.py test` command for running unit tests
+  - `python build.py test-integration` command for running E2E tests
+  - `FlowbiteTestContext` base class for component tests with pre-configured services
+  - `PlaywrightFixture` for browser lifecycle management
+  - Comprehensive `CLAUDE.md` AI guidance for test development
+
+### Changed
+- Update `CONTRIBUTING.md` with Testing section and test requirements
+- Simplify development setup in `CONTRIBUTING.md` to use `build.py` commands
+
+## 0.2.1-beta
+
+### Added
+- Add lazy-loaded JavaScript module services for improved initial load performance
+  - `IClipboardService` - lazy-loaded clipboard operations via `clipboard.js` ES module
+  - `IElementService` - lazy-loaded element utilities (scroll height, focus, etc.) via `element.module.js`
+  - `IFocusManagementService` - lazy-loaded focus trap and body scroll management via `focus-management.module.js`
+  - All services use `Lazy<Task<IJSObjectReference>>` pattern for on-demand module loading
+  - Register via `AddFlowbiteLazyServices()` or individually
+  - `CopyToClipboardButton` now uses `IClipboardService` for clipboard operations
+- Add `CollapseState` enum and animation state machine for SidebarCollapse component
+  - Four states: Collapsed, Expanding, Expanded, Collapsing
+  - Smooth height-based animations using CSS transitions
+  - Mid-animation toggle support (reverse direction on click during animation)
+  - Timer fallback ensures state transitions complete reliably
+  - Full support for deeply nested collapses (multi-level sidebars)
+- Add `ElementReferenceExtensions.GetScrollHeightAsync()` extension method for JS interop height measurement
+- Add `flowbiteBlazor.getScrollHeight()` JavaScript function for element height measurement
+- Add keyboard navigation and focus management for Dropdown and Tooltip components
+  - Dropdown: ArrowUp/Down navigation, Home/End, Enter/Space selection, Escape to close, type-ahead search
+  - Dropdown: Focus ring styling with `ring-2 ring-primary-500` classes
+  - Dropdown: Proper ARIA roles (`role="menu"`, `role="menuitem"`) and keyboard semantics
+  - Tooltip: Focus/blur handlers for show/hide on focus
+  - Tooltip: Escape key dismissal support
+  - Tooltip: ARIA linkage via `aria-describedby` and `role="tooltip"`
+- Add `ElementClass` fluent builder utility for CSS class composition with conditional logic
+- Add Slot System for per-element CSS class customization within complex components
+- Add Floating UI integration for viewport-aware positioning of Dropdown, Tooltip, and Combobox components
+  - `FloatingService` - C# service for JavaScript interop with @floating-ui/dom
+  - Automatic flip/shift middleware ensures elements stay within viewport boundaries
+  - Arrow positioning for Tooltip component
+  - Combobox dropdown now uses Floating UI for viewport-aware positioning
+  - `SlotBase` abstract base class with `Base` property
+  - `CardSlots` for Card component (Base, Image, Body)
+  - `DropdownSlots` for Dropdown component (Base, Trigger, Menu, Item)
+  - `ModalSlots` for Modal component (Backdrop, Content, Header, Body, Footer)
+  - `AccordionItemSlots` for future Accordion component
+  - All slot classes use TailwindMerge for intelligent conflict resolution
+
+### Fixed
+- Fix Tooltip positioning flash on show by using `invisible` + `absolute` positioning until Floating UI calculates position
+- Fix dark mode specificity issue in Tailwind v4 by using `@config` directive instead of `@custom-variant`
+  - `@custom-variant dark (&:where(.dark, .dark *))` generates zero-specificity selectors that get overridden
+  - `@config` with `darkMode: 'class'` generates proper `:is(.dark *)` selectors with correct specificity
+- Fix Tooltip width being constrained to trigger element width by adding `w-max` class
+- Fix nested SidebarCollapse components not growing parent container
+  - Added timer fallback (350ms) to ensure animation state transitions complete even when CSS `transitionend` event doesn't fire
+  - Parent collapses now properly expand to accommodate nested child content
+  - Component implements `IDisposable` for proper timer cleanup
+
+### Changed
+- **Migrate to Tailwind CSS v4.1.18** - major infrastructure upgrade
+  - Build system now uses Tailwind v4 standalone CLI with built-in PostCSS
+  - CSS files converted to v4 syntax: `@import "tailwindcss"` replaces `@tailwind` directives
+  - Content paths now configured via `@source` directive in CSS
+  - Theme values defined in `@theme` blocks as CSS custom properties
+  - Flowbite plugin loaded via `@plugin "flowbite/plugin"` directive
+  - No breaking changes to component APIs - styling continues to work identically
+- Migrate all 30 components from `CombineClasses()` to `MergeClasses()` + `ElementClass` pattern
+  - Enables TailwindMerge.NET intelligent CSS class conflict resolution
+  - User-provided `Class` parameter now properly overrides component defaults
+  - Components: Card, Combobox, Modal, ModalBody, ModalFooter, ModalHeader, Drawer, DrawerHeader, DrawerItems, Navbar, NavbarLink, SidebarCTA, SidebarLogo, Dropdown, DropdownItem, Carousel, CarouselIndicators, CarouselItem, ChatMessage, ChatMessageContent, Activity, ActivityItem, Group, GroupItem, Timeline, TimelineItem, Heading, Paragraph, Span, TableContext
+- Add `motion-reduce:transition-none` accessibility support to all animated components
+  - Drawer, Modal, Sidebar, SidebarCollapse, Tooltip, Toast, Card, Combobox
+  - CarouselIndicators, CarouselItem, PromptInput components, ToggleSwitch
+  - Respects `prefers-reduced-motion: reduce` user preference
+- Rewrite SidebarCollapse animations with state machine architecture
+  - Replace max-height approach with explicit height-based transitions
+  - Use `transition-[height]` CSS property for smooth expand/collapse
+  - Chevron icon rotation animation on toggle (180° rotation)
+- Improve Carousel slide transitions with scale + opacity effect (500ms duration)
+
+## 0.2.0-beta
+
+### Added
+- Add `Style` parameter to `FlowbiteComponentBase` for inline CSS styles on all components
+- Add `AdditionalAttributes` parameter to `FlowbiteComponentBase` for arbitrary HTML attributes (data-*, aria-*, etc.)
+- Add `docs/MIGRATION.md` with breaking change documentation and migration instructions
+
+### Changed
+- **BREAKING:** Rename `Button.Style` parameter to `Button.Variant`
+- **BREAKING:** Rename `ButtonStyle` enum to `ButtonVariant`
+- **BREAKING:** Rename `Tooltip.Style` parameter to `Tooltip.Theme`
+- Remove duplicate `AdditionalAttributes` declarations from 56+ components (now inherited from base)
+
+## 0.1.4-beta
+
+- Add TailwindMerge.NET integration for intelligent CSS class conflict resolution
+- Add `MergeClasses()` helper method to `FlowbiteComponentBase`
+
 ## 0.1.3-beta
 
 - Fix Blazor Server input lag and character loss in TextInput and PromptInputTextarea components (#15)

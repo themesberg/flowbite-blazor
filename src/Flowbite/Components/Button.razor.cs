@@ -50,10 +50,10 @@ public partial class Button
     public bool Pill { get; set; }
 
     /// <summary>
-    /// The visual style of the button.
+    /// The visual style variant of the button.
     /// </summary>
     [Parameter]
-    public ButtonStyle Style { get; set; } = ButtonStyle.Default;
+    public ButtonVariant Variant { get; set; } = ButtonVariant.Default;
 
     /// <summary>
     /// The size of the button.
@@ -91,13 +91,6 @@ public partial class Button
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
-    /// <summary>
-    /// Additional attributes to be applied to the button element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-
     private string IconCssClassOverrides => $"{OverrideIconTextColor} {OverrideIconSize}";
 
     /// <summary>
@@ -118,56 +111,37 @@ public partial class Button
     /// </summary>
     private string GetButtonClasses()
     {
-        var classes = new List<string>
-        {
-            "focus:outline-none",
-            "focus-within:outline-hidden",
-            "inline-flex",
-            "items-center",
-            "justify-center",
-            "font-medium",
-            "text-center",
-            Pill ? "rounded-full" : "rounded-lg",
-            "group"
-        };
+        var baseClasses = ElementClass.Empty()
+            .Add("focus:outline-none focus-within:outline-hidden inline-flex items-center justify-center font-medium text-center group")
+            .Add(Pill ? "rounded-full" : "rounded-lg")
+            .Add(GetSizeClasses())
+            .Add(string.Join(" ", GetColorClasses()))
+            .Add("cursor-not-allowed opacity-50", when: Disabled)
+            .Add("cursor-wait opacity-75", when: Loading)
+            .Add(Class);
 
-        // Size classes
-        classes.AddRange(Size switch
-        {
-            ButtonSize.Small => new[] { "text-sm", "px-4", "py-2" },
-            ButtonSize.Medium => new[] { "text-sm", "px-5", "py-2.5" },
-            ButtonSize.Large => new[] { "text-base", "px-6", "py-3" },
-            _ => new[] { "text-sm", "px-5", "py-2.5" }
-        });
-
-        // Color and style classes
-        classes.AddRange(GetColorClasses());
-
-        // Disabled state
-        if (Disabled)
-        {
-            classes.Add("cursor-not-allowed");
-            classes.Add("opacity-50");
-        }
-
-        // Loading state
-        if (Loading)
-        {
-            classes.Add("cursor-wait");
-            classes.Add("opacity-75");
-        }
-
-        return CombineClasses(string.Join(" ", classes)) ?? string.Empty;
+        return MergeClasses(baseClasses);
     }
+
+    /// <summary>
+    /// Gets the size-specific CSS classes for the button.
+    /// </summary>
+    private string GetSizeClasses() => Size switch
+    {
+        ButtonSize.Small => "text-sm px-4 py-2",
+        ButtonSize.Medium => "text-sm px-5 py-2.5",
+        ButtonSize.Large => "text-base px-6 py-3",
+        _ => "text-sm px-5 py-2.5"
+    };
 
     /// <summary>
     /// Generates color-specific classes based on button style and color.
     /// </summary>
     private IEnumerable<string> GetColorClasses()
     {
-        return Style switch
+        return Variant switch
         {
-            ButtonStyle.Default => Color switch
+            ButtonVariant.Default => Color switch
             {
                 ButtonColor.Default => new[] { "text-white", "bg-blue-700", "hover:bg-blue-800", "focus:ring-4", "focus:ring-blue-300", "dark:bg-blue-600", "dark:hover:bg-blue-700", "dark:focus:ring-blue-800" },
                 ButtonColor.Primary => new[] { "text-white", "bg-primary-700", "hover:bg-primary-800", "focus:ring-4", "focus:ring-primary-300", "dark:bg-primary-600", "dark:hover:bg-primary-700", "dark:focus:ring-primary-800" },
@@ -180,7 +154,7 @@ public partial class Button
                 ButtonColor.Purple => new[] { "text-white", "bg-purple-700", "hover:bg-purple-800", "focus:ring-4", "focus:ring-purple-300", "dark:bg-purple-600", "dark:hover:bg-purple-700", "dark:focus:ring-purple-900" },
                 _ => new[] { "text-white", "bg-blue-700", "hover:bg-blue-800", "focus:ring-4", "focus:ring-blue-300", "dark:bg-blue-600", "dark:hover:bg-blue-700", "dark:focus:ring-blue-800" }
             },
-            ButtonStyle.Outline => Color switch
+            ButtonVariant.Outline => Color switch
             {
                 ButtonColor.Default => new[] { "text-blue-700", "border", "border-blue-700", "hover:bg-blue-700", "hover:text-white", "focus:ring-4", "focus:ring-blue-300", "dark:border-blue-500", "dark:text-blue-500", "dark:hover:text-white", "dark:hover:bg-blue-500", "dark:focus:ring-blue-800" },
                 ButtonColor.Primary => new[] { "text-primary-700", "border", "border-primary-700", "hover:bg-primary-700", "hover:text-white", "focus:ring-4", "focus:ring-primary-300", "dark:border-primary-500", "dark:text-primary-500", "dark:hover:text-white", "dark:hover:bg-primary-500", "dark:focus:ring-primary-800" },
@@ -204,7 +178,7 @@ public partial class Button
     /// <summary>
     /// Defines the visual style of a button.
     /// </summary>
-    public enum ButtonStyle
+    public enum ButtonVariant
     {
         /// <summary>
         /// Default filled button style.
@@ -289,4 +263,3 @@ public partial class Button
         Large
     }
 }
-

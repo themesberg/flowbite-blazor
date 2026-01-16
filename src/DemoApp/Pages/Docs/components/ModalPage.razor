@@ -469,7 +469,88 @@
             </PreviewContent>
         </ComponentExample>
 
-        
+        <ComponentExample
+            Title="Modal with Slots"
+            Description="Use the Slots parameter to customize the styling of specific modal elements like the backdrop, content container, header, body, and footer."
+            RazorCode="@(
+@"<div>
+    <Button OnClick=""@(() => showSlotsModal = true)"" Color=""ButtonColor.Purple"">Open Styled Modal</Button>
+
+    <Modal Show=""showSlotsModal""
+           ShowChanged=""(value) => showSlotsModal = value""
+           Slots=""@(new ModalSlots {
+               Backdrop = ""bg-purple-900/50"",
+               Content = ""border-2 border-purple-500 shadow-purple-500/50 shadow-lg"",
+               Header = ""bg-purple-100 dark:bg-purple-900 border-purple-300 dark:border-purple-700"",
+               Body = ""bg-purple-50 dark:bg-purple-950"",
+               Footer = ""bg-purple-100 dark:bg-purple-900 border-purple-300 dark:border-purple-700""
+           })"">
+        <ModalHeader>
+            <h3 class=""text-purple-800 dark:text-purple-200"">Custom Styled Modal</h3>
+        </ModalHeader>
+        <ModalBody>
+            <p class=""text-purple-700 dark:text-purple-300"">
+                This modal uses the Slots parameter to apply custom purple theming to each section:
+            </p>
+            <ul class=""list-disc pl-5 mt-2 text-purple-600 dark:text-purple-400"">
+                <li><strong>Backdrop:</strong> Purple tinted overlay</li>
+                <li><strong>Content:</strong> Purple border and shadow</li>
+                <li><strong>Header:</strong> Light purple background</li>
+                <li><strong>Body:</strong> Subtle purple tint</li>
+                <li><strong>Footer:</strong> Light purple background</li>
+            </ul>
+        </ModalBody>
+        <ModalFooter>
+            <div class=""flex justify-end w-full"">
+                <Button OnClick=""@(() => showSlotsModal = false)"" Color=""ButtonColor.Purple"">Close</Button>
+            </div>
+        </ModalFooter>
+    </Modal>
+</div>
+
+@code {
+    private bool showSlotsModal = false;
+}")"
+            SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div>
+                    <Button OnClick="@(() => showSlotsModal = true)" Color="ButtonColor.Purple">Open Styled Modal</Button>
+
+                    <Modal Show="showSlotsModal"
+                           ShowChanged="(value) => showSlotsModal = value"
+                           Slots="@(new ModalSlots {
+                               Backdrop = "bg-purple-900/50",
+                               Content = "border-2 border-purple-500 shadow-purple-500/50 shadow-lg",
+                               Header = "bg-purple-100 dark:bg-purple-900 border-purple-300 dark:border-purple-700",
+                               Body = "bg-purple-50 dark:bg-purple-950",
+                               Footer = "bg-purple-100 dark:bg-purple-900 border-purple-300 dark:border-purple-700"
+                           })">
+                        <ModalHeader>
+                            <h3 class="text-purple-800 dark:text-purple-200">Custom Styled Modal</h3>
+                        </ModalHeader>
+                        <ModalBody>
+                            <p class="text-purple-700 dark:text-purple-300">
+                                This modal uses the Slots parameter to apply custom purple theming to each section:
+                            </p>
+                            <ul class="list-disc pl-5 mt-2 text-purple-600 dark:text-purple-400">
+                                <li><strong>Backdrop:</strong> Purple tinted overlay</li>
+                                <li><strong>Content:</strong> Purple border and shadow</li>
+                                <li><strong>Header:</strong> Light purple background</li>
+                                <li><strong>Body:</strong> Subtle purple tint</li>
+                                <li><strong>Footer:</strong> Light purple background</li>
+                            </ul>
+                        </ModalBody>
+                        <ModalFooter>
+                            <div class="flex justify-end w-full">
+                                <Button OnClick="@(() => showSlotsModal = false)" Color="ButtonColor.Purple">Close</Button>
+                            </div>
+                        </ModalFooter>
+                    </Modal>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+
     </div>
 </main>
 
@@ -479,6 +560,7 @@
     private bool showFormModal = false;
     private bool showPositionedModal = false;
     private bool showSizedModal = false;
+    private bool showSlotsModal = false;
     private string selectedPositionString = "Center";
     private string selectedSizeString = "Default";
     private bool? termsAccepted = null;

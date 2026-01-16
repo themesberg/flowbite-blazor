@@ -1,7 +1,7 @@
 @inherits Flowbite.Base.FlowbiteComponentBase
 
 <CascadingValue Value="From">
-    <div class="@GetContainerClasses()" @attributes="AdditionalAttributes">
+    <div class="@GetContainerClasses()" style="@Style" @attributes="AdditionalAttributes">
         <div class="@GetSubcontainerClasses()">
             @if (From != ChatMessageRole.User)
             {

@@ -40,12 +40,6 @@ public partial class Checkbox
     /// </summary>
     [Parameter] public bool Disabled { get; set; }
 
-    /// <summary>
-    /// Additional attributes that will be applied to the checkbox input element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string GetClasses()
     {
         var classes = new List<string> { BaseClasses };

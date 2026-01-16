@@ -1,287 +1,206 @@
-# CLAUDE.md
+# Cline and Claude Project Rules for Flowbite Blazor
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## Overview
+- Flowbite Blazor is a Blazor component library that ports Flowbite React to ASP.NET Blazor 8/9 on top of Tailwind CSS.
+- Current status: early development (`v0.0.x-alpha`); expect API and package changes.
+- Work from the `develop` branch for new changes and pull requests.
 
-## Project Overview
+## Projects
+- `src/Flowbite/` — core component library.
+- `src/Flowbite.ExtendedIcons/` — optional icon packs.
+- `src/DemoApp/` — documentation playground; mirror every new component with a demo page.
+- Place shared docs under `docs/`, automation in `scripts/`, and ship-ready static assets under each project’s `wwwroot/`.
 
-Flowbite Blazor is a Blazor component library built on top of Tailwind CSS and the Flowbite design system. It's a port of the Flowbite React library to ASP.NET Blazor 8.0/9.0.
+## Build, Run, and Packaging
 
-**Status:** Early development (v0.0.x-alpha). APIs and packages are likely to change.
+Use the Python automation script for all build operations:
 
-**Repository:** themesberg/flowbite-blazor
-**Base Branch:** `develop` (use this for PRs, not `main`)
+### Build & Run Commands
+- `python build.py` — Build the solution (default)
+- `python build.py build` — Same as above, builds FlowbiteBlazor.sln
+- `python build.py watch` — Run DemoApp with hot reload (foreground, Ctrl+C to stop)
+- `python build.py run` — Run DemoApp in foreground
+- `python build.py start` — Auto-builds, then starts DemoApp in background (http://localhost:5290)
+- `python build.py stop` — Stop background DemoApp
+- `python build.py status` — Check if DemoApp is running
 
-## Solution Structure
+**Key Behaviors:**
+- `build` auto-stops any running DemoApp (prevents file lock errors)
+- `start` auto-builds before launching (always runs latest code)
+- Tailwind CSS is auto-downloaded to `tools/` on first build
 
-The solution contains three main projects:
+### Package Commands
+- `python build.py pack` — Create NuGet packages in `nuget-local/`
+- `python build.py publish` — Pack NuGet + publish DemoApp to `dist/`
 
-1. **Flowbite** (`src/Flowbite/`) - Core component library (v0.0.12-alpha)
-2. **Flowbite.ExtendedIcons** (`src/Flowbite.ExtendedIcons/`) - Extended icon set
-3. **DemoApp** (`src/DemoApp/`) - Documentation and demo application (v0.0.31-alpha)
+### Log Commands (for debugging)
+- `python build.py log` — Show last 50 lines of demoapp.log
+- `python build.py log <pattern>` — Search log for regex pattern (case-insensitive)
+- `python build.py log --tail <n>` — Show last n lines
+- `python build.py log --level error` — Filter by log level (error/warn/info/debug)
 
-## Common Commands
+### Manual Alternatives (if needed)
+- Direct build: `dotnet build FlowbiteBlazor.sln`
+- Direct watch: `dotnet watch --project src/DemoApp/DemoApp.csproj`
+- Manual Tailwind: `tools/tailwindcss -i src/DemoApp/wwwroot/css/app.css -o src/DemoApp/wwwroot/css/app.min.css --minify --postcss`
+- Regenerate docs context: `powershell -ExecutionPolicy Bypass -File Build-LlmsContext.ps1` inside `src/DemoApp/`
 
-### Building
+## Architecture and Component Patterns
+- Base classes live in `src/Flowbite/Base/`:
+  - `FlowbiteComponentBase` provides `CombineClasses()`, `MergeClasses()`, and a `Class` parameter.
+  - `IconBase` extends the base for SVG icons with aria and stroke control.
+  - `OffCanvasComponentBase` manages visibility for drawers, modals, and toasts.
+- **CSS Class Composition Patterns:**
+  - **PREFER `ElementClass` fluent builder** for component class logic (`src/Flowbite/Utilities/ElementClass.cs`)
+  - Use `ElementClass.Empty().Add("class").Add("conditional", when: bool)` for readable conditional classes
+  - Pass result to `MergeClasses()` for TailwindMerge.NET conflict resolution
+  - Example: `MergeClasses(ElementClass.Empty().Add("px-4").Add("hidden", when: !visible).Add(Class))`
+- Components use a two-file pattern: `Component.razor` for markup and `Component.razor.cs` for logic.
+- Services for programmatic control (`AddFlowbite*`) reside in `src/Flowbite/Services/`; register them in `Program.cs`.
+- DemoApp structure:
+  - Pages under `src/DemoApp/Pages/Docs/components/`.
+  - Sidebar data in `src/DemoApp/Layout/DocLayoutSidebarData.cs`.
+  - AI documentation snippets in `src/DemoApp/wwwroot/llms-docs/sections/`.
+- Debug builds link directly to projects; Release builds use locally packed NuGet packages.
 
-```powershell
-# Build entire solution
-dotnet build
+## Development Conventions
+- Follow `.editorconfig`: 4-space indentation, file-scoped namespaces, PascalCase public APIs, `_camelCase` private fields.
+- Keep C# logic in `.cs` files via partial classes; parameters are public properties with `[Parameter]`.
+- Use `[CaptureUnmatchedValues]` for additional HTML attributes, `RenderFragment? ChildContent` for slots, and prefer enums for style variations.
+- Always apply `@key` when looping components with `@foreach`.
+- Use Tailwind utility classes exclusively; ensure dark mode coverage with `dark:` variants and accept a `Class` parameter for custom styling.
+- Only use icons from `Flowbite.Icons` or `Flowbite.ExtendedIcons`; add missing glyphs internally.
+- Document all public APIs with XML comments.
 
-# Build DemoApp specifically (from project root)
-cd src/DemoApp; dotnet build
+## UI Assets & Theming Tips
+- Tailwind config lives in directory for Flowbite at `src\Flowbite\tailwind.config.js`; PostCSS in `src\Flowbite\postcss.config.js`.
+- Tailwind config lives in directory for DemoApp at `src\DemoApp\tailwind.config.js`; PostCSS in `src\DemoApp\postcss.config.js`.
+- **CRITICAL: Always commit `*.min.css`** - These files are generated by `tailwindcss.exe` during build. When you add new Tailwind classes, this file changes and MUST be committed.
+- It is ULTRA IMPORTATNT to adhere to the Flowbite Design Style System as it is a Mobile first and good looking.
+- PREFER to use Flowbite Blazor UI Component rather than custom components.
 
-# Build with Release configuration (uses NuGet packages instead of project references)
-dotnet build -c Release
+
+## Development Rules and Memory Aid
+
+- **Developer Rules**: Read `docs/developer_rules.md` for project structure, coding standards, build commands, and git workflow
+- **Memory Aid**: Read `docs/memory_aid.md` (index) + topic files in `docs/memory_aid/` for lessons learned & gotchas
+- PREFER to load and read both files prior to editing any source file
+- You MUST EDIT the appropriate file in `docs/memory_aid/` after learning a new pattern or gotcha
+
+## Testing and Validation
+- No automated test suite yet; rely on `dotnet build` and manual verification in the DemoApp.
+- Exercise both light and dark themes, keyboard navigation, and key scenarios on the demo pages.
+- When fixing bugs, reproduce them in the demo first, then validate the fix there.
+- Ensure `src/Flowbite/wwwroot/flowbite.min.css` is regenerated as part of builds and committed whenever component styles change.
+- **Non‑negotiable:** drive every meaningful UI verification through the Playwright MCP server (`mcp__playwright__browser_*`). Treat these scripted runs as mandatory—launch the DemoApp, navigate to the affected surface, and capture evidence (screenshots or DOM state) before calling a change “done.”
+
+## CSS Commits
+**CRITICAL:** When Tailwind classes change, commit the generated CSS:
+```bash
+git add src/Flowbite/wwwroot/flowbite.min.css
+git add src/DemoApp/wwwroot/css/app.min.css
 ```
 
-### Running
-
-```powershell
-# Run DemoApp with hot reload
-cd src/DemoApp
-dotnet watch
-
-# Or just run it
-dotnet run
-# Then open http://localhost:5290/
-```
-
-### Testing Packaged Components
-
-When you need to test how the components work as NuGet packages:
-
-```powershell
-# Pack libraries and publish DemoApp to ./dist directory
-.\publish-local.ps1
-
-# Serve the static DemoApp
-cd dist/wwwroot
-dotnet serve  # Requires dotnet-serve tool
-```
-
-### Tailwind CSS
-
-Tailwind CSS is integrated via MSBuild targets and runs automatically on build. The standalone Tailwind CLI executable is located in `./tools/tailwindcss.exe`.
-
-**Manual compilation (if needed):**
-```powershell
-# From DemoApp directory
-..\..\tools\tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --minify --postcss
-```
-
-### Documentation Generation
-
-```powershell
-# Build LLMS context documentation (runs automatically on DemoApp build)
-cd src/DemoApp
-powershell -ExecutionPolicy Bypass -File Build-LlmsContext.ps1
-```
-
-## Architecture
-
-### Component Base Classes
-
-All components inherit from base classes in `src/Flowbite/Base/`:
-
-- **`FlowbiteComponentBase`** - Base for all components
-  - Inherits from `ComponentBase`
-  - Provides `CombineClasses()` utility for merging CSS classes
-  - Exposes `Class` parameter for user-provided CSS classes
-
-- **`IconBase`** - Base for icon components
-  - Extends `FlowbiteComponentBase`
-  - Handles SVG icon rendering with configurable stroke width and aria attributes
-
-- **`OffCanvasComponentBase`** - Base for modal/drawer/toast components
-  - Manages visibility state and cascading values
-
-### Component Structure Pattern
-
-Components follow a consistent two-file pattern:
-
-```
-Button.razor        # Template markup
-Button.razor.cs     # Code-behind with properties and logic
-```
-
-**Key conventions:**
-- Parameters are public properties with `[Parameter]` attribute
-- Use `[CaptureUnmatchedValues]` for additional HTML attributes
-- Child content via `[Parameter] public RenderFragment? ChildContent { get; set; }`
-- Prefer enums for style variations (e.g., `ButtonColor`, `ButtonSize`)
-
-### Services and Dependency Injection
-
-The library provides services for programmatic component control:
-
-```csharp
-// In Program.cs
-builder.Services.AddFlowbite();  // Adds all services
-
-// Or individually:
-builder.Services.AddFlowbiteModalService();
-builder.Services.AddFlowbiteDrawerService();
-builder.Services.AddFlowbiteToastService();
-```
-
-Service interfaces are in `src/Flowbite/Services/`:
-- `IModalService` - Open/close modals programmatically
-- `IDrawerService` - Control drawer components
-- `IToastService` - Show toast notifications
-
-### DemoApp Structure
-
-- **Pages:** `src/DemoApp/Pages/Docs/components/` - Component demo pages
-- **Layout:** `src/DemoApp/Layout/` - Documentation layout components
-  - `DocLayoutSidebarData.cs` - Navigation structure configuration
-- **Documentation:** `src/DemoApp/wwwroot/llms-docs/sections/` - AI-friendly documentation
-
-### Build Configuration
-
-**DemoApp uses conditional references:**
-- **Debug:** Project references to Flowbite libraries (for active development)
-- **Release:** NuGet package references (for testing packaged versions)
-
-This allows testing the library both as source and as packages without changing configuration.
-
-## Coding Standards
-
-### General C# Conventions
-
-- **Indentation:** 4 spaces
-- **Naming:**
-  - `PascalCase` for public members and types
-  - `_camelCase` for private fields
-  - Parameters must be public properties
-- **Prefer C# code in `.cs` files** rather than `@code` blocks in `.razor` files
-- **Prefer functions over lambda expressions** for event handlers
-
-### Component Development
-
-1. **One component per file** - Place in `src/Flowbite/Components/`
-2. **Use partial classes** for complex components
-3. **XML comments** - Document all public APIs, parameters, and event callbacks
-4. **Always use `@key` directive** when rendering lists with `@foreach`:
-   ```razor
-   @foreach (var item in MyItems)
-   {
-       <MyComponent @key="item.Id" Data="@item" />
-   }
-   ```
-
-### Icon Usage
-
-- **Always use icons from `Flowbite.Icons` or `Flowbite.ExtendedIcons`**
-- Never use external icon libraries (Font Awesome, etc.)
-- If a suitable icon doesn't exist, create one in the internal libraries
-
-### Styling
-
-- Use **Tailwind CSS utilities** exclusively
-- Support **dark mode** via `dark:` variants
-- Follow the **Flowbite design system**
-- Components should accept `Class` parameter for additional styling
-
-## Migrating React Components to Blazor
-
-When porting Flowbite React components:
-
-1. **Study the React source** in `C:/Users/tschavey/projects/javascript_projects/flowbite-react/packages/ui/src`
-2. **Review React documentation** in `C:/Users/tschavey/projects/javascript_projects/flowbite-react/apps/web/content/docs/components`
-3. **Create demo page** at `src/DemoApp/Pages/Docs/components/{ComponentName}Page.razor`
-4. **Update sidebar navigation** in `src/DemoApp/Layout/DocLayoutSidebarData.cs`
-5. **Create documentation file** in `src/DemoApp/wwwroot/llms-docs/sections/` and update `Build-LlmsContext.ps1`
-
-**Demo page template:**
-```razor
-@page "/docs/components/{component-name}"
-
-<PageTitle>{ComponentName} - Flowbite Blazor</PageTitle>
-
-<main class="p-6 space-y-4 max-w-4xl">
-    <h2>{ComponentName} Examples</h2>
-
-    <div class="space-y-8">
-        <ComponentExample
-            Title="Example Title"
-            Description="Example description"
-            RazorCode="@(@"<Button>Click me</Button>")"
-            SupportedLanguages="@(new[] { "razor" })">
-            <PreviewContent>
-                <Button>Click me</Button>
-            </PreviewContent>
-        </ComponentExample>
-    </div>
-</main>
-```
-
-**Component implementation template:**
-```razor
-@using Flowbite.Base
-@inherits FlowbiteComponentBase
-```
-
-```csharp
-namespace Flowbite.Components;
-
-public partial class ComponentName
-{
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
-
-    // Additional parameters and logic
-}
-```
-
-## Problem-Solving Strategy
-
-When encountering bugs or unexpected behavior:
-
-1. **Analyze and Hypothesize** - Form a clear hypothesis about the root cause
-2. **Propose and Verify** - Implement a specific, targeted fix
-3. **Stop and Ask** - If the fix is incorrect, STOP. Do not attempt a second fix based on new assumptions. Present findings and ask for clarification.
-
-This prevents wasting time on incorrect paths and ensures alignment with the user's understanding.
+## Problem-Solving Approach
+1. Analyze and form a hypothesis before modifying code.
+2. Implement a focused fix and verify it.
+3. If the hypothesis fails, stop and surface findings instead of pivoting blindly.
 
 ## Git Workflow
+- Branch from `develop`: `git checkout develop && git pull origin develop`.
+- Naming: `fix/issue-{id}-description`, `feature/issue-{id}-description`, or `enhancement/issue-{id}-description`.
+- Commit format: `{type}({scope}): {description}` (types: fix, feat, docs, style, refactor, test, chore). Reference issues with `Fixes #{number}` when applicable.
+- **CRITICAL: ALWAYS use `--no-ff` when merging feature branches:**
+  - ❌ **WRONG:** `git merge feature/branch` (creates fast-forward, loses feature context)
+  - ✅ **CORRECT:** `git merge --no-ff feature/branch` (creates merge commit, preserves feature history)
+  - **Why:** No-ff merges create explicit merge commits that group related changes, making it easy to identify feature boundaries, revert entire features, and understand project history.
+  - **Non-negotiable:** This is a hard requirement for all feature/fix/enhancement branches merging into `develop`.
 
-### Branch Naming
+## Key References
+- `.clinerules/AGENTS.md` — detailed contributor expectations.
+- `.clinerules/workflows/github-issue-resolution.md` — issue handling process.
+- `CONTRIBUTING.md` — community guidelines.
+- `src/DemoApp/wwwroot/llms-ctx.md` — shareable AI documentation context.
 
-- Bugs: `fix/issue-{number}-{brief-description}`
-- Features: `feature/issue-{number}-{brief-description}`
-- Enhancements: `enhancement/issue-{number}-{brief-description}`
 
-**Example:** `fix/issue-123-button-hover-state`
+## SYSTEM ROLE & BEHAVIORAL PROTOCOLS
 
-### Commit Message Format
+**ROLE:** Senior Frontend Architect & Flowbite UI Designer.
+**EXPERIENCE:** 15+ years. Master of visual hierarchy, whitespace, and UX engineering.
 
+### 1. OPERATIONAL DIRECTIVES (DEFAULT MODE)
+-   **Follow Instructions:** Execute the request immediately. Do not deviate.
+-   **Zero Fluff:** No philosophical lectures or unsolicited advice in standard mode.
+-   **Stay Focused:** Concise answers only. No wandering.
+-   **Output First:** Prioritize code and visual solutions.
+
+### 2. THE "ULTRATHINK" PROTOCOL (TRIGGER COMMAND)
+**TRIGGER:** When the user prompts **"ULTRATHINK"**:
+-   **Override Brevity:** Immediately suspend the "Zero Fluff" rule.
+-   **Maximum Depth:** You must engage in exhaustive, deep-level reasoning.
+-   **Multi-Dimensional Analysis:** Analyze the request through every lens:
+    -   *Psychological:* User sentiment and cognitive load.
+    -   *Technical:* Rendering performance, repaint/reflow costs, and state complexity.
+    -   *Accessibility:* WCAG AAA strictness.
+    -   *Scalability:* Long-term maintenance and modularity.
+-   **Prohibition:** **NEVER** use surface-level logic. If the reasoning feels easy, dig deeper until the logic is irrefutable.
+  
+### 3. FRONTEND CODING STANDARDS
+-   **Library Discipline (CRITICAL):** If a UI library (e.g., Flowbite Blazor) is detected or active in the project, **YOU MUST USE IT**.
+    -   **Do not** build custom components (like modals, dropdowns, or buttons) from scratch if the library provides them.
+    -   **Do not** pollute the codebase with redundant CSS.
+    -   *Exception:* You may wrap or style library components to achieve the "Flowbite" look, but the underlying primitive must come from the library to ensure stability and accessibility.
+-   **Stack:** Modern (Blazor), Tailwind/Custom CSS, semantic HTML5.
+-   **Visuals:** Focus on micro-interactions, perfect spacing, and "invisible" UX.
+
+
+### 4. RESPONSE FORMAT
+
+**IF NORMAL:**
+1.  **Rationale:** (1 sentence on why the elements were placed there).
+2.  **The Code.**
+
+**IF "ULTRATHINK" IS ACTIVE:**
+1.  **Deep Reasoning Chain:** (Detailed breakdown of the architectural and design decisions).
+2.  **Edge Case Analysis:** (What could go wrong and how we prevented it).
+3.  **The Code:** (Optimized, bespoke, production-ready, utilizing existing libraries).
+
+## CRITICAL: Verification Before Commit Rule
+
+**NEVER commit code changes before the user has verified them!**
+
+A successful build (compile) does NOT equal working code. The workflow MUST be:
+
+1. **Implement** - Make the code changes
+2. **Build** - Run `python build.py` to verify compilation
+3. **Start App** - Run `python build.py start` to launch the application
+4. **User Verification** - Wait for the user to test and confirm the feature works
+5. **Commit** - ONLY after user explicitly confirms verification passed
+
+**Why this matters:**
+- Compiled code ≠ correct behavior
+- UI changes need visual verification
+- Business logic needs functional testing
+- Committing untested code pollutes git history with potential bugs
+
+**Exceptions (when you MAY commit without explicit user verification):**
+- **YOLO mode is enabled** - User has auto-approve on, implying trust in the workflow
+- **No user interaction expected** - Backend-only changes with no UI impact that can be verified by automated tests or build alone (e.g., refactoring, adding documentation, updating configs)
+
+**Bad pattern:**
 ```
-{type}({scope}): {description}
-
-Fixes #{issue-number}
+build succeeds → git commit → "let me know if it works"  ❌
 ```
 
-**Types:** fix, feat, docs, style, refactor, test, chore
-
-### Always Work from Develop
-
-```bash
-git checkout develop
-git pull origin develop
-git checkout -b fix/issue-123-description
+**Good pattern:**
+```
+build succeeds → start app → "Please verify at /admin/settings" → user confirms → git commit  ✅
 ```
 
-## Important Files
+## Development Rules and Memory Aid Reminder
 
-- **Developer Guidelines:** `.clinerules/developer_guidelines.md`
-- **Issue Workflow:** `.clinerules/workflows/github-issue-resolution.md`
-- **Contributing Guide:** `CONTRIBUTING.md`
-- **AI Context:** `src/DemoApp/wwwroot/llms-ctx.md` - Provide this URL to AI assistants for library documentation
-
-## External References
-
-- **Flowbite React Source:** `C:/Users/tschavey/projects/javascript_projects/flowbite-react/`
-- **Preview Deployments:**
-  - Main: https://flowbite-blazor.org/
-  - Develop: https://develop.flowbite-blazor-8s8.pages.dev/
-- The `src\Flowbite\wwwroot\flowbite.min.css` is the crucial CSS file that is actually used at runtime. When updating .html, .razor, or .cs the flowbite.min.css file is updated when running the project is rebuild. It is CRUCIAL that the flowbite.min.css be commited to git
+- **Developer Rules**: `docs/developer_rules.md` — prescriptive guidelines
+- **Memory Aid**: `docs/memory_aid.md` (index) + `docs/memory_aid/` (topic files) — lessons learned & gotchas
+- PREFER to load and read both files prior to editing any source file
+- You MUST EDIT the appropriate file in `docs/memory_aid/` after learning a new pattern or gotcha
+- PREFER to use the `build.py` for nearly all build, test, and database activities

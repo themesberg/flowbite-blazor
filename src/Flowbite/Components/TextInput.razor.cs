@@ -1,3 +1,5 @@
+using Flowbite.Common;
+using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
@@ -97,6 +99,20 @@ public partial class TextInput<TValue> : IDisposable
     [Parameter] public IconBase? RightIcon { get; set; }
 
     /// <summary>
+    /// Gets or sets when the ValueChanged event fires.
+    /// Default is OnChange (fires on blur or Enter).
+    /// Set to OnInput for real-time updates (useful for search-as-you-type).
+    /// </summary>
+    [Parameter] public InputBehavior Behavior { get; set; } = InputBehavior.OnChange;
+
+    /// <summary>
+    /// Gets or sets the debounce delay in milliseconds.
+    /// Only applies when Behavior is OnInput. Set to 0 to disable debouncing.
+    /// Useful for reducing API calls in search scenarios.
+    /// </summary>
+    [Parameter] public int DebounceDelay { get; set; }
+
+    /// <summary>
     /// Gets or sets the text to display before the input.
     /// </summary>
     [Parameter] public string? AddonLeft { get; set; }
@@ -106,11 +122,10 @@ public partial class TextInput<TValue> : IDisposable
     /// </summary>
     [Parameter] public string? AddonRight { get; set; }
 
-    /// <summary>
-    /// Additional attributes that will be applied to the input element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+    private readonly Debouncer _debouncer = new();
+
+    // Track the internal display value separately for OnInput mode
+    private string? _internalValue;
 
     private string GetWrapperClasses() => BaseWrapperClasses;
 
@@ -144,6 +159,20 @@ public partial class TextInput<TValue> : IDisposable
         }
     }
 
+    protected override void OnParametersSet()
+    {
+        // Sync internal value with external Value when it changes from outside
+        // but only if we're not in the middle of debouncing user input
+        if (Behavior == InputBehavior.OnInput)
+        {
+            var externalValue = CurrentValueAsString;
+            if (_internalValue != externalValue)
+            {
+                _internalValue = externalValue;
+            }
+        }
+    }
+
     private void ValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
     {
         // Nothing to do for now.
@@ -151,6 +180,8 @@ public partial class TextInput<TValue> : IDisposable
 
     public void Dispose()
     {
+        _debouncer.Dispose();
+
         if (CurrentEditContext != null)
         {
             CurrentEditContext.OnValidationStateChanged -= ValidationStateChanged;
@@ -305,8 +336,59 @@ public partial class TextInput<TValue> : IDisposable
         }
     }
 
-    private Task NotifyValueChangedAsync()
+    /// <summary>
+    /// Called when input event fires (on every keystroke).
+    /// Only used in OnInput behavior mode.
+    /// </summary>
+    private async Task HandleInputAsync(ChangeEventArgs e)
     {
-        return ValueChanged.InvokeAsync(Value);
+        var value = e.Value?.ToString();
+        _internalValue = value;
+
+        if (DebounceDelay > 0)
+        {
+            await _debouncer.DebounceAsync(
+                async () => await UpdateValueAsync(value),
+                DebounceDelay);
+        }
+        else
+        {
+            await UpdateValueAsync(value);
+        }
+    }
+
+    /// <summary>
+    /// Called when change event fires (on blur or Enter).
+    /// Used in OnChange behavior mode.
+    /// </summary>
+    private async Task HandleChangeAsync(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString();
+        await UpdateValueAsync(value);
+    }
+
+    /// <summary>
+    /// Updates the Value property and notifies parent.
+    /// </summary>
+    private async Task UpdateValueAsync(string? value)
+    {
+        CurrentValueAsString = value;
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    /// <summary>
+    /// Gets the display value for the input element.
+    /// In OnInput mode, uses internal value to avoid cursor jumping.
+    /// </summary>
+    private string? GetDisplayValue()
+    {
+        // In OnInput mode with debouncing, use the internal value
+        // to prevent cursor position issues during typing
+        if (Behavior == InputBehavior.OnInput && _internalValue != null)
+        {
+            return _internalValue;
+        }
+
+        return CurrentValueAsString;
     }
 }

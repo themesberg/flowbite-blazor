@@ -1,10 +1,14 @@
+using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 
 namespace Flowbite.Components;
 
 public partial class Timeline : FlowbiteComponentBase
 {
-    private string ComponentClasses => CombineClasses(GetBaseClasses());
+    private string ComponentClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add(GetBaseClasses())
+            .Add(Class));
 
     /// <summary>
     /// Determines the visual layout of the timeline.
@@ -17,12 +21,6 @@ public partial class Timeline : FlowbiteComponentBase
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    /// <summary>
-    /// Additional arbitrary attributes to be splatted onto the root element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private string GetBaseClasses() => Order switch
     {

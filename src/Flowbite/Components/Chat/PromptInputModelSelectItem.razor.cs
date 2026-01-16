@@ -27,19 +27,13 @@ public partial class PromptInputModelSelectItem : Flowbite.Base.FlowbiteComponen
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the option element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter] private PromptInputModelSelectContext ModelContext { get; set; } = default!;
 
     private string GetItemClasses()
     {
         var isActive = string.Equals(ModelContext.Value, Value, StringComparison.Ordinal);
         var baseClasses =
-            "flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-left transition-colors hover:bg-gray-100/80 " +
+            "flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-left transition-colors motion-reduce:transition-none hover:bg-gray-100/80 " +
             "dark:hover:bg-slate-900/70";
         return isActive
             ? baseClasses + " bg-gray-100 font-semibold text-gray-900 dark:bg-slate-900/80 dark:text-white"

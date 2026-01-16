@@ -1,3 +1,4 @@
+using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 
 namespace Flowbite.Components;
@@ -18,12 +19,6 @@ public partial class SidebarCTA
     /// </summary>
     [Parameter]
     public SidebarCTAColor Color { get; set; } = SidebarCTAColor.Info;
-
-    /// <summary>
-    /// Gets or sets additional attributes that will be applied to the CTA div element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     /// <summary>
     /// Gets or sets whether the CTA is collapsed. This is automatically handled by the parent Sidebar component.
@@ -49,7 +44,11 @@ public partial class SidebarCTA
             _ => string.Empty
         };
 
-        return CombineClasses($"mt-6 rounded-lg p-4 {colorClasses}");
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add("mt-6 rounded-lg p-4")
+                .Add(colorClasses)
+                .Add(Class));
     }
 
     /// <summary>

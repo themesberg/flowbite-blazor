@@ -47,8 +47,9 @@ public partial class ModalHeader
     /// <returns>The CSS classes for the header.</returns>
     private string GetHeaderClasses()
     {
-        return CombineClasses(
+        return MergeClasses(
             "flex items-start justify-between rounded-t border-b p-5 dark:border-gray-600",
+            Context?.Slots?.Header,
             Class
         );
     }

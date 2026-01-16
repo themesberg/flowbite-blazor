@@ -1,35 +1,42 @@
-
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
+@using Flowbite.Common
 @inherits FlowbiteComponentBase
 
 <li style="list-style-type: none;">
-    <button @onclick="ToggleState" 
-            type="button" 
+    <button @onclick="ToggleStateAsync"
+            type="button"
             class="@GetButtonClasses()"
             aria-controls="sidebar-collapse-@Id"
-            aria-expanded="@_isOpen">
+            aria-expanded="@IsExpanded">
         @if (Icon != null)
         {
             <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object>
             {
-                { "class", "w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" },
+                { "class", "w-5 h-5 text-gray-500 transition duration-75 motion-reduce:transition-none dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" },
                 { "aria-hidden", true },
             })" />
         }
         <span class="flex-1 ms-3 text-left whitespace-nowrap">@Label</span>
         <ChevronDownIcon class="@GetChevronClasses()" aria-hidden="true" />
     </button>
-    <ul id="sidebar-collapse-@Id" 
-        class="@GetListClasses()"
-        style="list-style-type: none;"
-        hidden="@(!_isOpen)">
-        @ChildContent
-    </ul>
+    <div @ref="_contentRef"
+         class="@GetCollapseWrapperClasses()"
+         style="@GetContentStyle()"
+         @ontransitionend="HandleTransitionEnd"
+         @ontransitionend:stopPropagation>
+        <ul id="sidebar-collapse-@Id"
+            class="@GetListClasses()"
+            style="list-style-type: none;">
+            @ChildContent
+        </ul>
+    </div>
 </li>
 
 @code {
-    private bool _isOpen;
+    private CollapseState _state = CollapseState.Collapsed;
+    private int _height;
+    private ElementReference _contentRef;
     private string Id = Guid.NewGuid().ToString("N");
 
     [Parameter]
@@ -41,9 +48,19 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private string GetButtonClasses() => CombineClasses("flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700");
+    private string GetButtonClasses() => CombineClasses(
+        "flex items-center w-full p-2 text-base text-gray-900 transition duration-75 motion-reduce:transition-none rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+    );
 
-    private string GetChevronClasses() => CombineClasses($"w-6 h-6 text-gray-500 transition-transform dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white {(_isOpen ? "rotate-180" : "")}");
+    private string GetChevronClasses() => CombineClasses(
+        "w-6 h-6 text-gray-500 transition-transform duration-300 ease-in-out motion-reduce:transition-none dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white",
+        IsExpanded ? "rotate-180" : ""
+    );
+
+    private string GetCollapseWrapperClasses() => CombineClasses(
+        "transition-[height] duration-300 ease-in-out motion-reduce:transition-none",
+        _state != CollapseState.Expanded ? "overflow-hidden" : ""
+    );
 
     private string GetListClasses() => CombineClasses("py-2 space-y-2 ps-7");
 }

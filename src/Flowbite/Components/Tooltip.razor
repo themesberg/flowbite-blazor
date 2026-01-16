@@ -1,16 +1,31 @@
-
 @inherits FlowbiteComponentBase
+@implements IAsyncDisposable
 
-<div class="relative group inline-block" @onclick="HandleClick" @onfocusout="HandleFocusOut" @onkeydown="HandleKeyDown" tabindex="-1">
+<div class="relative inline-block"
+     @onclick="HandleClick"
+     @onmouseenter="HandleMouseEnter"
+     @onmouseleave="HandleMouseLeave"
+     @onfocusin="HandleFocus"
+     @onfocusout="HandleFocusOut"
+     @onblur="HandleBlur"
+     @onkeydown="HandleKeyDown"
+     aria-describedby="@(_isVisible ? _id : null)"
+     data-floating-trigger="@_id">
     @ChildContent
 
-    <div class="@CombineClasses($"absolute z-10 w-max {GetVisibilityClasses()} {GetPlacementClasses()} {GetStyleClasses()} {GetAnimationClasses()}")">
-        <div class="relative z-20">
-            @Content
+    @if (_isVisible)
+    {
+        <div class="@GetTooltipClasses()"
+             data-floating-element="@_id"
+             role="tooltip"
+             id="@_id">
+            <div class="relative z-20">
+                @Content
+            </div>
+            @if (Arrow)
+            {
+                <div class="@GetArrowClasses()" data-floating-arrow="@_id"></div>
+            }
         </div>
-        @if (Arrow)
-        {
-            <div class="@($"absolute z-10 h-2 w-2 rotate-45 {GetArrowClasses()} { GetArrowStyles()}")" ></div>
-        }
-    </div>
+    }
 </div>

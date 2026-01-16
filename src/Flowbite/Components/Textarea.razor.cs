@@ -57,12 +57,6 @@ public partial class Textarea
     /// </summary>
     [Parameter] public int Rows { get; set; } = 4;
 
-    /// <summary>
-    /// Additional attributes that will be applied to the textarea element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string GetTextareaClasses()
     {
         var classes = new List<string> { BaseTextareaClasses };

@@ -1,3 +1,4 @@
+using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -75,9 +76,10 @@ public partial class DrawerHeader
     /// <returns>The CSS classes for the header.</returns>
     private string GetHeaderClasses()
     {
-        var edgeClasses = EdgeMode && !IsVisible
-            ? "absolute top-0 left-0 right-0 bottom-0 bg-gray-50 dark:bg-gray-800 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md p-2 pl-3 flex flex-col justify-between"
-            : "";
-        return CombineClasses(edgeClasses, Class);
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add("absolute top-0 left-0 right-0 bottom-0 bg-gray-50 dark:bg-gray-800 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md p-2 pl-3 flex flex-col justify-between", when: EdgeMode && !IsVisible)
+                .Add(Class)
+        );
     }
 }

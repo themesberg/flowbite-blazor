@@ -37,12 +37,6 @@ public partial class Label
     /// </example>
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes that will be applied to the label element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string GetClasses()
     {
         var classes = new List<string>

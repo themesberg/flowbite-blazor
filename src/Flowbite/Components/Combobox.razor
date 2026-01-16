@@ -2,7 +2,7 @@
 @inherits Flowbite.Base.FlowbiteComponentBase
 
 <CascadingValue Value="this">
-    <div class="@CombineClasses("relative")" @attributes="AdditionalAttributes" @ref="_rootRef">
+    <div class="@CombineClasses("relative")" style="@Style" @attributes="AdditionalAttributes" @ref="_rootRef">
         @ChildContent
         <button type="button"
                 class="@TriggerClasses"
@@ -11,6 +11,7 @@
                 aria-expanded="@_isOpen"
                 aria-controls="@OptionsListId"
                 disabled="@Disabled"
+                data-floating-trigger="@_floatingId"
                 @onclick="ToggleAsync"
                 @onkeydown="HandleTriggerKeyDown">
             <span class="truncate">@DisplayLabel</span>
@@ -23,7 +24,8 @@
 
         @if (_isOpen)
         {
-            <div class="absolute z-50 mt-2 w-full overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800">
+            <div class="z-50 w-full overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800"
+                 data-floating-element="@_floatingId">
                 <div class="border-b border-gray-100 px-3 py-2 dark:border-gray-700">
                     <label class="sr-only" for="@SearchInputId">Search options</label>
                     <input id="@SearchInputId"

@@ -37,12 +37,6 @@ private readonly string Id = Guid.NewGuid().ToString();
 /// </summary>
 [Parameter] public string? Name { get; set; }
 
-/// <summary>
-/// Gets or sets additional attributes for the toggle switch.
-/// </summary>
-[Parameter(CaptureUnmatchedValues = true)]
-public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
 private async Task HandleClick()
 {
     if (Disabled)
@@ -80,7 +74,7 @@ private void HandleKeyDown(KeyboardEventArgs e)
         var classes = new List<string>
         {
             "relative h-6 w-11 min-w-11 rounded-full border",
-            "after:absolute after:left-px after:top-px after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all rtl:after:right-px",
+            "after:absolute after:left-px after:top-px after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:motion-reduce:transition-none rtl:after:right-px",
             "group-focus:ring-4 group-focus:ring-primary-500/25",
             "border-gray-200  dark:border-gray-600 ",
         };

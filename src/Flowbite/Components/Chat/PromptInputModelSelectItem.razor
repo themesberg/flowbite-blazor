@@ -5,6 +5,7 @@
         class="@CombineClasses(GetItemClasses())"
         @onclick="HandleClickAsync"
         aria-selected="@(ModelContext.Value == Value)"
+        style="@Style"
         @attributes="AdditionalAttributes">
     @if (ChildContent is not null)
     {

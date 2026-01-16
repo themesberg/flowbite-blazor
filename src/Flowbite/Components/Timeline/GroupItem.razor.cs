@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Flowbite.Utilities;
 
 namespace Flowbite.Components;
 
@@ -55,19 +55,31 @@ public partial class GroupItem : FlowbiteComponentBase
     [Parameter]
     public string? IconClass { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to each <c>li</c> element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+    private string ItemClasses => MergeClasses(ElementClass.Empty().Add(ItemClass));
 
-    private string ItemClasses => CombineClasses(string.Empty, ItemClass);
-    private string LinkClasses => JoinClasses("block items-center p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700", LinkClass);
-    private string ImageClasses => JoinClasses("me-3 mb-3 w-12 h-12 rounded-full sm:mb-0", ImageClass);
-    private string ContentClasses => JoinClasses("text-gray-600 dark:text-gray-400", ContentClass);
-    private string TitleClasses => JoinClasses("text-base font-normal", TitleClass);
-    private string MetaClasses => JoinClasses("inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400", MetaClass);
-    private string IconClasses => JoinClasses("me-1 h-3 w-3", IconClass);
+    private string LinkClasses => MergeClasses(ElementClass.Empty()
+        .Add("block items-center p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700")
+        .Add(LinkClass));
+
+    private string ImageClasses => MergeClasses(ElementClass.Empty()
+        .Add("me-3 mb-3 w-12 h-12 rounded-full sm:mb-0")
+        .Add(ImageClass));
+
+    private string ContentClasses => MergeClasses(ElementClass.Empty()
+        .Add("text-gray-600 dark:text-gray-400")
+        .Add(ContentClass));
+
+    private string TitleClasses => MergeClasses(ElementClass.Empty()
+        .Add("text-base font-normal")
+        .Add(TitleClass));
+
+    private string MetaClasses => MergeClasses(ElementClass.Empty()
+        .Add("inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400")
+        .Add(MetaClass));
+
+    private string IconClasses => MergeClasses(ElementClass.Empty()
+        .Add("me-1 h-3 w-3")
+        .Add(IconClass));
 
     private RenderFragment RenderContent(GroupTimelineItem item) => builder =>
     {
@@ -139,8 +151,4 @@ public partial class GroupItem : FlowbiteComponentBase
         builder.CloseElement();
     }
 
-    private static string JoinClasses(params string?[] classes)
-    {
-        return string.Join(" ", classes.Where(c => !string.IsNullOrWhiteSpace(c)));
-    }
 }

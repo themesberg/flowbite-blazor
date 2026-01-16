@@ -6,6 +6,7 @@
     <a href="@Href"
        target="@Target"
        class="@GetButtonClasses()"
+       style="@Style"
        @onclick="HandleClick"
        @attributes="AdditionalAttributes">
         <span class="inline-flex items-center">
@@ -28,8 +29,9 @@
 }
 else
 {
-    <button type="@Type" 
-            class="@GetButtonClasses()" 
+    <button type="@Type"
+            class="@GetButtonClasses()"
+            style="@Style"
             disabled="@Disabled"
             @onclick="HandleClick"
             @attributes="AdditionalAttributes">

@@ -3,7 +3,7 @@
 
 @if (Context.IsOpen)
 {
-    <div class="@CombineClasses(BaseClasses)" @attributes="AdditionalAttributes">
+    <div class="@CombineClasses(BaseClasses)" style="@Style" @attributes="AdditionalAttributes">
         @if (!string.IsNullOrEmpty(Text))
         {
             <MarkdownContent Markdown="@Text" Variant="MarkdownVariant.Muted" Class="text-sm" />

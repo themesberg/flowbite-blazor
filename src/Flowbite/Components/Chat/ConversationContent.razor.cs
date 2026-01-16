@@ -16,12 +16,6 @@ public partial class ConversationContent : Flowbite.Base.FlowbiteComponentBase
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Optional attributes applied to the outer container element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
     /// Automatically scrolls to the bottom after each render. Enabled by default.
     /// </summary>
     [Parameter]

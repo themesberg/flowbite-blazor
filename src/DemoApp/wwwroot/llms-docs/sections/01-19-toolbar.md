@@ -104,8 +104,8 @@ The Toolbar component provides a flexible container for grouping actions, button
                 <PlusIcon Size="IconSize.Small" />
                 Add user
             </Button>
-            <Button Size="ButtonSize.Small" 
-                    Style="ButtonStyle.Outline" 
+            <Button Size="ButtonSize.Small"
+                    Variant="ButtonVariant.Outline"
                     Class="gap-2 px-3">
                 <DownloadIcon Size="IconSize.Medium" />
                 Export

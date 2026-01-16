@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Flowbite.Base;
+using Flowbite.Services;
+using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -17,11 +19,13 @@ public partial class Combobox : FlowbiteComponentBase, IAsyncDisposable
     private readonly List<ComboboxItemRegistration> _items = new();
     private readonly string _instanceId = $"flowbite-combobox-{Guid.NewGuid():N}";
     private readonly string _optionsListId;
+    private readonly string _floatingId;
 
     private bool _isOpen;
     private string _searchText = string.Empty;
     private bool _shouldFocusSearch;
     private bool _itemsInvalidated;
+    private bool _floatingInitialized;
 
     private ElementReference _searchInputRef;
     private ElementReference _rootRef;
@@ -31,10 +35,12 @@ public partial class Combobox : FlowbiteComponentBase, IAsyncDisposable
     private bool _outsideClickRegistered;
 
     [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
+    [Inject] private IFloatingService FloatingService { get; set; } = default!;
 
     public Combobox()
     {
         _optionsListId = $"{_instanceId}-list";
+        _floatingId = $"{_instanceId}-floating";
     }
 
     /// <summary>
@@ -91,12 +97,6 @@ public partial class Combobox : FlowbiteComponentBase, IAsyncDisposable
     [Parameter]
     public EventCallback<string> OnSearchChanged { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the outer container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string SearchInputId => $"{_instanceId}-search";
 
     private string DisplayLabel => SelectedLabel ?? Placeholder;
@@ -108,9 +108,11 @@ public partial class Combobox : FlowbiteComponentBase, IAsyncDisposable
             ? _items
             : _items.Where(item => item.Label.Contains(_searchText, StringComparison.OrdinalIgnoreCase)).ToList();
 
-    private string TriggerClasses => CombineClasses(
-        "flex w-full items-center justify-between rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-left text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white",
-        Disabled ? "cursor-not-allowed opacity-50" : null);
+    private string TriggerClasses => MergeClasses(
+        ElementClass.Empty()
+            .Add("flex w-full items-center justify-between rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-left text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white")
+            .Add("cursor-not-allowed opacity-50", when: Disabled)
+            .Add(Class));
 
     private string OptionsListId => _optionsListId;
 
@@ -148,20 +150,14 @@ public partial class Combobox : FlowbiteComponentBase, IAsyncDisposable
 
     private string GetOptionClasses(ComboboxItemRegistration item)
     {
-        var baseClasses =
-            "flex w-full items-center gap-2 px-3 py-2 text-sm text-left transition-colors hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-700";
+        var isSelected = IsSelected(item);
 
-        if (item.Disabled)
-        {
-            return baseClasses + " cursor-not-allowed text-gray-400 dark:text-gray-500";
-        }
-
-        if (IsSelected(item))
-        {
-            return baseClasses + " bg-gray-100 font-medium text-gray-900 dark:bg-gray-700 dark:text-white";
-        }
-
-        return baseClasses + " text-gray-700 dark:text-gray-200";
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add("flex w-full items-center gap-2 px-3 py-2 text-sm text-left transition-colors motion-reduce:transition-none hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-700")
+                .Add("cursor-not-allowed text-gray-400 dark:text-gray-500", when: item.Disabled)
+                .Add("bg-gray-100 font-medium text-gray-900 dark:bg-gray-700 dark:text-white", when: !item.Disabled && isSelected)
+                .Add("text-gray-700 dark:text-gray-200", when: !item.Disabled && !isSelected));
     }
 
     private async Task ToggleAsync()
@@ -238,10 +234,27 @@ public partial class Combobox : FlowbiteComponentBase, IAsyncDisposable
         if (_isOpen)
         {
             await EnsureOutsideClickAsync();
+
+            // Initialize Floating UI positioning
+            if (!_floatingInitialized)
+            {
+                await FloatingService.InitializeAsync(_floatingId, new FloatingOptions(
+                    Placement: "bottom-start",
+                    Offset: 8
+                ));
+                _floatingInitialized = true;
+            }
         }
         else
         {
             await ReleaseOutsideClickAsync();
+
+            // Cleanup Floating UI when closed
+            if (_floatingInitialized)
+            {
+                await FloatingService.DestroyAsync(_floatingId);
+                _floatingInitialized = false;
+            }
         }
     }
 
@@ -281,6 +294,13 @@ public partial class Combobox : FlowbiteComponentBase, IAsyncDisposable
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
+        // Cleanup Floating UI
+        if (_floatingInitialized)
+        {
+            await FloatingService.DestroyAsync(_floatingId);
+            _floatingInitialized = false;
+        }
+
         if (_jsModule is not null)
         {
             await ReleaseOutsideClickAsync();

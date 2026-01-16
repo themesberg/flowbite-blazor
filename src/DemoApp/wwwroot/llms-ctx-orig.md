@@ -131,7 +131,7 @@ The available Button sizes are:
 </Button>
 
 <!-- Outline button with icon -->
-<Button Style="ButtonStyle.Outline" Color="ButtonColor.Info" Icon="@(new InfoIcon())">
+<Button Variant="ButtonVariant.Outline" Color="ButtonColor.Info" Icon="@(new InfoIcon())">
     Info with icon
 </Button>
 

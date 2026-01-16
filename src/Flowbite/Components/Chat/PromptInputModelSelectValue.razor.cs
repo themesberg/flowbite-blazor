@@ -21,12 +21,6 @@ public partial class PromptInputModelSelectValue : Flowbite.Base.FlowbiteCompone
     [Parameter]
     public Type? Icon { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the span element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     [CascadingParameter] private PromptInputModelSelectContext ModelContext { get; set; } = default!;
 
     private string DisplayText => ModelContext.DisplayLabel ?? Placeholder;

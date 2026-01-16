@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using Microsoft.AspNetCore.Components;
+using Flowbite.Utilities;
 
 namespace Flowbite.Components;
 
@@ -112,19 +112,13 @@ public partial class TimelineItem : FlowbiteComponentBase
     [Parameter]
     public string? DatePrefix { get; set; }
 
-    /// <summary>
-    /// Additional attributes to be applied to the root list item.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    private string ItemClasses => CombineClasses(GetItemBaseClasses(), ListItemClass);
-    private string IndicatorClasses => JoinClasses(GetIndicatorBaseClasses(), IndicatorClass, GetColorIndicatorClasses());
-    private string IndicatorIconClasses => JoinClasses("w-4 h-4", SvgClass, GetColorIconClasses());
-    private string TimeClasses => JoinClasses(GetTimeBaseClasses(), TimeClass);
-    private string TitleClasses => JoinClasses(GetTitleBaseClasses(), TitleClass);
-    private string ContentClasses => JoinClasses(GetContentClasses(), ContentClass);
-    private string ConnectorClasses => JoinClasses(GetConnectorBaseClasses(), ConnectorClass, GetConnectorColorClasses());
+    private string ItemClasses => MergeClasses(ElementClass.Empty().Add(GetItemBaseClasses()).Add(ListItemClass));
+    private string IndicatorClasses => MergeClasses(ElementClass.Empty().Add(GetIndicatorBaseClasses()).Add(GetColorIndicatorClasses()).Add(IndicatorClass));
+    private string IndicatorIconClasses => MergeClasses(ElementClass.Empty().Add("w-4 h-4").Add(GetColorIconClasses()).Add(SvgClass));
+    private string TimeClasses => MergeClasses(ElementClass.Empty().Add(GetTimeBaseClasses()).Add(TimeClass));
+    private string TitleClasses => MergeClasses(ElementClass.Empty().Add(GetTitleBaseClasses()).Add(TitleClass));
+    private string ContentClasses => MergeClasses(ElementClass.Empty().Add(GetContentClasses()).Add(ContentClass));
+    private string ConnectorClasses => MergeClasses(ElementClass.Empty().Add(GetConnectorBaseClasses()).Add(GetConnectorColorClasses()).Add(ConnectorClass));
     private bool ShouldRenderConnector => !IsLast && (Order == TimelineOrder.Vertical || Order == TimelineOrder.Activity);
     private string DisplayDate => BuildDisplayDate();
 
@@ -286,11 +280,6 @@ public partial class TimelineItem : FlowbiteComponentBase
         }
 
         return value;
-    }
-
-    private static string JoinClasses(params string?[] classes)
-    {
-        return string.Join(" ", classes.Where(c => !string.IsNullOrWhiteSpace(c)));
     }
 
     private sealed record TimelineColorStyle(string Dot, string Ring, string Icon, string VerticalConnector);

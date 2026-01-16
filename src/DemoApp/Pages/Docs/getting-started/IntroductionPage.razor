@@ -29,20 +29,31 @@
                     
                     <section class="pt-4 flex flex-col space-y-2">
                         <h2 class="group relative scroll-mt-20 text-3xl font-bold text-gray-900 dark:text-white"
-                            id="getting-started"><a aria-hidden="true" tabindex="-1" target="_blank" rel="noreferrer"
-                                                    href="#getting-started"><span class="icon icon-link"></span></a>Features<a
-                                                                                                                                href="#getting-started" aria-label="Link to this section: Getting started"
+                            id="features"><a aria-hidden="true" tabindex="-1" target="_blank" rel="noreferrer"
+                                                    href="#features"><span class="icon icon-link"></span></a>Features<a
+                                                                                                                                href="#features" aria-label="Link to this section: Features"
                                                                                                                                 class="ml-2 text-primary-700 opacity-0 transition-opacity group-hover:opacity-100 dark:text-primary-500">#</a>
                         </h2>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-4">Core Features</h3>
                         <ul class="ps-5 space-y-2 list-decimal list-outside">
-                            <li>🎨 TailwindCSS Integration - Beautiful, responsive designs out of the box</li>
-                            <li>🌙 Dark Mode Support - Automatic dark mode through TailwindCSS classes</li>
-                            <li>♿ Built-in Accessibility - ARIA attributes and keyboard navigation included</li>
+                            <li>🎨 Tailwind CSS v4 Integration - CSS-first configuration with @@theme directive</li>
+                            <li>🌙 Dark Mode Support - Automatic dark mode through Tailwind CSS classes</li>
+                            <li>♿ Built-in Accessibility - ARIA attributes and full keyboard navigation support</li>
                             <li>📱 Responsive Design - Mobile-first components that work everywhere</li>
                             <li>🚀 Native Blazor Events - Seamless integration with Blazor's event system</li>
                             <li>🎯 Strong Typing - Full type safety and IntelliSense support</li>
-                            <li>📦 No Node.js Required - Simple MSBuild integration for TailwindCSS</li>
+                            <li>📦 No Node.js Required - Simple MSBuild integration for Tailwind CSS</li>
                             <li>🔌 Extended Icons - Optional package for additional icon components</li>
+                        </ul>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mt-4">New in v0.2.x</h3>
+                        <ul class="ps-5 space-y-2 list-decimal list-outside">
+                            <li>🔀 TailwindMerge Integration - Automatic class conflict resolution via MergeClasses()</li>
+                            <li>🎰 Slot System - Fine-grained component customization with typed slot classes</li>
+                            <li>📍 Floating UI Positioning - Smart viewport-aware positioning for Dropdown, Tooltip, and Popover</li>
+                            <li>⏱️ Debounced Input - Built-in debouncing for TextInput search scenarios</li>
+                            <li>🎬 Animation State Machine - Smooth height-based animations for SidebarCollapse</li>
+                            <li>⚡ Lazy JavaScript Modules - On-demand loading of JS modules for better performance</li>
+                            <li>🎯 motion-reduce Support - Respects user's reduced motion preferences</li>
                         </ul>
                     </section>
                     <section class="pt-4 flex flex-col space-y-2">
@@ -55,13 +66,13 @@
                         <p class="pb-5">Select from the Button immediately below to learn how to get started with Flowbite Blazor and start leveraging the interactive Blazor
                             components coupled with Flowbite and Tailwind CSS.</p>
                         
-                        <div class="w-full justify-center space-y-4 sm:flex sm:justify-start sm:space-x-4 sm:space-y-0">
-                            <div class="mx-0 flex flex-row items-center gap-4 sm:gap-6">
+                        <div class="w-full justify-center space-y-4 sm:flex sm:flex-wrap sm:justify-start sm:gap-4 sm:space-y-0">
+                            <div class="flex flex-row items-center">
                                 <a type="button"
                                    class="group relative flex items-stretch justify-center p-0.5 text-center font-medium transition-[color,background-color,border-color,text-decoration-color,fill,stroke,box-shadow] focus:z-10 focus:outline-none border border-transparent bg-primary-700 text-white focus:ring-4 focus:ring-primary-300 enabled:hover:bg-primary-800 dark:bg-primary-600 dark:focus:ring-primary-800 dark:enabled:hover:bg-primary-700 rounded-lg w-full whitespace-nowrap"
                                    href="/docs/getting-started/quickstart">
                                     <span
-                                        class="flex items-stretch transition-all duration-200 rounded-md px-5 py-2.5 text-base">
+                                        class="flex items-stretch transition-all duration-200 rounded-md px-8 py-2.5 text-base">
                                         Quickstart
                                         <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24"
                                              aria-hidden="true" class="ml-2 mt-1 size-4"
@@ -72,12 +83,29 @@
                                     </span>
                                 </a>
                             </div>
-                            <div class="mx-0 flex flex-row items-center gap-4 sm:gap-6">
+                            <div class="flex flex-row items-center">
+                                <a type="button"
+                                   class="group relative flex items-stretch justify-center p-0.5 text-center font-medium transition-[color,background-color,border-color,text-decoration-color,fill,stroke,box-shadow] focus:z-10 focus:outline-none border border-transparent text-gray-900 bg-white border-gray-200 focus:ring-4 focus:ring-gray-100 enabled:hover:bg-gray-100 enabled:hover:text-primary-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:enabled:hover:bg-gray-700 dark:enabled:hover:text-white dark:focus:ring-gray-700 rounded-lg w-full whitespace-nowrap"
+                                   href="https://github.com/peakflames/flowbite-blazor/blob/develop/docs/MIGRATION.md"
+                                   target="_blank">
+                                    <span
+                                        class="flex items-stretch transition-all duration-200 rounded-md px-8 py-2.5 text-base">
+                                        Migration Guide
+                                        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24"
+                                             aria-hidden="true" class="ml-2 mt-1 size-4"
+                                             height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="flex flex-row items-center">
                                 <a type="button"
                                    class="group relative flex items-stretch justify-center p-0.5 text-center font-medium transition-[color,background-color,border-color,text-decoration-color,fill,stroke,box-shadow] focus:z-10 focus:outline-none border border-transparent bg-primary-700 text-white focus:ring-4 focus:ring-primary-300 enabled:hover:bg-primary-800 dark:bg-primary-600 dark:focus:ring-primary-800 dark:enabled:hover:bg-primary-700 rounded-lg w-full whitespace-nowrap"
                                    href="/llms-ctx.md">
                                     <span
-                                        class="flex items-stretch transition-all duration-200 rounded-md px-5 py-2.5 text-base">
+                                        class="flex items-stretch transition-all duration-200 rounded-md px-8 py-2.5 text-base">
                                         Docs for AI
                                         <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24"
                                              aria-hidden="true" class="ml-2 mt-1 size-4"
@@ -108,7 +136,7 @@
                                 <h5 class="font-medium text-gray-900 dark:text-white">Styles Not Loading</h5>
                                 <ul class="list-disc list-inside space-y-1 ml-4">
                                     <li>Ensure app.min.css is properly linked in your HTML</li>
-                                    <li>Verify tailwind.config.js content paths are correct</li>
+                                    <li>Verify @@source paths in app.css are correct for your project structure</li>
                                     <li>Check if the MSBuild Tailwind CSS task ran successfully</li>
                                     <li>Check browser console for CSS loading errors</li>
                                 </ul>
@@ -117,7 +145,7 @@
                             <div class="space-y-2">
                                 <h5 class="font-medium text-gray-900 dark:text-white">Components Not Rendering</h5>
                                 <ul class="list-disc list-inside space-y-1 ml-4">
-                                    <li>Verify Flowbite services are registered in Program.cs</li>
+                                    <li>Verify Flowbite services are registered via builder.Services.AddFlowbite()</li>
                                     <li>Check _Imports.razor includes Flowbite namespaces</li>
                                     <li>Ensure component parameters are properly set</li>
                                     <li>Look for errors in browser console or Visual Studio output</li>
@@ -127,7 +155,7 @@
                             <div class="space-y-2">
                                 <h5 class="font-medium text-gray-900 dark:text-white">Dark Mode Issues</h5>
                                 <ul class="list-disc list-inside space-y-1 ml-4">
-                                    <li>Confirm darkMode: 'class' in tailwind.config.js</li>
+                                    <li>Tailwind v4 uses selector-based dark mode by default (no config needed)</li>
                                     <li>Verify dark: prefix in component classes</li>
                                     <li>Check if dark mode class is properly toggled on html tag</li>
                                 </ul>
@@ -142,24 +170,29 @@
                                    tabindex="-1" target="_blank" rel="noreferrer" href="#customization">
                                     <span
                                         class="icon icon-link"></span></a>Customization</h4>
-                            <p>Customize components by extending your tailwind.config.js theme:</p>
+                            <p>Tailwind CSS v4 uses CSS-first configuration. Customize your theme directly in your app.css file using the @@theme directive:</p>
                             @{ var codeContent = @"
-module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          // ... other shades
-          900: '#0c4a6e',
-        },
-      },
-    },
-  },
+@@import ""tailwindcss"";
+
+@@theme {
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+  --color-primary-950: #082f49;
 }
+
+@@source ""../../Flowbite/Components"";
+@@source ""../Pages"";
+@@source ""../Layout"";
 "; }
-                            <CodeBlock Language="python" class="text-xs dark:bg-gray-800" Code="@codeContent" CopyToClipboard FullWidth/>
+                            <CodeBlock Language="css" class="text-xs dark:bg-gray-800" Code="@codeContent" CopyToClipboard FullWidth/>
                         </div>
                         <div class="space-y-4">
                             <h4 id="contributing" class="text-xl font-bold text-gray-900 dark:text-white mt-4">

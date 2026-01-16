@@ -8,19 +8,25 @@ namespace Flowbite.Components;
 public partial class ModalBody
 {
     /// <summary>
+    /// Gets or sets the cascading modal context.
+    /// </summary>
+    [CascadingParameter] private ModalContext? Context { get; set; }
+
+    /// <summary>
     /// Gets or sets the content of the body.
     /// </summary>
     [Parameter] public RenderFragment? ChildContent { get; set; }
-    
-    
+
+
     /// <summary>
     /// Gets the CSS classes for the body.
     /// </summary>
     /// <returns>The CSS classes for the body.</returns>
     private string GetBodyClasses()
     {
-        return CombineClasses(
+        return MergeClasses(
             "flex-1 overflow-auto p-6",
+            Context?.Slots?.Body,
             Class
         );
     }

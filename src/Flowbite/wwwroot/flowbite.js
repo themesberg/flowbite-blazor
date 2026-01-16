@@ -1,73 +1,91 @@
-// Flowbite JavaScript utilities
-// console.log('[Flowbite.js] Initializing Flowbite JavaScript utilities...');
+/**
+ * Flowbite Blazor JavaScript Utilities
+ *
+ * This file provides global JavaScript functions for Flowbite Blazor components.
+ *
+ * MIGRATION NOTE: New code should use lazy-loaded ES modules via injected services:
+ * - IClipboardService (from clipboard.js module)
+ * - IElementService (from element.module.js)
+ * - IFocusManagementService (from focus-management.module.js)
+ *
+ * The global namespace (window.Flowbite, window.flowbiteBlazor) is maintained
+ * for backward compatibility but new components should prefer the services.
+ */
 
+// Dynamically load the Floating UI bundle if not already loaded
+(function() {
+    if (typeof window.FlowbiteFloating === 'undefined') {
+        const script = document.createElement('script');
+        // Get the base path from the current script
+        const currentScript = document.currentScript || document.querySelector('script[src*="flowbite.js"]');
+        const basePath = currentScript ? currentScript.src.replace(/flowbite\.js.*$/, '') : '/_content/Flowbite/';
+        script.src = basePath + 'js/floating-ui.bundle.js';
+        script.async = false; // Load synchronously to ensure it's available
+        document.head.appendChild(script);
+    }
+})();
+
+/**
+ * Legacy global namespace for Flowbite utilities.
+ * @deprecated New code should use IClipboardService instead.
+ */
 window.Flowbite = {
     init: function() {
-        console.log('[Flowbite.js] Flowbite JavaScript utilities initialized');
-        // console.log('[Flowbite.js] Clipboard API available:', !!navigator.clipboard);
+        // Initialization complete
     },
+    /**
+     * @deprecated Use IClipboardService.CopyToClipboardAsync instead.
+     * This function is kept for backward compatibility.
+     */
     copyToClipboard: async function(content) {
-
-        // Check if content is valid
         if (typeof content !== 'string' || !content) {
             console.error('[Flowbite.js] Invalid content provided');
             return false;
         }
 
-        // Check if clipboard API is available
-        if (!navigator.clipboard) {
-            console.error('[Flowbite.js] Clipboard API not available');
-            return false;
-        }
-
-        try {
-            await navigator.clipboard.writeText(content);
-            // console.log('[Flowbite.js] Text successfully copied to clipboard');
-            return true;
-        } catch (err) {
-            console.error('[Flowbite.js] Failed to copy text:', err.message);
-            
-            // Fallback to legacy approach if permission denied
-            if (err.name === 'NotAllowedError') {
-                try {
-                    const textArea = document.createElement('textarea');
-                    textArea.value = content;
-                    textArea.style.position = 'fixed';
-                    textArea.style.opacity = '0';
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    const success = document.execCommand('copy');
-                    document.body.removeChild(textArea);
-                    
-                    if (success) {
-                        // console.log('[Flowbite.js] Text copied using fallback method');
-                        return true;
-                    }
-                } catch (fallbackErr) {
-                    console.error('[Flowbite.js] Fallback copy method failed:', fallbackErr.message);
+        if (navigator.clipboard) {
+            try {
+                await navigator.clipboard.writeText(content);
+                return true;
+            } catch (err) {
+                if (err.name !== 'NotAllowedError') {
+                    console.error('[Flowbite.js] Failed to copy:', err.message);
+                    return false;
                 }
             }
-            
+        }
+
+        // Fallback for older browsers or permission denied
+        try {
+            const textArea = document.createElement('textarea');
+            textArea.value = content;
+            textArea.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+            document.body.appendChild(textArea);
+            textArea.select();
+            const success = document.execCommand('copy');
+            document.body.removeChild(textArea);
+            return success;
+        } catch (err) {
+            console.error('[Flowbite.js] Fallback copy failed:', err.message);
             return false;
         }
     },
+    /**
+     * Highlights code using Prism.js
+     */
     highlightCode: async function(element) {
-        console.log('highlightCode called with element:', element);
-        
         if (!element) {
             console.warn('highlightCode: No element provided');
             return false;
         }
-        
-        if (!Prism) {
+
+        if (typeof Prism === 'undefined') {
             console.error('highlightCode: Prism is not defined');
             return false;
         }
-        
+
         try {
-            console.log('Attempting to highlight element with language:', element.className);
             Prism.highlightElement(element);
-            console.log('Element highlighted successfully');
             return true;
         } catch (error) {
             console.error('Error highlighting element:', error);
@@ -269,6 +287,25 @@ window.flowbiteBlazor.initializeToast = function (elementId, duration, dotNetRef
 
 window.flowbiteBlazor.cleanupElement = function (elementId) {
     return window.flowbiteBlazor.cleanup.cleanupElement(elementId);
+};
+
+/**
+ * Element utilities for animations and measurements
+ */
+window.flowbiteBlazor.element = {
+    /**
+     * Gets the scroll height of an element for smooth collapse/expand animations
+     * @param {HTMLElement} element - The element to measure
+     * @returns {number} The scroll height in pixels, or 0 if element is null
+     */
+    getScrollHeight: function (element) {
+        return element?.scrollHeight ?? 0;
+    }
+};
+
+// Shorthand for element utilities
+window.flowbiteBlazor.getScrollHeight = function (element) {
+    return window.flowbiteBlazor.element.getScrollHeight(element);
 };
 
 // Initialize Flowbite

@@ -1,3 +1,5 @@
+using Flowbite.Common;
+using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System;
@@ -69,7 +71,33 @@ public partial class Modal
     /// Gets or sets the data-testid attribute for testing.
     /// </summary>
     [Parameter] public string? DataTestId { get; set; }
-    
+
+    /// <summary>
+    /// Slot configuration for per-element class customization.
+    /// </summary>
+    /// <remarks>
+    /// Use slots to override default styling for specific parts of the modal:
+    /// - Base: The modal root (same as ModalClass, for slot consistency)
+    /// - Backdrop: The background overlay
+    /// - Content: The modal dialog container
+    /// - Header: Passed to ModalHeader components
+    /// - Body: Passed to ModalBody components
+    /// - Footer: Passed to ModalFooter components
+    /// </remarks>
+    /// <example>
+    /// <code>
+    /// &lt;Modal Show="@show" Slots="@(new ModalSlots {
+    ///     Backdrop = "bg-gray-900/70",
+    ///     Content = "rounded-xl shadow-2xl",
+    ///     Header = "border-b-2",
+    ///     Body = "p-8"
+    /// })"&gt;
+    ///     ...
+    /// &lt;/Modal&gt;
+    /// </code>
+    /// </example>
+    [Parameter] public ModalSlots? Slots { get; set; }
+
     /// <summary>
     /// The modal context to share with child components.
     /// </summary>
@@ -80,17 +108,17 @@ public partial class Modal
     /// </summary>
     protected override void OnInitialized()
     {
-        _modalContext = new ModalContext(Id, Dismissible, CloseAsync);
+        _modalContext = new ModalContext(Id, Dismissible, CloseAsync, Slots);
         base.OnInitialized();
     }
-    
+
     /// <summary>
     /// Method invoked when the component parameters are set.
     /// </summary>
     protected override void OnParametersSet()
     {
         // Update the context if parameters change
-        _modalContext = new ModalContext(Id, Dismissible, CloseAsync);
+        _modalContext = new ModalContext(Id, Dismissible, CloseAsync, Slots);
         base.OnParametersSet();
     }
     
@@ -154,11 +182,16 @@ public partial class Modal
     /// <returns>The CSS classes for the modal backdrop.</returns>
     private string GetBackdropClasses()
     {
-        return CombineClasses(
-            "p-16 fixed inset-0 z-50 h-screen md:inset-0 md:h-full",
-            "flex bg-gray-900/50 dark:bg-gray-900/80",
-            GetPositionClasses(),
-            BackdropClass
+        return MergeClasses(
+            ElementClass.Empty()
+                // Base classes for backdrop with transition support
+                .Add("p-16 fixed inset-0 z-50 h-screen md:inset-0 md:h-full flex transition-opacity duration-300 ease-in-out motion-reduce:transition-none")
+                // Visibility and opacity based on IsVisible state
+                .Add("bg-gray-900/50 dark:bg-gray-900/80 opacity-100", when: IsVisible)
+                .Add("bg-transparent opacity-0 invisible pointer-events-none", when: !IsVisible)
+                .Add(GetPositionClasses())
+                .Add(Slots?.Backdrop)
+                .Add(BackdropClass)
         );
     }
     
@@ -168,10 +201,17 @@ public partial class Modal
     /// <returns>The CSS classes for the modal container.</returns>
     private string GetModalClasses()
     {
-        return CombineClasses(
-            "relative w-full flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700",
-            GetSizeClasses(),
-            ModalClass
+        return MergeClasses(
+            ElementClass.Empty()
+                // Base classes with scale/opacity transition for the modal itself
+                .Add("relative w-full flex max-h-[90dvh] flex-col rounded-lg bg-white shadow dark:bg-gray-700 transition-all duration-300 ease-in-out motion-reduce:transition-none")
+                // Scale and opacity transform based on visibility
+                .Add("scale-100 opacity-100", when: IsVisible)
+                .Add("scale-95 opacity-0", when: !IsVisible)
+                .Add(GetSizeClasses())
+                .Add(Slots?.Content)
+                .Add(Slots?.Base)
+                .Add(ModalClass)
         );
     }
     

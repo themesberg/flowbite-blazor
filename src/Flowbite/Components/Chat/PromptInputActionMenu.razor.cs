@@ -29,12 +29,6 @@ public partial class PromptInputActionMenu : Flowbite.Base.FlowbiteComponentBase
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    /// <summary>
-    /// Additional attributes applied to the container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string BaseClasses => "relative inline-flex z-[75]";
 
     private void HandleStateChanged() => InvokeAsync(StateHasChanged);

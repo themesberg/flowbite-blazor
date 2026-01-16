@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Flowbite.Base;
+using Flowbite.Utilities;
 
 namespace Flowbite.Components.Carousel;
 
@@ -28,13 +29,13 @@ public partial class CarouselIndicators : FlowbiteComponentBase
     private string GetIndicatorButtonClass(int index)
     {
         bool isActive = index == State?.CurrentIndex;
-        
-        string baseClass = "w-3 h-3 rounded-full transition-all";
-        string stateClass = isActive 
-            ? "bg-white dark:bg-gray-800" 
-            : "bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800";
-        
-        return $"{baseClass} {stateClass}";
+
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add("w-3 h-3 rounded-full transition-all motion-reduce:transition-none")
+                .Add("bg-white dark:bg-gray-800", when: isActive)
+                .Add("bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800", when: !isActive)
+        );
     }
 
     private string GetIndicatorContainerClass()
@@ -46,6 +47,11 @@ public partial class CarouselIndicators : FlowbiteComponentBase
             _ => "bottom-5"
         };
 
-        return CombineClasses($"absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse left-1/2 {positionClass}");
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add("absolute z-30 flex -translate-x-1/2 space-x-3 rtl:space-x-reverse left-1/2")
+                .Add(positionClass)
+                .Add(Class)
+        );
     }
 }

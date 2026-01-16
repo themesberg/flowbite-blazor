@@ -1,4 +1,4 @@
-# Agent Guidelines
+# Cline and Claude Project Rules for Flowbite Blazor
 
 ## Overview
 - Flowbite Blazor is a Blazor component library that ports Flowbite React to ASP.NET Blazor 8/9 on top of Tailwind CSS.
@@ -12,18 +12,49 @@
 - Place shared docs under `docs/`, automation in `scripts/`, and ship-ready static assets under each project’s `wwwroot/`.
 
 ## Build, Run, and Packaging
-- `dotnet build` or `dotnet build FlowbiteBlazor.sln` compiles the full solution; `dotnet build -c Release` tests the packaged flow.
-- `dotnet watch --project src/DemoApp/DemoApp.csproj run` (or `dotnet run` from `src/DemoApp/`) starts the demo with hot reload at http://localhost:5290/.
-- `./cf-build.sh` (Linux/macOS) or `./publish-local.ps1` (Windows) packs libraries and publishes the demo to `dist/` for NuGet-style validation.
-- Test packaged components by running `publish-local.ps1` then serving `dist/wwwroot` (e.g., `dotnet serve`).
-- Tailwind builds automatically via MSBuild; install the CLI into `tools/` before the first build. Manual run: `tools/tailwindcss -i src/DemoApp/wwwroot/css/app.css -o src/DemoApp/wwwroot/css/app.min.css --minify --postcss`.
-- Documentation context can be regenerated with `powershell -ExecutionPolicy Bypass -File Build-LlmsContext.ps1` inside `src/DemoApp/`.
+
+Use the Python automation script for all build operations:
+
+### Build & Run Commands
+- `python build.py` — Build the solution (default)
+- `python build.py build` — Same as above, builds FlowbiteBlazor.sln
+- `python build.py watch` — Run DemoApp with hot reload (foreground, Ctrl+C to stop)
+- `python build.py run` — Run DemoApp in foreground
+- `python build.py start` — Auto-builds, then starts DemoApp in background (http://localhost:5290)
+- `python build.py stop` — Stop background DemoApp
+- `python build.py status` — Check if DemoApp is running
+
+**Key Behaviors:**
+- `build` auto-stops any running DemoApp (prevents file lock errors)
+- `start` auto-builds before launching (always runs latest code)
+- Tailwind CSS is auto-downloaded to `tools/` on first build
+
+### Package Commands
+- `python build.py pack` — Create NuGet packages in `nuget-local/`
+- `python build.py publish` — Pack NuGet + publish DemoApp to `dist/`
+
+### Log Commands (for debugging)
+- `python build.py log` — Show last 50 lines of demoapp.log
+- `python build.py log <pattern>` — Search log for regex pattern (case-insensitive)
+- `python build.py log --tail <n>` — Show last n lines
+- `python build.py log --level error` — Filter by log level (error/warn/info/debug)
+
+### Manual Alternatives (if needed)
+- Direct build: `dotnet build FlowbiteBlazor.sln`
+- Direct watch: `dotnet watch --project src/DemoApp/DemoApp.csproj`
+- Manual Tailwind: `tools/tailwindcss -i src/DemoApp/wwwroot/css/app.css -o src/DemoApp/wwwroot/css/app.min.css --minify --postcss`
+- Regenerate docs context: `powershell -ExecutionPolicy Bypass -File Build-LlmsContext.ps1` inside `src/DemoApp/`
 
 ## Architecture and Component Patterns
 - Base classes live in `src/Flowbite/Base/`:
-  - `FlowbiteComponentBase` provides `CombineClasses()` and a `Class` parameter.
+  - `FlowbiteComponentBase` provides `CombineClasses()`, `MergeClasses()`, and a `Class` parameter.
   - `IconBase` extends the base for SVG icons with aria and stroke control.
   - `OffCanvasComponentBase` manages visibility for drawers, modals, and toasts.
+- **CSS Class Composition Patterns:**
+  - **PREFER `ElementClass` fluent builder** for component class logic (`src/Flowbite/Utilities/ElementClass.cs`)
+  - Use `ElementClass.Empty().Add("class").Add("conditional", when: bool)` for readable conditional classes
+  - Pass result to `MergeClasses()` for TailwindMerge.NET conflict resolution
+  - Example: `MergeClasses(ElementClass.Empty().Add("px-4").Add("hidden", when: !visible).Add(Class))`
 - Components use a two-file pattern: `Component.razor` for markup and `Component.razor.cs` for logic.
 - Services for programmatic control (`AddFlowbite*`) reside in `src/Flowbite/Services/`; register them in `Program.cs`.
 - DemoApp structure:
@@ -41,13 +72,20 @@
 - Only use icons from `Flowbite.Icons` or `Flowbite.ExtendedIcons`; add missing glyphs internally.
 - Document all public APIs with XML comments.
 
-## React-to-Blazor Migration Checklist
-1. Review the Flowbite React source in `C:/Users/tschavey/projects/javascript_projects/flowbite-react/packages/ui/src`.
-2. Cross-reference the React docs in `.../flowbite-react/apps/web/content/docs/components`.
-3. Implement the component in `src/Flowbite/Components/` following the two-file pattern.
-4. Add a demo page at `src/DemoApp/Pages/Docs/components/{ComponentName}Page.razor`.
-5. Update navigation in `src/DemoApp/Layout/DocLayoutSidebarData.cs`.
-6. Add documentation in `src/DemoApp/wwwroot/llms-docs/sections/` and update `Build-LlmsContext.ps1` if needed.
+## UI Assets & Theming Tips
+- Tailwind config lives in directory for Flowbite at `src\Flowbite\tailwind.config.js`; PostCSS in `src\Flowbite\postcss.config.js`.
+- Tailwind config lives in directory for DemoApp at `src\DemoApp\tailwind.config.js`; PostCSS in `src\DemoApp\postcss.config.js`.
+- **CRITICAL: Always commit `*.min.css`** - These files are generated by `tailwindcss.exe` during build. When you add new Tailwind classes, this file changes and MUST be committed.
+- It is ULTRA IMPORTATNT to adhere to the Flowbite Design Style System as it is a Mobile first and good looking.
+- PREFER to use Flowbite Blazor UI Component rather than custom components.
+
+
+## Development Rules and Memory Aid
+
+- **Developer Rules**: Read `docs/developer_rules.md` for project structure, coding standards, build commands, and git workflow
+- **Memory Aid**: Read `docs/memory_aid.md` (index) + topic files in `docs/memory_aid/` for lessons learned & gotchas
+- PREFER to load and read both files prior to editing any source file
+- You MUST EDIT the appropriate file in `docs/memory_aid/` after learning a new pattern or gotcha
 
 ## Testing and Validation
 - No automated test suite yet; rely on `dotnet build` and manual verification in the DemoApp.
@@ -55,6 +93,13 @@
 - When fixing bugs, reproduce them in the demo first, then validate the fix there.
 - Ensure `src/Flowbite/wwwroot/flowbite.min.css` is regenerated as part of builds and committed whenever component styles change.
 - **Non‑negotiable:** drive every meaningful UI verification through the Playwright MCP server (`mcp__playwright__browser_*`). Treat these scripted runs as mandatory—launch the DemoApp, navigate to the affected surface, and capture evidence (screenshots or DOM state) before calling a change “done.”
+
+## CSS Commits
+**CRITICAL:** When Tailwind classes change, commit the generated CSS:
+```bash
+git add src/Flowbite/wwwroot/flowbite.min.css
+git add src/DemoApp/wwwroot/css/app.min.css
+```
 
 ## Problem-Solving Approach
 1. Analyze and form a hypothesis before modifying code.
@@ -65,6 +110,11 @@
 - Branch from `develop`: `git checkout develop && git pull origin develop`.
 - Naming: `fix/issue-{id}-description`, `feature/issue-{id}-description`, or `enhancement/issue-{id}-description`.
 - Commit format: `{type}({scope}): {description}` (types: fix, feat, docs, style, refactor, test, chore). Reference issues with `Fixes #{number}` when applicable.
+- **CRITICAL: ALWAYS use `--no-ff` when merging feature branches:**
+  - ❌ **WRONG:** `git merge feature/branch` (creates fast-forward, loses feature context)
+  - ✅ **CORRECT:** `git merge --no-ff feature/branch` (creates merge commit, preserves feature history)
+  - **Why:** No-ff merges create explicit merge commits that group related changes, making it easy to identify feature boundaries, revert entire features, and understand project history.
+  - **Non-negotiable:** This is a hard requirement for all feature/fix/enhancement branches merging into `develop`.
 
 ## Key References
 - `.clinerules/AGENTS.md` — detailed contributor expectations.
@@ -115,3 +165,42 @@
 2.  **Edge Case Analysis:** (What could go wrong and how we prevented it).
 3.  **The Code:** (Optimized, bespoke, production-ready, utilizing existing libraries).
 
+## CRITICAL: Verification Before Commit Rule
+
+**NEVER commit code changes before the user has verified them!**
+
+A successful build (compile) does NOT equal working code. The workflow MUST be:
+
+1. **Implement** - Make the code changes
+2. **Build** - Run `python build.py` to verify compilation
+3. **Start App** - Run `python build.py start` to launch the application
+4. **User Verification** - Wait for the user to test and confirm the feature works
+5. **Commit** - ONLY after user explicitly confirms verification passed
+
+**Why this matters:**
+- Compiled code ≠ correct behavior
+- UI changes need visual verification
+- Business logic needs functional testing
+- Committing untested code pollutes git history with potential bugs
+
+**Exceptions (when you MAY commit without explicit user verification):**
+- **YOLO mode is enabled** - User has auto-approve on, implying trust in the workflow
+- **No user interaction expected** - Backend-only changes with no UI impact that can be verified by automated tests or build alone (e.g., refactoring, adding documentation, updating configs)
+
+**Bad pattern:**
+```
+build succeeds → git commit → "let me know if it works"  ❌
+```
+
+**Good pattern:**
+```
+build succeeds → start app → "Please verify at /admin/settings" → user confirms → git commit  ✅
+```
+
+## Development Rules and Memory Aid Reminder
+
+- **Developer Rules**: `docs/developer_rules.md` — prescriptive guidelines
+- **Memory Aid**: `docs/memory_aid.md` (index) + `docs/memory_aid/` (topic files) — lessons learned & gotchas
+- PREFER to load and read both files prior to editing any source file
+- You MUST EDIT the appropriate file in `docs/memory_aid/` after learning a new pattern or gotcha
+- PREFER to use the `build.py` for nearly all build, test, and database activities

@@ -5,7 +5,7 @@
 {
     @foreach (var activity in Activities!)
     {
-        <li class="@ListItemClasses" @attributes="AdditionalAttributes">
+        <li class="@ListItemClasses" style="@Style" @attributes="AdditionalAttributes">
             <span class="@AvatarWrapperClasses">
                 @if (!string.IsNullOrWhiteSpace(activity.ImageSource))
                 {

@@ -1,3 +1,4 @@
+using Flowbite.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -211,11 +212,17 @@ public partial class Drawer
     /// <returns>The CSS classes for the drawer.</returns>
     private string GetDrawerClasses()
     {
-        // p-16 fixed inset-0 z-50 h-screen md:inset-0 md:h-full flex bg-gray-900/50 dark:bg-gray-900/80 items-center justify-center
-        var baseClasses = "fixed z-[70] overflow-y-auto bg-white p-4 transition-transform dark:bg-gray-800";
         var positionClasses = GetPositionClasses();
-        
-        return CombineClasses(baseClasses, positionClasses, Class);
+
+        // When drawer is completely hidden (not visible AND not in edge mode), make it invisible and non-interactive
+        // This keeps the element in the DOM for CSS transitions while hiding it visually
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add("fixed z-[70] overflow-y-auto bg-white p-4 transition-transform duration-300 ease-in-out motion-reduce:transition-none dark:bg-gray-800")
+                .Add(positionClasses)
+                .Add("invisible pointer-events-none", when: !IsVisible && !Edge)
+                .Add(Class)
+        );
     }
     
     /// <summary>

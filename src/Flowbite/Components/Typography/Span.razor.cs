@@ -1,4 +1,6 @@
 
+using Flowbite.Utilities;
+
 namespace Flowbite.Components.Typography;
 
 /// <summary>
@@ -75,71 +77,32 @@ public partial class Span
     public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
-    /// Additional attributes that will be applied to the span element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
-    /// <summary>
     /// Generates the appropriate CSS classes for the span based on its properties.
     /// </summary>
     private string GetSpanClasses()
     {
-        var classes = new List<string>();
+        // Determine color classes (gradient takes precedence over custom color)
+        var colorClasses = Gradient != GradientColor.None
+            ? GetGradientClasses(Gradient)
+            : CustomColor ?? string.Empty;
 
-        // Add gradient classes if specified
-        if (Gradient != GradientColor.None)
-        {
-            classes.Add(GetGradientClasses(Gradient));
-        }
-        else if (!string.IsNullOrEmpty(CustomColor))
-        {
-            // Add custom color if specified
-            classes.Add(CustomColor);
-        }
+        // Determine text transform (only one can be active)
+        var textTransform = Uppercase ? "uppercase"
+            : Lowercase ? "lowercase"
+            : Capitalize ? "capitalize"
+            : string.Empty;
 
-        // Add size class
-        classes.Add(GetTextSizeClass(Size));
+        var classes = ElementClass.Empty()
+            .Add(colorClasses, when: !string.IsNullOrEmpty(colorClasses))
+            .Add(GetTextSizeClass(Size))
+            .Add(GetFontWeightClass(Weight ?? FontWeight.Normal), when: Weight.HasValue)
+            .Add("italic", when: Italic)
+            .Add("underline", when: Underline)
+            .Add("line-through", when: LineThrough)
+            .Add(textTransform, when: !string.IsNullOrEmpty(textTransform))
+            .Add(Class);
 
-        // Add weight class if specified
-        if (Weight.HasValue)
-        {
-            classes.Add(GetFontWeightClass(Weight.Value));
-        }
-
-        // Add italic style
-        if (Italic)
-        {
-            classes.Add("italic");
-        }
-
-        // Add underline style
-        if (Underline)
-        {
-            classes.Add("underline");
-        }
-
-        // Add line-through style
-        if (LineThrough)
-        {
-            classes.Add("line-through");
-        }
-
-        // Add text transform styles
-        if (Uppercase)
-        {
-            classes.Add("uppercase");
-        }
-        else if (Lowercase)
-        {
-            classes.Add("lowercase");
-        }
-        else if (Capitalize)
-        {
-            classes.Add("capitalize");
-        }
-
-        return CombineClasses(classes.ToArray());
+        return MergeClasses(classes);
     }
 
     /// <summary>

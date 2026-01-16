@@ -28,12 +28,6 @@ public partial class Toolbar
     [Parameter]
     public bool Embedded { get; set; } = false;
 
-    /// <summary>
-    /// Additional attributes to be applied to the toolbar element.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
-
     private string GetToolbarClasses()
     {
         var classes = new StringBuilder();

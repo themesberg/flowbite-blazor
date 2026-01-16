@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Flowbite.Base;
+using Flowbite.Utilities;
 using System.Timers;
 
 namespace Flowbite.Components.Carousel;
@@ -53,12 +54,6 @@ public partial class Carousel : IDisposable
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
-
-    /// <summary>
-    /// Gets or sets additional HTML attributes to be applied to the carousel container.
-    /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     protected override void OnInitialized()
     {
@@ -238,7 +233,10 @@ public partial class Carousel : IDisposable
 
     private string GetCarouselClasses()
     {
-        return CombineClasses("grid overflow-hidden relative rounded-lg h-56 sm:h-64 xl:h-80 2xl:h-96");
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add("grid overflow-hidden relative rounded-lg h-56 sm:h-64 xl:h-80 2xl:h-96")
+                .Add(Class));
     }
 
     private int ClampIndex(int value)

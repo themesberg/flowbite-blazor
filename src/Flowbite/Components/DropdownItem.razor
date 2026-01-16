@@ -1,12 +1,15 @@
 
 @inherits FlowbiteComponentBase
+@implements IDisposable
 
 <button type="button"
         class="@GetItemClasses()"
         role="menuitem"
-        tabindex="0"
+        tabindex="@GetTabIndex()"
+        aria-disabled="@(Disabled ? "true" : null)"
         @onclick="HandleClick"
         @onclick:stopPropagation="true"
+        style="@Style"
         @attributes="AdditionalAttributes"
         disabled="@Disabled">
     @if (Icon != null)
