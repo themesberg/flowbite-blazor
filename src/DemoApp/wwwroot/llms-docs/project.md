@@ -7,7 +7,7 @@
 
 ## Current Version
 
-**v0.2.1-beta** - Requires Tailwind CSS v4 and .NET 8 or .NET 9
+**v0.2.2-beta** - Requires Tailwind CSS v4 and .NET 8 or .NET 9
 
 ## Features
 
