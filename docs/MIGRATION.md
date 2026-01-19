@@ -4,6 +4,170 @@ This guide documents breaking changes and provides migration instructions for up
 
 ---
 
+## Version 0.2.3-beta
+
+### Breaking Changes
+
+#### 1. Form Components Require @bind-Value
+
+TextInput, Textarea, and Select components now inherit from `InputBase<TValue>` (via `FlowbiteInputBase<TValue>`) and **require** the `@bind-Value` directive instead of separate `Value`/`ValueChanged` parameters.
+
+**Before:**
+```razor
+<TextInput Value="@email" ValueChanged="@OnEmailChanged" />
+<Textarea Value="@message" ValueChanged="@OnMessageChanged" />
+<Select Value="@country" ValueChanged="@OnCountryChanged">
+    <option value="US">United States</option>
+</Select>
+
+@code {
+    private string email = "";
+    private string message = "";
+    private string country = "";
+
+    private void OnEmailChanged(string value) => email = value;
+    private void OnMessageChanged(string value) => message = value;
+    private void OnCountryChanged(string value) => country = value;
+}
+```
+
+**After:**
+```razor
+<TextInput @bind-Value="email" />
+<Textarea @bind-Value="message" />
+<Select @bind-Value="country">
+    <option value="US">United States</option>
+</Select>
+
+@code {
+    private string email = "";
+    private string message = "";
+    private string country = "";
+}
+```
+
+**For EditForm contexts (recommended):**
+```razor
+<EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+
+    <TextInput TValue="string" @bind-Value="model.Email" />
+    <ValidationMessage For="@(() => model.Email)" />
+
+    <Textarea @bind-Value="model.Message" />
+    <ValidationMessage For="@(() => model.Message)" />
+
+    <Select @bind-Value="model.Country">
+        <option value="">Select country</option>
+        <option value="US">United States</option>
+    </Select>
+    <ValidationMessage For="@(() => model.Country)" />
+
+    <Button Type="submit">Submit</Button>
+</EditForm>
+```
+
+**Migration steps:**
+1. Replace `Value="@variable"` with `@bind-Value="variable"`
+2. Remove `ValueChanged` parameter and handler methods
+3. For generic types (e.g., `int`), specify `TValue`: `<TextInput TValue="int" @bind-Value="model.Age" />`
+
+---
+
+#### 2. Color Parameters Are Now Nullable
+
+The `Color` parameter on TextInput, Textarea, and Select is now nullable (`TextInputColor?` / `SelectColor?`).
+
+**What changed:**
+- When `Color` is `null` (the new default), components **automatically** display red/Failure color when validation errors occur
+- When `Color` is explicitly set, the component uses that color regardless of validation state
+
+**Before:**
+```razor
+@* Color defaulted to Gray, no automatic validation styling *@
+<TextInput @bind-Value="model.Email" />
+```
+
+**After:**
+```razor
+@* Color is null by default - automatically shows red on validation errors *@
+<TextInput @bind-Value="model.Email" />
+
+@* To force a specific color regardless of validation state: *@
+<TextInput @bind-Value="model.Email" Color="TextInputColor.Gray" />
+```
+
+**Impact:** Forms inside `<EditForm>` now automatically show visual validation feedback without additional code. If you relied on inputs staying gray during validation errors, explicitly set `Color="TextInputColor.Gray"`.
+
+---
+
+### New Features (Non-Breaking)
+
+#### Automatic Validation Color Changes
+
+Form components now automatically integrate with Blazor's EditForm validation:
+
+- **Red/Failure color** appears when field has validation errors
+- **Default color** returns when validation passes
+- No additional code required - just use `@bind-Value` inside an `EditForm`
+
+```razor
+<EditForm Model="@model" OnValidSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+
+    @* Input automatically turns red when validation fails *@
+    <TextInput TValue="string" @bind-Value="model.Email" Type="email" />
+    <ValidationMessage For="@(() => model.Email)" />
+
+    <Button Type="submit">Submit</Button>
+</EditForm>
+
+@code {
+    private MyModel model = new();
+
+    public class MyModel
+    {
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        public string Email { get; set; } = "";
+    }
+}
+```
+
+---
+
+### Migration Steps for 0.2.3-beta
+
+1. **Update form component bindings:**
+   ```bash
+   # Find patterns like:
+   # Value="@variable" ValueChanged="@handler"
+   # Replace with:
+   # @bind-Value="variable"
+   ```
+
+2. **Remove obsolete ValueChanged handlers** - no longer needed with `@bind-Value`
+
+3. **Add TValue for non-string types:**
+   ```razor
+   <TextInput TValue="int" @bind-Value="model.Age" Type="number" />
+   <TextInput TValue="decimal" @bind-Value="model.Price" />
+   ```
+
+4. **Test forms inside EditForm** - validation colors now appear automatically
+
+5. **Explicitly set Color if needed** - if you don't want automatic validation colors:
+   ```razor
+   <TextInput @bind-Value="model.Email" Color="TextInputColor.Gray" />
+   ```
+
+6. **Verify build passes:**
+   ```bash
+   dotnet build
+   ```
+
+---
+
 ## Version 0.2.1-beta
 
 ### New Features (Non-Breaking)

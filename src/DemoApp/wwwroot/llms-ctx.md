@@ -1262,7 +1262,7 @@ The Flowbite Blazor library supports both built-in DataAnnotations validation an
 ##### Form State Management
 
 ```razor
-<!-- Form state management example -->
+<!-- Form state management example using @bind-Value with :after callback -->
 <EditForm EditContext="@editContext" OnValidSubmit="@HandleSubmit">
     <DataAnnotationsValidator />
     <div class="flex max-w-md flex-col gap-4">
@@ -1272,8 +1272,8 @@ The Flowbite Blazor library supports both built-in DataAnnotations validation an
             </div>
             <TextInput TValue="string"
                       Id="name"
-                      Value="@name"
-                      ValueChanged="@OnNameChanged" />
+                      @bind-Value="model.Name"
+                      @bind-Value:after="OnNameChanged" />
             <ValidationMessage For="@(() => model.Name)" />
         </div>
         <div class="flex gap-2">
@@ -1294,18 +1294,16 @@ The Flowbite Blazor library supports both built-in DataAnnotations validation an
 
 @code {
     private EditContext? editContext;
-    private string? name;
+    private Model model = new();
 
     protected override void OnInitialized()
     {
         editContext = new EditContext(model);
-        name = model.Name;
     }
 
-    private void OnNameChanged(string? value)
+    private void OnNameChanged()
     {
-        name = value;
-        model.Name = value ?? "";
+        // Notify EditContext that field changed (for IsModified tracking)
         editContext?.NotifyFieldChanged(editContext.Field(nameof(model.Name)));
     }
 
@@ -1313,7 +1311,6 @@ The Flowbite Blazor library supports both built-in DataAnnotations validation an
     {
         model = new Model();
         editContext = new EditContext(model);
-        name = model.Name;
     }
 }
 ```
@@ -1322,11 +1319,10 @@ The Flowbite Blazor library supports both built-in DataAnnotations validation an
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `Value` | `TValue?` | `null` | Bound value |
-| `ValueChanged` | `EventCallback<TValue>` | - | Value change callback |
+| `@bind-Value` | `TValue` | - | Two-way data binding (recommended) |
 | `Type` | `string` | `"text"` | HTML input type |
 | `Size` | `TextInputSize` | `Medium` | Size variant |
-| `Color` | `TextInputColor` | `Gray` | Color/state variant |
+| `Color` | `TextInputColor?` | `null` | Color variant (null = auto-validation colors) |
 | `Placeholder` | `string?` | `null` | Placeholder text |
 | `Disabled` | `bool` | `false` | Disabled state |
 | `Required` | `bool` | `false` | Required field |
@@ -1342,7 +1338,7 @@ The Flowbite Blazor library supports both built-in DataAnnotations validation an
 | `InputMode` | `string?` | `null` | Mobile keyboard hint |
 | `Class` | `string?` | `null` | Additional CSS classes |
 
-The form validation system integrates seamlessly with Blazor's built-in form handling while providing additional features for debouncing, custom validation scenarios, and state management. All form components support validation states through their Color properties and automatically integrate with ValidationMessage components.
+The form validation system integrates seamlessly with Blazor's built-in form handling while providing additional features for debouncing, custom validation scenarios, and state management. TextInput, Textarea, and Select components automatically display red/Failure color when validation errors occur (when Color is null). Set an explicit Color to override this automatic behavior. All form components integrate with ValidationMessage components.
 
 
 

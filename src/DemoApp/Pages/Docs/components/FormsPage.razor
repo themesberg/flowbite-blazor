@@ -82,6 +82,7 @@
         </div>
         <TextInput TValue=""string""
                    @bind-Value=""SearchQuery""
+                   @bind-Value:after=""OnSearchQueryChanged""
                    Behavior=""InputBehavior.OnInput""
                    DebounceDelay=""300""
                    Placeholder=""Type to search...""
@@ -99,6 +100,7 @@
         </div>
         <TextInput TValue=""string""
                    @bind-Value=""InstantQuery""
+                   @bind-Value:after=""OnInstantQueryChanged""
                    Behavior=""InputBehavior.OnInput""
                    Placeholder=""Type for instant updates..."" />
         <p class=""mt-2 text-sm text-gray-500 dark:text-gray-400"">
@@ -108,7 +110,17 @@
             ValueChanged count: @_instantChangeCount
         </p>
     </div>
-</div>")">
+</div>
+
+@@code {
+    private string? SearchQuery;
+    private string? InstantQuery;
+    private int _searchChangeCount;
+    private int _instantChangeCount;
+
+    private void OnSearchQueryChanged() => _searchChangeCount++;
+    private void OnInstantQueryChanged() => _instantChangeCount++;
+}")">
             <PreviewContent>
                 <div class="flex flex-col gap-6">
                     <div>
@@ -116,9 +128,8 @@
                             <Label For="search" Value="Search with 300ms debounce" />
                         </div>
                         <TextInput TValue="string"
-                                   Value="@_searchQuery"
-                                   ValueChanged="OnSearchQueryChanged"
-                                   ValueExpression="@(() => _searchQuery)"
+                                   @bind-Value="_searchQuery"
+                                   @bind-Value:after="OnSearchQueryChanged"
                                    Behavior="InputBehavior.OnInput"
                                    DebounceDelay="300"
                                    Placeholder="Type to search..."
@@ -135,9 +146,8 @@
                             <Label For="instant" Value="Instant input (no debounce)" />
                         </div>
                         <TextInput TValue="string"
-                                   Value="@_instantQuery"
-                                   ValueChanged="OnInstantQueryChanged"
-                                   ValueExpression="@(() => _instantQuery)"
+                                   @bind-Value="_instantQuery"
+                                   @bind-Value:after="OnInstantQueryChanged"
                                    Behavior="InputBehavior.OnInput"
                                    Placeholder="Type for instant updates..." />
                         <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
@@ -762,17 +772,8 @@
     private int _searchChangeCount;
     private int _instantChangeCount;
 
-    private void OnSearchQueryChanged(string? value)
-    {
-        _searchQuery = value;
-        _searchChangeCount++;
-    }
-
-    private void OnInstantQueryChanged(string? value)
-    {
-        _instantQuery = value;
-        _instantChangeCount++;
-    }
+    private void OnSearchQueryChanged() => _searchChangeCount++;
+    private void OnInstantQueryChanged() => _instantChangeCount++;
 
     private string? _comboboxCountry;
     private string? selectSmallDemo;

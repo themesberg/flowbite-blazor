@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.2.3-beta
+
+### Added
+- Add automatic validation color changes for form components (#17)
+  - TextInput, Textarea, and Select components now automatically change to Failure color when validation errors occur
+  - New `FlowbiteInputBase<TValue>` base class integrating with Blazor's EditForm validation
+  - Components subscribe to `EditContext.OnValidationStateChanged` to update styling when validation state changes
+  - `EffectiveColor` property automatically returns Failure when `HasValidationErrors` is true
+  - TailwindMerge integration ensures proper CSS class conflict resolution (e.g., bg-gray-50 vs bg-red-50)
+
+### Fixed
+- Fix build warnings CS8604 in TextInput.razor by using conditional rendering instead of null ternary
+- Fix memory leak in Select and Textarea components by adding `Dispose()` override to call `base.Dispose()`
+
+### Changed
+- **BREAKING:** Form components now require `@bind-Value` instead of `Value`/`ValueChanged` parameters (#17)
+  - TextInput, Textarea, and Select components now inherit from `InputBase<TValue>` (via `FlowbiteInputBase<TValue>`)
+  - Use `@bind-Value="model.Property"` instead of `Value="@value" ValueChanged="@OnValueChanged"`
+  - `ValueExpression` is automatically provided by the `@bind-Value` directive
+  - Migration: Replace all `Value` and `ValueChanged` usages with `@bind-Value` in EditForm contexts
+- **BREAKING:** `TextInput.Color`, `Textarea.Color`, and `Select.Color` parameters are now nullable (#17)
+  - Changed from `TextInputColor`/`SelectColor` to `TextInputColor?`/`SelectColor?`
+  - When `Color` is `null` (default), components automatically use Failure color when validation errors occur
+  - Migration: Explicit `Color` assignments continue to work; `null` enables automatic validation colors
+
 ## 0.2.2-beta
 
 ### Added
@@ -21,12 +46,6 @@
 ## 0.2.1-beta
 
 ### Added
-- Add automatic validation color changes for form components (#17)
-  - TextInput, Textarea, and Select components now automatically change to Failure color when validation errors occur
-  - New `FlowbiteInputBase<TValue>` base class integrating with Blazor's EditForm validation
-  - Components subscribe to `EditContext.OnValidationStateChanged` to update styling when validation state changes
-  - `EffectiveColor` property automatically returns Failure when `HasValidationErrors` is true
-  - TailwindMerge integration ensures proper CSS class conflict resolution (e.g., bg-gray-50 vs bg-red-50)
 - Add lazy-loaded JavaScript module services for improved initial load performance
   - `IClipboardService` - lazy-loaded clipboard operations via `clipboard.js` ES module
   - `IElementService` - lazy-loaded element utilities (scroll height, focus, etc.) via `element.module.js`
@@ -64,8 +83,6 @@
   - All slot classes use TailwindMerge for intelligent conflict resolution
 
 ### Fixed
-- Fix build warnings CS8604 in TextInput.razor by using conditional rendering instead of null ternary
-- Fix memory leak in Select and Textarea components by adding `Dispose()` override to call `base.Dispose()`
 - Fix Tooltip positioning flash on show by using `invisible` + `absolute` positioning until Floating UI calculates position
 - Fix dark mode specificity issue in Tailwind v4 by using `@config` directive instead of `@custom-variant`
   - `@custom-variant dark (&:where(.dark, .dark *))` generates zero-specificity selectors that get overridden
@@ -77,15 +94,6 @@
   - Component implements `IDisposable` for proper timer cleanup
 
 ### Changed
-- **BREAKING:** Form components now require `@bind-Value` instead of `Value`/`ValueChanged` parameters (#17)
-  - TextInput, Textarea, and Select components now inherit from `InputBase<TValue>` (via `FlowbiteInputBase<TValue>`)
-  - Use `@bind-Value="model.Property"` instead of `Value="@value" ValueChanged="@OnValueChanged"`
-  - `ValueExpression` is automatically provided by the `@bind-Value` directive
-  - Migration: Replace all `Value` and `ValueChanged` usages with `@bind-Value` in EditForm contexts
-- **BREAKING:** `TextInput.Color`, `Textarea.Color`, and `Select.Color` parameters are now nullable (#17)
-  - Changed from `TextInputColor`/`SelectColor` to `TextInputColor?`/`SelectColor?`
-  - When `Color` is `null` (default), components automatically use Failure color when validation errors occur
-  - Migration: Explicit `Color` assignments continue to work; `null` enables automatic validation colors
 - **BREAKING:** TextInput styling updated to match Flowbite React v2
   - Info color changed from primary/blue to cyan colors
   - Size Small changed from `p-2 text-sm` to `p-2 sm:text-xs`
