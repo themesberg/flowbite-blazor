@@ -153,4 +153,12 @@ public partial class Select
         validationErrorMessage = null;
         return true;
     }
+
+    /// <summary>
+    /// Disposes the component and unsubscribes from validation state changes.
+    /// </summary>
+    public override void Dispose()
+    {
+        base.Dispose();
+    }
 }

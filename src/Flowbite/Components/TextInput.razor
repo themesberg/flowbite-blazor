@@ -29,19 +29,36 @@
                 })" />
             </div>
         }
-        <input type="@Type"
-               class="@GetInputClasses()"
-               value="@GetDisplayValue()"
-               @oninput="@(Behavior == InputBehavior.OnInput ? HandleInputAsync : null)"
-               @onchange="@(Behavior == InputBehavior.OnChange ? HandleChangeAsync : null)"
-               placeholder="@Placeholder"
-               disabled="@Disabled"
-               required="@Required"
-               pattern="@Pattern"
-               title="@Title"
-               inputmode="@InputMode"
-               data-testid="flowbite-text-input"
-               @attributes="AdditionalAttributes" />
+        @if (Behavior == InputBehavior.OnInput)
+        {
+            <input type="@Type"
+                   class="@GetInputClasses()"
+                   value="@GetDisplayValue()"
+                   @oninput="HandleInputAsync"
+                   placeholder="@Placeholder"
+                   disabled="@Disabled"
+                   required="@Required"
+                   pattern="@Pattern"
+                   title="@Title"
+                   inputmode="@InputMode"
+                   data-testid="flowbite-text-input"
+                   @attributes="AdditionalAttributes" />
+        }
+        else
+        {
+            <input type="@Type"
+                   class="@GetInputClasses()"
+                   value="@GetDisplayValue()"
+                   @onchange="HandleChangeAsync"
+                   placeholder="@Placeholder"
+                   disabled="@Disabled"
+                   required="@Required"
+                   pattern="@Pattern"
+                   title="@Title"
+                   inputmode="@InputMode"
+                   data-testid="flowbite-text-input"
+                   @attributes="AdditionalAttributes" />
+        }
     </div>
     @if (!string.IsNullOrEmpty(AddonRight))
     {

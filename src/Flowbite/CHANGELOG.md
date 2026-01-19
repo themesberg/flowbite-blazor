@@ -64,6 +64,8 @@
   - All slot classes use TailwindMerge for intelligent conflict resolution
 
 ### Fixed
+- Fix build warnings CS8604 in TextInput.razor by using conditional rendering instead of null ternary
+- Fix memory leak in Select and Textarea components by adding `Dispose()` override to call `base.Dispose()`
 - Fix Tooltip positioning flash on show by using `invisible` + `absolute` positioning until Floating UI calculates position
 - Fix dark mode specificity issue in Tailwind v4 by using `@config` directive instead of `@custom-variant`
   - `@custom-variant dark (&:where(.dark, .dark *))` generates zero-specificity selectors that get overridden

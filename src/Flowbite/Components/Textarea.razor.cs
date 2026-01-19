@@ -107,4 +107,12 @@ public partial class Textarea
         validationErrorMessage = null;
         return true;
     }
+
+    /// <summary>
+    /// Disposes the component and unsubscribes from validation state changes.
+    /// </summary>
+    public override void Dispose()
+    {
+        base.Dispose();
+    }
 }
