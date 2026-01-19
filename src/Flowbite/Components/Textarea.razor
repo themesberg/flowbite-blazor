@@ -1,9 +1,8 @@
 @using Flowbite.Base
-@inherits FlowbiteComponentBase
+@inherits FlowbiteInputBase<string?>
 
 <textarea class="@GetTextareaClasses()"
-          @bind="Value"
-          @bind:event="oninput"
+          @bind="CurrentValue"
           placeholder="@Placeholder"
           rows="@Rows"
           disabled="@Disabled"

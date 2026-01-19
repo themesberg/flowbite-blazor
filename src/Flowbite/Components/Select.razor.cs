@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Flowbite.Components;
 
@@ -11,25 +11,19 @@ namespace Flowbite.Components;
 /// </remarks>
 public partial class Select
 {
-    private string BaseClasses => "block w-full text-sm border rounded-lg disabled:cursor-not-allowed disabled:opacity-50";
-
-    /// <summary>
-    /// Gets or sets the selected value.
-    /// </summary>
-    [Parameter]
-    public string? Value { get; set; }
-
-    /// <summary>
-    /// Event callback for when the selected value changes.
-    /// </summary>
-    [Parameter]
-    public EventCallback<string> ValueChanged { get; set; }
+    private const string BaseWrapperClasses = "flex";
+    private const string BaseFieldClasses = "relative w-full";
+    private const string BaseSelectClasses = "block w-full appearance-none border bg-arrow-down-icon bg-[length:0.75em_0.75em] bg-[position:right_12px_center] bg-no-repeat pr-10 focus:outline-none focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50";
+    private const string BaseAddonClasses = "inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-200 px-3 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400";
+    private const string BaseIconClasses = "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3";
+    private const string BaseHelperTextClasses = "mt-2 text-sm";
 
     /// <summary>
     /// Gets or sets the color variant of the select.
+    /// When not explicitly set, the color will automatically change to Failure when validation errors occur.
     /// </summary>
     [Parameter]
-    public SelectColor Color { get; set; } = SelectColor.Gray;
+    public SelectColor? Color { get; set; }
 
     /// <summary>
     /// Gets or sets the size variant of the select.
@@ -79,45 +73,92 @@ public partial class Select
     [Parameter]
     public string? Id { get; set; }
 
-    private string ThemeClass => string.Join(" ", new[]
-    {
-        "relative",
-        AdditionalAttributes?.ContainsKey("class") == true ? AdditionalAttributes["class"]?.ToString() : null
-    }.Where(c => !string.IsNullOrEmpty(c)));
+    /// <summary>
+    /// Gets the effective color for the select, considering validation state.
+    /// </summary>
+    private SelectColor EffectiveColor =>
+        Color ?? (HasValidationErrors ? SelectColor.Failure : SelectColor.Gray);
 
-    private string SelectClass => string.Join(" ", new[]
-    {
-        BaseClasses,
-        GetSizeClasses(),
-        GetColorClasses(),
-        Shadow ? "shadow-sm" : null,
-        Icon != null ? "pl-10" : null,
-        Addon != null ? "rounded-l-none" : null,
-        AdditionalAttributes?.ContainsKey("class") == true ? AdditionalAttributes["class"]?.ToString() : null
-    }.Where(c => !string.IsNullOrEmpty(c)));
+    private string GetWrapperClasses() => BaseWrapperClasses;
+
+    private string GetFieldClasses() => BaseFieldClasses;
+
+    private string GetAddonClasses() => BaseAddonClasses;
+
+    private string GetIconClasses() => BaseIconClasses;
 
     private string GetSizeClasses() => Size switch
     {
-        TextInputSize.Small => "p-2 text-xs",
-        TextInputSize.Large => "p-4 text-base",
-        _ => "p-2.5 text-sm"
+        TextInputSize.Small => "p-2 sm:text-xs",
+        TextInputSize.Medium => "p-2.5 text-sm",
+        TextInputSize.Large => "p-4 sm:text-base",
+        _ => throw new ArgumentOutOfRangeException(nameof(Size), Size, "Invalid TextInputSize value")
     };
 
-    private string GetColorClasses() => Color switch
+    private string GetColorClasses() => EffectiveColor switch
     {
-        SelectColor.Info => "bg-blue-50 border-blue-500 text-blue-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-blue-100 dark:border-blue-400",
-        SelectColor.Success => "bg-green-50 border-green-500 text-green-900 focus:ring-green-500 focus:border-green-500 dark:bg-green-100 dark:border-green-400",
-        SelectColor.Warning => "bg-yellow-50 border-yellow-500 text-yellow-900 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-yellow-100 dark:border-yellow-400",
-        SelectColor.Failure => "bg-red-50 border-red-500 text-red-900 focus:ring-red-500 focus:border-red-500 dark:bg-red-100 dark:border-red-400",
-        _ => "bg-gray-50 border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+        SelectColor.Gray => "border-gray-300 bg-gray-50 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 dark:focus:ring-primary-500",
+        SelectColor.Info => "border-cyan-500 bg-cyan-50 text-cyan-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-cyan-400 dark:bg-cyan-100 dark:focus:border-cyan-500 dark:focus:ring-cyan-500",
+        SelectColor.Failure => "border-red-500 bg-red-50 text-red-900 focus:border-red-500 focus:ring-red-500 dark:border-red-400 dark:bg-red-100 dark:focus:border-red-500 dark:focus:ring-red-500",
+        SelectColor.Warning => "border-yellow-500 bg-yellow-50 text-yellow-900 focus:border-yellow-500 focus:ring-yellow-500 dark:border-yellow-400 dark:bg-yellow-100 dark:focus:border-yellow-500 dark:focus:ring-yellow-500",
+        SelectColor.Success => "border-green-500 bg-green-50 text-green-900 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100 dark:focus:border-green-500 dark:focus:ring-green-500",
+        _ => throw new ArgumentOutOfRangeException(nameof(EffectiveColor), EffectiveColor, "Invalid SelectColor value")
     };
 
-    private string GetHelperTextColorClass() => Color switch
+    private string GetSelectClasses()
     {
-        SelectColor.Info => "text-blue-600 dark:text-blue-500",
-        SelectColor.Success => "text-green-600 dark:text-green-500",
-        SelectColor.Warning => "text-yellow-600 dark:text-yellow-500",
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add(BaseSelectClasses)
+                .Add(GetSizeClasses())
+                .Add(GetColorClasses())
+                .Add("pl-10", when: Icon != null)
+                .Add("rounded-r-lg", when: Addon != null)
+                .Add("rounded-lg", when: Addon == null)
+                .Add("shadow-sm dark:shadow-sm-light", when: Shadow)
+                .Add(Class)
+                .Add(CssClass)
+        );
+    }
+
+    private string GetHelperTextColorClasses() => EffectiveColor switch
+    {
+        SelectColor.Gray => "text-gray-600 dark:text-gray-400",
+        SelectColor.Info => "text-cyan-600 dark:text-cyan-500",
         SelectColor.Failure => "text-red-600 dark:text-red-500",
-        _ => "text-gray-600 dark:text-gray-400"
+        SelectColor.Warning => "text-yellow-600 dark:text-yellow-500",
+        SelectColor.Success => "text-green-600 dark:text-green-500",
+        _ => throw new ArgumentOutOfRangeException(nameof(EffectiveColor), EffectiveColor, "Invalid SelectColor value")
     };
+
+    private string GetHelperTextClasses()
+    {
+        return CombineClasses(
+            ElementClass.Empty()
+                .Add(BaseHelperTextClasses)
+                .Add(GetHelperTextColorClasses())
+        );
+    }
+
+    /// <summary>
+    /// Attempts to parse the provided value string.
+    /// For select, the value is always a string, so parsing always succeeds.
+    /// </summary>
+    protected override bool TryParseValueFromString(
+        string? value,
+        out string? result,
+        [NotNullWhen(false)] out string? validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = null;
+        return true;
+    }
+
+    /// <summary>
+    /// Disposes the component and unsubscribes from validation state changes.
+    /// </summary>
+    public override void Dispose()
+    {
+        base.Dispose();
+    }
 }

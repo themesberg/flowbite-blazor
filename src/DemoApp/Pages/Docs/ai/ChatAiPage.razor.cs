@@ -271,9 +271,9 @@ public partial class ChatAiPage : ComponentBase
         IsSettingsModalOpen = false;
     }
 
-    private async Task HandleModalProviderChangedAsync(string? value)
+    private async Task HandleModalProviderChangedAfterAsync()
     {
-        await HandleProviderChangedAsync(value);
+        await HandleProviderChangedAsync(SelectedProviderKey);
     }
 
     private async Task HandleModalModelChangedAsync(string? value)

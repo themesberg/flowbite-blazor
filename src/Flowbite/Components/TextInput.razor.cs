@@ -1,42 +1,29 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Flowbite.Common;
 using Flowbite.Utilities;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
-using System.Linq;
 
 namespace Flowbite.Components;
 
 /// <summary>
 /// TextInput component for forms and user input.
 /// </summary>
-public partial class TextInput<TValue> : IDisposable
+public partial class TextInput<TValue>
 {
-    private const string BaseWrapperClasses = "relative flex";
+    private const string BaseWrapperClasses = "flex";
     private const string BaseFieldClasses = "relative w-full";
-    private const string BaseInputClasses = "block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500";
+    private const string BaseInputClasses = "block w-full border focus:outline-none focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50";
     private const string BaseAddonClasses = "inline-flex items-center border border-gray-300 bg-gray-200 px-3 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400";
     private const string BaseIconClasses = "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3";
     private const string BaseRightIconClasses = "pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3";
     private const string BaseHelperTextClasses = "mt-1 text-sm";
 
     /// <summary>
-    /// Gets or sets the value of the input.
-    /// </summary>
-    [Parameter] public TValue? Value { get; set; }
-
-    /// <summary>
-    /// Event callback for when the input value changes.
-    /// </summary>
-    [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
-
-    /// <summary>
     /// Gets or sets the color variant of the input.
+    /// When not explicitly set, the color will automatically change to Failure when validation errors occur.
     /// </summary>
-    [Parameter] public TextInputColor Color { get; set; } = TextInputColor.Gray;
-
-
-    [CascadingParameter] private EditContext? CurrentEditContext { get; set; }
+    [Parameter] public TextInputColor? Color { get; set; }
 
     /// <summary>
     /// Gets or sets the size variant of the input.
@@ -127,40 +114,41 @@ public partial class TextInput<TValue> : IDisposable
     // Track the internal display value separately for OnInput mode
     private string? _internalValue;
 
+    /// <summary>
+    /// Gets the effective color for the input, considering validation state.
+    /// </summary>
+    private TextInputColor EffectiveColor =>
+        Color ?? (HasValidationErrors ? TextInputColor.Failure : TextInputColor.Gray);
+
     private string GetWrapperClasses() => BaseWrapperClasses;
 
     private string GetFieldClasses() => BaseFieldClasses;
 
     private string GetAddonClasses(bool isLeft = true)
     {
-        var classes = new List<string> { BaseAddonClasses };
-        
-        if (isLeft)
-        {
-            classes.Add("rounded-l-md border-r-0");
-        }
-        else
-        {
-            classes.Add("rounded-r-md border-l-0");
-        }
-
-        return string.Join(" ", classes);
+        return ElementClass.Empty()
+            .Add(BaseAddonClasses)
+            .Add("rounded-l-md border-r-0", when: isLeft)
+            .Add("rounded-r-md border-l-0", when: !isLeft)
+            .ToString();
     }
 
     private string GetIconClasses() => BaseIconClasses;
 
     private string GetRightIconClasses() => BaseRightIconClasses;
 
-    protected override void OnInitialized()
+    private string GetSizeClasses() => Size switch
     {
-        if (CurrentEditContext != null)
-        {
-            CurrentEditContext.OnValidationStateChanged += ValidationStateChanged;
-        }
-    }
+        TextInputSize.Small => "p-2 sm:text-xs",
+        TextInputSize.Medium => "p-2.5 text-sm",
+        TextInputSize.Large => "p-4 sm:text-base",
+        _ => throw new ArgumentOutOfRangeException(nameof(Size), Size, "Invalid TextInputSize value")
+    };
 
     protected override void OnParametersSet()
     {
+        base.OnParametersSet();
+
         // Sync internal value with external Value when it changes from outside
         // but only if we're not in the middle of debouncing user input
         if (Behavior == InputBehavior.OnInput)
@@ -173,207 +161,76 @@ public partial class TextInput<TValue> : IDisposable
         }
     }
 
-    private void ValidationStateChanged(object? sender, ValidationStateChangedEventArgs e)
+    private string GetColorClasses() => EffectiveColor switch
     {
-        // Nothing to do for now.
-    }
-
-    public void Dispose()
-    {
-        _debouncer.Dispose();
-
-        if (CurrentEditContext != null)
-        {
-            CurrentEditContext.OnValidationStateChanged -= ValidationStateChanged;
-        }
-    }
+        TextInputColor.Gray => "border-gray-300 bg-gray-50 text-gray-900 placeholder-gray-500 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500",
+        TextInputColor.Info => "border-cyan-500 bg-cyan-50 text-cyan-900 placeholder-cyan-700 focus:border-cyan-500 focus:ring-cyan-500 dark:border-cyan-400 dark:bg-cyan-100 dark:focus:border-cyan-500 dark:focus:ring-cyan-500",
+        TextInputColor.Failure => "border-red-500 bg-red-50 text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500 dark:border-red-400 dark:bg-red-100 dark:focus:border-red-500 dark:focus:ring-red-500",
+        TextInputColor.Warning => "border-yellow-500 bg-yellow-50 text-yellow-900 placeholder-yellow-700 focus:border-yellow-500 focus:ring-yellow-500 dark:border-yellow-400 dark:bg-yellow-100 dark:focus:border-yellow-500 dark:focus:ring-yellow-500",
+        TextInputColor.Success => "border-green-500 bg-green-50 text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100 dark:focus:border-green-500 dark:focus:ring-green-500",
+        _ => throw new ArgumentOutOfRangeException(nameof(EffectiveColor), EffectiveColor, "Invalid TextInputColor value")
+    };
 
     private string GetInputClasses()
     {
-        var classes = new List<string> { BaseInputClasses };
+        var hasLeftAddon = !string.IsNullOrEmpty(AddonLeft);
+        var hasRightAddon = !string.IsNullOrEmpty(AddonRight);
+        var hasBothAddons = hasLeftAddon && hasRightAddon;
 
-        // Add size classes
-        var sizeClasses = Size switch
-        {
-            TextInputSize.Small => "p-2 text-sm",
-            TextInputSize.Large => "sm:text-md p-4",
-            _ => "p-2.5 text-sm" // Medium (default)
-        };
-        classes.Add(sizeClasses);
-
-        // Add color classes
-        var colorClasses = Color switch
-        {
-            TextInputColor.Success => "border-green-500 bg-green-50 text-green-900 placeholder-green-700 focus:border-green-500 focus:ring-green-500 dark:border-green-400 dark:bg-green-100 dark:focus:border-green-500 dark:focus:ring-green-500",
-            TextInputColor.Failure => "border-red-500 bg-red-50 text-red-900 placeholder-red-700 focus:border-red-500 focus:ring-red-500 dark:border-red-400 dark:bg-red-100 dark:focus:border-red-500 dark:focus:ring-red-500",
-            TextInputColor.Warning => "border-yellow-500 bg-yellow-50 text-yellow-900 placeholder-yellow-700 focus:border-yellow-500 focus:ring-yellow-500 dark:border-yellow-400 dark:bg-yellow-100 dark:focus:border-yellow-500 dark:focus:ring-yellow-500",
-            TextInputColor.Info => "border-primary-500 bg-primary-50 text-primary-900 placeholder-primary-700 focus:border-primary-500 focus:ring-primary-500 dark:border-primary-400 dark:bg-primary-100 dark:focus:border-primary-500 dark:focus:ring-primary-500",
-            _ => string.Empty // Gray (default) uses base classes
-        };
-        if (!string.IsNullOrEmpty(colorClasses))
-        {
-            classes.Add(colorClasses);
-        }
-
-        // Add icon padding
-        if (Icon != null)
-        {
-            classes.Add("pl-10");
-        }
-        if (RightIcon != null)
-        {
-            classes.Add("pr-10");
-        }
-
-        // Add addon classes
-        if (!string.IsNullOrEmpty(AddonLeft) && !string.IsNullOrEmpty(AddonRight))
-        {
-            // No rounded corners when both addons are present
-            classes.Add("border-l-0 border-r-0");
-        }
-        else if (!string.IsNullOrEmpty(AddonLeft))
-        {
-            classes.Add("rounded-r-lg border-l-0");
-        }
-        else if (!string.IsNullOrEmpty(AddonRight))
-        {
-            classes.Add("rounded-l-lg border-r-0");
-        }
-        else
-        {
-            classes.Add("rounded-lg");
-        }
-
-        // Add shadow
-        if (Shadow)
-        {
-            classes.Add("shadow-sm dark:shadow-sm-light");
-        }
-
-        return string.Join(" ", classes);
+        return MergeClasses(
+            ElementClass.Empty()
+                .Add(BaseInputClasses)
+                .Add(GetSizeClasses())
+                .Add(GetColorClasses())
+                .Add("pl-10", when: Icon != null)
+                .Add("pr-10", when: RightIcon != null)
+                .Add("border-l-0 border-r-0", when: hasBothAddons)
+                .Add("rounded-r-lg border-l-0", when: hasLeftAddon && !hasRightAddon)
+                .Add("rounded-l-lg border-r-0", when: hasRightAddon && !hasLeftAddon)
+                .Add("rounded-lg", when: !hasLeftAddon && !hasRightAddon)
+                .Add("shadow-sm dark:shadow-sm-light", when: Shadow)
+                .Add(Class)
+                .Add(CssClass)
+        );
     }
+
+    private string GetHelperTextColorClasses() => EffectiveColor switch
+    {
+        TextInputColor.Gray => "text-gray-500 dark:text-gray-400",
+        TextInputColor.Info => "text-cyan-600 dark:text-cyan-500",
+        TextInputColor.Failure => "text-red-600 dark:text-red-500",
+        TextInputColor.Warning => "text-yellow-600 dark:text-yellow-500",
+        TextInputColor.Success => "text-green-600 dark:text-green-500",
+        _ => throw new ArgumentOutOfRangeException(nameof(EffectiveColor), EffectiveColor, "Invalid TextInputColor value")
+    };
 
     private string GetHelperTextClasses()
     {
-        var classes = new List<string> { BaseHelperTextClasses };
-
-        // Add color classes
-        var colorClasses = Color switch
-        {
-            TextInputColor.Success => "text-green-600 dark:text-green-500",
-            TextInputColor.Failure => "text-red-600 dark:text-red-500",
-            TextInputColor.Warning => "text-yellow-600 dark:text-yellow-500",
-            TextInputColor.Info => "text-primary-600 dark:text-primary-500",
-            _ => "text-gray-500 dark:text-gray-400" // Gray (default)
-        };
-        classes.Add(colorClasses);
-
-        return string.Join(" ", classes);
-    }
-
-    private string? CurrentValueAsString
-    {
-        get => Value switch
-        {
-            null => string.Empty,
-            _ => Value!.ToString()
-        };
-        set
-        {
-            var underlyingType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
-            var isNullable = Nullable.GetUnderlyingType(typeof(TValue)) != null || !underlyingType.IsValueType;
-
-            if (string.IsNullOrEmpty(value))
-            {
-                if (underlyingType == typeof(string))
-                {
-                    Value = (TValue)(object)string.Empty;
-                }
-                else if (isNullable)
-                {
-                    Value = default!;
-                }
-                else
-                {
-                    Value = default!;
-                }
-                return;
-            }
-
-            object? parsedValue = null;
-            var success = false;
-
-            if (underlyingType == typeof(int))
-            {
-                success = int.TryParse(value, out var result);
-                parsedValue = result;
-            }
-            else if (underlyingType == typeof(decimal))
-            {
-                success = decimal.TryParse(value, out var result);
-                parsedValue = result;
-            }
-            else if (underlyingType == typeof(double))
-            {
-                success = double.TryParse(value, out var result);
-                parsedValue = result;
-            }
-            else if (underlyingType == typeof(float))
-            {
-                success = float.TryParse(value, out var result);
-                parsedValue = result;
-            }
-            else if (underlyingType == typeof(string))
-            {
-                success = true;
-                parsedValue = value ?? string.Empty;
-            }
-
-            if (success)
-            {
-                Value = (TValue)(parsedValue ?? default!);
-            }
-        }
+        return CombineClasses(
+            ElementClass.Empty()
+                .Add(BaseHelperTextClasses)
+                .Add(GetHelperTextColorClasses())
+        );
     }
 
     /// <summary>
-    /// Called when input event fires (on every keystroke).
-    /// Only used in OnInput behavior mode.
+    /// Attempts to parse the provided value string into the component's value type.
     /// </summary>
-    private async Task HandleInputAsync(ChangeEventArgs e)
+    protected override bool TryParseValueFromString(
+        string? value,
+        [MaybeNullWhen(false)] out TValue result,
+        [NotNullWhen(false)] out string? validationErrorMessage)
     {
-        var value = e.Value?.ToString();
-        _internalValue = value;
-
-        if (DebounceDelay > 0)
+        if (BindConverter.TryConvertTo(value, CultureInfo.InvariantCulture, out result))
         {
-            await _debouncer.DebounceAsync(
-                async () => await UpdateValueAsync(value),
-                DebounceDelay);
+            validationErrorMessage = null;
+            return true;
         }
         else
         {
-            await UpdateValueAsync(value);
+            validationErrorMessage = $"The {FieldIdentifier.FieldName} field is not valid.";
+            return false;
         }
-    }
-
-    /// <summary>
-    /// Called when change event fires (on blur or Enter).
-    /// Used in OnChange behavior mode.
-    /// </summary>
-    private async Task HandleChangeAsync(ChangeEventArgs e)
-    {
-        var value = e.Value?.ToString();
-        await UpdateValueAsync(value);
-    }
-
-    /// <summary>
-    /// Updates the Value property and notifies parent.
-    /// </summary>
-    private async Task UpdateValueAsync(string? value)
-    {
-        CurrentValueAsString = value;
-        await ValueChanged.InvokeAsync(Value);
     }
 
     /// <summary>
@@ -390,5 +247,46 @@ public partial class TextInput<TValue> : IDisposable
         }
 
         return CurrentValueAsString;
+    }
+
+    /// <summary>
+    /// Called when input event fires (on every keystroke).
+    /// Only used in OnInput behavior mode.
+    /// </summary>
+    private async Task HandleInputAsync(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString();
+        _internalValue = value;
+
+        if (DebounceDelay > 0)
+        {
+            await _debouncer.DebounceAsync(
+                () =>
+                {
+                    CurrentValueAsString = value;
+                    return Task.CompletedTask;
+                },
+                DebounceDelay);
+        }
+        else
+        {
+            CurrentValueAsString = value;
+        }
+    }
+
+    /// <summary>
+    /// Called when change event fires (on blur or Enter).
+    /// Used in OnChange behavior mode.
+    /// </summary>
+    private Task HandleChangeAsync(ChangeEventArgs e)
+    {
+        CurrentValueAsString = e.Value?.ToString();
+        return Task.CompletedTask;
+    }
+
+    public override void Dispose()
+    {
+        _debouncer.Dispose();
+        base.Dispose();
     }
 }
