@@ -11,47 +11,24 @@ Thank you for your interest in contributing to Flowbite Blazor! This document pr
    cd flowbite-blazor
    ```
 
-1. Install standalone Tailwind CSS CLI executable:
-
-   Mac:
+1. Build and run the DemoApp:
 
    ```bash
-   mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-macos-arm64  && chmod +x tailwindcss-macos-arm64 && mv tailwindcss-macos-arm64 tailwindcss  && cd ..
-   ```
+   # Build the solution (auto-downloads Tailwind CSS on first run)
+   python build.py
 
-   Linux:
-
-   ```bash
-   mkdir ./tools && cd ./tools && curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-linux-x64  && chmod +x tailwindcss-linux-x64 && mv tailwindcss-linux-x64 tailwindcss && cd ..
-   ```
-
-
-   Windows:
-
-   ```pwsh
-   mkdir ./tools -Force; `
-   cd ./tools; `
-   Invoke-WebRequest -Uri "https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.15/tailwindcss-windows-x64.exe" `
-      -OutFile "tailwindcss.exe" `
-      -UseBasicParsing ; `
-   cd ..
-
-   ```
-
-1. Build the solution
-
-   ```bash
-   dotnet build
-   ```
-
-1. Run the DemoApp
-
-   ```bash
-   cd src/DemoApp
-   dotnet run
+   # Start DemoApp in background
+   python build.py start
    ```
 
    Then open <http://localhost:5290/> in your browser.
+
+   ```bash
+   # Stop when done
+   python build.py stop
+   ```
+
+   See `python build.py --help` for all available commands.
 
 
 ## Development Workflow
@@ -125,6 +102,75 @@ The solution is configured for two development modes:
    - Test all component variants
    - Verify accessibility
    - Test in both light and dark modes
+   - Add unit tests for new components (see Testing section below)
+
+## Testing
+
+The project uses [bUnit](https://bunit.dev/) for component unit tests and [Playwright](https://playwright.dev/dotnet/) for end-to-end integration tests.
+
+### Running Tests
+
+```bash
+# Run all unit tests
+python build.py test
+
+# Run specific test class
+python build.py test --filter "TextInputTests"
+
+# Run integration tests (requires DemoApp running)
+python build.py test-integration
+```
+
+### Test Project Structure
+
+Tests are located in `src/Flowbite.Tests/`:
+
+```
+src/Flowbite.Tests/
+├── TestSetup/           # Base test context and fixtures
+├── Utilities/           # Utility class tests (Debouncer, ElementClass)
+├── Services/            # Service tests (TailwindMerge)
+├── Components/          # Component unit tests
+│   └── Forms/           # Form component tests
+└── Integration/         # Playwright E2E tests
+```
+
+### Writing Component Tests
+
+Inherit from `FlowbiteTestContext` for component tests:
+
+```csharp
+using Flowbite.Components;
+using Flowbite.Tests.TestSetup;
+
+namespace Flowbite.Tests.Components;
+
+public class MyComponentTests : FlowbiteTestContext
+{
+    [Fact]
+    public void MyComponent_RendersCorrectly()
+    {
+        // Arrange & Act
+        var cut = RenderComponent<MyComponent>(parameters => parameters
+            .Add(p => p.Label, "Test"));
+
+        // Assert
+        cut.Find("label").TextContent.Should().Contain("Test");
+    }
+}
+```
+
+See `src/Flowbite.Tests/CLAUDE.md` for detailed testing patterns and examples.
+
+### First-Time Setup for Integration Tests
+
+Integration tests use Playwright and require browser installation:
+
+```bash
+# After building the test project
+cd src/Flowbite.Tests
+pwsh bin/Debug/net9.0/playwright.ps1 install chromium
+```
 
 ## Pull Request Process
 
@@ -140,6 +186,7 @@ The solution is configured for two development modes:
    - Create/update demo pages
 
 1. Test your changes:
+   - Run `python build.py test` to verify all tests pass
    - Build in both Debug and Release modes
    - Test with local NuGet packages
    - Verify demo pages
@@ -153,7 +200,9 @@ The solution is configured for two development modes:
 ### PR Requirements
 
 - All builds must pass
+- All tests must pass (`python build.py test`)
 - Demo pages for new components
+- Unit tests for new components
 - Documentation updates
 - No breaking changes without discussion
 - Follows coding standards

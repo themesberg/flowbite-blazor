@@ -32,6 +32,7 @@ PID_FILE = Path(".demoapp.pid")
 LOG_FILE = Path("demoapp.log")
 NUGET_LOCAL_DIR = Path("nuget-local")
 DIST_DIR = Path("dist")
+TEST_PROJECT = "src/Flowbite.Tests/Flowbite.Tests.csproj"
 
 
 def get_os_info() -> Dict[str, str]:
@@ -279,7 +280,8 @@ def run_tailwind_css() -> None:
     - CSS file contains @import, @source, @plugin, @theme directives
     """
     os_info = get_os_info()
-    tailwind_path = TOOLS_DIR / os_info["exec_name"]
+    # Use absolute path so it works when subprocess uses different cwd
+    tailwind_path = (TOOLS_DIR / os_info["exec_name"]).resolve()
 
     if not tailwind_path.exists():
         print(f"Warning: Tailwind CSS not found at {tailwind_path}")
@@ -441,6 +443,68 @@ def run_dotnet_command(dotnet_path: str, command: str) -> None:
             print("  1. Ensure you have dotnet-serve installed: dotnet tool install -g dotnet-serve")
             print(f"  2. Run: cd {DIST_DIR}/wwwroot && dotnet serve")
 
+        elif command == "test":
+            # Run unit tests (excluding integration tests)
+            print("Running unit tests...")
+
+            # Build test arguments
+            test_args = [dotnet_path, "test", TEST_PROJECT]
+
+            # Parse additional arguments
+            extra_args = sys.argv[2:]
+            filter_value = None
+
+            i = 0
+            while i < len(extra_args):
+                if extra_args[i] == "--filter" and i + 1 < len(extra_args):
+                    filter_value = extra_args[i + 1]
+                    i += 2
+                elif not extra_args[i].startswith("--"):
+                    # Treat as filter value if no --filter prefix
+                    filter_value = extra_args[i]
+                    i += 1
+                else:
+                    i += 1
+
+            # Apply filter (exclude integration tests by default unless specific filter given)
+            if filter_value:
+                test_args.extend(["--filter", filter_value])
+            else:
+                test_args.extend(["--filter", "Category!=Integration"])
+
+            subprocess.run(test_args, check=True)
+            print("[OK] Unit tests completed")
+
+        elif command == "test-integration":
+            # Run integration tests (requires DemoApp to be running)
+            print("Running integration tests...")
+
+            # Check if DemoApp is running
+            pid = get_running_pid()
+            was_started = False
+
+            if not pid:
+                print("DemoApp not running. Starting it now...")
+                # Build and start
+                run_tailwind_css()
+                subprocess.run([dotnet_path, "build", SOLUTION_PATH], check=True)
+                start_background(dotnet_path)
+                was_started = True
+                # Wait for app to be ready
+                print("Waiting for DemoApp to be ready...")
+                time.sleep(5)
+
+            try:
+                # Run integration tests
+                test_args = [dotnet_path, "test", TEST_PROJECT, "--filter", "Category=Integration"]
+                subprocess.run(test_args, check=True)
+                print("[OK] Integration tests completed")
+            finally:
+                # Stop DemoApp if we started it
+                if was_started:
+                    print("Stopping DemoApp...")
+                    stop_background()
+
         else:
             print(f"Unknown command: {command}")
             print_usage()
@@ -515,6 +579,12 @@ def print_usage() -> None:
     print("  pack         - Create NuGet packages in nuget-local/")
     print("  publish      - Pack NuGet + publish DemoApp to dist/")
     print("")
+    print("Test Commands:")
+    print("  test                     - Run unit tests (excludes integration tests)")
+    print("  test <filter>            - Run tests matching filter")
+    print("  test --filter <filter>   - Run tests matching filter")
+    print("  test-integration         - Run Playwright integration tests (auto-starts DemoApp)")
+    print("")
     print("Log Commands:")
     print("  log                      - Show last 50 lines of log")
     print("  log <pattern>            - Search log for regex pattern")
@@ -526,6 +596,9 @@ def print_usage() -> None:
     print("  python build.py start        # Build and start in background")
     print("  python build.py watch        # Hot reload development")
     print("  python build.py pack         # Create NuGet packages")
+    print("  python build.py test         # Run all unit tests")
+    print("  python build.py test DebouncerTests  # Run specific test class")
+    print("  python build.py test-integration     # Run E2E tests")
     print("  python build.py log error    # Search for 'error' in logs")
     print("  python build.py log --tail 100 --level warn")
 
@@ -576,7 +649,7 @@ def main() -> None:
         print_usage()
         return
 
-    if command not in ["build", "watch", "run", "start", "pack", "publish"]:
+    if command not in ["build", "watch", "run", "start", "pack", "publish", "test", "test-integration"]:
         print(f"Unknown command: {command}")
         print_usage()
         sys.exit(1)
