@@ -1,6 +1,6 @@
 @using Flowbite.Base
 @using Flowbite.Common
-@inherits FlowbiteComponentBase
+@inherits FlowbiteInputBase<TValue>
 @typeparam TValue
 
 <div class="@GetWrapperClasses()" style="@Style">
@@ -14,7 +14,7 @@
             <div class="@GetIconClasses()">
                 <DynamicComponent Type="@Icon.GetType()" Parameters="@(new Dictionary<string, object>
                 {
-                    { "class", "w-4 h-4 text-gray-500 dark:text-gray-400" },
+                    { "class", "h-5 w-5 text-gray-500 dark:text-gray-400" },
                     { "aria-hidden", true }
                 })" />
             </div>
@@ -24,14 +24,13 @@
             <div class="@GetRightIconClasses()" data-testid="right-icon">
                 <DynamicComponent Type="@RightIcon.GetType()" Parameters="@(new Dictionary<string, object>
                 {
-                    { "class", "w-4 h-4 text-gray-500 dark:text-gray-400" },
+                    { "class", "h-5 w-5 text-gray-500 dark:text-gray-400" },
                     { "aria-hidden", true }
                 })" />
             </div>
         }
         @if (Behavior == InputBehavior.OnInput)
         {
-            @* OnInput mode: fire on every keystroke, with optional debouncing *@
             <input type="@Type"
                    class="@GetInputClasses()"
                    value="@GetDisplayValue()"
@@ -47,10 +46,9 @@
         }
         else
         {
-            @* OnChange mode (default): fire on blur or Enter *@
             <input type="@Type"
                    class="@GetInputClasses()"
-                   value="@CurrentValueAsString"
+                   value="@GetDisplayValue()"
                    @onchange="HandleChangeAsync"
                    placeholder="@Placeholder"
                    disabled="@Disabled"
@@ -69,7 +67,7 @@
 </div>
 @if (!string.IsNullOrEmpty(HelperText))
 {
-    <div class="@GetHelperTextClasses()">
+    <p class="@GetHelperTextClasses()">
         @HelperText
-    </div>
+    </p>
 }

@@ -505,6 +505,62 @@ def run_dotnet_command(dotnet_path: str, command: str) -> None:
                     print("Stopping DemoApp...")
                     stop_background()
 
+        elif command == "test-all":
+            # Run all tests: unit tests first, then integration tests
+            print("Running all tests (unit + integration)...")
+            print("")
+
+            # Step 1: Run unit tests
+            print("=" * 60)
+            print("STEP 1: Running unit tests...")
+            print("=" * 60)
+            unit_test_args = [dotnet_path, "test", TEST_PROJECT, "--filter", "Category!=Integration"]
+            unit_result = subprocess.run(unit_test_args)
+
+            if unit_result.returncode != 0:
+                print("[FAIL] Unit tests failed")
+                sys.exit(1)
+
+            print("[OK] Unit tests passed")
+            print("")
+
+            # Step 2: Run integration tests
+            print("=" * 60)
+            print("STEP 2: Running integration tests...")
+            print("=" * 60)
+
+            # Check if DemoApp is running
+            pid = get_running_pid()
+            was_started = False
+
+            if not pid:
+                print("DemoApp not running. Starting it now...")
+                run_tailwind_css()
+                subprocess.run([dotnet_path, "build", SOLUTION_PATH], check=True)
+                start_background(dotnet_path)
+                was_started = True
+                print("Waiting for DemoApp to be ready...")
+                time.sleep(5)
+
+            try:
+                integration_test_args = [dotnet_path, "test", TEST_PROJECT, "--filter", "Category=Integration"]
+                integration_result = subprocess.run(integration_test_args)
+
+                if integration_result.returncode != 0:
+                    print("[FAIL] Integration tests failed")
+                    sys.exit(1)
+
+                print("[OK] Integration tests passed")
+            finally:
+                if was_started:
+                    print("Stopping DemoApp...")
+                    stop_background()
+
+            print("")
+            print("=" * 60)
+            print("[OK] All tests passed!")
+            print("=" * 60)
+
         else:
             print(f"Unknown command: {command}")
             print_usage()
@@ -584,6 +640,7 @@ def print_usage() -> None:
     print("  test <filter>            - Run tests matching filter")
     print("  test --filter <filter>   - Run tests matching filter")
     print("  test-integration         - Run Playwright integration tests (auto-starts DemoApp)")
+    print("  test-all                 - Run all tests (unit + integration)")
     print("")
     print("Log Commands:")
     print("  log                      - Show last 50 lines of log")
@@ -599,6 +656,7 @@ def print_usage() -> None:
     print("  python build.py test         # Run all unit tests")
     print("  python build.py test DebouncerTests  # Run specific test class")
     print("  python build.py test-integration     # Run E2E tests")
+    print("  python build.py test-all     # Run unit + integration tests")
     print("  python build.py log error    # Search for 'error' in logs")
     print("  python build.py log --tail 100 --level warn")
 
@@ -649,7 +707,7 @@ def main() -> None:
         print_usage()
         return
 
-    if command not in ["build", "watch", "run", "start", "pack", "publish", "test", "test-integration"]:
+    if command not in ["build", "watch", "run", "start", "pack", "publish", "test", "test-integration", "test-all"]:
         print(f"Unknown command: {command}")
         print_usage()
         sys.exit(1)

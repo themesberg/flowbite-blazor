@@ -212,7 +212,7 @@
                     <div class="grid gap-4 md:grid-cols-2">
                         <div class="space-y-2">
                             <Label For="provider-select" Value="Active provider" />
-                            <Select Id="provider-select" Value="@SelectedProviderKey" ValueChanged="HandleModalProviderChangedAsync">
+                            <Select Id="provider-select" @bind-Value="SelectedProviderKey" @bind-Value:after="HandleModalProviderChangedAfterAsync">
                                 <option value="">Select a provider</option>
                                 @foreach (var provider in Providers)
                                 {

@@ -11,7 +11,10 @@
       <img src="https://img.shields.io/badge/license-MIT-blue" alt="License">
     </a>
     <a href="https://www.nuget.org/packages/Flowbite">
-      <img src="https://img.shields.io/nuget/v/Flowbite" alt="NuGet">
+      <img src="https://img.shields.io/nuget/v/Flowbite" alt="NuGet Version">
+    </a>
+    <a href="https://www.nuget.org/packages/Flowbite">
+      <img src="https://img.shields.io/nuget/dt/Flowbite?style=flat-square&logo=nuget&label=downloads" alt="NuGet Downloads">
     </a>
   </p>
 </div>

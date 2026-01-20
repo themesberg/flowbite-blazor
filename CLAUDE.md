@@ -33,6 +33,12 @@ Use the Python automation script for all build operations:
 - `python build.py pack` — Create NuGet packages in `nuget-local/`
 - `python build.py publish` — Pack NuGet + publish DemoApp to `dist/`
 
+### Test Commands
+- `python build.py test` — Run unit tests (excludes integration tests)
+- `python build.py test <filter>` — Run tests matching filter (e.g., `DebouncerTests`)
+- `python build.py test-integration` — Run Playwright smoke tests (auto-starts/stops DemoApp)
+- `python build.py test-all` — Run all tests (unit + integration)
+
 ### Log Commands (for debugging)
 - `python build.py log` — Show last 50 lines of demoapp.log
 - `python build.py log <pattern>` — Search log for regex pattern (case-insensitive)
@@ -88,11 +94,24 @@ Use the Python automation script for all build operations:
 - You MUST EDIT the appropriate file in `docs/memory_aid/` after learning a new pattern or gotcha
 
 ## Testing and Validation
-- No automated test suite yet; rely on `dotnet build` and manual verification in the DemoApp.
+
+### Automated Tests (via build.py)
+- `python build.py test` — Run unit tests (bUnit, excludes integration tests by default)
+- `python build.py test <filter>` — Run tests matching filter (e.g., `python build.py test DebouncerTests`)
+- `python build.py test-integration` — Run Playwright integration/smoke tests (auto-starts and stops DemoApp)
+- `python build.py test-all` — Run all tests (unit first, then integration)
+
+**Key Behaviors:**
+- `test` excludes integration tests by default (fast, no app startup needed)
+- `test-integration` automatically starts DemoApp if not running, runs tests, then stops it
+- `test-all` runs unit tests first, then integration tests; fails fast if unit tests fail
+- Tests live in `src/Flowbite.Tests/` — see `src/Flowbite.Tests/CLAUDE.md` for test patterns
+
+### Manual Verification
 - Exercise both light and dark themes, keyboard navigation, and key scenarios on the demo pages.
 - When fixing bugs, reproduce them in the demo first, then validate the fix there.
 - Ensure `src/Flowbite/wwwroot/flowbite.min.css` is regenerated as part of builds and committed whenever component styles change.
-- **Non‑negotiable:** drive every meaningful UI verification through the Playwright MCP server (`mcp__playwright__browser_*`). Treat these scripted runs as mandatory—launch the DemoApp, navigate to the affected surface, and capture evidence (screenshots or DOM state) before calling a change “done.”
+- **Non‑negotiable:** drive every meaningful UI verification through the Playwright MCP server (`mcp__playwright__browser_*`). Treat these scripted runs as mandatory—launch the DemoApp, navigate to the affected surface, and capture evidence (screenshots or DOM state) before calling a change "done."
 
 ## CSS Commits
 **CRITICAL:** When Tailwind classes change, commit the generated CSS:

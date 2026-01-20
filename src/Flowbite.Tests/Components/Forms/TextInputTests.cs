@@ -15,7 +15,10 @@ public class TextInputTests : FlowbiteTestContext
     public void TextInput_RendersWithDefaultAttributes()
     {
         // Arrange & Act
-        var cut = RenderComponent<TextInput<string>>();
+        var value = "";
+        var cut = RenderComponent<TextInput<string>>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value));
 
         // Assert
         var input = cut.Find("input");
@@ -34,7 +37,8 @@ public class TextInputTests : FlowbiteTestContext
         var boundValue = "";
         var cut = RenderComponent<TextInput<string>>(parameters => parameters
             .Add(p => p.Value, boundValue)
-            .Add(p => p.ValueChanged, newValue => boundValue = newValue));
+            .Add(p => p.ValueChanged, newValue => boundValue = newValue)
+            .Add(p => p.ValueExpression, () => boundValue));
 
         // Act
         cut.Find("input").Change("test value");
@@ -50,7 +54,10 @@ public class TextInputTests : FlowbiteTestContext
     public void TextInput_AppliesCustomClass()
     {
         // Arrange & Act
+        var value = "";
         var cut = RenderComponent<TextInput<string>>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.Class, "my-custom-class"));
 
         // Assert
@@ -66,7 +73,10 @@ public class TextInputTests : FlowbiteTestContext
     public void TextInput_SupportsPlaceholder()
     {
         // Arrange & Act
+        var value = "";
         var cut = RenderComponent<TextInput<string>>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.Placeholder, "Enter your name"));
 
         // Assert
@@ -81,7 +91,10 @@ public class TextInputTests : FlowbiteTestContext
     public void TextInput_SupportsDisabledState()
     {
         // Arrange & Act
+        var value = "";
         var cut = RenderComponent<TextInput<string>>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.Disabled, true));
 
         // Assert
@@ -96,7 +109,10 @@ public class TextInputTests : FlowbiteTestContext
     public void TextInput_SupportsTypeChange()
     {
         // Arrange & Act
+        var value = "";
         var cut = RenderComponent<TextInput<string>>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.Type, "password"));
 
         // Assert
@@ -111,7 +127,10 @@ public class TextInputTests : FlowbiteTestContext
     public void TextInput_SupportsRequiredAttribute()
     {
         // Arrange & Act
+        var value = "";
         var cut = RenderComponent<TextInput<string>>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.Required, true));
 
         // Assert
@@ -126,7 +145,10 @@ public class TextInputTests : FlowbiteTestContext
     public void TextInput_RendersHelperText()
     {
         // Arrange & Act
+        var value = "";
         var cut = RenderComponent<TextInput<string>>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.HelperText, "This field is required"));
 
         // Assert
@@ -143,7 +165,8 @@ public class TextInputTests : FlowbiteTestContext
         var boundValue = 0;
         var cut = RenderComponent<TextInput<int>>(parameters => parameters
             .Add(p => p.Value, boundValue)
-            .Add(p => p.ValueChanged, newValue => boundValue = newValue));
+            .Add(p => p.ValueChanged, newValue => boundValue = newValue)
+            .Add(p => p.ValueExpression, () => boundValue));
 
         // Act
         cut.Find("input").Change("42");

@@ -15,7 +15,10 @@ public class TextAreaTests : FlowbiteTestContext
     public void TextArea_RendersWithDefaultAttributes()
     {
         // Arrange & Act
-        var cut = RenderComponent<Textarea>();
+        string? value = "";
+        var cut = RenderComponent<Textarea>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value));
 
         // Assert
         var textarea = cut.Find("textarea");
@@ -31,8 +34,10 @@ public class TextAreaTests : FlowbiteTestContext
     public void TextArea_BindsValueCorrectly()
     {
         // Arrange & Act - Test that initial value is rendered
+        string? value = "initial content";
         var cut = RenderComponent<Textarea>(parameters => parameters
-            .Add(p => p.Value, "initial content"));
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value));
 
         // Assert - The textarea should have the value attribute set via @bind
         // In Blazor with @bind, the value is rendered as both the 'value' attribute and inner content
@@ -41,7 +46,8 @@ public class TextAreaTests : FlowbiteTestContext
 
         // Re-render with new value to verify binding updates
         cut.SetParametersAndRender(parameters => parameters
-            .Add(p => p.Value, "updated content"));
+            .Add(p => p.Value, "updated content")
+            .Add(p => p.ValueExpression, () => value));
 
         textarea = cut.Find("textarea");
         textarea.GetAttribute("value").Should().Be("updated content");
@@ -54,7 +60,10 @@ public class TextAreaTests : FlowbiteTestContext
     public void TextArea_AppliesCustomClass()
     {
         // Arrange & Act
+        string? value = "";
         var cut = RenderComponent<Textarea>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.Class, "my-custom-class"));
 
         // Assert
@@ -68,7 +77,10 @@ public class TextAreaTests : FlowbiteTestContext
     public void TextArea_SupportsRows()
     {
         // Arrange & Act
+        string? value = "";
         var cut = RenderComponent<Textarea>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.Rows, 10));
 
         // Assert
@@ -83,7 +95,10 @@ public class TextAreaTests : FlowbiteTestContext
     public void TextArea_SupportsPlaceholder()
     {
         // Arrange & Act
+        string? value = "";
         var cut = RenderComponent<Textarea>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.Placeholder, "Enter your message"));
 
         // Assert
@@ -98,7 +113,10 @@ public class TextAreaTests : FlowbiteTestContext
     public void TextArea_SupportsDisabledState()
     {
         // Arrange & Act
+        string? value = "";
         var cut = RenderComponent<Textarea>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.Disabled, true));
 
         // Assert
@@ -113,7 +131,10 @@ public class TextAreaTests : FlowbiteTestContext
     public void TextArea_RendersHelperText()
     {
         // Arrange & Act
+        string? value = "";
         var cut = RenderComponent<Textarea>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.HelperText, "Maximum 500 characters"));
 
         // Assert
@@ -127,7 +148,10 @@ public class TextAreaTests : FlowbiteTestContext
     public void TextArea_SupportsRequiredAttribute()
     {
         // Arrange & Act
+        string? value = "";
         var cut = RenderComponent<Textarea>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.Required, true));
 
         // Assert

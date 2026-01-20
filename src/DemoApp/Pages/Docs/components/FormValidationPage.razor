@@ -137,14 +137,14 @@
             <div class=""mb-2 block"">
                 <Label For=""name"" Value=""Name"" />
             </div>
-            <TextInput TValue=""string"" Id=""name"" Value=""@name"" ValueChanged=""@OnNameChanged"" />
+            <TextInput TValue=""string"" Id=""name"" @bind-Value=""stateModel.Name"" />
             <ValidationMessage For=""@(() => stateModel.Name)"" />
         </div>
         <div>
             <div class=""mb-2 block"">
                 <Label For=""age"" Value=""Age"" />
             </div>
-            <TextInput TValue=""int"" Id=""age"" Value=""@age"" ValueChanged=""@OnAgeChanged"" Type=""number"" />
+            <TextInput TValue=""int"" Id=""age"" @bind-Value=""stateModel.Age"" Type=""number"" />
             <ValidationMessage For=""@(() => stateModel.Age)"" />
         </div>
         <div class=""flex gap-2"">
@@ -164,14 +164,14 @@
                             <div class="mb-2 block">
                                 <Label For="name" Value="Name" />
                             </div>
-                            <TextInput TValue="string" Id="name" Value="@name" ValueChanged="@OnNameChanged" />
+                            <TextInput Id="name" @bind-Value="stateModel.Name" />
                             <ValidationMessage For="@(() => stateModel.Name)" />
                         </div>
                         <div>
                             <div class="mb-2 block">
                                 <Label For="age" Value="Age" />
                             </div>
-                            <TextInput TValue="int" Id="age" Value="@age" ValueChanged="@OnAgeChanged" Type="number" />
+                            <TextInput Id="age" @bind-Value="stateModel.Age" Type="number" />
                             <ValidationMessage For="@(() => stateModel.Age)" />
                         </div>
                         <div class="flex gap-2">
@@ -354,42 +354,16 @@
     }
     private StateModel stateModel = new();
     private EditContext? editContext;
-    private string? name;
-    private int age;
 
     protected override void OnInitialized()
     {
         editContext = new EditContext(stateModel);
-        name = stateModel.Name;
-        age = stateModel.Age;
-    }
-
-    private void OnNameChanged(string? value)
-    {
-        name = value;
-        stateModel.Name = value ?? "";
-        if (editContext != null)
-        {
-            editContext.NotifyFieldChanged(editContext.Field(nameof(StateModel.Name)));
-        }
-    }
-
-    private void OnAgeChanged(int value)
-    {
-        age = value;
-        stateModel.Age = value;
-        if (editContext != null)
-        {
-            editContext.NotifyFieldChanged(editContext.Field(nameof(StateModel.Age)));
-        }
     }
 
     private void ResetForm()
     {
         stateModel = new StateModel();
         editContext = new EditContext(stateModel);
-        name = stateModel.Name;
-        age = stateModel.Age;
     }
 
     private async Task HandleStateFormSubmit()
