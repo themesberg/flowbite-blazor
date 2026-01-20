@@ -1,8 +1,12 @@
 # Changelog
 
-## 0.1.2-beta (UNDER WORK)
+## 0.1.3-beta
 
 - TBD
+
+## 0.1.2-beta
+
+- No changes (version bump only)
 
 ## 0.1.1-beta
 

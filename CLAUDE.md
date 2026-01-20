@@ -37,7 +37,8 @@ Use the Python automation script for all build operations:
 - `python build.py test` — Run unit tests (excludes integration tests)
 - `python build.py test <filter>` — Run tests matching filter (e.g., `DebouncerTests`)
 - `python build.py test-integration` — Run Playwright smoke tests (auto-starts/stops DemoApp)
-- `python build.py test-all` — Run all tests (unit + integration)
+- `python build.py test-publish` — Run publish to catch pre-rendering errors (validates all pages)
+- `python build.py test-all` — Run all tests (unit + publish + integration)
 
 ### Log Commands (for debugging)
 - `python build.py log` — Show last 50 lines of demoapp.log

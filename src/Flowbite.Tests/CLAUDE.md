@@ -212,6 +212,18 @@ python build.py test-integration
 python build.py stop
 ```
 
+### Publish Test (Pre-rendering Validation)
+```bash
+# Runs publish process to catch pre-rendering errors
+# (e.g., missing @bind-Value on form components)
+python build.py test-publish
+```
+
+### All Tests (Unit + Publish + Integration)
+```bash
+python build.py test-all
+```
+
 ### With Verbose Output
 ```bash
 dotnet test src/Flowbite.Tests/ -v detailed

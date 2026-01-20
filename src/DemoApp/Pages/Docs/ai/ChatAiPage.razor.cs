@@ -29,7 +29,6 @@ public partial class ChatAiPage : ComponentBase
     private const string SelectionStorageKey = "flowbite.aiChat.selection";
     private List<ChatAiMessage> Messages { get; set; } = new();
     private string? InputText { get; set; }
-    private Dictionary<string, string> ProviderApiKeys { get; set; } = new(StringComparer.OrdinalIgnoreCase);
     private string? SelectedProviderKey { get; set; }
     private string? SelectedModelId { get; set; }
     private string? PreviousModelId { get; set; }
@@ -37,7 +36,7 @@ public partial class ChatAiPage : ComponentBase
     private bool IsLoadingModels { get; set; }
     private string? ModelLoadError { get; set; }
     private string? CurrentApiKey => SelectedProviderKey is null ? null : GetApiKeyForProvider(SelectedProviderKey);
-    private bool HasConfiguredProviders => ProviderApiKeys.Any(kvp => !string.IsNullOrWhiteSpace(kvp.Value));
+    private bool HasConfiguredProviders => Providers.Any(p => !string.IsNullOrWhiteSpace(p.ApiKey));
     private bool HasSelectedProviderConfigured =>
         !string.IsNullOrEmpty(SelectedProviderKey) &&
         !string.IsNullOrWhiteSpace(CurrentApiKey);
@@ -281,31 +280,23 @@ public partial class ChatAiPage : ComponentBase
         await HandleModelChangedAsync(value);
     }
 
-    private async Task HandleProviderApiKeyChangedAsync(string providerKey, string? value)
+    private async Task HandleProviderApiKeyChangedAsync(AiProviderConfig provider)
     {
-        if (string.IsNullOrWhiteSpace(providerKey))
+        if (provider == null)
         {
             return;
         }
 
-        var sanitizedValue = string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+        var sanitizedValue = string.IsNullOrWhiteSpace(provider.ApiKey) ? null : provider.ApiKey.Trim();
+        provider.ApiKey = sanitizedValue;
         var previousSelection = SelectedProviderKey;
-
-        if (string.IsNullOrEmpty(sanitizedValue))
-        {
-            ProviderApiKeys.Remove(providerKey);
-        }
-        else
-        {
-            ProviderApiKeys[providerKey] = sanitizedValue;
-        }
 
         await PersistProviderKeysAsync();
 
         EnsureDefaultProviderSelection();
         var activeProvider = SelectedProviderKey;
 
-        if (activeProvider == providerKey)
+        if (activeProvider == provider.Key)
         {
             AvailableModels = null;
             SelectedModelId = null;
@@ -341,7 +332,10 @@ public partial class ChatAiPage : ComponentBase
                 return;
             }
 
-            var payload = JsonSerializer.Serialize(ProviderApiKeys);
+            var apiKeys = Providers
+                .Where(p => !string.IsNullOrWhiteSpace(p.ApiKey))
+                .ToDictionary(p => p.Key, p => p.ApiKey!);
+            var payload = JsonSerializer.Serialize(apiKeys);
             await JSRuntime.InvokeVoidAsync("localStorage.setItem", ProviderStorageKey, payload);
         }
         catch
@@ -360,9 +354,14 @@ public partial class ChatAiPage : ComponentBase
                 var parsed = JsonSerializer.Deserialize<Dictionary<string, string>>(stored);
                 if (parsed != null)
                 {
-                    ProviderApiKeys = parsed
-                        .Where(kvp => !string.IsNullOrWhiteSpace(kvp.Key) && !string.IsNullOrWhiteSpace(kvp.Value))
-                        .ToDictionary(kvp => kvp.Key, kvp => kvp.Value, StringComparer.OrdinalIgnoreCase);
+                    foreach (var kvp in parsed.Where(kvp => !string.IsNullOrWhiteSpace(kvp.Key) && !string.IsNullOrWhiteSpace(kvp.Value)))
+                    {
+                        var provider = Providers.FirstOrDefault(p => string.Equals(p.Key, kvp.Key, StringComparison.OrdinalIgnoreCase));
+                        if (provider != null)
+                        {
+                            provider.ApiKey = kvp.Value;
+                        }
+                    }
                 }
             }
         }
@@ -497,12 +496,8 @@ public partial class ChatAiPage : ComponentBase
             return null;
         }
 
-        if (ProviderApiKeys.TryGetValue(providerKey, out var value) && !string.IsNullOrWhiteSpace(value))
-        {
-            return value;
-        }
-
-        return null;
+        var provider = Providers.FirstOrDefault(p => p.Key == providerKey);
+        return string.IsNullOrWhiteSpace(provider?.ApiKey) ? null : provider.ApiKey;
     }
 
     private bool IsProviderConfigured(string providerKey)
@@ -1022,7 +1017,20 @@ public partial class ChatAiPage : ComponentBase
         }
     }
 
-    private sealed record AiProviderConfig(string Key, string DisplayName, string DefaultModel);
+    private sealed class AiProviderConfig
+    {
+        public string Key { get; }
+        public string DisplayName { get; }
+        public string DefaultModel { get; }
+        public string? ApiKey { get; set; }
+
+        public AiProviderConfig(string key, string displayName, string defaultModel)
+        {
+            Key = key;
+            DisplayName = displayName;
+            DefaultModel = defaultModel;
+        }
+    }
 
     private sealed record SelectionState(string? ProviderKey, string? ModelId);
 
