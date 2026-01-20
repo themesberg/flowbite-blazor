@@ -505,9 +505,55 @@ def run_dotnet_command(dotnet_path: str, command: str) -> None:
                     print("Stopping DemoApp...")
                     stop_background()
 
+        elif command == "test-publish":
+            # Run publish as a test to catch pre-rendering errors
+            print("Testing publish process (catches pre-rendering errors)...")
+            print("")
+
+            # Pack NuGet packages first
+            NUGET_LOCAL_DIR.mkdir(parents=True, exist_ok=True)
+
+            print("Packing Flowbite...")
+            pack_result = subprocess.run(
+                [dotnet_path, "pack", FLOWBITE_PROJECT, "-c", "Release", "-o", str(NUGET_LOCAL_DIR)]
+            )
+            if pack_result.returncode != 0:
+                print("[FAIL] Flowbite pack failed")
+                sys.exit(1)
+
+            print("Packing Flowbite.ExtendedIcons...")
+            pack_ext_result = subprocess.run(
+                [dotnet_path, "pack", EXTENDED_ICONS_PROJECT, "-c", "Release", "-o", str(NUGET_LOCAL_DIR)]
+            )
+            if pack_ext_result.returncode != 0:
+                print("[FAIL] Flowbite.ExtendedIcons pack failed")
+                sys.exit(1)
+
+            # Publish DemoApp (this runs pre-rendering which catches binding errors)
+            print(f"Publishing DemoApp to {DIST_DIR} (with pre-rendering)...")
+
+            # Clean dist directory
+            if DIST_DIR.exists():
+                import shutil
+                shutil.rmtree(DIST_DIR)
+
+            publish_result = subprocess.run(
+                [dotnet_path, "publish", PROJECT_PATH, "-c", "Release", "-o", str(DIST_DIR)]
+            )
+
+            if publish_result.returncode != 0:
+                print("")
+                print("[FAIL] Publish test failed!")
+                print("This usually indicates pre-rendering errors (e.g., missing @bind-Value).")
+                print("Check the error output above for details.")
+                sys.exit(1)
+
+            print("")
+            print("[OK] Publish test passed - all pages pre-rendered successfully")
+
         elif command == "test-all":
-            # Run all tests: unit tests first, then integration tests
-            print("Running all tests (unit + integration)...")
+            # Run all tests: unit tests, publish test, then integration tests
+            print("Running all tests (unit + publish + integration)...")
             print("")
 
             # Step 1: Run unit tests
@@ -524,9 +570,49 @@ def run_dotnet_command(dotnet_path: str, command: str) -> None:
             print("[OK] Unit tests passed")
             print("")
 
-            # Step 2: Run integration tests
+            # Step 2: Run publish test (catches pre-rendering errors)
             print("=" * 60)
-            print("STEP 2: Running integration tests...")
+            print("STEP 2: Running publish test (pre-rendering validation)...")
+            print("=" * 60)
+
+            NUGET_LOCAL_DIR.mkdir(parents=True, exist_ok=True)
+
+            print("Packing Flowbite...")
+            pack_result = subprocess.run(
+                [dotnet_path, "pack", FLOWBITE_PROJECT, "-c", "Release", "-o", str(NUGET_LOCAL_DIR)]
+            )
+            if pack_result.returncode != 0:
+                print("[FAIL] Flowbite pack failed")
+                sys.exit(1)
+
+            print("Packing Flowbite.ExtendedIcons...")
+            pack_ext_result = subprocess.run(
+                [dotnet_path, "pack", EXTENDED_ICONS_PROJECT, "-c", "Release", "-o", str(NUGET_LOCAL_DIR)]
+            )
+            if pack_ext_result.returncode != 0:
+                print("[FAIL] Flowbite.ExtendedIcons pack failed")
+                sys.exit(1)
+
+            if DIST_DIR.exists():
+                import shutil
+                shutil.rmtree(DIST_DIR)
+
+            publish_result = subprocess.run(
+                [dotnet_path, "publish", PROJECT_PATH, "-c", "Release", "-o", str(DIST_DIR)]
+            )
+
+            if publish_result.returncode != 0:
+                print("")
+                print("[FAIL] Publish test failed!")
+                print("This usually indicates pre-rendering errors (e.g., missing @bind-Value).")
+                sys.exit(1)
+
+            print("[OK] Publish test passed")
+            print("")
+
+            # Step 3: Run integration tests
+            print("=" * 60)
+            print("STEP 3: Running integration tests...")
             print("=" * 60)
 
             # Check if DemoApp is running
@@ -640,7 +726,8 @@ def print_usage() -> None:
     print("  test <filter>            - Run tests matching filter")
     print("  test --filter <filter>   - Run tests matching filter")
     print("  test-integration         - Run Playwright integration tests (auto-starts DemoApp)")
-    print("  test-all                 - Run all tests (unit + integration)")
+    print("  test-publish             - Run publish to catch pre-rendering errors")
+    print("  test-all                 - Run all tests (unit + publish + integration)")
     print("")
     print("Log Commands:")
     print("  log                      - Show last 50 lines of log")
@@ -707,7 +794,7 @@ def main() -> None:
         print_usage()
         return
 
-    if command not in ["build", "watch", "run", "start", "pack", "publish", "test", "test-integration", "test-all"]:
+    if command not in ["build", "watch", "run", "start", "pack", "publish", "test", "test-integration", "test-publish", "test-all"]:
         print(f"Unknown command: {command}")
         print_usage()
         sys.exit(1)
