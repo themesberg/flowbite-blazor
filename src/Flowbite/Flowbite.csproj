@@ -7,7 +7,7 @@
     
     <!-- Package Metadata -->
     <PackageId>Flowbite</PackageId>
-    <Version>0.2.2-beta</Version>
+    <Version>0.2.3-beta</Version>
     <Authors>Todd Schavey</Authors>
     <Company>PeakFlames</Company>
     <Description>Flowbite component library for ASP.NET Blazor 8.0, providing a comprehensive set of UI components styled with TailwindCSS.</Description>
