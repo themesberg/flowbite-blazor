@@ -16,7 +16,10 @@ public class SelectTests : FlowbiteTestContext
     public void Select_RendersWithOptions()
     {
         // Arrange & Act
+        string? value = "";
         var cut = RenderComponent<Select>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.ChildContent, (RenderFragment)(builder =>
             {
                 builder.OpenElement(0, "option");
@@ -46,10 +49,11 @@ public class SelectTests : FlowbiteTestContext
     public void Select_BindsSelectedValue()
     {
         // Arrange
-        var selectedValue = "";
+        string? selectedValue = "";
         var cut = RenderComponent<Select>(parameters => parameters
             .Add(p => p.Value, selectedValue)
             .Add(p => p.ValueChanged, newValue => selectedValue = newValue)
+            .Add(p => p.ValueExpression, () => selectedValue)
             .Add(p => p.ChildContent, (RenderFragment)(builder =>
             {
                 builder.OpenElement(0, "option");
@@ -76,7 +80,10 @@ public class SelectTests : FlowbiteTestContext
     public void Select_AppliesCustomClass()
     {
         // Arrange & Act
+        string? value = "";
         var cut = RenderComponent<Select>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.Class, "my-custom-select"));
 
         // Assert
@@ -90,7 +97,10 @@ public class SelectTests : FlowbiteTestContext
     public void Select_SupportsDisabledState()
     {
         // Arrange & Act
+        string? value = "";
         var cut = RenderComponent<Select>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.Disabled, true));
 
         // Assert
@@ -105,7 +115,10 @@ public class SelectTests : FlowbiteTestContext
     public void Select_RendersHelperText()
     {
         // Arrange & Act
+        string? value = "";
         var cut = RenderComponent<Select>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.HelperText, "Select your preferred option"));
 
         // Assert
@@ -119,7 +132,10 @@ public class SelectTests : FlowbiteTestContext
     public void Select_SupportsIdAttribute()
     {
         // Arrange & Act
+        string? value = "";
         var cut = RenderComponent<Select>(parameters => parameters
+            .Add(p => p.Value, value)
+            .Add(p => p.ValueExpression, () => value)
             .Add(p => p.Id, "country-select"));
 
         // Assert
