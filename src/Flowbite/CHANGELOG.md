@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.4-beta
+
+### Added
+- TBD
+
+### Fixed
+- TBD
+
+### Changed
+- TBD
+
 ## 0.2.3-beta
 
 ### Added
