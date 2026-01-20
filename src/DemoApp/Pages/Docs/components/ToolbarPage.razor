@@ -48,7 +48,7 @@
             <PreviewContent>
                 <Toolbar Embedded="true">
                     <ChildContent>
-                        <TextInput TValue="string" Placeholder="Search..." Class="w-64" />
+                        <TextInput @bind-Value="_embeddedSearch" Placeholder="Search..." Class="w-64" />
                         <Button Size="ButtonSize.Small" Class="ml-2">Search</Button>
                     </ChildContent>
                 </Toolbar>
@@ -73,7 +73,7 @@
             <PreviewContent>
                 <Toolbar Embedded="true">
                     <ChildContent>
-                        <TextInput TValue="string" Placeholder="Search for users..." Class="w-80" />
+                        <TextInput @bind-Value="_endContentSearch" Placeholder="Search for users..." Class="w-80" />
                     </ChildContent>
                     <End>
                         <Button Size="ButtonSize.Small" Class="whitespace-nowrap">
@@ -216,7 +216,7 @@
             <PreviewContent>
                 <Toolbar Embedded="true" Class="w-full py-4 text-gray-500 dark:text-gray-300">
                     <ChildContent>
-                        <TextInput TValue="string" Placeholder="Search for users..." Class="me-4 w-80 border xl:w-96" />
+                        <TextInput @bind-Value="_crudSearch" Placeholder="Search for users..." Class="me-4 w-80 border xl:w-96" />
 
                         <div class="border-l border-gray-100 pl-2 dark:border-gray-700 flex items-center space-x-1">
                             <ToolbarButton AriaLabel="Settings">
@@ -256,6 +256,9 @@
 
 @code {
     private string _searchQuery = "";
+    private string? _embeddedSearch;
+    private string? _endContentSearch;
+    private string? _crudSearch;
     private int _resultCount = 0;
 
     private void HandleSearch()

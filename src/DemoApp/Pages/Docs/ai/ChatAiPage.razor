@@ -282,10 +282,9 @@
                                     <span class="text-xs font-medium text-amber-600 dark:text-amber-400">Populate to Use</span>
                                 }
                             </div>
-                            <TextInput TValue="string"
-                                       Id="@inputId"
-                                       Value="@GetApiKeyForProvider(provider.Key)"
-                                       ValueChanged="@(EventCallback.Factory.Create<string?>(this, value => HandleProviderApiKeyChangedAsync(provider.Key, value)))"
+                            <TextInput Id="@inputId"
+                                       @bind-Value="provider.ApiKey"
+                                       @bind-Value:after="() => HandleProviderApiKeyChangedAsync(provider)"
                                        Placeholder="Enter API key"
                                        Type="password"
                                        Autocomplete="off" />
