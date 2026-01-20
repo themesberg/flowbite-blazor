@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.4-beta
+## 0.2.5-beta
 
 ### Added
 - TBD
@@ -10,6 +10,15 @@
 
 ### Changed
 - TBD
+
+## 0.2.4-beta
+
+### Added
+- `python build.py test-publish` command to catch pre-rendering errors during publish
+
+### Fixed
+- Fix pre-rendering errors in ChatAiPage and ToolbarPage caused by missing `@bind-Value` bindings
+- Refactor ChatAiPage.AiProviderConfig to use mutable ApiKey property for proper binding support
 
 ## 0.2.3-beta
 
