@@ -805,6 +805,9 @@
   .my-4 {
     margin-block: calc(var(--spacing) * 4);
   }
+  .ms-0 {
+    margin-inline-start: calc(var(--spacing) * 0);
+  }
   .ms-3 {
     margin-inline-start: calc(var(--spacing) * 3);
   }
@@ -1048,8 +1051,14 @@
   .h-24 {
     height: calc(var(--spacing) * 24);
   }
+  .h-32 {
+    height: calc(var(--spacing) * 32);
+  }
   .h-36 {
     height: calc(var(--spacing) * 36);
+  }
+  .h-48 {
+    height: calc(var(--spacing) * 48);
   }
   .h-56 {
     height: calc(var(--spacing) * 56);
@@ -1158,6 +1167,9 @@
   }
   .w-20 {
     width: calc(var(--spacing) * 20);
+  }
+  .w-24 {
+    width: calc(var(--spacing) * 24);
   }
   .w-36 {
     width: calc(var(--spacing) * 36);
@@ -1430,6 +1442,9 @@
   }
   .animate-\[spin_20s_linear_infinite\] {
     animation: spin 20s linear infinite;
+  }
+  .animate-pulse {
+    animation: var(--animate-pulse);
   }
   .animate-spin {
     animation: var(--animate-spin);
@@ -1748,6 +1763,13 @@
       --tw-space-y-reverse: 1;
     }
   }
+  .-space-x-px {
+    :where(& > :not(:last-child)) {
+      --tw-space-x-reverse: 0;
+      margin-inline-start: calc(-1px * var(--tw-space-x-reverse));
+      margin-inline-end: calc(-1px * calc(1 - var(--tw-space-x-reverse)));
+    }
+  }
   .space-x-1 {
     :where(& > :not(:last-child)) {
       --tw-space-x-reverse: 0;
@@ -1929,12 +1951,20 @@
     border-start-start-radius: 0.25rem;
     border-end-start-radius: 0.25rem;
   }
+  .rounded-s-lg {
+    border-start-start-radius: var(--radius-lg);
+    border-end-start-radius: var(--radius-lg);
+  }
   .rounded-ss {
     border-start-start-radius: 0.25rem;
   }
   .rounded-e {
     border-start-end-radius: 0.25rem;
     border-end-end-radius: 0.25rem;
+  }
+  .rounded-e-lg {
+    border-start-end-radius: var(--radius-lg);
+    border-end-end-radius: var(--radius-lg);
   }
   .rounded-se {
     border-start-end-radius: 0.25rem;
@@ -2380,6 +2410,9 @@
   }
   .bg-pink-100 {
     background-color: var(--color-pink-100);
+  }
+  .bg-primary-50 {
+    background-color: var(--color-primary-50);
   }
   .bg-primary-100 {
     background-color: var(--color-primary-100);
@@ -2973,6 +3006,9 @@
   }
   .py-6 {
     padding-block: calc(var(--spacing) * 6);
+  }
+  .py-12 {
+    padding-block: calc(var(--spacing) * 12);
   }
   .py-\[0\.2rem\] {
     padding-block: 0.2rem;
@@ -4517,6 +4553,13 @@
       }
     }
   }
+  .hover\:bg-primary-100 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-primary-100);
+      }
+    }
+  }
   .hover\:bg-primary-200 {
     &:hover {
       @media (hover: hover) {
@@ -4668,6 +4711,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-primary-600);
+      }
+    }
+  }
+  .hover\:text-primary-700 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-primary-700);
       }
     }
   }
