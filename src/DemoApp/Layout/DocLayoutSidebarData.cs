@@ -41,8 +41,8 @@ public static class DocLayoutSidebarData
             Title = "Demo Apps",
             Items = new List<DocLayoutSidebarItem>
             {
-                new() { Title = "AI Chat", Href = "/docs/ai/chat", Status = DocLayoutSidebarItem.StatusType.New },
-                new() { Title = "Admin Dashboard", Href = "https://flowbite-blazor-admin-dashboard.pages.dev/", Status = DocLayoutSidebarItem.StatusType.New, IsExternal = true },
+                new() { Title = "AI Chat", Href = "/docs/ai/chat" },
+                new() { Title = "Admin Dashboard", Href = "https://flowbite-blazor-admin-dashboard.pages.dev/", IsExternal = true },
             }
         },
         new DocLayoutSidebarSection
@@ -56,22 +56,25 @@ public static class DocLayoutSidebarData
                 new() { Title = "Breadcrumb", Href = "/docs/components/breadcrumb" },
                 new() { Title = "Button", Href = "/docs/components/button" },
                 new() { Title = "Card", Href = "/docs/components/card" },
-                new() { Title = "Carousel", Href = "/docs/components/carousel", Status = DocLayoutSidebarItem.StatusType.New },
-                new() { Title = "Chatbot", Href = "/docs/components/chatbot", Status = DocLayoutSidebarItem.StatusType.New },
+                new() { Title = "Carousel", Href = "/docs/components/carousel" },
+                new() { Title = "Chatbot", Href = "/docs/components/chatbot" },
                 new() { Title = "Dropdown", Href = "/docs/components/dropdown" },
                 new() { Title = "Drawer", Href = "/docs/components/drawer" },
+                new() { Title = "Empty State", Href = "/docs/components/empty-state", Status = DocLayoutSidebarItem.StatusType.New },
                 new() { Title = "Form Validation", Href = "/docs/components/form-validation"},
-                new() { Title = "Forms", Href = "/docs/components/forms", Status = DocLayoutSidebarItem.StatusType.Updated },
+                new() { Title = "Forms", Href = "/docs/components/forms" },
                 new() { Title = "Modal", Href = "/docs/components/modal" },
                 new() { Title = "Navbar", Href = "/docs/components/navbar" },
+                new() { Title = "Pagination", Href = "/docs/components/pagination", Status = DocLayoutSidebarItem.StatusType.New },
                 new() { Title = "QuickGrid", Href = "/docs/components/quickgrid" },
                 new() { Title = "Sidebar", Href = "/docs/components/sidebar" },
+                new() { Title = "Skeleton", Href = "/docs/components/skeleton", Status = DocLayoutSidebarItem.StatusType.New },
                 new() { Title = "Spinner", Href = "/docs/components/spinner" },
                 new() { Title = "Table", Href = "/docs/components/table"},
                 new() { Title = "Tabs", Href = "/docs/components/tabs" },
-                new() { Title = "Timeline", Href = "/docs/components/timeline", Status = DocLayoutSidebarItem.StatusType.New },
-                new() { Title = "Toast", Href = "/docs/components/toast" }, // Add Toast link here
-                new() { Title = "Toolbar", Href = "/docs/components/toolbar", Status = DocLayoutSidebarItem.StatusType.New },
+                new() { Title = "Timeline", Href = "/docs/components/timeline" },
+                new() { Title = "Toast", Href = "/docs/components/toast" },
+                new() { Title = "Toolbar", Href = "/docs/components/toolbar" },
                 new() { Title = "Tooltip", Href = "/docs/components/tooltip" },
             }
         },
@@ -80,9 +83,9 @@ public static class DocLayoutSidebarData
             Title = "Typography",
             Items = new List<DocLayoutSidebarItem>
             {
-                new() { Title = "Heading", Href = "/docs/components/heading", Status = DocLayoutSidebarItem.StatusType.New },
-                new() { Title = "Paragraph", Href = "/docs/components/paragraph", Status = DocLayoutSidebarItem.StatusType.New },
-                new() { Title = "Span", Href = "/docs/components/span", Status = DocLayoutSidebarItem.StatusType.New },
+                new() { Title = "Heading", Href = "/docs/components/heading" },
+                new() { Title = "Paragraph", Href = "/docs/components/paragraph" },
+                new() { Title = "Span", Href = "/docs/components/span" },
             }
         }
     };

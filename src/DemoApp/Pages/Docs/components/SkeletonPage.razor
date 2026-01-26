@@ -1,0 +1,188 @@
+@page "/docs/components/skeleton"
+@using Flowbite.Components
+
+<PageTitle>Skeleton - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Skeleton Examples</h2>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+        The Skeleton component provides placeholder content during loading states,
+        improving perceived performance and user experience. Animation respects the
+        user's prefers-reduced-motion accessibility setting.
+    </p>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Default Skeleton"
+                          Description="A simple text placeholder skeleton."
+                          RazorCode=@(@"<Skeleton />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Skeleton />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Skeleton Variants"
+                          Description="Different preset shapes for common use cases."
+                          RazorCode=@(@"
+<div class=""flex flex-wrap items-center gap-4"">
+    <Skeleton Variant=""SkeletonVariant.Text"" Width=""w-48"" />
+    <Skeleton Variant=""SkeletonVariant.Avatar"" />
+    <Skeleton Variant=""SkeletonVariant.Thumbnail"" />
+    <Skeleton Variant=""SkeletonVariant.Button"" />
+    <Skeleton Variant=""SkeletonVariant.Input"" Width=""w-48"" />
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap items-center gap-4">
+                    <Skeleton Variant="SkeletonVariant.Text" Width="w-48" />
+                    <Skeleton Variant="SkeletonVariant.Avatar" />
+                    <Skeleton Variant="SkeletonVariant.Thumbnail" />
+                    <Skeleton Variant="SkeletonVariant.Button" />
+                    <Skeleton Variant="SkeletonVariant.Input" Width="w-48" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Input Field Skeleton"
+                          Description="Placeholder for form input fields."
+                          RazorCode=@(@"
+<div class=""space-y-4 max-w-md"">
+    <div>
+        <label class=""block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"">Name</label>
+        <Skeleton Variant=""SkeletonVariant.Input"" />
+    </div>
+    <div>
+        <label class=""block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"">Email</label>
+        <Skeleton Variant=""SkeletonVariant.Input"" />
+    </div>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4 max-w-md">
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                        <Skeleton Variant="SkeletonVariant.Input" />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                        <Skeleton Variant="SkeletonVariant.Input" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Multi-Line Text"
+                          Description="Use the Lines parameter to render multiple text lines."
+                          RazorCode=@(@"
+<Skeleton Variant=""SkeletonVariant.Text"" Lines=""3"" />
+<Skeleton Variant=""SkeletonVariant.Text"" Lines=""5"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-6">
+                    <div>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 mb-2 block">3 lines</span>
+                        <Skeleton Variant="SkeletonVariant.Text" Lines="3" />
+                    </div>
+                    <div>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 mb-2 block">5 lines</span>
+                        <Skeleton Variant="SkeletonVariant.Text" Lines="5" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Card Skeleton"
+                          Description="Full-width card placeholder for content loading."
+                          RazorCode=@(@"<Skeleton Variant=""SkeletonVariant.Card"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Skeleton Variant="SkeletonVariant.Card" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Custom Dimensions"
+                          Description="Override dimensions with Tailwind utility classes."
+                          RazorCode=@(@"
+<Skeleton Variant=""SkeletonVariant.Custom"" Width=""w-full"" Height=""h-20"" Class=""rounded-xl"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Skeleton Variant="SkeletonVariant.Custom" Width="w-full" Height="h-20" Class="rounded-xl" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Without Animation"
+                          Description="Disable the pulse animation for static placeholders."
+                          RazorCode=@(@"<Skeleton Animated=""false"" Width=""w-32"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Skeleton Animated="false" Width="w-32" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Accessibility: Motion Reduce"
+                          Description="Animation automatically disabled when user has prefers-reduced-motion enabled. The skeleton uses motion-reduce:animate-none to respect this OS setting."
+                          RazorCode=@(@"
+@* Animation respects prefers-reduced-motion *@
+<Skeleton Animated=""true"" Width=""w-48"" />
+
+@* CSS: animate-pulse motion-reduce:animate-none *@")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <Skeleton Animated="true" Width="w-48" />
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        Enable "Reduce motion" in your OS accessibility settings to see animation disabled.
+                    </p>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="User Card Loading State"
+                          Description="Compose multiple skeletons for complex layouts."
+                          RazorCode=@(@"
+<div class=""flex items-center gap-4 p-4 border rounded-lg dark:border-gray-700"">
+    <Skeleton Variant=""SkeletonVariant.Avatar"" Width=""w-14"" Height=""h-14"" />
+    <div class=""flex flex-col gap-2"">
+        <Skeleton Variant=""SkeletonVariant.Text"" Width=""w-32"" />
+        <Skeleton Variant=""SkeletonVariant.Text"" Width=""w-48"" Height=""h-3"" />
+    </div>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex items-center gap-4 p-4 border rounded-lg dark:border-gray-700">
+                    <Skeleton Variant="SkeletonVariant.Avatar" Width="w-14" Height="h-14" />
+                    <div class="flex flex-col gap-2">
+                        <Skeleton Variant="SkeletonVariant.Text" Width="w-32" />
+                        <Skeleton Variant="SkeletonVariant.Text" Width="w-48" Height="h-3" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Blog Post Loading State"
+                          Description="Skeleton for a blog post with header, image, and body text."
+                          RazorCode=@(@"
+<div class=""p-4 border rounded-lg dark:border-gray-700 space-y-4"">
+    <Skeleton Variant=""SkeletonVariant.Text"" Width=""w-3/4"" Height=""h-6"" />
+    <div class=""flex items-center gap-2"">
+        <Skeleton Variant=""SkeletonVariant.Avatar"" Width=""w-8"" Height=""h-8"" />
+        <Skeleton Variant=""SkeletonVariant.Text"" Width=""w-24"" Height=""h-3"" />
+    </div>
+    <Skeleton Variant=""SkeletonVariant.Card"" Height=""h-40"" />
+    <Skeleton Variant=""SkeletonVariant.Text"" Lines=""4"" />
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="p-4 border rounded-lg dark:border-gray-700 space-y-4">
+                    <Skeleton Variant="SkeletonVariant.Text" Width="w-3/4" Height="h-6" />
+                    <div class="flex items-center gap-2">
+                        <Skeleton Variant="SkeletonVariant.Avatar" Width="w-8" Height="h-8" />
+                        <Skeleton Variant="SkeletonVariant.Text" Width="w-24" Height="h-3" />
+                    </div>
+                    <Skeleton Variant="SkeletonVariant.Card" Height="h-40" />
+                    <Skeleton Variant="SkeletonVariant.Text" Lines="4" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>

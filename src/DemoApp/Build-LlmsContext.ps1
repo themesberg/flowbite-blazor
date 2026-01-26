@@ -64,6 +64,10 @@ $sectionFiles = @(
     "01-21-paragraph.md",
     "01-22-span.md",
     "01-23-carousel.md",
+    "01-24-select.md",
+    "01-25-skeleton.md",
+    "01-26-empty-state.md",
+    "01-27-pagination.md",
     "02-icons.md",
     "03-patterns.md",
     "04-quickstart.md"
