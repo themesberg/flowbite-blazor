@@ -1,0 +1,94 @@
+@page "/docs/components/skeleton"
+@using Flowbite.Components
+@using static Flowbite.Components.Skeleton
+
+<PageTitle>Skeleton - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Skeleton Examples</h2>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+        The Skeleton component provides placeholder content during loading states,
+        improving perceived performance and user experience.
+    </p>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Default Skeleton"
+                          Description="A simple text placeholder skeleton."
+                          RazorCode=@(@"<Skeleton />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Skeleton />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Skeleton Variants"
+                          Description="Different preset shapes for common use cases."
+                          RazorCode=@(@"
+<div class=""flex flex-wrap items-center gap-4"">
+    <Skeleton Variant=""SkeletonVariant.Text"" Width=""w-48"" />
+    <Skeleton Variant=""SkeletonVariant.Avatar"" />
+    <Skeleton Variant=""SkeletonVariant.Thumbnail"" />
+    <Skeleton Variant=""SkeletonVariant.Button"" />
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex flex-wrap items-center gap-4">
+                    <Skeleton Variant="SkeletonVariant.Text" Width="w-48" />
+                    <Skeleton Variant="SkeletonVariant.Avatar" />
+                    <Skeleton Variant="SkeletonVariant.Thumbnail" />
+                    <Skeleton Variant="SkeletonVariant.Button" />
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Card Skeleton"
+                          Description="Full-width card placeholder for content loading."
+                          RazorCode=@(@"<Skeleton Variant=""SkeletonVariant.Card"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Skeleton Variant="SkeletonVariant.Card" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Custom Dimensions"
+                          Description="Override dimensions with Tailwind utility classes."
+                          RazorCode=@(@"
+<Skeleton Variant=""SkeletonVariant.Custom"" Width=""w-full"" Height=""h-20"" Class=""rounded-xl"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Skeleton Variant="SkeletonVariant.Custom" Width="w-full" Height="h-20" Class="rounded-xl" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Without Animation"
+                          Description="Disable the pulse animation for static placeholders."
+                          RazorCode=@(@"<Skeleton Animated=""false"" Width=""w-32"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Skeleton Animated="false" Width="w-32" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="User Card Loading State"
+                          Description="Compose multiple skeletons for complex layouts."
+                          RazorCode=@(@"
+<div class=""flex items-center gap-4 p-4 border rounded-lg dark:border-gray-700"">
+    <Skeleton Variant=""SkeletonVariant.Avatar"" Width=""w-14"" Height=""h-14"" />
+    <div class=""flex flex-col gap-2"">
+        <Skeleton Variant=""SkeletonVariant.Text"" Width=""w-32"" />
+        <Skeleton Variant=""SkeletonVariant.Text"" Width=""w-48"" Height=""h-3"" />
+    </div>
+</div>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="flex items-center gap-4 p-4 border rounded-lg dark:border-gray-700">
+                    <Skeleton Variant="SkeletonVariant.Avatar" Width="w-14" Height="h-14" />
+                    <div class="flex flex-col gap-2">
+                        <Skeleton Variant="SkeletonVariant.Text" Width="w-32" />
+                        <Skeleton Variant="SkeletonVariant.Text" Width="w-48" Height="h-3" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>

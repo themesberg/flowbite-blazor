@@ -1,0 +1,15 @@
+@namespace Flowbite.Components
+@inherits Base.FlowbiteComponentBase
+
+<div role="status"
+     aria-busy="true"
+     aria-label="@AriaLabel"
+     class="@ComputedClass"
+     style="@ComputedStyle"
+     @attributes="AdditionalAttributes">
+    @if (ChildContent != null)
+    {
+        @ChildContent
+    }
+    <span class="sr-only">Loading...</span>
+</div>
