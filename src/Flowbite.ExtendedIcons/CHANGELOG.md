@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.6-alpha
+
+### Breaking Changes
+- **Minimum Flowbite version**: Now requires Flowbite >= 0.2.0-beta
+
+### Fixed
+- Fixed `MissingMethodException` when using ExtendedIcons with Flowbite 0.2.x (Fixes #19)
+- Recompiled against Flowbite 0.2.5-beta which moved `AdditionalAttributes` from `IconBase` to `FlowbiteComponentBase`
+
 ## 0.0.5-alpha
 
 - Updated ChartLineDownIcon

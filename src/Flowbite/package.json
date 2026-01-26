@@ -9,7 +9,8 @@
     "build:watch": "rollup -c --watch"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.6.13"
+    "@floating-ui/dom": "^1.6.13",
+    "flowbite": "^4.0.1"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.0",

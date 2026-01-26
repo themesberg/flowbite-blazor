@@ -1,15 +1,49 @@
 # Changelog
 
+## 0.2.6-beta
+
+### Added
+- Add `Skeleton` component for loading placeholder animations
+  - Six variants: Text, Avatar, Thumbnail, Button, Card, Input
+  - Multi-line support with `Lines` parameter for Text variant
+  - `prefers-reduced-motion` support via `motion-reduce:animate-none`
+  - Customizable dimensions with `Width` and `Height` parameters
+  - Accessibility features: `role="status"`, `aria-busy="true"`, screen reader text
+- Add `EmptyState` component for displaying placeholder content when no data is available
+  - Support for custom icons and images/illustrations
+  - `Image` slot takes precedence over `Icon` for larger illustrations
+  - Primary and secondary action button slots
+  - Customizable title and description
+- Add `Pagination` component for navigating through pages of data
+  - First/Last page navigation buttons (`ShowFirstLast`)
+  - Ellipsis display for large page ranges (`ShowEllipsis`)
+  - Go-to-page input field (`ShowGoToPage`)
+  - Items-per-page selector dropdown (`ShowPageSizeSelector`)
+  - Size variants: Small, Default, Large
+  - Full ARIA accessibility support with proper labels and roles
+
+### Changed
+- Component enhancements bringing parity with shadcn/ui, Mantine, Ant Design features
+
+## 0.2.5-beta
+
+### Added
+- Initial implementation of Skeleton, EmptyState, and Pagination components
+
+### Fixed
+- N/A
+
+### Changed
+- N/A
+
 ## 0.2.4-beta
 
 ### Added
-- TBD
+- `python build.py test-publish` command to catch pre-rendering errors during publish
 
 ### Fixed
-- TBD
-
-### Changed
-- TBD
+- Fix pre-rendering errors in ChatAiPage and ToolbarPage caused by missing `@bind-Value` bindings
+- Refactor ChatAiPage.AiProviderConfig to use mutable ApiKey property for proper binding support
 
 ## 0.2.3-beta
 

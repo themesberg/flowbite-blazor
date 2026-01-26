@@ -1,0 +1,162 @@
+@namespace Flowbite.Components
+@inherits Base.FlowbiteComponentBase
+
+<nav class="@ComputedClass" aria-label="@AriaLabel" style="@Style" @attributes="AdditionalAttributes">
+    @if (ShowInfo)
+    {
+        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+            Showing <span class="font-semibold text-gray-900 dark:text-white">@StartItem-@EndItem</span>
+            of <span class="font-semibold text-gray-900 dark:text-white">@TotalItems</span>
+        </span>
+    }
+
+    <div class="flex items-center gap-4">
+        @* Page Size Selector *@
+        @if (ShowPageSizeSelector)
+        {
+            <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-500 dark:text-gray-400">Show</label>
+                <select class="@PageSizeSelectorClass"
+                        value="@PageSize"
+                        @onchange="HandlePageSizeChangeAsync">
+                    @foreach (var option in PageSizeOptions)
+                    {
+                        <option value="@option" selected="@(option == PageSize)">@option</option>
+                    }
+                </select>
+            </div>
+        }
+
+        <ul class="inline-flex items-center -space-x-px">
+            @* First Button *@
+            @if (ShowFirstLast)
+            {
+                <li>
+                    <button type="button"
+                            @onclick="FirstPageAsync"
+                            disabled="@(!CanGoFirst)"
+                            class="@FirstButtonClass"
+                            aria-label="First page">
+                        @if (FirstContent != null)
+                        {
+                            @FirstContent
+                        }
+                        else
+                        {
+                            <svg class="@GetIconSizeClass()" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path>
+                            </svg>
+                        }
+                    </button>
+                </li>
+            }
+
+            @* Previous Button *@
+            <li>
+                <button type="button"
+                        @onclick="PreviousPageAsync"
+                        disabled="@(!HasPreviousPage)"
+                        class="@PreviousButtonClass"
+                        aria-label="Previous page">
+                    @if (PreviousContent != null)
+                    {
+                        @PreviousContent
+                    }
+                    else
+                    {
+                        <svg class="@GetIconSizeClass()" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    }
+                </button>
+            </li>
+
+            @* Page Numbers *@
+            @foreach (var pageNum in VisiblePages)
+            {
+                @if (pageNum < 0)
+                {
+                    @* Ellipsis (negative markers: -1 = left, -2 = right) *@
+                    <li @key="@($"ellipsis-{pageNum}")">
+                        <span class="@EllipsisClass" aria-hidden="true">...</span>
+                    </li>
+                }
+                else
+                {
+                    <li @key="pageNum">
+                        <button type="button"
+                                @onclick="() => GoToPageAsync(pageNum)"
+                                class="@(pageNum == CurrentPage ? ActivePageClass : InactivePageClass)"
+                                aria-label="@(pageNum == CurrentPage ? $"Page {pageNum}, current page" : $"Go to page {pageNum}")"
+                                aria-current="@(pageNum == CurrentPage ? "page" : null)">
+                            @pageNum
+                        </button>
+                    </li>
+                }
+            }
+
+            @* Next Button *@
+            <li>
+                <button type="button"
+                        @onclick="NextPageAsync"
+                        disabled="@(!HasNextPage)"
+                        class="@NextButtonClass"
+                        aria-label="Next page">
+                    @if (NextContent != null)
+                    {
+                        @NextContent
+                    }
+                    else
+                    {
+                        <svg class="@GetIconSizeClass()" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    }
+                </button>
+            </li>
+
+            @* Last Button *@
+            @if (ShowFirstLast)
+            {
+                <li>
+                    <button type="button"
+                            @onclick="LastPageAsync"
+                            disabled="@(!CanGoLast)"
+                            class="@LastButtonClass"
+                            aria-label="Last page">
+                        @if (LastContent != null)
+                        {
+                            @LastContent
+                        }
+                        else
+                        {
+                            <svg class="@GetIconSizeClass()" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+                            </svg>
+                        }
+                    </button>
+                </li>
+            }
+        </ul>
+
+        @* Go to Page Input *@
+        @if (ShowGoToPage)
+        {
+            <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-500 dark:text-gray-400">@GoToPageLabel</label>
+                <input type="number"
+                       min="1"
+                       max="@TotalPages"
+                       @bind="_goToPageInput"
+                       @onkeydown="HandleGoToPageKeydownAsync"
+                       class="w-16 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-1.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                       placeholder="@CurrentPage" />
+                <button type="button"
+                        @onclick="HandleGoToPageAsync"
+                        class="px-3 py-1.5 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                    Go
+                </button>
+            </div>
+        }
+    </div>
+</nav>

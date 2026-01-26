@@ -1,0 +1,33 @@
+@namespace Flowbite.Components
+@inherits Base.FlowbiteComponentBase
+
+@if (IsMultiLine)
+{
+    <div role="status"
+         aria-busy="true"
+         aria-label="@AriaLabel"
+         class="@MultiLineContainerClass"
+         style="@ComputedStyle"
+         @attributes="AdditionalAttributes">
+        @for (var i = 0; i < Lines; i++)
+        {
+            <div class="@GetLineClass(i)"></div>
+        }
+        <span class="sr-only">Loading...</span>
+    </div>
+}
+else
+{
+    <div role="status"
+         aria-busy="true"
+         aria-label="@AriaLabel"
+         class="@ComputedClass"
+         style="@ComputedStyle"
+         @attributes="AdditionalAttributes">
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+        <span class="sr-only">Loading...</span>
+    </div>
+}

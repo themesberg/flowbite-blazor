@@ -68,8 +68,11 @@ Flowbite Blazor provides the following set of UI components:
 - Breadcrumb
 - Button
 - Card
+- Carousel
+- Chatbot
 - Drawer
 - Dropdown
+- EmptyState
 - Form Components
    - TextInput
    - TextArea
@@ -77,15 +80,23 @@ Flowbite Blazor provides the following set of UI components:
    - Checkbox
    - Radio
    - FileInput
-   - ToggeSwitch
+   - ToggleSwitch
    - RangeSlider
 - Modal
 - Icons
 - Navbar
-- QuizGrid
+- Pagination
+- QuickGrid
 - Sidebar
+- Skeleton
 - Spinner
+- Table
+- Tabs
+- Timeline
+- Toast
+- Toolbar
 - Tooltip
+- Typography (Heading, Paragraph, Span)
 
 
 ### Components
@@ -2134,6 +2145,230 @@ The Carousel component allows you to create image slideshows or content carousel
 - `ImageAlt` - Alt text for image
 - `ImageFit` - How image fits in container
 - `Position` - Indicator position (Top/Bottom)
+
+
+
+#### Select Component
+
+Use the `Select` component for native single-select inputs with Flowbite styling, addon support, icons, helper text, and validation states. Pass the available options through standard `<option>` elements inside the component and bind to `Value`/`ValueChanged` (or `@bind-Value`) for data binding.
+
+- `Color`: switch validation colors (`SelectColor.Gray`, `Success`, `Failure`, etc.)
+- `Size`: `TextInputSize.Small`, `Medium`, or `Large`
+- `Icon`/`Addon`: render icons or addon content inside the field
+- `Shadow`, `Disabled`, `HelperText`: match the API used by `TextInput`
+- For inline filtering, use the `Combobox` component which renders a custom dropdown with a dedicated search field.
+
+```razor
+<Select Id="countries" @bind-Value="selectedCountry">
+    <option value="">Choose a country</option>
+    <option value="US">United States</option>
+    <option value="CA">Canada</option>
+    <option value="DE">Germany</option>
+    <option value="FR">France</option>
+</Select>
+
+@code {
+    private string? selectedCountry = "US";
+}
+```
+
+
+
+
+#### Skeleton Component
+
+The Skeleton component provides loading placeholder animations while content is being fetched.
+
+**Available Variants:**
+- `SkeletonVariant.Text` - Text line placeholder (default)
+- `SkeletonVariant.Avatar` - Circular avatar placeholder
+- `SkeletonVariant.Thumbnail` - Thumbnail image placeholder
+- `SkeletonVariant.Button` - Button placeholder
+- `SkeletonVariant.Card` - Card placeholder
+- `SkeletonVariant.Input` - Form input placeholder
+
+**Parameters:**
+- `Variant` - The skeleton variant type
+- `Width` - Custom width class (e.g., "w-64")
+- `Height` - Custom height class (e.g., "h-16")
+- `Animated` - Whether to show pulse animation (default: true)
+- `Lines` - Number of lines for Text variant (default: 1)
+- `LineSpacing` - Custom spacing between lines (default: "space-y-2.5")
+- `AriaLabel` - Screen reader label for accessibility
+
+**Accessibility:**
+- Uses `role="status"` and `aria-busy="true"`
+- Respects `prefers-reduced-motion` via `motion-reduce:animate-none`
+- Includes screen reader text "Loading..."
+
+```razor
+<!-- Basic text skeleton -->
+<Skeleton />
+
+<!-- Avatar skeleton -->
+<Skeleton Variant="SkeletonVariant.Avatar" />
+
+<!-- Multi-line text skeleton -->
+<Skeleton Variant="SkeletonVariant.Text" Lines="3" />
+
+<!-- Input skeleton -->
+<Skeleton Variant="SkeletonVariant.Input" />
+
+<!-- Custom dimensions -->
+<Skeleton Width="w-64" Height="h-16" />
+
+<!-- Without animation -->
+<Skeleton Animated="false" />
+
+<!-- Card skeleton -->
+<Skeleton Variant="SkeletonVariant.Card" />
+```
+
+
+
+
+#### EmptyState Component
+
+The EmptyState component provides visual feedback when no data is available, with support for icons, images, descriptions, and action buttons.
+
+**Parameters:**
+- `Title` - The title text (default: "No results found")
+- `Description` - Optional description text
+- `Icon` - Custom icon content (RenderFragment)
+- `Image` - Custom image/illustration content, takes precedence over Icon (RenderFragment)
+- `Action` - Primary action button content (RenderFragment)
+- `SecondaryAction` - Secondary action button content (RenderFragment)
+
+```razor
+<!-- Basic empty state -->
+<EmptyState Title="No items yet" />
+
+<!-- With description -->
+<EmptyState Title="No users found"
+            Description="Try adjusting your search criteria or add a new user." />
+
+<!-- With action button -->
+<EmptyState Title="No products"
+            Description="Get started by adding your first product.">
+    <Action>
+        <Button>
+            <PlusIcon class="w-4 h-4 mr-2" />
+            Add Product
+        </Button>
+    </Action>
+</EmptyState>
+
+<!-- With primary and secondary actions -->
+<EmptyState Title="No projects"
+            Description="Create a new project or import from another tool.">
+    <Action>
+        <Button>Create Project</Button>
+    </Action>
+    <SecondaryAction>
+        <Button Color="ButtonColor.Gray">Import</Button>
+    </SecondaryAction>
+</EmptyState>
+
+<!-- With custom icon -->
+<EmptyState Title="No search results"
+            Description="We couldn't find anything matching your search.">
+    <Icon>
+        <SearchIcon class="w-12 h-12 text-gray-400 dark:text-gray-500" />
+    </Icon>
+</EmptyState>
+
+<!-- With custom image/illustration -->
+<EmptyState Title="No notifications"
+            Description="You're all caught up!">
+    <Image>
+        <svg class="w-32 h-32 text-gray-300" viewBox="0 0 24 24" stroke="currentColor">
+            <!-- SVG paths -->
+        </svg>
+    </Image>
+</EmptyState>
+```
+
+
+
+
+#### Pagination Component
+
+The Pagination component provides navigation through pages of data with built-in accessibility features.
+
+**Parameters:**
+- `CurrentPage` - Current active page number (1-based)
+- `PageSize` - Items per page (default: 10)
+- `TotalItems` - Total number of items
+- `OnPageChange` - EventCallback when page changes
+- `MaxVisiblePages` - Max page buttons to show (default: 5)
+- `ShowInfo` - Show "Showing X-Y of Z" text (default: true)
+- `ShowFirstLast` - Show First/Last navigation buttons (default: false)
+- `ShowEllipsis` - Show ellipsis for large page ranges (default: true)
+- `ShowGoToPage` - Show go-to-page input (default: false)
+- `GoToPageLabel` - Label for go-to-page input (default: "Go to")
+- `ShowPageSizeSelector` - Show items-per-page dropdown (default: false)
+- `PageSizeOptions` - Array of page size options (default: [10, 20, 50, 100])
+- `OnPageSizeChange` - EventCallback when page size changes
+- `Size` - Button size variant (Small, Default, Large)
+- `PreviousContent` / `NextContent` - Custom content for nav buttons
+- `FirstContent` / `LastContent` - Custom content for first/last buttons
+
+**Size Variants:**
+- `PaginationSize.Small` - Compact pagination
+- `PaginationSize.Default` - Standard size
+- `PaginationSize.Large` - Larger buttons
+
+```razor
+<!-- Basic pagination -->
+<Pagination CurrentPage="@currentPage"
+            PageSize="10"
+            TotalItems="100"
+            OnPageChange="@(p => currentPage = p)" />
+
+<!-- With First/Last buttons -->
+<Pagination CurrentPage="@currentPage"
+            PageSize="10"
+            TotalItems="200"
+            ShowFirstLast="true"
+            OnPageChange="@(p => currentPage = p)" />
+
+<!-- With go-to-page input -->
+<Pagination CurrentPage="@currentPage"
+            PageSize="10"
+            TotalItems="500"
+            ShowGoToPage="true"
+            OnPageChange="@(p => currentPage = p)" />
+
+<!-- With page size selector -->
+<Pagination CurrentPage="@currentPage"
+            PageSize="@pageSize"
+            TotalItems="500"
+            ShowPageSizeSelector="true"
+            PageSizeOptions="@(new[] { 10, 25, 50, 100 })"
+            OnPageChange="@(p => currentPage = p)"
+            OnPageSizeChange="@(s => { pageSize = s; currentPage = 1; })" />
+
+<!-- Small size -->
+<Pagination Size="PaginationSize.Small" ... />
+
+<!-- Large size -->
+<Pagination Size="PaginationSize.Large" ... />
+
+<!-- Full featured -->
+<Pagination CurrentPage="@currentPage"
+            PageSize="@pageSize"
+            TotalItems="1500"
+            ShowFirstLast="true"
+            ShowGoToPage="true"
+            ShowPageSizeSelector="true"
+            OnPageChange="@(p => currentPage = p)"
+            OnPageSizeChange="@(s => { pageSize = s; currentPage = 1; })" />
+
+@code {
+    private int currentPage = 1;
+    private int pageSize = 10;
+}
+```
 
 
 
