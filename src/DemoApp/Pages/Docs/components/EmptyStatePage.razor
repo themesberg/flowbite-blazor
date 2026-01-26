@@ -1,0 +1,82 @@
+@page "/docs/components/empty-state"
+@using Flowbite.Components
+@using Flowbite.Icons
+
+<PageTitle>Empty State - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Empty State Examples</h2>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+        The EmptyState component provides visual feedback when no data is available,
+        with support for custom icons, descriptions, and action buttons.
+    </p>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Default Empty State"
+                          Description="A simple empty state with title only."
+                          RazorCode=@(@"<EmptyState Title=""No items yet"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <EmptyState Title="No items yet" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="With Description"
+                          Description="Add context with a description message."
+                          RazorCode=@(@"
+<EmptyState Title=""No users found""
+            Description=""Try adjusting your search criteria or add a new user."" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <EmptyState Title="No users found"
+                            Description="Try adjusting your search criteria or add a new user." />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="With Action Button"
+                          Description="Guide users with a call-to-action button."
+                          RazorCode=@(@"
+<EmptyState Title=""No products""
+            Description=""Get started by adding your first product."">
+    <Action>
+        <Button>
+            <PlusIcon class=""w-4 h-4 mr-2"" />
+            Add Product
+        </Button>
+    </Action>
+</EmptyState>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <EmptyState Title="No products"
+                            Description="Get started by adding your first product.">
+                    <Action>
+                        <Button>
+                            <PlusIcon class="w-4 h-4 mr-2" />
+                            Add Product
+                        </Button>
+                    </Action>
+                </EmptyState>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Custom Icon"
+                          Description="Replace the default icon with a custom one."
+                          RazorCode=@(@"
+<EmptyState Title=""No search results""
+            Description=""We couldn't find anything matching your search."">
+    <Icon>
+        <SearchIcon class=""w-12 h-12 text-gray-400 dark:text-gray-500"" />
+    </Icon>
+</EmptyState>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <EmptyState Title="No search results"
+                            Description="We couldn't find anything matching your search.">
+                    <Icon>
+                        <SearchIcon class="w-12 h-12 text-gray-400 dark:text-gray-500" />
+                    </Icon>
+                </EmptyState>
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>
