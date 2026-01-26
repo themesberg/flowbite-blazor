@@ -9,8 +9,8 @@ namespace Flowbite.Components;
 /// </summary>
 /// <remarks>
 /// The EmptyState component provides a consistent pattern for showing users that a list,
-/// table, or section is empty. It supports custom icons, titles, descriptions, and
-/// action buttons to guide users on next steps.
+/// table, or section is empty. It supports custom icons, images/illustrations, titles,
+/// descriptions, and action buttons to guide users on next steps.
 /// </remarks>
 /// <example>
 /// <code>
@@ -38,15 +38,32 @@ public partial class EmptyState : FlowbiteComponentBase
 
     /// <summary>
     /// Custom icon content to replace the default inbox icon.
+    /// When Image is provided, Icon is ignored.
     /// </summary>
     [Parameter]
     public RenderFragment? Icon { get; set; }
+
+    /// <summary>
+    /// Custom image or illustration content. Takes precedence over Icon when provided.
+    /// Use this for larger illustrations, SVG graphics, or images.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? Image { get; set; }
 
     /// <summary>
     /// Optional action content, typically containing buttons.
     /// </summary>
     [Parameter]
     public RenderFragment? Action { get; set; }
+
+    /// <summary>
+    /// Optional secondary action content, displayed after the primary action.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? SecondaryAction { get; set; }
+
+    // Whether to show the circular icon container (false when Image is provided)
+    private bool ShowIconContainer => Image == null;
 
     private string ComputedClass => MergeClasses(
         ElementClass.Empty()

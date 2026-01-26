@@ -1141,6 +1141,9 @@
   .w-4 {
     width: calc(var(--spacing) * 4);
   }
+  .w-4\/5 {
+    width: calc(4/5 * 100%);
+  }
   .w-5 {
     width: calc(var(--spacing) * 5);
   }
@@ -1162,8 +1165,14 @@
   .w-11 {
     width: calc(var(--spacing) * 11);
   }
+  .w-11\/12 {
+    width: calc(11/12 * 100%);
+  }
   .w-12 {
     width: calc(var(--spacing) * 12);
+  }
+  .w-16 {
+    width: calc(var(--spacing) * 16);
   }
   .w-20 {
     width: calc(var(--spacing) * 20);
@@ -1749,6 +1758,13 @@
       --tw-space-y-reverse: 0;
       margin-block-start: calc(calc(var(--spacing) * 2) * var(--tw-space-y-reverse));
       margin-block-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
+  .space-y-2\.5 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 2.5) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 2.5) * calc(1 - var(--tw-space-y-reverse)));
     }
   }
   .space-y-4 {
@@ -2650,6 +2666,9 @@
   .bg-\[length\:0\.75em_0\.75em\] {
     background-size: 0.75em 0.75em;
   }
+  .bg-\[length\:10px_10px\] {
+    background-size: 10px 10px;
+  }
   .bg-auto {
     background-size: auto;
   }
@@ -2682,6 +2701,9 @@
   }
   .bg-\[position\:right_12px_center\] {
     background-position: right 12px center;
+  }
+  .bg-\[right_0\.75rem_center\] {
+    background-position: right 0.75rem center;
   }
   .bg-bottom {
     background-position: bottom;
@@ -3043,8 +3065,14 @@
   .pl-2 {
     padding-left: calc(var(--spacing) * 2);
   }
+  .pl-2\.5 {
+    padding-left: calc(var(--spacing) * 2.5);
+  }
   .pl-3 {
     padding-left: calc(var(--spacing) * 3);
+  }
+  .pl-4 {
+    padding-left: calc(var(--spacing) * 4);
   }
   .pl-6 {
     padding-left: calc(var(--spacing) * 6);
@@ -5145,6 +5173,11 @@
       &[data-slot="select-value"] {
         gap: calc(var(--spacing) * 2);
       }
+    }
+  }
+  .motion-reduce\:animate-none {
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
     }
   }
   .motion-reduce\:transition-none {

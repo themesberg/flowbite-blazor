@@ -8,7 +8,7 @@
     <h2>Empty State Examples</h2>
     <p class="text-lg text-gray-500 dark:text-gray-400">
         The EmptyState component provides visual feedback when no data is available,
-        with support for custom icons, descriptions, and action buttons.
+        with support for custom icons, images/illustrations, descriptions, and action buttons.
     </p>
 
     <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
@@ -59,6 +59,42 @@
             </PreviewContent>
         </ComponentExample>
 
+        <ComponentExample Title="Multiple Actions"
+                          Description="Provide primary and secondary action options."
+                          RazorCode=@(@"
+<EmptyState Title=""No projects""
+            Description=""Create a new project or import from another tool."">
+    <Action>
+        <Button>
+            <PlusIcon class=""w-4 h-4 mr-2"" />
+            Create Project
+        </Button>
+    </Action>
+    <SecondaryAction>
+        <Button Color=""ButtonColor.Gray"">
+            Import
+        </Button>
+    </SecondaryAction>
+</EmptyState>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <EmptyState Title="No projects"
+                            Description="Create a new project or import from another tool.">
+                    <Action>
+                        <Button>
+                            <PlusIcon class="w-4 h-4 mr-2" />
+                            Create Project
+                        </Button>
+                    </Action>
+                    <SecondaryAction>
+                        <Button Color="ButtonColor.Gray">
+                            Import
+                        </Button>
+                    </SecondaryAction>
+                </EmptyState>
+            </PreviewContent>
+        </ComponentExample>
+
         <ComponentExample Title="Custom Icon"
                           Description="Replace the default icon with a custom one."
                           RazorCode=@(@"
@@ -75,6 +111,78 @@
                     <Icon>
                         <SearchIcon class="w-12 h-12 text-gray-400 dark:text-gray-500" />
                     </Icon>
+                </EmptyState>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="With Image/Illustration"
+                          Description="Use the Image slot for larger illustrations. Takes precedence over Icon."
+                          RazorCode=@(@"
+<EmptyState Title=""No notifications""
+            Description=""You're all caught up! Check back later for updates."">
+    <Image>
+        <svg class=""w-32 h-32 text-gray-300 dark:text-gray-600"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor"">
+            <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""1""
+                  d=""M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"" />
+        </svg>
+    </Image>
+</EmptyState>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <EmptyState Title="No notifications"
+                            Description="You're all caught up! Check back later for updates.">
+                    <Image>
+                        <svg class="w-32 h-32 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                    </Image>
+                </EmptyState>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Full Featured"
+                          Description="Combine image, title, description, and multiple actions."
+                          RazorCode=@(@"
+<EmptyState Title=""Welcome to your dashboard""
+            Description=""Your workspace is ready. Start by creating your first item or exploring the documentation."">
+    <Image>
+        <svg class=""w-40 h-40 text-primary-200 dark:text-primary-900"" viewBox=""0 0 24 24"" fill=""currentColor"">
+            <path d=""M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"" />
+        </svg>
+    </Image>
+    <Action>
+        <Button>
+            <PlusIcon class=""w-4 h-4 mr-2"" />
+            Get Started
+        </Button>
+    </Action>
+    <SecondaryAction>
+        <Button Color=""ButtonColor.Light"">
+            View Documentation
+        </Button>
+    </SecondaryAction>
+</EmptyState>")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <EmptyState Title="Welcome to your dashboard"
+                            Description="Your workspace is ready. Start by creating your first item or exploring the documentation.">
+                    <Image>
+                        <svg class="w-40 h-40 text-primary-200 dark:text-primary-900" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                        </svg>
+                    </Image>
+                    <Action>
+                        <Button>
+                            <PlusIcon class="w-4 h-4 mr-2" />
+                            Get Started
+                        </Button>
+                    </Action>
+                    <SecondaryAction>
+                        <Button Color="ButtonColor.Light">
+                            View Documentation
+                        </Button>
+                    </SecondaryAction>
                 </EmptyState>
             </PreviewContent>
         </ComponentExample>

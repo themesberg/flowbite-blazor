@@ -71,4 +71,81 @@ public class EmptyStateTests : FlowbiteTestContext
 
         cut.Markup.Should().Contain("my-class");
     }
+
+    // New tests for Image and SecondaryAction
+
+    [Fact]
+    public void EmptyState_RendersImage_WhenProvided()
+    {
+        var cut = RenderComponent<EmptyState>(p => p
+            .Add(e => e.Image, "<img src=\"illustration.png\" class=\"illustration\" />"));
+
+        cut.Markup.Should().Contain("illustration");
+    }
+
+    [Fact]
+    public void EmptyState_ImageTakesPrecedence_OverIcon()
+    {
+        var cut = RenderComponent<EmptyState>(p => p
+            .Add(e => e.Image, "<img src=\"illustration.png\" class=\"illustration\" />")
+            .Add(e => e.Icon, "<span class=\"custom-icon\">Icon</span>"));
+
+        // Image should be rendered
+        cut.Markup.Should().Contain("illustration");
+        // Icon should not be rendered
+        cut.Markup.Should().NotContain("custom-icon");
+        // The circular icon container should not be present
+        cut.Markup.Should().NotContain("rounded-full bg-gray-100");
+    }
+
+    [Fact]
+    public void EmptyState_NoIconContainer_WhenImageProvided()
+    {
+        var cut = RenderComponent<EmptyState>(p => p
+            .Add(e => e.Image, "<img src=\"illustration.png\" />"));
+
+        // The rounded icon container should not be present
+        cut.FindAll(".rounded-full").Should().BeEmpty();
+    }
+
+    [Fact]
+    public void EmptyState_RendersSecondaryAction_WhenProvided()
+    {
+        var cut = RenderComponent<EmptyState>(p => p
+            .Add(e => e.SecondaryAction, "<button>Cancel</button>"));
+
+        cut.Markup.Should().Contain("Cancel");
+    }
+
+    [Fact]
+    public void EmptyState_RendersBothActions_WhenProvided()
+    {
+        var cut = RenderComponent<EmptyState>(p => p
+            .Add(e => e.Action, "<button>Primary</button>")
+            .Add(e => e.SecondaryAction, "<button>Secondary</button>"));
+
+        cut.Markup.Should().Contain("Primary");
+        cut.Markup.Should().Contain("Secondary");
+    }
+
+    [Fact]
+    public void EmptyState_ActionsContainer_HasFlexGap_WhenBothProvided()
+    {
+        var cut = RenderComponent<EmptyState>(p => p
+            .Add(e => e.Action, "<button>Primary</button>")
+            .Add(e => e.SecondaryAction, "<button>Secondary</button>"));
+
+        cut.Markup.Should().Contain("flex");
+        cut.Markup.Should().Contain("gap-3");
+    }
+
+    [Fact]
+    public void EmptyState_OnlySecondaryAction_RendersInContainer()
+    {
+        var cut = RenderComponent<EmptyState>(p => p
+            .Add(e => e.SecondaryAction, "<button>Secondary</button>"));
+
+        cut.Markup.Should().Contain("Secondary");
+        cut.Markup.Should().Contain("flex");
+    }
 }

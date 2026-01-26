@@ -31,6 +31,152 @@
             </PreviewContent>
         </ComponentExample>
 
+        <ComponentExample Title="First/Last Buttons"
+                          Description="Enable quick navigation to first and last pages."
+                          RazorCode=@(@"
+<Pagination CurrentPage=""@currentPage""
+            PageSize=""10""
+            TotalItems=""200""
+            ShowFirstLast=""true""
+            OnPageChange=""@(p => currentPage = p)"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Pagination CurrentPage="@_currentPageFirstLast"
+                            PageSize="10"
+                            TotalItems="200"
+                            ShowFirstLast="true"
+                            OnPageChange="@(p => _currentPageFirstLast = p)" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Ellipsis Display"
+                          Description="Show ellipsis for large page ranges (enabled by default)."
+                          RazorCode=@(@"
+<Pagination CurrentPage=""@currentPage""
+            PageSize=""10""
+            TotalItems=""1000""
+            ShowFirstLast=""true""
+            OnPageChange=""@(p => currentPage = p)"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Pagination CurrentPage="@_currentPageEllipsis"
+                            PageSize="10"
+                            TotalItems="1000"
+                            ShowFirstLast="true"
+                            OnPageChange="@(p => _currentPageEllipsis = p)" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Size Variants"
+                          Description="Choose from small, default, or large button sizes."
+                          RazorCode=@(@"
+<Pagination Size=""PaginationSize.Small"" ... />
+<Pagination Size=""PaginationSize.Default"" ... />
+<Pagination Size=""PaginationSize.Large"" ... />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <div>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 mb-1 block">Small</span>
+                        <Pagination CurrentPage="@_currentPageSmall"
+                                    PageSize="10"
+                                    TotalItems="100"
+                                    Size="PaginationSize.Small"
+                                    ShowInfo="false"
+                                    OnPageChange="@(p => _currentPageSmall = p)" />
+                    </div>
+                    <div>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 mb-1 block">Default</span>
+                        <Pagination CurrentPage="@_currentPageDefault"
+                                    PageSize="10"
+                                    TotalItems="100"
+                                    Size="PaginationSize.Default"
+                                    ShowInfo="false"
+                                    OnPageChange="@(p => _currentPageDefault = p)" />
+                    </div>
+                    <div>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 mb-1 block">Large</span>
+                        <Pagination CurrentPage="@_currentPageLarge"
+                                    PageSize="10"
+                                    TotalItems="100"
+                                    Size="PaginationSize.Large"
+                                    ShowInfo="false"
+                                    OnPageChange="@(p => _currentPageLarge = p)" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Go to Page"
+                          Description="Allow users to jump directly to a specific page."
+                          RazorCode=@(@"
+<Pagination CurrentPage=""@currentPage""
+            PageSize=""10""
+            TotalItems=""500""
+            ShowGoToPage=""true""
+            OnPageChange=""@(p => currentPage = p)"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Pagination CurrentPage="@_currentPageGoTo"
+                            PageSize="10"
+                            TotalItems="500"
+                            ShowGoToPage="true"
+                            ShowFirstLast="true"
+                            OnPageChange="@(p => _currentPageGoTo = p)" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Page Size Selector"
+                          Description="Let users choose how many items to display per page."
+                          RazorCode=@(@"
+<Pagination CurrentPage=""@currentPage""
+            PageSize=""@pageSize""
+            TotalItems=""500""
+            ShowPageSizeSelector=""true""
+            PageSizeOptions=""@(new[] { 10, 25, 50, 100 })""
+            OnPageChange=""@(p => currentPage = p)""
+            OnPageSizeChange=""@(s => { pageSize = s; currentPage = 1; })"" />
+
+@code {
+    private int currentPage = 1;
+    private int pageSize = 10;
+}")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Pagination CurrentPage="@_currentPageSelector"
+                            PageSize="@_pageSizeSelector"
+                            TotalItems="500"
+                            ShowPageSizeSelector="true"
+                            PageSizeOptions="@(new[] { 10, 25, 50, 100 })"
+                            OnPageChange="@(p => _currentPageSelector = p)"
+                            OnPageSizeChange="@(s => { _pageSizeSelector = s; _currentPageSelector = 1; })" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Full Featured"
+                          Description="Combine all features for maximum control."
+                          RazorCode=@(@"
+<Pagination CurrentPage=""@currentPage""
+            PageSize=""@pageSize""
+            TotalItems=""1500""
+            ShowFirstLast=""true""
+            ShowGoToPage=""true""
+            ShowPageSizeSelector=""true""
+            OnPageChange=""@(p => currentPage = p)""
+            OnPageSizeChange=""@(s => { pageSize = s; currentPage = 1; })"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Pagination CurrentPage="@_currentPageFull"
+                            PageSize="@_pageSizeFull"
+                            TotalItems="1500"
+                            ShowFirstLast="true"
+                            ShowGoToPage="true"
+                            ShowPageSizeSelector="true"
+                            OnPageChange="@(p => _currentPageFull = p)"
+                            OnPageSizeChange="@(s => { _pageSizeFull = s; _currentPageFull = 1; })" />
+            </PreviewContent>
+        </ComponentExample>
+
         <ComponentExample Title="Without Info Text"
                           Description="Hide the 'Showing X of Y' text."
                           RazorCode=@(@"
@@ -50,12 +196,13 @@
         </ComponentExample>
 
         <ComponentExample Title="Custom Visible Pages"
-                          Description="Control how many page buttons are shown."
+                          Description="Control how many page buttons are shown (with ellipsis disabled)."
                           RazorCode=@(@"
 <Pagination CurrentPage=""@currentPage""
             PageSize=""10""
             TotalItems=""200""
             MaxVisiblePages=""7""
+            ShowEllipsis=""false""
             OnPageChange=""@(p => currentPage = p)"" />")
                           SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
@@ -63,6 +210,7 @@
                             PageSize="10"
                             TotalItems="200"
                             MaxVisiblePages="7"
+                            ShowEllipsis="false"
                             OnPageChange="@(p => _currentPage3 = p)" />
             </PreviewContent>
         </ComponentExample>
@@ -89,4 +237,14 @@
     private int _currentPage1 = 1;
     private int _currentPage2 = 1;
     private int _currentPage3 = 5;
+    private int _currentPageFirstLast = 5;
+    private int _currentPageEllipsis = 50;
+    private int _currentPageSmall = 3;
+    private int _currentPageDefault = 3;
+    private int _currentPageLarge = 3;
+    private int _currentPageGoTo = 1;
+    private int _currentPageSelector = 1;
+    private int _pageSizeSelector = 10;
+    private int _currentPageFull = 1;
+    private int _pageSizeFull = 10;
 }
