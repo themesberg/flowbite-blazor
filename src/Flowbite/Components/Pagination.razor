@@ -1,0 +1,67 @@
+@namespace Flowbite.Components
+@inherits Base.FlowbiteComponentBase
+
+<nav class="@ComputedClass" aria-label="@AriaLabel" style="@Style" @attributes="AdditionalAttributes">
+    @if (ShowInfo)
+    {
+        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+            Showing <span class="font-semibold text-gray-900 dark:text-white">@StartItem-@EndItem</span>
+            of <span class="font-semibold text-gray-900 dark:text-white">@TotalItems</span>
+        </span>
+    }
+    <ul class="inline-flex items-center -space-x-px">
+        @* Previous Button *@
+        <li>
+            <button type="button"
+                    @onclick="PreviousPageAsync"
+                    disabled="@(!HasPreviousPage)"
+                    class="@PreviousButtonClass"
+                    aria-label="Previous page">
+                @if (PreviousContent != null)
+                {
+                    @PreviousContent
+                }
+                else
+                {
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                }
+            </button>
+        </li>
+
+        @* Page Numbers *@
+        @foreach (var pageNum in VisiblePages)
+        {
+            <li @key="pageNum">
+                <button type="button"
+                        @onclick="() => GoToPageAsync(pageNum)"
+                        class="@(pageNum == CurrentPage ? ActivePageClass : InactivePageClass)"
+                        aria-label="@(pageNum == CurrentPage ? $"Page {pageNum}, current page" : $"Go to page {pageNum}")"
+                        aria-current="@(pageNum == CurrentPage ? "page" : null)">
+                    @pageNum
+                </button>
+            </li>
+        }
+
+        @* Next Button *@
+        <li>
+            <button type="button"
+                    @onclick="NextPageAsync"
+                    disabled="@(!HasNextPage)"
+                    class="@NextButtonClass"
+                    aria-label="Next page">
+                @if (NextContent != null)
+                {
+                    @NextContent
+                }
+                else
+                {
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                }
+            </button>
+        </li>
+    </ul>
+</nav>

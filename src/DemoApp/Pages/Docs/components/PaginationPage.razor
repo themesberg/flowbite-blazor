@@ -1,0 +1,92 @@
+@page "/docs/components/pagination"
+@using Flowbite.Components
+
+<PageTitle>Pagination - Flowbite Blazor</PageTitle>
+
+<main class="p-6 space-y-4 max-w-4xl">
+    <h2>Pagination Examples</h2>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+        The Pagination component helps users navigate through pages of data with
+        built-in accessibility features and customizable appearance.
+    </p>
+
+    <div class="space-y-8 divide-y divide-gray-200 dark:divide-gray-700">
+        <ComponentExample Title="Default Pagination"
+                          Description="Basic pagination with page info and navigation."
+                          RazorCode=@(@"
+<Pagination CurrentPage=""@currentPage""
+            PageSize=""10""
+            TotalItems=""100""
+            OnPageChange=""@(p => currentPage = p)"" />
+
+@code {
+    private int currentPage = 1;
+}")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Pagination CurrentPage="@_currentPage1"
+                            PageSize="10"
+                            TotalItems="100"
+                            OnPageChange="@(p => _currentPage1 = p)" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Without Info Text"
+                          Description="Hide the 'Showing X of Y' text."
+                          RazorCode=@(@"
+<Pagination CurrentPage=""@currentPage""
+            PageSize=""10""
+            TotalItems=""100""
+            ShowInfo=""false""
+            OnPageChange=""@(p => currentPage = p)"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Pagination CurrentPage="@_currentPage2"
+                            PageSize="10"
+                            TotalItems="100"
+                            ShowInfo="false"
+                            OnPageChange="@(p => _currentPage2 = p)" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Custom Visible Pages"
+                          Description="Control how many page buttons are shown."
+                          RazorCode=@(@"
+<Pagination CurrentPage=""@currentPage""
+            PageSize=""10""
+            TotalItems=""200""
+            MaxVisiblePages=""7""
+            OnPageChange=""@(p => currentPage = p)"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Pagination CurrentPage="@_currentPage3"
+                            PageSize="10"
+                            TotalItems="200"
+                            MaxVisiblePages="7"
+                            OnPageChange="@(p => _currentPage3 = p)" />
+            </PreviewContent>
+        </ComponentExample>
+
+        <ComponentExample Title="Small Dataset"
+                          Description="Pagination adapts to small datasets."
+                          RazorCode=@(@"
+<Pagination CurrentPage=""1""
+            PageSize=""10""
+            TotalItems=""15""
+            OnPageChange=""@(p => {})"" />")
+                          SupportedLanguages="@(new[] { "razor" })">
+            <PreviewContent>
+                <Pagination CurrentPage="1"
+                            PageSize="10"
+                            TotalItems="15"
+                            OnPageChange="@(p => {})" />
+            </PreviewContent>
+        </ComponentExample>
+    </div>
+</main>
+
+@code {
+    private int _currentPage1 = 1;
+    private int _currentPage2 = 1;
+    private int _currentPage3 = 5;
+}
