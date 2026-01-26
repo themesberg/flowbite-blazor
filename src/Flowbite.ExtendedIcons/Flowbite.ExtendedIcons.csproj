@@ -7,7 +7,7 @@
     
     <!-- Package Metadata -->
     <PackageId>Flowbite.ExtendedIcons</PackageId>
-    <Version>0.0.5-alpha</Version>
+    <Version>0.0.6-alpha</Version>
     <Authors>Todd Schavey</Authors>
     <Company>PeakFlames</Company>
     <Description>Extended icon set for Flowbite.Blazor, providing additional SVG icons as Blazor components.</Description>
