@@ -515,3 +515,8 @@ src/nuget.config
 tmpclaude*
 .demoapp.pid
 tmpclaude-*
+
+# Project-specific ignores
+docs/plans/
+src/Flowbite/tools/
+src/DemoApp/package-lock.json
