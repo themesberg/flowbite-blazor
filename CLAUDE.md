@@ -129,7 +129,12 @@ CI (`.github/workflows/ci.yml`) runs `build` + `test` on .NET 8 and 9, then `pub
 ## Manual Verification
 - Exercise both light and dark themes, keyboard navigation, and key scenarios on the demo pages.
 - When fixing bugs, reproduce them in the demo first, then validate the fix there.
-- **Non‑negotiable:** drive every meaningful UI verification through the Playwright MCP server (`mcp__playwright__browser_*`). Treat these scripted runs as mandatory—launch the DemoApp, navigate to the affected surface, and capture evidence (screenshots or DOM state) before calling a change "done."
+- **Non‑negotiable:** drive every meaningful UI verification through a scripted browser run. Launch the DemoApp, navigate to the affected surface, and capture evidence (screenshots or DOM state) before calling a change "done."
+- **Tool preference:** use the `playwright-cli` skill (invoke it via the Skill tool). Fall back to the Playwright MCP server (`mcp__playwright__browser_*`), then to the built-in browser pane, only if the CLI is unavailable. Check `which playwright-cli` before concluding it is missing.
+- **Dependencies:** the global `playwright-cli` command (`npm install -g @playwright/cli@latest`) and the `playwright-cli` skill at `~/.claude/skills/playwright-cli` (user-level, not shipped in this repo).
+- **Output location:** keep all Playwright output inside the repo under the gitignored `.playwright-cli/`. Save screenshots to `.playwright-cli/screenshots/<branch-slug>/<page>-<width>-<scheme>.png` (branch name with `/` replaced by `-`); never use `/tmp` or the repo root.
+- **PR evidence:** attach screenshots with `gh pr create --attach` or `gh pr comment --attach` (`'<file>#<alt text>'`, gh 2.100+). Screenshots are not committed.
+- **Image checks:** `scripts/playwright/verify-images.js` verifies every visible `<img>` loads in light and dark mode. See `docs/memory_aid/playwright-cli.md` for usage and gotchas.
 
 ## Problem-Solving Approach
 1. Analyze and form a hypothesis before modifying code.
@@ -140,6 +145,7 @@ CI (`.github/workflows/ci.yml`) runs `build` + `test` on .NET 8 and 9, then `pub
 - Branch from `develop`: `git checkout develop && git pull origin develop`.
 - Naming: `fix/issue-{id}-description`, `feature/issue-{id}-description`, or `enhancement/issue-{id}-description`.
 - Commit format: `{type}({scope}): {description}` (types: fix, feat, docs, style, refactor, test, chore). Reference issues with `Fixes #{number}` when applicable.
+- **Run git and `gh` as separate commands, not one long `&&`/`;`/pipe chain.** Do `git add`, `git commit`, `git push`, and `gh pr create` one at a time (put long PR bodies in a file and use `--body-file`). A combined chain hides which step stalled or failed; a hung push once blocked a whole chain for minutes. Don't pipe `git push` through `grep`/`tail`; use `git push -v` so progress and errors stay visible.
 - **CRITICAL: ALWAYS use `--no-ff` when merging feature branches:**
   - ❌ **WRONG:** `git merge feature/branch` (creates fast-forward, loses feature context)
   - ✅ **CORRECT:** `git merge --no-ff feature/branch` (creates merge commit, preserves feature history)
