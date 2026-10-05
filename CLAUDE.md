@@ -145,6 +145,7 @@ CI (`.github/workflows/ci.yml`) runs `build` + `test` on .NET 8 and 9, then `pub
 - Branch from `develop`: `git checkout develop && git pull origin develop`.
 - Naming: `fix/issue-{id}-description`, `feature/issue-{id}-description`, or `enhancement/issue-{id}-description`.
 - Commit format: `{type}({scope}): {description}` (types: fix, feat, docs, style, refactor, test, chore). Reference issues with `Fixes #{number}` when applicable.
+- **Run git and `gh` as separate commands, not one long `&&`/`;`/pipe chain.** Do `git add`, `git commit`, `git push`, and `gh pr create` one at a time (put long PR bodies in a file and use `--body-file`). A combined chain hides which step stalled or failed; a hung push once blocked a whole chain for minutes. Don't pipe `git push` through `grep`/`tail`; use `git push -v` so progress and errors stay visible.
 - **CRITICAL: ALWAYS use `--no-ff` when merging feature branches:**
   - ❌ **WRONG:** `git merge feature/branch` (creates fast-forward, loses feature context)
   - ✅ **CORRECT:** `git merge --no-ff feature/branch` (creates merge commit, preserves feature history)
