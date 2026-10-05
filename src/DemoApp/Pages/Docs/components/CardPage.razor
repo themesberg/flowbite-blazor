@@ -64,7 +64,7 @@
                           Description="Enhance your card with an image to make it more visually appealing. This example demonstrates how to add an image along with title and description content."
                           RazorCode=@(@"
 <Card class=""max-w-sm""
-    ImgSrc=""https://flowbite-react.com/images/blog/image-1.jpg""
+    ImgSrc=""/images/blog/image-1.jpg""
     ImgAlt=""Meaningful alt text for an image that is not purely decorative"">
     <div class=""p-4"">
         <h5 class=""mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"">
@@ -78,7 +78,7 @@
                           SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
                 <Card class="max-w-sm"
-                    ImgSrc="https://flowbite-react.com/images/blog/image-1.jpg"
+                    ImgSrc="/images/blog/image-1.jpg"
                     ImgAlt="Meaningful alt text for an image that is not purely decorative">
                     <div class="p-4">
                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -96,7 +96,7 @@
                           Description="Create a horizontal layout card that places the image beside the content instead of above it, perfect for news articles or blog post previews."
                           RazorCode=@(@"
 <Card class=""max-w-sm""
-    ImgSrc=""https://flowbite-react.com/images/blog/image-1.jpg""
+    ImgSrc=""/images/blog/image-1.jpg""
     ImgAlt=""Meaningful alt text for an image that is not purely decorative""
     Horizontal=""true"">
     <h5 class=""text-2xl font-bold tracking-tight text-gray-900 dark:text-white"">
@@ -110,7 +110,7 @@
             <PreviewContent>
                 <div class="m-6">
                     <Card 
-                        ImgSrc="https://flowbite-react.com/images/blog/image-1.jpg"
+                        ImgSrc="/images/blog/image-1.jpg"
                         ImgAlt="Meaningful alt text for an image that is not purely decorative"
                         Horizontal="true">
                         <div class="p-4 w-full">
@@ -131,7 +131,7 @@
                           RazorCode=@(@"
 <Card class=""max-w-sm""
     imgAlt=""Apple Watch Series 7 in colors pink, silver, and black""
-    ImgSrc=""https://flowbite-react.com/images/products/apple-watch.png"">
+    ImgSrc=""/images/products/apple-watch.png"">
     <div class=""px-5 pb-5"">
         <a href=""#"">
             <h5 class=""text-xl font-semibold tracking-tight text-gray-900 dark:text-white"">
@@ -170,7 +170,7 @@
             <PreviewContent>
                 <Card class="max-w-sm"
                     imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
-                    ImgSrc="https://flowbite-react.com/images/products/apple-watch.png">
+                    ImgSrc="/images/products/apple-watch.png">
                     <div class="px-5 pb-5">
                         <a href="#">
                             <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
@@ -211,7 +211,7 @@
                           Description="Use the Slots parameter to customize specific parts of the card component. Slots enable fine-grained control over the base container, image, and body sections."
                           RazorCode=@(@"
 <Card class=""max-w-sm""
-    ImgSrc=""https://flowbite-react.com/images/blog/image-1.jpg""
+    ImgSrc=""/images/blog/image-1.jpg""
     ImgAlt=""Scenic mountain landscape""
     Slots=""@(new CardSlots {
         Base = ""shadow-2xl border-2 border-blue-500"",
@@ -228,7 +228,7 @@
                           SupportedLanguages="@(new[] { "razor" })">
             <PreviewContent>
                 <Card class="max-w-sm"
-                    ImgSrc="https://flowbite-react.com/images/blog/image-1.jpg"
+                    ImgSrc="/images/blog/image-1.jpg"
                     ImgAlt="Scenic mountain landscape"
                     Slots="@(new CardSlots {
                         Base = "shadow-2xl border-2 border-blue-500",

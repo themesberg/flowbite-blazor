@@ -1,23 +1,28 @@
-# Cline and Claude Project Rules for Flowbite Blazor
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Overview
-- Flowbite Blazor is a Blazor component library that ports Flowbite React to ASP.NET Blazor 8/9 on top of Tailwind CSS.
-- Current status: early development (`v0.0.x-alpha`); expect API and package changes.
+- Flowbite Blazor is a Blazor component library that ports Flowbite React to ASP.NET Blazor 8/9 on top of Tailwind CSS v4.
+- Current status: beta (`v0.2.x-beta`); APIs are stabilizing but may change.
 - Work from the `develop` branch for new changes and pull requests.
 
 ## Projects
-- `src/Flowbite/` — core component library.
-- `src/Flowbite.ExtendedIcons/` — optional icon packs.
-- `src/DemoApp/` — documentation playground; mirror every new component with a demo page.
+- `src/Flowbite/` — core component library (multi-targets `net8.0;net9.0`; code must compile for both).
+- `src/Flowbite.ExtendedIcons/` — optional icon packs (`net8.0`).
+- `src/DemoApp/` — Blazor WebAssembly documentation site (`net9.0`); mirror every new component with a demo page.
+- `src/Flowbite.Tests/` — bUnit unit tests and Playwright integration tests (`net9.0`).
 - Place shared docs under `docs/`, automation in `scripts/`, and ship-ready static assets under each project’s `wwwroot/`.
+- Each shipped project has its own `CHANGELOG.md` (`src/Flowbite/`, `src/Flowbite.ExtendedIcons/`, `src/DemoApp/`); the root `CHANGELOG.md` is only an index. Update the relevant one before committing a feature.
 
 ## Build, Run, and Packaging
 
-Use the Python automation script for all build operations:
+Use `build.py` for all build, run, and test operations.
+
+**Prerequisites:** .NET 9 SDK, Python with `psutil` (`pip install psutil`), and `npm ci` at the repo root (Tailwind resolves `@plugin "flowbite/plugin"` from the root `node_modules`).
 
 ### Build & Run Commands
-- `python build.py` — Build the solution (default)
-- `python build.py build` — Same as above, builds FlowbiteBlazor.sln
+- `python build.py` / `python build.py build` — Run Tailwind for both projects, then build `FlowbiteBlazor.sln`
 - `python build.py watch` — Run DemoApp with hot reload (foreground, Ctrl+C to stop)
 - `python build.py run` — Run DemoApp in foreground
 - `python build.py start` — Auto-builds, then starts DemoApp in background (http://localhost:5290)
@@ -27,21 +32,25 @@ Use the Python automation script for all build operations:
 **Key Behaviors:**
 - `build` auto-stops any running DemoApp (prevents file lock errors)
 - `start` auto-builds before launching (always runs latest code)
-- Tailwind CSS is auto-downloaded to `tools/` on first build
+- The Tailwind standalone CLI is auto-downloaded to `tools/` on first run. The csproj Tailwind targets fail if it is missing, so run `python build.py` once before using `dotnet build` directly.
 
 ### Package Commands
 - `python build.py pack` — Create NuGet packages in `nuget-local/`
 - `python build.py publish` — Pack NuGet + publish DemoApp to `dist/`
 
 ### Test Commands
-- `python build.py test` — Run unit tests (excludes integration tests)
-- `python build.py test <filter>` — Run tests matching filter (e.g., `DebouncerTests`)
+- `python build.py test` — Run unit tests (excludes `Category=Integration`)
+- `python build.py test <filter>` — Run tests matching a `dotnet test` filter, e.g. a class (`python build.py test DebouncerTests`) or a single test (`python build.py test "FullyQualifiedName~DebouncerTests.MethodName"`). A custom filter replaces the default integration exclusion.
 - `python build.py test-integration` — Run Playwright smoke tests (auto-starts/stops DemoApp)
-- `python build.py test-publish` — Run publish to catch pre-rendering errors (validates all pages)
-- `python build.py test-all` — Run all tests (unit + publish + integration)
+- `python build.py test-publish` — Release pack + publish of DemoApp; catches pre-rendering errors on every page
+- `python build.py test-all` — Unit, then publish, then integration; fails fast
 
-### Log Commands (for debugging)
-- `python build.py log` — Show last 50 lines of demoapp.log
+Tests live in `src/Flowbite.Tests/` — read `src/Flowbite.Tests/CLAUDE.md` for test patterns (`FlowbiteTestContext` base class, JSInterop mocking, Playwright fixture). Integration tests need Playwright browsers installed once (see that file).
+
+CI (`.github/workflows/ci.yml`) runs `build` + `test` on .NET 8 and 9, then `publish` and `test-integration`.
+
+### Log Commands (for debugging the background DemoApp)
+- `python build.py log` — Show last 50 lines of `demoapp.log`
 - `python build.py log <pattern>` — Search log for regex pattern (case-insensitive)
 - `python build.py log --tail <n>` — Show last n lines
 - `python build.py log --level error` — Filter by log level (error/warn/info/debug)
@@ -49,77 +58,83 @@ Use the Python automation script for all build operations:
 ### Manual Alternatives (if needed)
 - Direct build: `dotnet build FlowbiteBlazor.sln`
 - Direct watch: `dotnet watch --project src/DemoApp/DemoApp.csproj`
-- Manual Tailwind: `tools/tailwindcss -i src/DemoApp/wwwroot/css/app.css -o src/DemoApp/wwwroot/css/app.min.css --minify --postcss`
-- Regenerate docs context: `powershell -ExecutionPolicy Bypass -File Build-LlmsContext.ps1` inside `src/DemoApp/`
+- Manual Tailwind (run from the project directory):
+  - `src/Flowbite`: `../../tools/tailwindcss -i ./wwwroot/flowbite.css -o ./wwwroot/flowbite.min.css --minify`
+  - `src/DemoApp`: `../../tools/tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/app.min.css --minify`
+- Rebuild the Floating UI bundle: `npm install && npm run build` inside `src/Flowbite/` (see JavaScript interop below)
+- Regenerate docs context: `pwsh -File Build-LlmsContext.ps1` inside `src/DemoApp/`. This runs automatically on Windows builds only; on macOS/Linux run it manually after editing `llms-docs/`.
 
 ## Architecture and Component Patterns
-- Base classes live in `src/Flowbite/Base/`:
-  - `FlowbiteComponentBase` provides `CombineClasses()`, `MergeClasses()`, and a `Class` parameter.
-  - `IconBase` extends the base for SVG icons with aria and stroke control.
-  - `OffCanvasComponentBase` manages visibility for drawers, modals, and toasts.
-- **CSS Class Composition Patterns:**
-  - **PREFER `ElementClass` fluent builder** for component class logic (`src/Flowbite/Utilities/ElementClass.cs`)
-  - Use `ElementClass.Empty().Add("class").Add("conditional", when: bool)` for readable conditional classes
-  - Pass result to `MergeClasses()` for TailwindMerge.NET conflict resolution
-  - Example: `MergeClasses(ElementClass.Empty().Add("px-4").Add("hidden", when: !visible).Add(Class))`
-- Components use a two-file pattern: `Component.razor` for markup and `Component.razor.cs` for logic.
-- Services for programmatic control (`AddFlowbite*`) reside in `src/Flowbite/Services/`; register them in `Program.cs`.
-- DemoApp structure:
-  - Pages under `src/DemoApp/Pages/Docs/components/`.
-  - Sidebar data in `src/DemoApp/Layout/DocLayoutSidebarData.cs`.
-  - AI documentation snippets in `src/DemoApp/wwwroot/llms-docs/sections/`.
-- Debug builds link directly to projects; Release builds use locally packed NuGet packages.
+
+### Base classes (`src/Flowbite/Base/`)
+- `FlowbiteComponentBase` — provides `Class`, `Style`, `AdditionalAttributes` (captures unmatched attributes), `CombineClasses()`, and `MergeClasses()`. It injects `TwMerge`, so any component render requires `AddFlowbite()` to have been called.
+- `FlowbiteInputBase<TValue>` — extends Blazor's `InputBase<TValue>` (not `FlowbiteComponentBase`) for form inputs; subscribes to `EditContext` validation changes so inputs switch to the Failure color automatically.
+- `IconBase` — SVG icons with aria and stroke control.
+- `OffCanvasComponentBase` — manages visibility for drawers, modals, and toasts.
+
+### CSS class composition
+- **PREFER the `ElementClass` fluent builder** for component class logic (`src/Flowbite/Utilities/ElementClass.cs`)
+- Use `ElementClass.Empty().Add("class").Add("conditional", when: bool)` for readable conditional classes
+- Pass the result to `MergeClasses()` for TailwindMerge.NET conflict resolution (later classes win)
+- Example: `MergeClasses(ElementClass.Empty().Add("px-4").Add("hidden", when: !visible).Add(Class))`
+- **Slots:** components with multiple styled inner elements expose a `Slots` parameter (`CardSlots`, `ModalSlots`, … in `src/Flowbite/Common/`, all deriving from `SlotBase`). Add slot classes last in the `ElementClass` chain so user overrides win; see `Card.razor.cs` for the reference pattern.
+
+### Components
+- Two-file pattern: `Component.razor` for markup and `Component.razor.cs` for logic.
+- Enums, context, and options types sit beside their component (e.g. `ModalEnums.cs`, `ModalContext.cs`, `ModalOptions.cs`).
+- Built-in icons are in `src/Flowbite/Icons/`.
+
+### Services (`src/Flowbite/Services/`)
+- `AddFlowbite()` in `ServiceCollectionExtensions.cs` is the single registration entry point (TailwindMerge, modal/drawer/toast services, floating service, lazy JS services). New services must be added there and get their own `AddFlowbite*` method.
+- Programmatic UI services (`IModalService`, `IDrawerService`, `IToastService`) pair with host components such as `ModalHost` and `ToastHost`.
+
+### JavaScript interop
+- Lazy module services (`ClipboardService`, `ElementService`, `FocusManagementService`) hold a `Lazy<Task<IJSObjectReference>>` that imports `./_content/Flowbite/js/<module>.js` on first use. Follow this pattern for new JS rather than adding global scripts.
+- `FloatingService` (dropdown/tooltip/popover positioning) depends on `wwwroot/js/floating-ui.bundle.js`, a committed Rollup IIFE built from `src/Flowbite/js-src/`. Editing `js-src/` requires rebuilding and committing the bundle; consumers load it via a `<script>` tag.
+
+### DemoApp
+- Pages under `src/DemoApp/Pages/Docs/components/`.
+- Sidebar data in `src/DemoApp/Layout/DocLayoutSidebarData.cs`.
+- AI documentation snippets in `src/DemoApp/wwwroot/llms-docs/sections/`, concatenated into `wwwroot/llms-ctx.md`.
+- Debug builds reference the library projects directly; Release builds consume the packages from `nuget-local/` (so `pack` must run before a Release publish — `publish` and `test-publish` do this).
+- The site is statically pre-rendered at publish time (`BlazorWasmPreRendering.Build`). Keep service registration inside the static `ConfigureServices` local function in `Program.cs`, and make sure pages render without a browser (e.g. no missing `@bind-Value`, no JS calls before `OnAfterRenderAsync`). Run `python build.py test-publish` after adding or changing pages.
 
 ## Development Conventions
-- Follow `.editorconfig`: 4-space indentation, file-scoped namespaces, PascalCase public APIs, `_camelCase` private fields.
+- 4-space indentation, file-scoped namespaces, PascalCase public APIs, `_camelCase` private fields.
 - Keep C# logic in `.cs` files via partial classes; parameters are public properties with `[Parameter]`.
-- Use `[CaptureUnmatchedValues]` for additional HTML attributes, `RenderFragment? ChildContent` for slots, and prefer enums for style variations.
+- Use `RenderFragment? ChildContent` for slots of markup, and prefer enums for style variations.
 - Always apply `@key` when looping components with `@foreach`.
 - Use Tailwind utility classes exclusively; ensure dark mode coverage with `dark:` variants and accept a `Class` parameter for custom styling.
 - Only use icons from `Flowbite.Icons` or `Flowbite.ExtendedIcons`; add missing glyphs internally.
 - Document all public APIs with XML comments.
 
 ## UI Assets & Theming Tips
-- Tailwind config lives in directory for Flowbite at `src\Flowbite\tailwind.config.js`; PostCSS in `src\Flowbite\postcss.config.js`.
-- Tailwind config lives in directory for DemoApp at `src\DemoApp\tailwind.config.js`; PostCSS in `src\DemoApp\postcss.config.js`.
-- **CRITICAL: Always commit `*.min.css`** - These files are generated by `tailwindcss.exe` during build. When you add new Tailwind classes, this file changes and MUST be committed.
-- It is ULTRA IMPORTATNT to adhere to the Flowbite Design Style System as it is a Mobile first and good looking.
-- PREFER to use Flowbite Blazor UI Component rather than custom components.
-
+- Tailwind v4 is configured CSS-first. The real configuration (`@source` scan paths, `@plugin`, `@theme`) lives in `src/Flowbite/wwwroot/flowbite.css` and `src/DemoApp/wwwroot/css/app.css`.
+- Each project's `tailwind.config.js` is still loaded via `@config` solely to get `darkMode: 'class'` with correct specificity. Do not replace it with `@custom-variant dark` — that emits zero-specificity `:where()` selectors and breaks `dark:` overrides (explained in the header of `flowbite.css`).
+- New source directories containing Tailwind classes must be added as `@source` lines in the relevant CSS file or their classes will not be generated.
+- **CRITICAL: Always commit `*.min.css`.** They are generated by the Tailwind CLI during build; whenever Tailwind classes are added or changed, commit:
+  ```bash
+  git add src/Flowbite/wwwroot/flowbite.min.css
+  git add src/DemoApp/wwwroot/css/app.min.css
+  ```
+- It is ULTRA IMPORTANT to adhere to the Flowbite Design Style System as it is mobile first and good looking.
+- PREFER to use Flowbite Blazor UI components rather than custom components.
 
 ## Development Rules and Memory Aid
-
-- **Developer Rules**: Read `docs/developer_rules.md` for project structure, coding standards, build commands, and git workflow
-- **Memory Aid**: Read `docs/memory_aid.md` (index) + topic files in `docs/memory_aid/` for lessons learned & gotchas
+- **Developer Rules**: `docs/developer_rules.md` — coding standards and git workflow
+- **Memory Aid**: `docs/memory_aid.md` (index) + topic files in `docs/memory_aid/` — lessons learned & gotchas
 - PREFER to load and read both files prior to editing any source file
 - You MUST EDIT the appropriate file in `docs/memory_aid/` after learning a new pattern or gotcha
 
-## Testing and Validation
-
-### Automated Tests (via build.py)
-- `python build.py test` — Run unit tests (bUnit, excludes integration tests by default)
-- `python build.py test <filter>` — Run tests matching filter (e.g., `python build.py test DebouncerTests`)
-- `python build.py test-integration` — Run Playwright integration/smoke tests (auto-starts and stops DemoApp)
-- `python build.py test-all` — Run all tests (unit first, then integration)
-
-**Key Behaviors:**
-- `test` excludes integration tests by default (fast, no app startup needed)
-- `test-integration` automatically starts DemoApp if not running, runs tests, then stops it
-- `test-all` runs unit tests first, then integration tests; fails fast if unit tests fail
-- Tests live in `src/Flowbite.Tests/` — see `src/Flowbite.Tests/CLAUDE.md` for test patterns
-
-### Manual Verification
+## Manual Verification
 - Exercise both light and dark themes, keyboard navigation, and key scenarios on the demo pages.
 - When fixing bugs, reproduce them in the demo first, then validate the fix there.
-- Ensure `src/Flowbite/wwwroot/flowbite.min.css` is regenerated as part of builds and committed whenever component styles change.
-- **Non‑negotiable:** drive every meaningful UI verification through the Playwright MCP server (`mcp__playwright__browser_*`). Treat these scripted runs as mandatory—launch the DemoApp, navigate to the affected surface, and capture evidence (screenshots or DOM state) before calling a change "done."
-
-## CSS Commits
-**CRITICAL:** When Tailwind classes change, commit the generated CSS:
-```bash
-git add src/Flowbite/wwwroot/flowbite.min.css
-git add src/DemoApp/wwwroot/css/app.min.css
-```
+- **Non‑negotiable:** drive every meaningful UI verification through a scripted browser run. Launch the DemoApp, navigate to the affected surface, and capture evidence (screenshots or DOM state) before calling a change "done."
+- **Tool preference:** use the `playwright-cli` skill (invoke it via the Skill tool). Fall back to the Playwright MCP server (`mcp__playwright__browser_*`), then to the built-in browser pane, only if the CLI is unavailable. Check `which playwright-cli` before concluding it is missing.
+- **Dependencies:** the global `playwright-cli` command (`npm install -g @playwright/cli@latest`) and the `playwright-cli` skill at `~/.claude/skills/playwright-cli` (user-level, not shipped in this repo).
+- **Output location:** keep all Playwright output inside the repo under the gitignored `.playwright-cli/`. Save screenshots to `.playwright-cli/screenshots/<branch-slug>/<page>-<width>-<scheme>.png` (branch name with `/` replaced by `-`); never use `/tmp` or the repo root.
+- **PR evidence:** attach screenshots with `gh pr create --attach` or `gh pr comment --attach` (`'<file>#<alt text>'`, gh 2.100+). Screenshots are not committed.
+- **Image checks:** `scripts/playwright/verify-images.js` verifies every visible `<img>` loads in light and dark mode. See `docs/memory_aid/playwright-cli.md` for usage and gotchas.
 
 ## Problem-Solving Approach
 1. Analyze and form a hypothesis before modifying code.
@@ -130,6 +145,7 @@ git add src/DemoApp/wwwroot/css/app.min.css
 - Branch from `develop`: `git checkout develop && git pull origin develop`.
 - Naming: `fix/issue-{id}-description`, `feature/issue-{id}-description`, or `enhancement/issue-{id}-description`.
 - Commit format: `{type}({scope}): {description}` (types: fix, feat, docs, style, refactor, test, chore). Reference issues with `Fixes #{number}` when applicable.
+- **Run git and `gh` as separate commands, not one long `&&`/`;`/pipe chain.** Do `git add`, `git commit`, `git push`, and `gh pr create` one at a time (put long PR bodies in a file and use `--body-file`). A combined chain hides which step stalled or failed; a hung push once blocked a whole chain for minutes. Don't pipe `git push` through `grep`/`tail`; use `git push -v` so progress and errors stay visible.
 - **CRITICAL: ALWAYS use `--no-ff` when merging feature branches:**
   - ❌ **WRONG:** `git merge feature/branch` (creates fast-forward, loses feature context)
   - ✅ **CORRECT:** `git merge --no-ff feature/branch` (creates merge commit, preserves feature history)
@@ -137,10 +153,11 @@ git add src/DemoApp/wwwroot/css/app.min.css
   - **Non-negotiable:** This is a hard requirement for all feature/fix/enhancement branches merging into `develop`.
 
 ## Key References
-- `.clinerules/AGENTS.md` — detailed contributor expectations.
-- `.clinerules/workflows/github-issue-resolution.md` — issue handling process.
 - `CONTRIBUTING.md` — community guidelines.
+- `README.md` — consumer installation and Tailwind v4 setup.
+- `docs/MIGRATION.md`, `docs/MIGRATION-TAILWINDMERGE.md` — consumer migration guides; update when making breaking changes.
 - `src/DemoApp/wwwroot/llms-ctx.md` — shareable AI documentation context.
+- `scripts/README.md` — icon generation (`Generate-Icons.ps1`).
 
 
 ## SYSTEM ROLE & BEHAVIORAL PROTOCOLS
@@ -216,11 +233,3 @@ build succeeds → git commit → "let me know if it works"  ❌
 ```
 build succeeds → start app → "Please verify at /admin/settings" → user confirms → git commit  ✅
 ```
-
-## Development Rules and Memory Aid Reminder
-
-- **Developer Rules**: `docs/developer_rules.md` — prescriptive guidelines
-- **Memory Aid**: `docs/memory_aid.md` (index) + `docs/memory_aid/` (topic files) — lessons learned & gotchas
-- PREFER to load and read both files prior to editing any source file
-- You MUST EDIT the appropriate file in `docs/memory_aid/` after learning a new pattern or gotcha
-- PREFER to use the `build.py` for nearly all build, test, and database activities

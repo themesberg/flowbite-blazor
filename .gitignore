@@ -510,6 +510,7 @@ dotnet-install.sh
 
 
 .playwright-mcp/
+.playwright-cli/
 verification/
 src/nuget.config
 tmpclaude*
