@@ -2,7 +2,7 @@
 
 ## 0.1.3-beta
 
-- TBD
+- Fix broken landing page and Card page images by self-hosting them under `wwwroot/images` instead of hotlinking flowbite-react.com
 
 ## 0.1.2-beta
 
